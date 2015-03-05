@@ -3,7 +3,7 @@ import random
 
 class HelloTeam(object):
     def index(self):
-        return "Hello Team" + str(random.randint(1,10000)) + "!"
+        return "Hello Team " + str(random.randint(1,10000)) + "!"
     index.exposed = True
 
 cherrypy.config.update({'server.socket_port': 8080})
