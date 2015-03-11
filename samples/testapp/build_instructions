@@ -1,0 +1,5 @@
+#to build, do:
+mvn package
+
+#to run, do:
+mvn exec:java -Dexec.mainClass="testgroup.App"
