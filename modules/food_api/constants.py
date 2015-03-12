@@ -13,3 +13,5 @@
 """
 
 common = {"api_key" : "AB66LrhBWbvW9wEXTKCwuVkfclEnOxoWZinWjIY7"}
+
+list = {"url":"http://api.nal.usda.gov/usda/ndb/list"}
