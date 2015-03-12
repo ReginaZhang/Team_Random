@@ -21,6 +21,18 @@ public class Food {
 		calorie = 0;
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public double getCalorie() {
+		return calorie;
+	}
+
 	public boolean isSuitable (ArrayList<Food> diet, ArrayList<Double> limit) {
 		
 		ArrayList<Double> sum = new ArrayList<Double>();
