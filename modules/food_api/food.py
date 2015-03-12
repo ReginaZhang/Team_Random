@@ -10,6 +10,7 @@
 	
 	Modification logs:
 		12/03/2015: get_list function added
+		12/03/2015: got CORS working
 	
 """
 
