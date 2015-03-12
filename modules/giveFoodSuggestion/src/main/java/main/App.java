@@ -25,6 +25,7 @@ public class App {
 			int count = 0; //loop through the food names and write them to response array
 			for (String f: diet) {
 				fs[count] = new Food(f);
+				count++;
 			}
 			
 			res.type("application/json"); //define return type
