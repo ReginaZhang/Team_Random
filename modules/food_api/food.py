@@ -36,9 +36,12 @@ class FoodAPI:
 		return json.dumps(r.json())
 	get_list.exposed = True
 
+def CORS():
+	cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+
 if __name__ == '__main__':
 	if not debug:
-		cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+		cherrypy.tools.CORS = cherrypy.Tool("before_finalize", CORS)
 		cherrypy.config.update({"server.socket_port": 1234})
 		#cherrypy.config.update({"server.socket_host":"45.56.85.191"})
 		cherrypy.quickstart(FoodAPI())
