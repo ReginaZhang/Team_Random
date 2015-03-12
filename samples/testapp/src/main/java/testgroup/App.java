@@ -3,10 +3,7 @@ package testgroup;
 import static spark.Spark.*;
 import com.google.gson.Gson;
 
-/**
- * Hello world!
- *
- */
+
 public class App{     
     public static void main( String[] args ){
 	Gson gson = new Gson(); //This Gson object is used for conversion to/from JSON
