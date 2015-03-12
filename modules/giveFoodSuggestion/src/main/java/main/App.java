@@ -31,6 +31,25 @@ public class App {
 			return gs.toJson(fs); //use GSON to transform the array to JSON
 			
 		});
+		
+		spark.Spark.options("/*", (request,response)->{
+			 
+		    String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+		    if (accessControlRequestHeaders != null) {
+		        response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+		    }
+		 
+		    String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+		    if(accessControlRequestMethod != null){
+		    response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+		    }
+		 
+		    return "OK";
+		});
+		 
+		spark.Spark.before((request,response)->{
+		    response.header("Access-Control-Allow-Origin", "*");
+		});
 
 	}
 
