@@ -38,6 +38,7 @@ class FoodAPI:
 
 if __name__ == '__main__':
 	if not debug:
+		cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
 		cherrypy.config.update({"server.socket_port": 1234})
 		#cherrypy.config.update({"server.socket_host":"45.56.85.191"})
 		cherrypy.quickstart(FoodAPI())
