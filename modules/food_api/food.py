@@ -43,15 +43,11 @@ if __name__ == '__main__':
 	if not debug:
 		conf = {
 				'/': {
-					'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
 					'tools.CORS.on': True,
-					'tools.sessions.on': True,
 					'tools.response_headers.on': True,
-					'tools.response_headers.headers': [('Content-Type', 'text/plain')],
 					}
 				}
-		#cherrypy.tools.CORS = cherrypy.Tool("before_finalize", CORS)
-		cherrypy.config.update({})
+		cherrypy.tools.CORS = cherrypy.Tool("before_finalize", CORS)
 		cherrypy.config.update({"server.socket_port": 1234})
 		#cherrypy.config.update({"server.socket_host":"45.56.85.191"})
 		cherrypy.quickstart(FoodAPI(), '/', conf)
