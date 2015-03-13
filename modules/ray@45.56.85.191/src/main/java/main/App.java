@@ -13,10 +13,7 @@ public class App {
 	
 	private static final int EMPTY_CONTENT = -1;
 
-	@SuppressWarnings("deprecation")
 	public static void main(String[] args) {
-		
-		spark.Spark.setPort(8888);
 		 
 		spark.Spark.before((req,res)->{
 		    res.header("Access-Control-Allow-Headers", "*");
@@ -40,6 +37,7 @@ public class App {
 			
 			int count = 0; //loop through the food names and write them to response array
 			for (String f: diet.values()) {
+				
 				fs[count] = new Food(f);
 				count++;
 			}

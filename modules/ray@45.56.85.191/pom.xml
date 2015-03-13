@@ -4,6 +4,19 @@
   <artifactId>giveFoodSuggestion</artifactId>
   
   <version>0.0.1-SNAPSHOT</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>java</goal>
+      </goals>
+    </execution>
+  </executions>
+  <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <mainClass>com.ra.giveFoodSuggestion.App</mainClass>
+  </configuration>
+  
   <dependencies>
   	<dependency>
   		<groupId>com.sparkjava</groupId>
