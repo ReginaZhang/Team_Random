@@ -32,6 +32,7 @@ public class App {
 						
 			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
 			HashMap<String, String> diet = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
 			if (req.contentLength() == EMPTY_CONTENT) {
 				diet = new HashMap<String, String>();						
 			}
@@ -46,6 +47,7 @@ public class App {
 			
 			res.type("application/json"); //define return type
 			return gs.toJson(fs); //use GSON to transform the array to JSON
+			
 			//the json string will look like
 			//{"name":"saobi","calorie":0.0,"secondaryNutritionInfo":{"vitamin G":123123.0,"hydrogen":123.0}}
 			
