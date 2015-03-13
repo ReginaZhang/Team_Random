@@ -28,7 +28,7 @@ public class App {
 		
 		//receiving JSON sent by client via GET request
 		//expecting {"memberid":"10000", "foodname0":"Sandwich", "foodname1":"Butter", ...}
-		spark.Spark.get("/add", "application/json", (req, res) -> {
+		spark.Spark.post("/add", "application/json", (req, res) -> {
 						
 			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
 			HashMap<String, String> diet = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
