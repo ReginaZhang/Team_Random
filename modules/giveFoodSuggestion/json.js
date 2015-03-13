@@ -23,12 +23,11 @@ form.onsubmit = function (e) {
 
   // send the collected data as JSON
   xhr.send(JSON.stringify(data));
-
-  document.getElementById("response").innerHTML = JSON.stringify(data);
+  document.getElementById("response").innerHTML = JSON.stringify(data)
 
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
-        //document.getElementById("response").innerHTML = xhr.responseText;
+        document.getElementById("response").innerHTML = xhr.responseText;
     }
 }
 
