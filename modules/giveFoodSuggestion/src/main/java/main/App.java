@@ -18,7 +18,7 @@ public class App {
 		
 		spark.Spark.setPort(8888);
 		 
-		spark.Spark.before((req,res)->{
+		spark.Spark.before((req,res)->{			
 		    res.header("Access-Control-Allow-Headers", "*");
 		    res.header("Access-Control-Request-Methods", "*");
 		    res.header("Access-Control-Allow-Origin", "*");
@@ -28,7 +28,7 @@ public class App {
 		
 		//receiving JSON sent by client via GET request
 		//expecting {"memberid":"10000", "foodname0":"Sandwich", "foodname1":"Butter", ...}
-		spark.Spark.get("/ask_suggestion", (req, res) -> {
+		spark.Spark.get("/add", "application/json", (req, res) -> {
 						
 			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
 			HashMap<String, String> diet = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
