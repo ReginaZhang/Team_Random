@@ -1,7 +1,7 @@
 
 # Due Due Due
 
-- Part A ---> Monday 5pm Week 4
+- **Part A ---> Monday 5pm Week 4**
     - Report and Presentation
 - Part B ---> Monday 5pm Week 6
     - Prototype Link
