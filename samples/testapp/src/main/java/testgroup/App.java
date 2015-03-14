@@ -11,7 +11,7 @@ public class App{
     public static void main( String[] args ){
 	Gson gson = new Gson(); //This Gson object is used for conversion to/from JSON
 	
-        get("/test", (req, res) -> "Hello World");
+    get("/test", (req, res) -> "Hello World");
 
 	get("/gimme_json/:food", (req, res) -> {
 		String food = req.params(":food"); //Get the food parameter

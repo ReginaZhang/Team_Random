@@ -1,59 +1,86 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
+/** 
+ * @author ra
+ * Please note that a negative value stored represents an invalid value has been given. 
+ */
 public class Food {
+	
+	public static final String[] MAJOR_NUTRIS_NAMES = {"Energy", "Protein", "Total Fat",
+		"Saturated Fat", "Total Carbohydrate", "Sugars", "Sodium"};
 	
 	private final String name;
 	private final String type;
 	
-	private final double calorie;
+	private final HashMap<String, Double> majorNutritionInfo;
+	private final HashMap<String, Double> secondaryNutritionInfo;
 	
-	public Food (String n, String t, double cal) {
-		name = n;
-		type = t;
-		calorie = cal;
+	public Food (String n, String t, HashMap<String, Double> mni, HashMap<String, Double> sni) {
+		this.name = n;
+		this.type = t;
+		
+		if (isMniInputValid(mni)) {
+			this.majorNutritionInfo = mni;
+		}
+		else {
+			this.majorNutritionInfo = new HashMap<String, Double>();
+			this.majorNutritionInfo.put("Invalid", -1.0);
+			System.out.println("Invalid mni given to constructor");
+		}
+		
+		this.secondaryNutritionInfo = sni;
 	}
 	
+	//just for testing purposes!
 	public Food (String n) {
-		name = n;
-		type = null;
-		calorie = 0;
-	}
-	
-	public String getName() {
-		return name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public double getCalorie() {
-		return calorie;
-	}
-
-	public boolean isSuitable (ArrayList<Food> diet, ArrayList<Double> limit) {
+		this.name = n;
+		this.type = null;
 		
-		ArrayList<Double> sum = new ArrayList<Double>();
+		this.majorNutritionInfo = new HashMap<String, Double>();
+		this.majorNutritionInfo.put("Invalid", -1.0);
 		
-		for (int i = 0; i < limit.size(); i++) {
-			sum.add(0.0);
+		this.secondaryNutritionInfo = new HashMap<String, Double>();
+		this.secondaryNutritionInfo.put("Invalid", -1.0);
+	}
+
+	public boolean isSuitable (ArrayList<Food> diet, HashMap<String, Double> limit) {
+		
+		HashMap<String, Double> sum = this.majorNutritionInfo;
+		
+		if (isMniInputValid(limit)) {
+			for (String nutriName: Food.MAJOR_NUTRIS_NAMES) {
+				sum.put(nutriName, sum.get(nutriName) + limit.get(nutriName));
+			}
+		} 
+		else {
+			System.out.println("Invalid limit given");
+			return false;
 		}
-		
-		
-		for (Food f: diet) {
-			sum.set(0, sum.get(0) + f.calorie);			
-		}
-		
-		int count = 0;
-		for (Double nutrition: sum) {
-			if (nutrition > limit.get(count)) {
+			
+		for (String nutriName: Food.MAJOR_NUTRIS_NAMES) {
+			if (sum.get(nutriName) > limit.get(nutriName)) {
 				return false;
 			}
-			count++;
 		}
 		
+		return true;
+	}
+	
+	private boolean isMniInputValid (HashMap<String, Double> mni) {
+		
+		if (mni.size() != 7) {
+			return false;
+		}
+		
+		for (String name: mni.keySet()) {
+			if (!Arrays.asList(MAJOR_NUTRIS_NAMES).contains(name)) { 
+				return false;
+			}
+		}
 		return true;
 	}
 
