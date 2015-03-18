@@ -8,7 +8,7 @@ create table if not exists Address(
 
 create table if not exists User(
   UserId int NOT NULL AUTO_INCREMENT,
-  UserName int NOT NULL,
+  UserName varchar(255) NOT NULL,
   AddressId int NOT NULL,
   Email varchar(255) NOT NULL,
   PRIMARY KEY (UserId),
