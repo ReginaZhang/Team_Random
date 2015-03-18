@@ -12,7 +12,9 @@ form.onsubmit = function (e) {
   for (var i = 0, ii = form.length; i < ii; ++i) {
     var input = form[i];
     if (input.name) {
-      data[input.name] = input.value;
+      if (input.type != "radio" || input.checked == true) {
+        data[input.name] = input.value;
+      }      
     }
   }
 
@@ -23,7 +25,7 @@ form.onsubmit = function (e) {
 
   // send the collected data as JSON
   xhr.send(JSON.stringify(data));
-  document.getElementById("response").innerHTML = JSON.stringify(data)
+  //document.getElementById("response").innerHTML = JSON.stringify(data)
 
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
@@ -34,4 +36,20 @@ form.onsubmit = function (e) {
   xhr.onloadend = function () {
     // done
   };
+
+
 };
+
+function notRegistered() {
+  document.getElementsByName("height")[0].style.display = "inline";
+  document.getElementsByName("weight")[0].style.display = "inline";
+  document.getElementsByName("memberId")[0].value = "";
+  document.getElementById("submitButton").value="Get BMI!"
+}
+
+function registered() {
+  document.getElementsByName("height")[0].style.display = "none";
+  document.getElementsByName("weight")[0].style.display = "none";
+  document.getElementsByName("memberId")[0].value = 1;
+  document.getElementById("submitButton").value="Get Ray's BMI!"
+}

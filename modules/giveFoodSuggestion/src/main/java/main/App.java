@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -63,17 +64,22 @@ public class App {
 			response.put("bmi", "0");
 			response.put("status", "invalid");
 			
+			System.out.println(info.get("hasRegistered"));
+			
 			if ((req.contentLength() == EMPTY_CONTENT) || !info.containsKey("hasRegistered")) {
 				return gs.toJson(response);
 			}
 			
 			if (info.get("hasRegistered").equals("false")) {
-				response = ModuleMaths.computeBmi(Double.valueOf(info.get("height")), Double.valueOf(info.get("weight")));
-			} else if (info.get("hasResistered").equals("true")) {
-				
+				response = ModuleStaticMethods.computeBmi(Double.valueOf(info.get("height")), Double.valueOf(info.get("weight")));
+			} else if (info.get("hasRegistered").equals("true")) {
+				int id = Integer.valueOf(info.get("memberId"));
+				ResultSet userInfo = ModuleStaticMethods.selectUser(ModuleStaticMethods.connectToDb(), id);
+				userInfo.next();
+				response = ModuleStaticMethods.computeBmi(userInfo.getDouble("Height"), userInfo.getDouble("Weight"));
 			}
 						
-			return gs.toJson(response); //use GSON to transform the array to JSON
+			return gs.toJson(response); 
 			
 			//the json string will look like
 			//{"bmi":"100","status":"obese"}

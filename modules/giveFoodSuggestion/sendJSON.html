@@ -1,17 +1,22 @@
 <html>
 <body>
 
-<h1>Send JSON example</h1>
+<h1>SendJSON & Bmi example</h1>
 <form method="POST" action="http://localhost:8888/bmi" id="gimme_these_food">
-<input type="text" name="height">
-<input type="text" name="weight">
-<input type="hidden" name="hasRegistered" value="false">
-<input type="submit" value="Send JSON!">
+<input type="radio" name="hasRegistered" value="false" onclick="notRegistered()" checked>Not registered
+<input type="radio" name="hasRegistered" value="true" onclick="registered()">Registered
+<br>
+<input type="text" name="height" placeholder="Height">
+<br id="space">
+<input type="text" name="weight" placeholder="Weight">
+<input type="hidden" name="memberId">
+<input type="submit" id="submitButton" value="Get BMI!">
 </form>
+
 
 <p id="response"></p>
 
-<script src="json.js"></script>
+<script src="json.js"></script> 
 
 </body>
 </html>
