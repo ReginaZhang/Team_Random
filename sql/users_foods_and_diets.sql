@@ -11,6 +11,8 @@ create table if not exists User(
   UserName varchar(255) NOT NULL,
   AddressId int NOT NULL,
   Email varchar(255) NOT NULL,
+  Weight double NOT NULL,
+  Height double NOT NULL,
   PRIMARY KEY (UserId),
   FOREIGN KEY (AddressId) 
     REFERENCES Address(AddressId)
