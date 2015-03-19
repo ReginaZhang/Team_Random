@@ -1,0 +1,66 @@
+project description
+
+1. large demand of health management website has already exists
+
+2. Most of the related website are about fitness but not about how to be healthy
+
+3. More, they don't have forum.
+
+4. lots of unhealthy people and the number is increasing
+
+5. no centralised
+
+With the number of unhealthy people growing up; obesity, diabetes, blood diseases, heart 
+problem and all those illnesses starting to attack humans in an earlier stage than before;
+people nowadays start to worry and pay more attention to health problems. What people
+tend to do to get more health knowledges apart from learning in school now is try to search
+on-line. Though, there are lots of information on the internet, there's not yet a centralised
+place where you can easily get resources without scanning though hundreds of pages using Google.
+It is time and energy consuming and also frustrating after hours of searching and you still
+can't find the answer to the problem you are looking for and this happens all the time.
+
+In order to meet people's demand, here comes our great project. 
+We did the searching on line and couldn't find any website is about health management
+and the website we are going to build will be the one which focuses on 
+how to be healthy but not just how to keep fit. 
+With the health advisor we will be providing, one can check the nutrients information
+of almost any kind of food to see if it contains anything one does or does not want  
+and then decide if he/she really wants to eat it. One can also use our product to make 
+weekly diet plan. Adding food he/she wants to eat next week to the plan or removing food
+from the plan are the basic functionalities. Diet planner is the next feature we are 
+going to provide, which is basically adding other food automatically with some calculations
+to balance the nutritions and make a diet plan.
+
+A forum is also going to be provided, so that people can post their questions and somebody
+else can answer or comment on it. Just like how StackOverflow is to us programmers but with
+a little difference; anything that is health related and is positive will be allowed to post
+on the forum, even those general discussion. It will be a platform for people caring about 
+the health to gather around and help each other. One of the biggest headaches about the forums
+is the format of comments. We want the users to communicate or even argue freely but we also 
+don't want the argument to bother people who just want to find the answers as quick as possible.
+We've discussed a lot of different formats; is it better to nest the comments or just state 
+everything out one after one like the basic forums; are we going to nest it only once like 
+StackOverflow or as many times as needed; etc. At this stage we decided on collapse comments to 
+comments when first open the page, which we will talk about in detail later, but our decision 
+might change overtime if we could come up with a better solution.
+
+After those two features we are planning to add bar code scanner to our product, which could 
+scan the bar-code from the food and show not only manufacturer information but also basic 
+nutrition information as well. 
+
+Our project is going to be a fairly big projects. It is not feasible to build up every feature
+and every detail in one go, so we just focus on two main feature at this stage. Two of us are
+working on the forum now and the other three are working on the diet planner and nutritions 
+searching. Inside of each subgroup everybody works on one or two different tasks, back-end,
+front-end, database and API. The biggest internal dependency is decision making. As we are taking
+different subjects, it is not possible to spend lots of time for us to sit down and work together.
+That is why we agreed on two meetings per week to communicate and discuss together to keep our work
+consistent with each other's.
+
+Unlike the internal dependency, there are many external constraints to our product. Since there are
+lots of JavaScript included in our website, we need to ensure it works on most of the browsers and if
+not, a proper alternative must be available. In terms of the nutrition information, we need to make 
+sure the data source can be trusted. The API we are using for the data resources is the one of USDA 
+(Unites States Department of Agriculture), which is free and reliable as it is from US government 
+database. For the bar-code scanner feature, the devices users will be using will have to have camera
+or anything that can scan the code.
