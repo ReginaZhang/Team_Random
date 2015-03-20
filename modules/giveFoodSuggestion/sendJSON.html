@@ -2,15 +2,22 @@
 <body>
 
 <h1>SendJSON & Bmi example</h1>
-<form method="POST" action="http://localhost:8888/bmi" id="gimme_these_food">
+<form method="POST" action="http://localhost:8888/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, document.getElementById('gimme_rays_bmi'))">
 <input type="radio" name="hasRegistered" value="false" onclick="notRegistered()" checked>Not registered
 <input type="radio" name="hasRegistered" value="true" onclick="registered()">Registered
 <br>
 <input type="text" name="height" placeholder="Height">
-<br id="space">
+<br>
 <input type="text" name="weight" placeholder="Weight">
 <input type="hidden" name="memberId">
 <input type="submit" id="submitButton" value="Get BMI!">
+</form>
+
+<h1>Search for Food Example</h1>
+<p>Currently there are Peach and Egg in the DB. by Ray 20/03</p>
+<form method="POST" action="http://localhost:8888/food" id="gimme_these_food" onsubmit="submitForm(event, document.getElementById('gimme_these_food'))">
+<input type="text" name="searchString" placeholder="Search Here...">
+<input type="submit" id="submitButton1" value="Get Food!">
 </form>
 
 

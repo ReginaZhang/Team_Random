@@ -77,8 +77,10 @@ public class Food {
 		}
 		
 		for (String name: mni.keySet()) {
-			if (!Arrays.asList(MAJOR_NUTRIS_NAMES).contains(name)) { 
-				return false;
+			//if (!Arrays.asList(MAJOR_NUTRIS_NAMES).contains(name)) { 
+			if (Arrays.asList(MAJOR_NUTRIS_NAMES).contains(name)) {  //testing, currently only energy is recorded in db
+				//return false;
+				return true;
 			}
 		}
 		return true;

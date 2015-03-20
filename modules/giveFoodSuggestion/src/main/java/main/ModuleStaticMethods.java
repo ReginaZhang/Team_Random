@@ -40,6 +40,18 @@ public class ModuleStaticMethods {
 		stmt.setInt(1, id);
 		
 		ResultSet rs = stmt.executeQuery();
+		rs.next();
+		return rs; 
+		
+	}
+	
+	public static ResultSet selectFood(Connection conn, String name) throws SQLException {
+		
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Food WHERE FoodName LIKE ?");
+		stmt.setString(1, "%"+name+"%");
+		
+		ResultSet rs = stmt.executeQuery();
+		rs.next();
 		return rs; 
 		
 	}

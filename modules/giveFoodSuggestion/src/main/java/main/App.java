@@ -1,12 +1,15 @@
 package main;
 
 import static spark.Spark.*;
+import static spark.SparkBase.*;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,16 +17,17 @@ public class App {
 	
 	private static final int EMPTY_CONTENT = -1;
 
-	@SuppressWarnings("deprecation")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		
-		spark.Spark.setPort(8888);
+		spark.SparkBase.port(8888);
 		 
 		spark.Spark.before((req,res)->{			
 		    res.header("Access-Control-Allow-Headers", "*");
 		    res.header("Access-Control-Request-Methods", "*");
 		    res.header("Access-Control-Allow-Origin", "*");
 		});
+		
+		Connection dbConn = ModuleStaticMethods.connectToDb();
 		
 		Gson gs = new Gson(); //GSON tool just for array to json and vice versa
 		
@@ -64,8 +68,6 @@ public class App {
 			response.put("bmi", "0");
 			response.put("status", "invalid");
 			
-			System.out.println(info.get("hasRegistered"));
-			
 			if ((req.contentLength() == EMPTY_CONTENT) || !info.containsKey("hasRegistered")) {
 				return gs.toJson(response);
 			}
@@ -74,8 +76,7 @@ public class App {
 				response = ModuleStaticMethods.computeBmi(Double.valueOf(info.get("height")), Double.valueOf(info.get("weight")));
 			} else if (info.get("hasRegistered").equals("true")) {
 				int id = Integer.valueOf(info.get("memberId"));
-				ResultSet userInfo = ModuleStaticMethods.selectUser(ModuleStaticMethods.connectToDb(), id);
-				userInfo.next();
+				ResultSet userInfo = ModuleStaticMethods.selectUser(dbConn, id);
 				response = ModuleStaticMethods.computeBmi(userInfo.getDouble("Height"), userInfo.getDouble("Weight"));
 			}
 						
@@ -85,6 +86,61 @@ public class App {
 			//{"bmi":"100","status":"obese"}
 			
 		});
+		
+		spark.Spark.post("/food", "application/json", (req, res) -> {
+			
+			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
+			res.type("application/json"); //define return type
+			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
+			
+			HashMap<String, String> invalid = new HashMap<String, String>();
+			invalid.put("food", "invalid");
+			response.add(invalid);			
+			
+			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("searchString"))) {
+				return gs.toJson(response);
+			}
+			
+			ResultSet foods = ModuleStaticMethods.selectFood(dbConn, info.get("searchString"));
+			
+			int i=0;
+
+			if (foods.getRow() != 0) {
+				response.remove(invalid);
+				do {
+					HashMap<String, String> oneFood = new HashMap<String, String>();
+					oneFood.put("resultId", Integer.toString(i));
+					oneFood.put("foodName", foods.getString("FoodName"));
+					
+					
+					response.add(oneFood);
+					i++;
+				} while (foods.next());
+			}
+						
+			return gs.toJson(response); 
+			
+			
+			//the json string will look like
+			//{"foodName0":"Peach", "foodName1":"Egg"}
+			
+		});
+		
+		//
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+	        public void run() {
+	            try {
+					dbConn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+	            spark.SparkBase.stop();
+	        }
+	        
+	    }));
 		
 
 	}
