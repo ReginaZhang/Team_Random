@@ -8,23 +8,6 @@ An online forum alone isn't sufficient to avert the obesity epidemic we face, as
 
 Given the relatively broad scope of our application, we will be taking an agile, iterative approach. A core MVP will first be build, focused on basic forum and nutrition tracking/advice functionality. After that more features will be gradually added and tested, and the core features refined based on feedback. As the team menbers have significant time commmitments in other subjects, this approach will ensure that a viable product is still created even if members find themselves with less time available for this project than planned. This is enhanced by our extremely modular architecture, which minimises the interdependencies among components. In order to monitor progress and quickly adapt to schedule changes, we meet twice weekly and collaborate daily online.
 
+For dealing with the project's other dependencies, we will focus on redundency. For instance, while we use the US Government open nutrition database API for nutrition information, we will also maintain code setup to replace this API with another should it for some reason be cut off, and use chaching to handle the situation when the API service is temporarily down. A similar approach will be taken to the barcode-matching API and any other APIs we depend on. This is enhanced by our modular architecture, allowing services to be easily swapped out and replaced.
 
-
-
-
-Our project is going to be a fairly big projects. It is not feasible to build up every feature
-and every detail in one go, so we just focus on two main feature at this stage. Two of us are
-working on the forum now and the other three are working on the diet planner and nutritions 
-searching. Inside of each subgroup everybody works on one or two different tasks, back-end,
-front-end, database and API. The biggest internal dependency is decision making. As we are taking
-different subjects, it is not possible to spend lots of time for us to sit down and work together.
-That is why we agreed on two meetings per week to communicate and discuss together to keep our work
-consistent with each other's.
-
-Unlike the internal dependency, there are many external constraints to our product. Since there are
-lots of JavaScript included in our website, we need to ensure it works on most of the browsers and if
-not, a proper alternative must be available. In terms of the nutrition information, we need to make 
-sure the data source can be trusted. The API we are using for the data resources is the one of USDA 
-(Unites States Department of Agriculture), which is free and reliable as it is from US government 
-database. For the bar-code scanner feature, the devices users will be using will have to have camera
-or anything that can scan the code.
+ASide from APIs, our project will also have a dependency on the various Javascript libraries and browser features (HTML5, CSS3, etc.) that the application uses. This will initially limit some of our application functionality to modern browsers, but once the site reached a sufficient degree of popularity we'd have the resources to add a compatibility layer to extend the functionality available to users of older browsers. To minimise our dependency on Javascript libraries that are prone to deprecition (such as Anguler, which is being deprecated and will require users to rewrite their site in Angular2), we will avoid the use of large, over-arching Javascript frameworks, and focus on stable, modular libraries that can be replaced with minimal effort if necessary.
