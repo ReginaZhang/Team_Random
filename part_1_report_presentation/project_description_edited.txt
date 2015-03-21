@@ -1,0 +1,30 @@
+Our objective is to statisfy the need for an interactive, community-curated repository of exercise and nutrition information. Currently searching for even simple health topics on Google can lead to a flood of pages and inconsistent information, consuming the user's time and energy and leaving them frustrated when after hours of searching they still have not found a solution to the health problem they face. Or worse: they've found multiple conflicting solutions and have no way of determining which is the correct piece of advice to follow.
+
+Our site will address this by providing a Q&A-based knowledge repository in which quality diet and nutrition advice will accumulate, curated by both the community and relevant professionals. Our approach is an evolution of the Stack Exchange model, with a revolutionary user-controlled filtering system replacing the authoritarian moderation system that has plagued Stack Exchange in recent years. We also pioneer an innovative approach to threading, one which will allow threads of semi-tangential discussion to exist alongside the primary Q&A stream for a topic, without cluttering the interface or distracting followers of the Q&A thread, an approach that we will expand upon and refine throughout the development of the project, in order to facilitate fluid and organic community growth. A points and reward system will be used to encourage and reward contribution, and various decorators used to distinguish verified experts and professionals, as well as to providers of government exercise and nutrition programs.
+
+It should be noted that "health" in the context of our site refers to diet and nutrition, not to serious medical issues. Such issues are explicitly beyond the scope of our site, and users pursuing them will be encouraged to seek the advice of licensed medical professionals.
+
+An online forum alone isn't sufficient to avert the obesity epidemic we face, as evidenced by the failure of current forums to achieve this. We will integrate our forum into a dynamic application that drastically simplifies diet and exercise management, allowing users to record their health behaviours and receive useful feedback and advice. Mobile integration will even allow them to receive real-time healthy purchasing advice when shopping, via bar-code scanning. Users can create a diet plan and receive advice on how well particular foods fit into this plan, as well as directly looking up the nutrition information on various foods. The system will be ideologically neutral, capable of assisting users in maintaining whatever diet is best for their particular needs and situation. Given sufficient time, integration with various fitness-monitoring devices would also be implemented, allowing the site to also track such things as users' energy expenditure and use this information to assist dietary recommendations.
+
+Given the relatively broad scope of our application, we will be taking an agile, iterative approach. A core MVP will first be build, focused on basic forum and nutrition tracking/advice functionality. After that more features will be gradually added and tested, and the core features refined based on feedback. As the team menbers have significant time commmitments in other subjects, this approach will ensure that a viable product is still created even if members find themselves with less time available for this project than planned. This is enhanced by our extremely modular architecture, which minimises the interdependencies among components. In order to monitor progress and quickly adapt to schedule changes, we meet twice weekly and collaborate daily online.
+
+
+
+
+
+Our project is going to be a fairly big projects. It is not feasible to build up every feature
+and every detail in one go, so we just focus on two main feature at this stage. Two of us are
+working on the forum now and the other three are working on the diet planner and nutritions 
+searching. Inside of each subgroup everybody works on one or two different tasks, back-end,
+front-end, database and API. The biggest internal dependency is decision making. As we are taking
+different subjects, it is not possible to spend lots of time for us to sit down and work together.
+That is why we agreed on two meetings per week to communicate and discuss together to keep our work
+consistent with each other's.
+
+Unlike the internal dependency, there are many external constraints to our product. Since there are
+lots of JavaScript included in our website, we need to ensure it works on most of the browsers and if
+not, a proper alternative must be available. In terms of the nutrition information, we need to make 
+sure the data source can be trusted. The API we are using for the data resources is the one of USDA 
+(Unites States Department of Agriculture), which is free and reliable as it is from US government 
+database. For the bar-code scanner feature, the devices users will be using will have to have camera
+or anything that can scan the code.
