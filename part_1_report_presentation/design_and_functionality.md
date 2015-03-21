@@ -2,7 +2,7 @@ Design and functionality
 
 To address users' needs for a dynamic, interactive health management system, our web application will include a simple interface for users to input their diet and receive dietary advice and information. They will be able to select foods through an autocompleted search bar, and when a food is slected they will see that food's nutrition info. They will be able to click a button to add this food to their diet.
 
-They will also have a diet page, displaying their diet and summary nutrition statistics on it, and from this page will be able to use the same food search feature to add foods, or click on a food item in their diet to see detailed information. They can also remove foods, delete a diet, create a new diet, or switch to another saved diet (users can have multiple diets, but only one "active" diet that is used by default).
+They will also have a diet page, displaying their diet and summary nutrition statistics on it, and from this page will be able to use the same food search feature to add foods, or click on a food item in their diet to see detailed information. They can also remove foods, delete a diet, create a new diet, or switch to another saved diet (users can have multiple diets, but only one "active" diet that is used by default). Users will also be able to click a single button to be taken to a page containing interesting visualisations of the summary statistics.
 
 There will be a prominent "recommendations" panel in which the user can receive recommendations on a particular food or food suggestions, and a button next to it to scan a food barcode if the user is on a mobile device.
 
