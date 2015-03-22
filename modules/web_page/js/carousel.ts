@@ -31,3 +31,8 @@ function test_image_rotation():void
     }
 
 }
+
+function test_image_3d_moving():void
+{
+
+}

@@ -21,4 +21,6 @@ function test_image_rotation() {
         }
     }
 }
+function test_image_3d_moving() {
+}
 //# sourceMappingURL=carousel.js.map
