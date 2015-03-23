@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c2a777f2-af7b-4054-b2d9-224dfe6a7a46" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/carousel.css" afterPath="$PROJECT_DIR$/css/carousel.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/carousel.js.map" afterPath="$PROJECT_DIR$/js/carousel.js.map" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/carousel.js" afterPath="$PROJECT_DIR$/js/carousel.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/carousel.ts" afterPath="$PROJECT_DIR$/js/carousel.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.html" afterPath="$PROJECT_DIR$/test.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="WEB_PAGE_HTML.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,21 +32,21 @@
     <splitter split-orientation="horizontal" split-proportion="0.42304456">
       <split-first>
         <leaf>
-          <file leaf-file-name="carousel.css" pinned="false" current-in-tab="true">
+          <file leaf-file-name="carousel.css" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/css/carousel.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5597484" vertical-offset="888" max-vertical-offset="1590">
+                <state vertical-scroll-proportion="0.0" vertical-offset="888" max-vertical-offset="1590">
                   <caret line="70" column="30" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="30" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="test.html" pinned="false" current-in-tab="false">
+          <file leaf-file-name="test.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-28.75" vertical-offset="0" max-vertical-offset="1065">
-                  <caret line="46" column="25" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
+                <state vertical-scroll-proportion="0.7350993" vertical-offset="762" max-vertical-offset="1320">
+                  <caret line="67" column="27" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
                   <folding />
                 </state>
               </provider>
@@ -59,8 +59,8 @@
           <file leaf-file-name="carousel.ts" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/js/carousel.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.7672956" vertical-offset="2478" max-vertical-offset="2985">
-                  <caret line="98" column="155" selection-start-line="98" selection-start-column="155" selection-end-line="98" selection-end-column="155" />
+                <state vertical-scroll-proportion="0.3710692" vertical-offset="1983" max-vertical-offset="3285">
+                  <caret line="119" column="7" selection-start-line="119" selection-start-column="7" selection-end-line="119" selection-end-column="7" />
                   <folding />
                 </state>
               </provider>
@@ -82,9 +82,9 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/js/carousel.ts.js" />
-        <option value="$PROJECT_DIR$/test.html" />
-        <option value="$PROJECT_DIR$/js/carousel.ts" />
         <option value="$PROJECT_DIR$/css/carousel.css" />
+        <option value="$PROJECT_DIR$/js/carousel.ts" />
+        <option value="$PROJECT_DIR$/test.html" />
       </list>
     </option>
   </component>
@@ -419,26 +419,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/carousel.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="888" max-vertical-offset="1590">
+          <caret line="70" column="30" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/carousel.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.7672956" vertical-offset="2478" max-vertical-offset="2985">
-          <caret line="98" column="155" selection-start-line="98" selection-start-column="155" selection-end-line="98" selection-end-column="155" />
+        <state vertical-scroll-proportion="0.3710692" vertical-offset="1983" max-vertical-offset="3285">
+          <caret line="119" column="7" selection-start-line="119" selection-start-column="7" selection-end-line="119" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-28.75" vertical-offset="0" max-vertical-offset="1065">
-          <caret line="46" column="25" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/carousel.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5597484" vertical-offset="888" max-vertical-offset="1590">
-          <caret line="70" column="30" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.7350993" vertical-offset="762" max-vertical-offset="1320">
+          <caret line="67" column="27" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
           <folding />
         </state>
       </provider>
