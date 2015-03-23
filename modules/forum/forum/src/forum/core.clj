@@ -18,12 +18,15 @@
 
 (defn get_child_comments [request]
   {:status 200
-   :body (let [prms (get-in request [:params "parent_id"])]
+   :body (let [prms
+               (get-in request [:params "parent_id"])]
            (query-child-comments prms))})
 
 (def child_comment_handler (-> get_child_comments
                                    (json/wrap-json-response)
                                    (prms/wrap-params)))
 
-(def forum (bidi/make-handler ["/"
-                               {"child_comments" child_comment_handler}]))
+(def forum (bidi/make-handler ["/" {"child_comments" child_comment_handler
+                                    #".*" (fn [_]
+                                            {:status 404
+                                             :body "404 Page not found"})}]))
