@@ -15,7 +15,6 @@ Date Created : 13.03.2015 1:31pm
     <script src="js/carousel.js" type="text/javascript"></script>
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <link rel="stylesheet" href="css/carousel.css" type="text/css">
-    <!-- Latest compiled and minified CSS -->
     <title>Health Overflow</title>
 </head>
 <body>
@@ -44,14 +43,13 @@ Date Created : 13.03.2015 1:31pm
     <img id="spinner" src="assets/dog1.png" />
 </div>>
 -->
-<div id="left" onclick="carousel_moving('left');">left buttom<div>
+<div id="left" onclick="carousel_moving(-1);">left buttom</div>
 <div id="balloon_section">
         <img class="balloon one" image-position="-1" src="assets/dog1.png" />
         <img class="balloon two" image-position="0"  src="assets/dog2.png" />
         <img class="balloon three" image-position="1" src="assets/dog3.png" />
 </div>
-
-    <div id="right" onclick="carousel_moving('right');">right buttom</div>
-<script>get_image_position();</script>
+<div id="right" onclick="carousel_moving(1);">rightbuttom</div>
+<script>carousel_initialize();</script>
 </body>
 </html>
