@@ -11,7 +11,7 @@
                :user "kimjongun"
                :password "KimJongUnIsGreat"})
   
-(defn query-child-comments [parent-id]
+(defn get-child-comments-db [parent-id]
   (jdb/query health-db
              ["SELECT * from Comment where ParentId = ?" parent-id]
              :row-fn #(select-keys % [:commentid :text :userid])))
@@ -20,13 +20,25 @@
   {:status 200
    :body (let [prms
                (get-in request [:params "parent_id"])]
-           (query-child-comments prms))})
+           (get-child-comments-db prms))})
 
-(def child_comment_handler (-> get_child_comments
+(defn add_comment [request]
+  (letfn [(get [prm]
+             (get-in request [:params prm]))]
+    (jdb/insert! health-db :Comment {:ParentId (get "parent_id")
+                                     :QuestionId (get "question_id")
+                                     :Text (get "text")
+                                     :UserId (get "user_id")}))
+    
+  {:status 200
+   :body "Successfully added comment!"})
+
+(defn rest_wrap [handler] (-> handler
                                    (json/wrap-json-response)
                                    (prms/wrap-params)))
 
-(def forum (bidi/make-handler ["/" {"child_comments" child_comment_handler
+(def forum (bidi/make-handler ["/" {"child_comments" (rest_wrap get_child_comments)
+                                    "add_comment" (rest_wrap add_comment)
                                     #".*" (fn [_]
                                             {:status 404
                                              :body "404 Page not found"})}]))
