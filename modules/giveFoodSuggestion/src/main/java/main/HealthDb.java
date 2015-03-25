@@ -1,18 +1,39 @@
 public class HealthDb
 {
-	private String serverName;
-	private int port;
-	private String user;
-	private String password;
-	private String databaseName;
+	private final String serverName = "45.56.85.191";
+	private final int port = 3306;
+	private final String user = "kimjongun";
+	private final String password = "KimJongUnIsGreat";
+	private final String schemaName = "HealthDB";
 	
-	private MysqlDataSource
+	private final MysqlDataSource ds;
+	private final Connection conn;
 	
-	
-	MysqlDataSource ds = new MysqlDataSource();
+	public HealthDb() {
 		
-		ds.setServerName("45.56.85.191");
-		ds.setPort(3306);
-		ds.setUser("kimjongun");
-		ds.setPassword("KimJongUnIsGreat");
-		ds.setDatabaseName("HealthDB");
+		ds = new MysqlDataSource();
+		ds.setServerName(serverName);
+		ds.setPort(port);
+		ds.setUser(user);
+		ds.setPassword(password);
+		ds.setDatabaseName(schemaName);
+		
+		conn = ds.getConnection();
+		
+	}
+	
+	public HealthDb(String serverName, int port, String user, String passwrod, String schemaName) {
+		
+		this.serverName = serverName;
+		this.port = port;
+		this.user = user;
+		this.password = password;
+		this.schemaName = schemeName;
+		
+		this();
+		
+	}
+	
+	public Connection getConnection() {
+		return this.conn;
+	}
