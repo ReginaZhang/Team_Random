@@ -27,7 +27,8 @@ public class App {
 		    res.header("Access-Control-Allow-Origin", "*");
 		});
 		
-		Connection dbConn = ModuleStaticMethods.connectToDb();
+		HealthDb db = new HealthDb();
+		Connection dbConn = db.getConncetion();
 		
 		Gson gs = new Gson(); //GSON tool just for array to json and vice versa
 		
