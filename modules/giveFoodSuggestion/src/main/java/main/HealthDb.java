@@ -1,3 +1,5 @@
+package main;
+
 public class HealthDb
 {
 	private final String serverName = "45.56.85.191";
