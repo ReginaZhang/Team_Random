@@ -28,7 +28,7 @@ public class App {
 		});
 		
 		HealthDb db = new HealthDb();
-		Connection dbConn = db.getConncetion();
+		
 		
 		Gson gs = new Gson(); //GSON tool just for array to json and vice versa
 		
@@ -74,11 +74,11 @@ public class App {
 			}
 			
 			if (info.get("hasRegistered").equals("false")) {
-				response = ModuleStaticMethods.computeBmi(Double.valueOf(info.get("height")), Double.valueOf(info.get("weight")));
+				response = computeBmi(Double.valueOf(info.get("height")), Double.valueOf(info.get("weight")));
 			} else if (info.get("hasRegistered").equals("true")) {
 				int id = Integer.valueOf(info.get("memberId"));
-				ResultSet userInfo = ModuleStaticMethods.selectUser(dbConn, id);
-				response = ModuleStaticMethods.computeBmi(userInfo.getDouble("Height"), userInfo.getDouble("Weight"));
+				ResultSet userInfo = db.executeQuery("User", "UserId", Integer.toString(id));
+				response = computeBmi(userInfo.getDouble("Height"), userInfo.getDouble("Weight"));
 			}
 						
 			return gs.toJson(response); 
@@ -104,7 +104,7 @@ public class App {
 				return gs.toJson(response);
 			}
 			
-			ResultSet foods = ModuleStaticMethods.selectFood(dbConn, info.get("searchString"));
+			ResultSet foods = db.executeQuery("Food", "FoodName", info.get("searchString").trim());
 			
 			int i=0;
 
@@ -129,12 +129,12 @@ public class App {
 			
 		});
 		
-		//
+		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 
 	        public void run() {
 	            try {
-					dbConn.close();
+					db.getConnection().close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -144,6 +144,18 @@ public class App {
 	    }));
 		
 
+	}
+	
+	private static HashMap<String, String> computeBmi(double height, double weight) {
+		
+		double bmi = weight/(height*height);
+		String status = bmi < 18.5 ? "underweight" : (bmi <= 24.9 ? "normal" : (bmi <= 29.9 ? "overweight" : "obese"));
+				
+		HashMap<String, String> bmiInfo = new HashMap<String, String>();
+		bmiInfo.put("bmi", Double.toString(bmi));
+		bmiInfo.put("status", status);
+		return  bmiInfo;
+		
 	}
 
 }
