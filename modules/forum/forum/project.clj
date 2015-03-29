@@ -16,16 +16,15 @@
   :ring {:handler forum.core/forum
          :auto-reload? true
          :auto-refresh? true}
-  :resource-paths ["static/js"]
+  :resource-paths ["static/js" "static"]
   :source-paths ["src/clj"]
-  :cljsbuild {
-              :builds {
-                       :main {
-                              :source-path "src/cljs/"
-                              :compiler {
-                                         :output-to "static/js/cljs.js"
-                                         :optimizations :simple
-                                         :pretty-print true}}}}
+  :cljsbuild {:builds
+              [{:source-paths ["src/cljs/"],
+                :id "main",
+                :compiler
+                {:optimizations :whitespace,
+                 :output-to "static/js/cljs.js",
+                 :pretty-print true}}]}
   :main ^:skip-aot forum.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

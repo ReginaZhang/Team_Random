@@ -20,11 +20,6 @@
   {:status 200
    :body (get-child-comments-db parent_id)})
 
-(defn get_child_comments2 [request]
-  {:status 200
-   :body (let [prms
-               (get-in request [:params "parent_id"])]
-           (get-child-comments-db prms))})
 
 (defn add_comment [{{:strs [parent_id question_id text user_id]} :params}]
   (jdb/insert! health-db :Comment {:ParentId parent_id
@@ -35,16 +30,10 @@
   {:status 200
    :body "Successfully added comment!"})
 
-(defn add_comment2 [request]
-  (letfn [(get [prm]
-             (get-in request [:params prm]))]
-    (jdb/insert! health-db :Comment {:ParentId (get "parent_id")
-                                     :QuestionId (get "question_id")
-                                     :Text (get "text")
-                                     :UserId (get "user_id")}))
-    
+(defn index [request]
   {:status 200
-   :body "Successfully added comment!"})
+   :headers {"Content-Type" "text/html"}
+   :body (slurp "index.html")})
 
 (defn rest_wrap [handler] (-> handler
                                    (json/wrap-json-response)
@@ -52,6 +41,7 @@
 
 (def forum (bidi/make-handler ["/" {"child_comments" (rest_wrap get_child_comments)
                                     "add_comment" (rest_wrap add_comment)
+                                    "index" index
                                     #".*" (fn [_]
                                             {:status 404
                                              :body "404 Page not found"})}]))
