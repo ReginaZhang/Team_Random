@@ -80,10 +80,10 @@ function carousel_moving(left_right):void
         return;
     }
     /*-1 move left ..*/
-    if(parseInt(left_right)==-1)
+    if(parseInt(left_right)==1)
     {
         /*last focused one will be on right*/
-        obj_collection[index].setAttribute("image-position","1");
+        obj_collection[index].setAttribute("image-position","-1");
         obj_collection[shift_index].setAttribute("image-position","0");
         /*
         obj_collection[index].style.webkitTransform="perspective( 400px ) rotateY(-45deg) translateZ( -50px )";
@@ -94,13 +94,16 @@ function carousel_moving(left_right):void
         obj_collection[shift_index].style.Transform="perspective( 400px ) translateZ( 50px )";
         obj_collection[shift_index].style.transform="perspective( 400px ) translateZ( 50px )";
          */
+        /*
         set_carousel_transform(obj_collection[index],(obj_collection_outer_div_width-obj_one_width)-50-10*(obj_collection.length-index)+"px","400px","-45deg","-50px",""+obj_collection.length-index);
 
+        set_carousel_transform(obj_collection[shift_index],(obj_collection_outer_div_width/2)-(obj_one_width/2)+"px","400px","0deg","25px",shift_index+"");*/
+        set_carousel_transform(obj_collection[index],50+10*index+"px","400px","45deg","-100px",""+index);
         set_carousel_transform(obj_collection[shift_index],(obj_collection_outer_div_width/2)-(obj_one_width/2)+"px","400px","0deg","25px",shift_index+"");
     }
     else
     {
-        obj_collection[index].setAttribute("image-position","-1");
+        obj_collection[index].setAttribute("image-position","1");
         obj_collection[shift_index].setAttribute("image-position","0");
         /*obj_collection[index].style.webkitTransform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
         obj_collection[index].style.MozTransform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
@@ -108,7 +111,11 @@ function carousel_moving(left_right):void
         obj_collection[shift_index].style.MozTransform="perspective( 400px ) translateZ( 50px )";
         obj_collection[shift_index].style.Transform="perspective( 400px ) translateZ( 50px )";
         obj_collection[shift_index].style.transform="perspective( 400px ) translateZ( 50px )";*/
+        /*
         set_carousel_transform(obj_collection[index],50+10*(obj_collection.length-index)+"px","400px","45deg","-50px",""+index);
+
+        set_carousel_transform(obj_collection[shift_index],(obj_collection_outer_div_width/2)-(obj_one_width/2)+"px","400px","0deg","25px",shift_index+"");*/
+        set_carousel_transform(obj_collection[index],(obj_collection_outer_div_width-obj_one_width)-50-10*(obj_collection.length-index)+"px","400px","-45deg","-100px",""+(obj_collection.length-index));
 
         set_carousel_transform(obj_collection[shift_index],(obj_collection_outer_div_width/2)-(obj_one_width/2)+"px","400px","0deg","25px",shift_index+"");
     }
@@ -116,6 +123,8 @@ function carousel_moving(left_right):void
     console.log(left_right+" index : "+index+" shift index "+shift_index);
     console.log("last focused image-position"+obj_collection[index].getAttribute("image-position"));
     console.log("new/shift focused image-position"+obj_collection[shift_index].getAttribute("image-position"));*/
+
+    console.log(obj_collection[0].getAttribute("image-position") +obj_collection[1].getAttribute("image-position")+obj_collection[2].getAttribute("image-position"));
 }
 
 function carousel_initialize():void
@@ -136,16 +145,18 @@ function carousel_initialize():void
         //all things on left
         one_element=<HTMLElement>obj_collection[i];
         one_element.setAttribute("image-position","-1");
-        set_carousel_transform(one_element,50+10*i+"px","400px","45deg","-50px",""+i);
+        set_carousel_transform(one_element,50+10*i+"px","400px","45deg","-100px",""+i);
     }
     one_element=<HTMLElement>obj_collection[mid_index];
+    one_element.setAttribute("image-position","0");
     set_carousel_transform(one_element,(obj_collection_outer_div_width/2)-(obj_one_width/2)+"px","400px","0deg","25px",""+mid_index);
     for(i=mid_index+1;i<obj_collection_length;i++)
     {
         one_element=<HTMLElement>obj_collection[i];
-        one_element.setAttribute("image-position","-1");
-        set_carousel_transform(one_element,(obj_collection_outer_div_width-obj_one_width)-50-10*(obj_collection_length-i)+"px","400px","-45deg","-50px",""+(obj_collection_length-i));
+        one_element.setAttribute("image-position","1");
+        set_carousel_transform(one_element,(obj_collection_outer_div_width-obj_one_width)-50-10*(obj_collection_length-i)+"px","400px","-45deg","-100px",""+(obj_collection_length-i));
     }
+    console.log(obj_collection[0].getAttribute("image-position") +obj_collection[1].getAttribute("image-position")+obj_collection[2].getAttribute("image-position"));
 
 }
 

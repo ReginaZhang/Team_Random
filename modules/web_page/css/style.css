@@ -1,42 +1,111 @@
 body
 {
-    background-image: url("../assets/web_bg.jpg")
+    background-color: #FFFFFF;
 }
-#nav_bar
+
+#home:hover
 {
-    color:red;
-    position:fixed;
-    left:0;
-    top:20px;
-    height:50px;
-    width:100%;
-    #background-color:red;
+    background-color: red;
+    transition-timing-function:linear;
+    transition-duration:2s;
 }
-#logo
+
+.nav.navbar-nav a
 {
-    position:relative;
-    left:10px;
+    color:#ffffff;
 }
+
+.container-fluid
+{
+    color:white;
+    background-color: #353736;
+}
+
+.navbar-brand
+{
+    color:white;
+}
+/* health overflow */
+.navbar-brand:hover
+{
+    color:white;
+    background-color: #384E7A;
+    transition-timing-function:linear;
+    transition-duration:0.3s;
+    transform: scale(1.1,1.1);
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
+    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
+}
+
+/*nav bar home /forum/health/about*/
+#home:hover
+{
+    zoom: 150%;
+    background-color: #2A8896;
+    transition-timing-function:linear;
+    transition-duration:0.3s;
+    transform: scale(1.1,1.1);
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
+    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
+}
+
+#forum:hover
+{
+    background-color: #684D7F;
+    transition-timing-function:linear;
+    transition-duration:0.3s;
+    transform: scale(1.1,1.1);
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
+    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
+}
+
+#health_manager:hover
+{
+    background-color: #A03536;
+    transition-timing-function:linear;
+    transition-duration:0.3s;
+    transform: scale(1.1,1.1);
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
+    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
+}
+
+#about:hover
+{
+    background-color: #58822E;
+    transition-timing-function:linear;
+    transition-duration:0.3s;
+    transform: scale(1.1,1.1);
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
+    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
+}
+
+/***************************************/
+
 
 #nav_table
 {
-    position:absolute;
-    left:75%;
-    top:5px;
+    position:relative;
+    width:100%;
 }
 
-.nav_element
+.nav_element.home:hover
 {
-    #border: 1px solid black;
-
+    background-color: red;
 }
 
 #page_footer
 {
+    height:70px;
     left:0;
     position:fixed;
     width:100%;
     bottom:0;
+    background-color: #F2F2F2;
 }
 
 
@@ -44,6 +113,7 @@ body
 {
 
     position:relative;
+    top:-30px;
     left:1%;
-    color:blue;
+    color:black;
 }

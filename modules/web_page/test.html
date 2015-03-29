@@ -43,13 +43,34 @@ Date Created : 13.03.2015 1:31pm
     <img id="spinner" src="assets/dog1.png" />
 </div>>
 -->
-<div id="left" onclick="carousel_moving(-1);">left buttom</div>
+<!--
+click left current focused one will move to right ,and its
+next one will move to middle ..
+so we pass in 1 instead of -1
+-->
+<div id="left" onclick="carousel_moving(1);">left buttom</div>
 <div id="balloon_section">
-        <img class="balloon one" image-position="-1" src="assets/dog1.png" />
-        <img class="balloon two" image-position="0"  src="assets/dog2.png" />
-        <img class="balloon three" image-position="1" src="assets/dog3.png" />
+    <img class="balloon" src="assets/dog1.png" />
+    <img class="balloon" src="assets/dog2.png" />
+    <img class="balloon" src="assets/dog3.png" />
+    <img class="balloon" src="assets/dog4.png" />
+    <img class="balloon" src="assets/dog5.png" />
+    <img class="balloon" src="assets/dog6.png" />
+    <img class="balloon" src="assets/dog7.png" />
+    <img class="balloon" src="assets/dog8.png" />
+    <img class="balloon" src="assets/dog9.png" />
+    <img class="balloon" src="assets/dog10.png" />
+    <img class="balloon" src="assets/owl1.png" />
+    <img class="balloon" src="assets/owl2.png" />
+    <img class="balloon" src="assets/owl3.png" />
+    <img class="balloon" src="assets/owl4.png" />
+    <img class="balloon" src="assets/owl5.png" />
+    <img class="balloon" src="assets/owl7.png" />
+    <img class="balloon" src="assets/owl8.png" />
+    <img class="balloon" src="assets/owl9.png" />
+    <img class="balloon" src="assets/owl10.png" />
 </div>
-<div id="right" onclick="carousel_moving(1);">rightbuttom</div>
+<div id="right" onclick="carousel_moving(-1);">rightbuttom</div>
 <script>carousel_initialize();</script>
 </body>
 </html>

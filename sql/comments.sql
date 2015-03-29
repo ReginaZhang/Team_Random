@@ -1,8 +1,8 @@
 use HealthDB;
 
 
-create table if not exists Comment (
-       CommentId int NOT NULL,
+create table Comment (
+       CommentId int NOT NULL AUTO_INCREMENT,
        ParentId int,
        QuestionId int NOT NULL,
        Text text NOT NULL,
