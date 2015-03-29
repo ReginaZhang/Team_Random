@@ -1,4 +1,4 @@
-(defproject forum "0.1.0-SNAPSHOT"
+(defproject forum "0.1.0-SNAPSHOT" 
   :description "Forum for Health Overflow"
   :url "https://github.com/ReginaZhang/Team_Random"
   :license {:name "Eclipse Public License"
@@ -16,10 +16,12 @@
   :ring {:handler forum.core/forum
          :auto-reload? true
          :auto-refresh? true}
+  :resource-paths ["static/js"]
+  :source-paths ["src/clj"]
   :cljsbuild {
               :builds {
                        :main {
-                              :source-path "src/forum/cljs"
+                              :source-path "src/cljs/"
                               :compiler {
                                          :output-to "static/js/cljs.js"
                                          :optimizations :simple

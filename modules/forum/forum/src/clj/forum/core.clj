@@ -16,13 +16,26 @@
              ["SELECT * from Comment where ParentId = ?" parent-id]
              :row-fn #(select-keys % [:commentid :text :userid])))
 
-(defn get_child_comments [request]
+(defn get_child_comments [{{:strs [parent_id]} :params}]
+  {:status 200
+   :body (get-child-comments-db parent_id)})
+
+(defn get_child_comments2 [request]
   {:status 200
    :body (let [prms
                (get-in request [:params "parent_id"])]
            (get-child-comments-db prms))})
 
-(defn add_comment [request]
+(defn add_comment [{{:strs [parent_id question_id text user_id]} :params}]
+  (jdb/insert! health-db :Comment {:ParentId parent_id
+                                   :QuestionId question_id
+                                   :Text text
+                                   :UserId user_id})
+    
+  {:status 200
+   :body "Successfully added comment!"})
+
+(defn add_comment2 [request]
   (letfn [(get [prm]
              (get-in request [:params prm]))]
     (jdb/insert! health-db :Comment {:ParentId (get "parent_id")
@@ -42,3 +55,6 @@
                                     #".*" (fn [_]
                                             {:status 404
                                              :body "404 Page not found"})}]))
+
+(let [{{:strs [a d]} :params} {:params {"a" "A", "b" "B", "c" "C", "d" "D"}}]
+  (println a d))
