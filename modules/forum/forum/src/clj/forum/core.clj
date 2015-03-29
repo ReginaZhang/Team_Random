@@ -33,7 +33,12 @@
 (defn index [request]
   {:status 200
    :headers {"Content-Type" "text/html"}
-   :body (slurp "index.html")})
+   :body (slurp "static/index.html")})
+
+(defn serve_js [request]
+  {:status 200
+   :headers {"Content-Type" "text/javascript"}
+   :body (slurp "static/js/cljs.js")})
 
 (defn rest_wrap [handler] (-> handler
                                    (json/wrap-json-response)
@@ -42,6 +47,7 @@
 (def forum (bidi/make-handler ["/" {"child_comments" (rest_wrap get_child_comments)
                                     "add_comment" (rest_wrap add_comment)
                                     "index" index
+                                    "static/js/cljs.js" serve_js
                                     #".*" (fn [_]
                                             {:status 404
                                              :body "404 Page not found"})}]))

@@ -10,6 +10,7 @@
                  [org.clojure/java.jdbc "0.3.6"]
                  [mysql/mysql-connector-java "5.1.25"]
                  [ring/ring-json "0.3.1"]
+                 [reagent "0.5.0"]
                  [bidi "1.18.7"]]
   :plugins [[lein-ring "0.9.3"]
             [lein-cljsbuild "1.0.5"]]
