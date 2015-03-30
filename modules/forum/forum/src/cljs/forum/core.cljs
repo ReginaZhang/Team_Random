@@ -10,12 +10,13 @@
 (defn expandable-view []
   (let [expanded (reagent/atom true)]
     (fn []
-      [:div.expandable
-       [:div.header {:on-click #(swap! expanded not)}
-        "Click me to expand and collapse"]
+      [:div.comment-region
+       [:div.comment-text 
+        "I'm a comment, yo!"]
+       [:div.comment-child-toggle {:on-click #(swap! expanded not)}
+        (if @expanded "-" "+")]
        (if @expanded
          (for [comment ["cat" "dog" "mouse"]]
            [:div.body comment]))])))
-;         [:div.body "I am the body"])])))
 
 (reagent/render [hello "Nima"] (.-body js/document))
