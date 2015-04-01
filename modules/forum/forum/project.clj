@@ -1,4 +1,4 @@
-(defproject forum "0.1.0-SNAPSHOT"
+(defproject forum "0.1.0-SNAPSHOT" 
   :description "Forum for Health Overflow"
   :url "https://github.com/ReginaZhang/Team_Random"
   :license {:name "Eclipse Public License"
@@ -10,20 +10,22 @@
                  [org.clojure/java.jdbc "0.3.6"]
                  [mysql/mysql-connector-java "5.1.25"]
                  [ring/ring-json "0.3.1"]
+                 [reagent "0.5.0"]
                  [bidi "1.18.7"]]
   :plugins [[lein-ring "0.9.3"]
             [lein-cljsbuild "1.0.5"]]
   :ring {:handler forum.core/forum
          :auto-reload? true
          :auto-refresh? true}
-  :cljsbuild {
-              :builds {
-                       :main {
-                              :source-path "src/forum/cljs"
-                              :compiler {
-                                         :output-to "static/js/cljs.js"
-                                         :optimizations :simple
-                                         :pretty-print true}}}}
+  :resource-paths ["static/js" "static"]
+  :source-paths ["src/clj"]
+  :cljsbuild {:builds
+              [{:source-paths ["src/cljs/"],
+                :id "main",
+                :compiler
+                {:optimizations :none,
+                 :output-to "static/js/cljs.js",
+                 :pretty-print true}}]}
   :main ^:skip-aot forum.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
