@@ -111,6 +111,7 @@ public class App {
 				do {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
 					oneFood.put("resultId", Integer.toString(i));
+					oneFood.put("foodId", foods.getString("FoodId"));
 					oneFood.put("foodName", foods.getString("FoodName"));
 									
 					response.add(oneFood);
@@ -151,8 +152,7 @@ public class App {
 				do {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
 					
-					oneFood.put("resultId", Integer.toString(i));
-					
+					oneFood.put("resultId", Integer.toString(i));				
 					String foodName = db.executeQuery("Food", "FoodId", foodInDiet.getString("FoodId")).getString("FoodName");
 					oneFood.put("foodName", foodName);				
 					
@@ -182,17 +182,17 @@ public class App {
 			response.add(invalid);			
 			
 			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("foodId") || !info.containsKey("dietId") ||
-					!info.containsKey("type"))) {
+					!info.containsKey("modiType"))) {
 				return gs.toJson(response);
 			}
 			
 			HashMap<String, String> foodInDiet = new HashMap<String,String>();
 			foodInDiet.put("FoodId", info.get("foodId"));
-			foodInDiet.put("dietId", info.get("dietId"));
+			foodInDiet.put("DietId", info.get("dietId"));
 			
-			if(info.get("type")=="delete") {
+			if(info.get("modiType").equals("delete")) {
 				db.executeDelete("DietItem", foodInDiet);
-			} else if(info.get("type")=="add") {
+			} else if(info.get("modiType").equals("add")) {
 				db.executeInsert("DietItem", foodInDiet);
 			} else {
 				return gs.toJson(response);

@@ -149,9 +149,8 @@ public class HealthDb
 		
 		HashMap<String, String> thisTable = this.TableSet.get(tableName.trim());
 		
-		
 		PreparedStatement stmt = null;
-		String sql = "INSERT INTO ? VALUES(";
+		String sql = "INSERT INTO " + tableName + " VALUES(";
 		for (int i=0; i<thisTable.size()-1; i++) {
 			sql += "?, ";
 		}
@@ -191,7 +190,7 @@ public class HealthDb
 	public void executeDelete(String tableName, HashMap<String, String> fieldValuePair) {
 		
 		PreparedStatement stmt = null;
-		String sql = "DELETE FROM ? WHERE ";
+		String sql = "DELETE FROM " + tableName + " WHERE ";
 
 		String[] fields = fieldValuePair.keySet().toArray(new String[fieldValuePair.size()]);
 		
@@ -200,6 +199,8 @@ public class HealthDb
 		}
 		
 		sql = sql + fields[fields.length-1] + "=?;";
+		
+		System.out.println(sql);
 		
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -219,6 +220,7 @@ public class HealthDb
 				paraIndex++;
 			}
 		
+			stmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
