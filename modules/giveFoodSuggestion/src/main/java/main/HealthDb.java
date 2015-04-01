@@ -1,6 +1,7 @@
 package main;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
@@ -127,7 +128,7 @@ public class HealthDb
 			} else if(type.contains("int")) {
 				stmt = conn.prepareStatement(equalQuery);
 				stmt.setInt(1, Integer.parseInt(value));
-			} else if(type.contains("varchar")) {
+			} else if(type.contains("varchar") || type.contains("enum")) {
 				stmt = conn.prepareStatement(wildcardQuery);
 				stmt.setString(1, "%"+ value +"%");
 			}
@@ -141,6 +142,86 @@ public class HealthDb
 		}
 		
 		return rs;
+		
+	}
+	
+	public void executeInsert(String tableName, HashMap<String, String> fieldValuePair) {
+		
+		HashMap<String, String> thisTable = this.TableSet.get(tableName.trim());
+		
+		
+		PreparedStatement stmt = null;
+		String sql = "INSERT INTO ? VALUES(";
+		for (int i=0; i<thisTable.size()-1; i++) {
+			sql += "?, ";
+		}
+		sql+="?);";
+		
+		try {
+			
+			if (!thisTable.keySet().equals(fieldValuePair.keySet())) {
+				throw new Exception("Wrong fields");
+			}
+			
+			stmt = conn.prepareStatement(sql);
+			
+			int paraIndex = 1;
+			for (String field: thisTable.keySet()) {
+				String type = thisTable.get(field);
+				
+				if(type.contains("double")) {
+					stmt.setDouble(paraIndex, Double.parseDouble(fieldValuePair.get(field)));
+				} else if(type.contains("int")) {
+					stmt.setInt(paraIndex, Integer.parseInt(fieldValuePair.get(field)));
+				} else if(type.contains("varchar") || type.contains("enum")) {
+					stmt.setString(paraIndex, fieldValuePair.get(field));
+				} else if(type.contains("date")) {
+					stmt.setDate(paraIndex, Date.valueOf(fieldValuePair.get(field)));
+				}
+			
+				paraIndex++;
+			}
+				stmt.execute();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void executeDelete(String tableName, HashMap<String, String> fieldValuePair) {
+		
+		PreparedStatement stmt = null;
+		String sql = "DELETE FROM ? WHERE ";
+
+		String[] fields = fieldValuePair.keySet().toArray(new String[fieldValuePair.size()]);
+		
+		for (int i=0; i<fieldValuePair.size()-1; i++) {
+			sql = sql + fields[i] + "=? AND ";
+		}
+		
+		sql = sql + fields[fields.length-1] + "=?;";
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			
+			int paraIndex = 1;
+			for (String field: fieldValuePair.keySet()) {
+				String type = this.TableSet.get(tableName.trim()).get(field);
+
+				if(type.contains("double")) {
+					stmt.setDouble(paraIndex, Double.parseDouble(fieldValuePair.get(field)));
+				} else if(type.contains("int")) {
+					stmt.setInt(paraIndex, Integer.parseInt(fieldValuePair.get(field)));
+				} else if(type.contains("varchar") || type.contains("enum")) {
+					stmt.setString(paraIndex, fieldValuePair.get(field));
+				}
+				
+				paraIndex++;
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

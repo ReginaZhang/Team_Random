@@ -1,7 +1,10 @@
 <html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
 <body>
 
-<h1>SendJSON & Bmi example</h1>
+<h1>Health Manager Example</h1>
 <form method="POST" action="http://localhost:8888/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, document.getElementById('gimme_rays_bmi'))">
 	<input type="radio" name="hasRegistered" value="false" onclick="notRegistered()" checked>Not registered
 	<input type="radio" name="hasRegistered" value="true" onclick="registered()">Registered
@@ -9,7 +12,7 @@
 	<input type="text" name="height" placeholder="Height">
 	<br>
 	<input type="text" name="weight" placeholder="Weight">
-	<input type="hidden" name="memberId">
+	<input type="hidden" name="userId">
 	<input type="submit" id="submitButton" value="Get BMI!">
 </form>
 
@@ -21,7 +24,12 @@
 	<input type="submit" id="submitButton1" value="Get Food!">
 </form>
 
+<h1>Adding/removing food from diet</h1>
 
+<p id="diet" ></p>
+
+
+<h2>Response</h2>
 <p id="response"></p>
 
 <script src="json.js"></script> 

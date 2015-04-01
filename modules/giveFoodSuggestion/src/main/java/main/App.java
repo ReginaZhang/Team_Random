@@ -1,17 +1,14 @@
 package main;
 
-import static spark.Spark.*;
-import static spark.SparkBase.*;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 public class App {
 	
@@ -29,8 +26,9 @@ public class App {
 		
 		HealthDb db = new HealthDb();
 		
-		
 		Gson gs = new Gson(); //GSON tool just for array to json and vice versa
+		
+		
 		
 		//receiving JSON sent by client via POST request
 		//expecting {"memberId":"10000", "foodName0":"Sandwich", "foodName1":"Butter", ...}
@@ -76,7 +74,7 @@ public class App {
 			if (info.get("hasRegistered").equals("false")) {
 				response = computeBmi(Double.valueOf(info.get("height")), Double.valueOf(info.get("weight")));
 			} else if (info.get("hasRegistered").equals("true")) {
-				int id = Integer.valueOf(info.get("memberId"));
+				int id = Integer.valueOf(info.get("userId"));
 				ResultSet userInfo = db.executeQuery("User", "UserId", Integer.toString(id));
 				response = computeBmi(userInfo.getDouble("Height"), userInfo.getDouble("Weight"));
 			}
@@ -114,8 +112,7 @@ public class App {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
 					oneFood.put("resultId", Integer.toString(i));
 					oneFood.put("foodName", foods.getString("FoodName"));
-					
-					
+									
 					response.add(oneFood);
 					i++;
 				} while (foods.next());
@@ -129,7 +126,90 @@ public class App {
 			
 		});
 		
+		spark.Spark.post("/diet", "application/json", (req, res) -> {
+			
+			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
+			res.type("application/json"); //define return type
+			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
+			
+			HashMap<String, String> invalid = new HashMap<String, String>();
+			invalid.put("status", "invalid");
+			response.add(invalid);			
+			
+			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("dietId"))) {
+				return gs.toJson(response);
+			}
+			
+			ResultSet foodInDiet = db.executeQuery("DietItem", "DietId", info.get("dietId").trim());
+			
+			int i=0;
+
+			if (foodInDiet.getRow() != 0) {
+				response.remove(invalid);
+				do {
+					HashMap<String, String> oneFood = new HashMap<String, String>();
+					
+					oneFood.put("resultId", Integer.toString(i));
+					
+					String foodName = db.executeQuery("Food", "FoodId", foodInDiet.getString("FoodId")).getString("FoodName");
+					oneFood.put("foodName", foodName);				
+					
+					response.add(oneFood);
+					i++;
+				} while (foodInDiet.next());
+			}
+						
+			return gs.toJson(response); 
+			
+			
+			//the json string will look like
+			//{"foodName0":"Peach", "foodName1":"Egg"}
+			
+		});
 		
+		spark.Spark.post("/diet/modify", "application/json", (req, res) -> {
+			
+			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
+			res.type("application/json"); //define return type
+			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
+			
+			HashMap<String, String> invalid = new HashMap<String, String>();
+			invalid.put("update", "failed");
+			response.add(invalid);			
+			
+			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("foodId") || !info.containsKey("dietId") ||
+					!info.containsKey("type"))) {
+				return gs.toJson(response);
+			}
+			
+			HashMap<String, String> foodInDiet = new HashMap<String,String>();
+			foodInDiet.put("FoodId", info.get("foodId"));
+			foodInDiet.put("dietId", info.get("dietId"));
+			
+			if(info.get("type")=="delete") {
+				db.executeDelete("DietItem", foodInDiet);
+			} else if(info.get("type")=="add") {
+				db.executeInsert("DietItem", foodInDiet);
+			} else {
+				return gs.toJson(response);
+			}
+			
+			response.remove(0);
+			HashMap<String, String> status = new HashMap<String, String>();
+			status.put("update", "successful");
+			response.add(status);
+			
+			return gs.toJson(response); 
+			
+			//the json string will look like
+			//{"foodName0":"Peach", "foodName1":"Egg"}
+			
+		});
+				
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 
 	        public void run() {
@@ -143,7 +223,6 @@ public class App {
 	        
 	    }));
 		
-
 	}
 	
 	private static HashMap<String, String> computeBmi(double height, double weight) {
@@ -154,6 +233,7 @@ public class App {
 		HashMap<String, String> bmiInfo = new HashMap<String, String>();
 		bmiInfo.put("bmi", Double.toString(bmi));
 		bmiInfo.put("status", status);
+		
 		return  bmiInfo;
 		
 	}

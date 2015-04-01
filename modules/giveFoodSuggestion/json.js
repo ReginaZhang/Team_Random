@@ -1,6 +1,25 @@
 //Example from https://stackoverflow.com/questions/1255948/post-data-in-json-format-with-javascript
 //Slightly modified
 
+$('document').ready(function(){
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:8888/diet", true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  var data = {};
+  data["dietId"] = "1";
+  xhr.send(JSON.stringify(data))
+
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4) {
+          document.getElementById("diet").innerHTML = xhr.responseText;
+      }
+  }
+
+  
+});
+
 function submitForm(event, form) {
 
     event.preventDefault();
@@ -46,13 +65,13 @@ function submitForm(event, form) {
 function notRegistered() {
   document.getElementsByName("height")[0].style.display = "inline";
   document.getElementsByName("weight")[0].style.display = "inline";
-  document.getElementsByName("memberId")[0].value = "";
+  document.getElementsByName("userId")[0].value = "";
   document.getElementById("submitButton").value="Get BMI!"
 }
 
 function registered() {
   document.getElementsByName("height")[0].style.display = "none";
   document.getElementsByName("weight")[0].style.display = "none";
-  document.getElementsByName("memberId")[0].value = 1;
+  document.getElementsByName("userId")[0].value = 1;
   document.getElementById("submitButton").value="Get Ray's BMI!"
 }
