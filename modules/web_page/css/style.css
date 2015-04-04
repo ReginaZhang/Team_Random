@@ -1,6 +1,16 @@
+/*including own style sheet after bootstrap can overwrite it*/
 body
 {
     background-color: #FFFFFF;
+}
+.nav > li > a:focus, .nav > li > a:hover
+{
+    background-color: transparent;
+}
+a:focus, a:hover
+{
+    color: #ffffff;
+    text-decoration: underline;
 }
 
 #home:hover
@@ -26,7 +36,8 @@ body
     color:white;
 }
 /* health overflow */
-.navbar-brand:hover
+/*once clicked/focused,  animation will stayed*/
+.navbar-brand:hover,.navbar-brand:focus
 {
     color:white;
     background-color: #384E7A;
@@ -39,7 +50,7 @@ body
 }
 
 /*nav bar home /forum/health/about*/
-#home:hover
+#home:hover,#home:focus
 {
     zoom: 150%;
     background-color: #2A8896;
@@ -51,7 +62,7 @@ body
     box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
 
-#forum:hover
+#forum:hover,#forum:focus
 {
     background-color: #684D7F;
     transition-timing-function:linear;
@@ -62,7 +73,7 @@ body
     box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
 
-#health_manager:hover
+#health_manager:hover,#health_manager:focus
 {
     background-color: #A03536;
     transition-timing-function:linear;
@@ -73,7 +84,7 @@ body
     box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
 
-#about:hover
+#about:hover,#about:focus
 {
     background-color: #58822E;
     transition-timing-function:linear;
@@ -162,7 +173,22 @@ body
     box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
 
-table
+.home_buttom.forum_div:hover
+{
+    background-color: #684D7F;
+}
+
+.home_buttom.health_manager_div:hover
+{
+    background-color: #A03536;
+}
+.home_buttom.about_div:hover
+{
+    background-color: #58822E;
+}
+
+
+#home_page_animated_table
 {
     position:fixed;
     top:25%;
