@@ -117,3 +117,60 @@ body
     left:1%;
     color:black;
 }
+
+/* Home Buttom Area*/
+
+@-webkit-keyframes home_buttom_sizing
+{
+    0% {transform: scale(1.05,1.05); }
+    50% {transform: scale(1,1); }
+    100% {transform: scale(1.05,1.05);  }
+}
+
+
+@-moz-keyframes home_buttom_sizing
+{
+    0% {transform: scale(1.05,1.05); }
+    50% {transform: scale(1,1); }
+    100% {transform: scale(1.05,1.05);  }
+}
+
+@keyframes home_buttom_sizing
+{
+    0% {transform: scale(1.05,1.05); }
+    50% {transform: scale(1,1); }
+    100% {transform: scale(1.05,1.05);  }
+}
+/*cubic-bezier is from http://cubic-bezier.com/*/
+.home_buttom
+{
+    margin:0 auto;
+    height:350px;
+    width:350px;
+    transition-timing-function: cubic-bezier(0.7,0.2,0.75,0.22);
+    /*animation-timing-function: cubic-bezier(0.54,0.78,0.69,0.17);*/
+    animation-timing-function: cubic-bezier(0.7,0.2,0.75,0.22);
+    /*
+    animation-timing-function: cubic-bezier(0.18,1,0.43,0.94);
+    -webkit-animation-timing-function: cubic-bezier(0.18,1,0.43,0.94);
+    -moz-animation-timing-function: cubic-bezier(0.18,1,0.43,0.94);*/
+    -webkit-animation: home_buttom_sizing 3s infinite;
+    -moz-animation: home_buttom_sizing 3s infinite;
+    animation: home_buttom_sizing 3s infinite;
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
+    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
+}
+
+table
+{
+    position:fixed;
+    top:25%;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+    width:1250px;
+    height:350px;
+    /*border-color: red;*/
+}
