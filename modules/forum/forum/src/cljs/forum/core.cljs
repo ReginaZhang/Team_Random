@@ -49,7 +49,8 @@
         children-req {:comment-id commentid :atom child-comment-atom}]
     (fn []
       [:div.comment-region
-       [:div.comment-text (str "Comment by user id: " userid " with text: " text " and id "  commentid)]
+       [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
+       [:div.comment-text text]
        [:div.comment-child-toggle {:on-click #(swap! expanded not)}
         (if @expanded "-" "+")]
        (when @expanded
