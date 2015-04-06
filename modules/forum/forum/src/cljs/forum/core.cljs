@@ -88,15 +88,15 @@
        (if @expanded
          [:div.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
           (if @showing-comment-entry "Abort comment" "Enter Comment")])
-       (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id userid :question-id
-                                                        questionid :parent-box-toggle showing-comment-entry
+       (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id userid :question-id questionid
+                                                        :parent-box-toggle showing-comment-entry
                                                         :error-store error-atom}])
        (when (not= @error-atom "") [:div.error-text @error-atom])
        (when @expanded
          (go (>! req-c children-req))
          (for [child-comment (:children @child-comment-atom)]                                       
            ^{:key (:commentid child-comment)}
-           [display-comment req-c child-comment]))])))
+           [display-comment req-c (assoc child-comment :questionid questionid)]))])))
 
 
 (defn hello [name]
