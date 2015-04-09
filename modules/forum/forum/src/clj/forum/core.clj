@@ -28,7 +28,7 @@
                                    :UserId user_id})
     
   {:status 200
-   :body "Successfully added comment!"})
+   :body {:text "Successfully added comment!"}})
 
 (defn index [request]
   {:status 200
