@@ -1,4 +1,17 @@
 /*including own style sheet after bootstrap can overwrite it*/
+a
+{
+    color:black;
+    text-decoration: none;
+    text-decoration: none !important;
+}
+
+a:focus
+{
+    color:black;
+    text-decoration: none;
+    text-decoration: none !important;
+}
 body
 {
     background-color: #FFFFFF;
@@ -7,9 +20,10 @@ body
 {
     background-color: transparent;
 }
-a:focus, a:hover
+
+a:hover
 {
-    color: #ffffff;
+    color:white;
     text-decoration: underline;
 }
 
@@ -172,19 +186,58 @@ a:focus, a:hover
     -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
     box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
+.home_buttom h1
+{
+    font-size: 50px;
+    position:relative;
+    top:40%;
+    text-align:center;
+}
+
+.home_buttom h1:hover
+{
+    color: white;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+
+}
+
+
+.home_buttom.health_manager_div h1
+{
+    top:35%;
+}
 
 .home_buttom.forum_div:hover
 {
     background-color: #684D7F;
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(104, 77, 127, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(104, 77, 127, 1);
+    box-shadow:         0px 7px 9px 0px rgba(104, 77, 127, 1);
 }
 
 .home_buttom.health_manager_div:hover
 {
     background-color: #A03536;
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(160, 53, 54, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(160, 53, 54, 1);
+    box-shadow:         0px 7px 9px 0px rgba(160, 53, 54, 1);
 }
 .home_buttom.about_div:hover
 {
     background-color: #58822E;
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(88, 130, 46, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(88, 130, 46, 1);
+    box-shadow:         0px 7px 9px 0px rgba(88, 130, 46, 1);
+}
+
+.home_buttom.forum_div:hover
+{
+    background-color: #684D7F;
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(104, 77, 127, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(104, 77, 127, 1);
+    box-shadow:         0px 7px 9px 0px rgba(104, 77, 127, 1);
 }
 
 

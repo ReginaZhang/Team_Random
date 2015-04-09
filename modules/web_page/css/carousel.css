@@ -55,7 +55,7 @@ img
 
 }*/
 
-#balloon_section
+#carousel_section
 {
     height:500px;
     width:1200px;
@@ -63,7 +63,7 @@ img
     background-color: black;
 }
 
-.balloon
+.carousel_element
 {
     top:50px;
     position:absolute;
@@ -72,21 +72,10 @@ img
     transition-duration:0.5s;
 }
 
-.balloon.one
-{
-}
-
-.balloon.two
-{
-}
-
-.balloon.three
-{
-}
 
 
 
-.balloon.shaddow
+.carousel_element.shaddow
 {
     -webkit-box-shadow: 0px 5px 5px 0px rgba(50, 50, 50, 1);
     -moz-box-shadow:    0px 5px 5px 0px rgba(50, 50, 50, 1);

@@ -24,7 +24,7 @@ function test_image_rotation() {
 function test_image_3d_moving() {
 }
 function get_image_position() {
-    var obj_collection = document.getElementsByClassName("balloon");
+    var obj_collection = document.getElementsByClassName("carousel_element");
     var i = 0;
     console.log("in function");
     console.log(obj_collection.length);
@@ -44,11 +44,11 @@ function return_image_position_0(obj_collection) {
 }
 function carousel_moving(left_right) {
     var i, index, shift_index, obj_collection;
-    obj_collection = document.getElementsByClassName("balloon");
+    obj_collection = document.getElementsByClassName("carousel_element");
     index = return_image_position_0(obj_collection);
     /*current focused item's index, i.e. middle one*/
     shift_index = index + parseInt(left_right);
-    var obj_collection_outer_div = document.getElementById("balloon_section");
+    var obj_collection_outer_div = document.getElementById("carousel_section");
     var obj_collection_outer_div_width = obj_collection_outer_div.offsetWidth;
     var obj_one_width = obj_collection[0].offsetWidth;
     if (shift_index < 0 || shift_index >= obj_collection.length) {
@@ -98,12 +98,12 @@ function carousel_moving(left_right) {
     console.log(obj_collection[0].getAttribute("image-position") + obj_collection[1].getAttribute("image-position") + obj_collection[2].getAttribute("image-position"));
 }
 function carousel_initialize() {
-    var obj_collection = document.getElementsByClassName("balloon");
+    var obj_collection = document.getElementsByClassName("carousel_element");
     var obj_collection_length = obj_collection.length;
-    var obj_collection_outer_div = document.getElementById("balloon_section");
+    var obj_collection_outer_div = document.getElementById("carousel_section");
     var obj_collection_outer_div_width = obj_collection_outer_div.offsetWidth;
     var obj_one_width = obj_collection[0].offsetWidth;
-    console.log(document.getElementById("balloon_section").style.width);
+    console.log(document.getElementById("carousel_section").style.width);
     var i = 0;
     var mid_index = Math.floor(obj_collection_length / 2);
     console.log("mid index " + mid_index);
