@@ -12,9 +12,32 @@
                :password "KimJongUnIsGreat"})
   
 (defn get-child-comments-db [parent-id]
-  (jdb/query health-db
-             ["SELECT * from Comment where ParentId = ?" parent-id]
-             :row-fn #(select-keys % [:commentid :text :userid])))
+  (let [comments (jdb/query health-db
+                            ["SELECT * from Comment where ParentId = ?" parent-id]
+                            :row-fn #(select-keys % [:commentid :text :userid]))]
+    (map (fn [comment]
+           (assoc comment :flags
+                  (jdb/query health-db
+                              ["SELECT * from CommentFlag where CommentId = ?" (:commentid comment)]
+                              :row-fn #(select-keys % [:flagid]))))
+         comments)))
+
+(defn update-comment-flags [{{:strs [flag_ids comment_id user_id]} :params}]
+  (jdb/delete! health-db :CommentFlag ["CommentId = ? and UserId = ?" comment_id user_id])
+  (let [vecs (map (fn [flag-id] [user_id comment_id flag-id]) flag_ids)
+        insert (fn [& vals]
+                 (apply jdb/insert! health-db :CommentFlag
+                                     [:UserId :CommentId :FlagId]
+                                     vals))]
+    (apply insert vecs)
+    {:status 200 :body {:text "Successfully updated comment flags!"}}))
+    
+(defn get-flag-types [_]
+  {:status 200
+   :body
+   (jdb/query health-db
+              ["SELECT * from FlagType"]
+              :row-fn #(select-keys % [:flagid :flagname]))})
 
 (defn get_child_comments [{{:strs [parent_id]} :params}]
   {:status 200
@@ -40,12 +63,14 @@
    :headers {"Content-Type" "text/javascript"}
    :body (slurp "static/js/cljs.js")})
 
-(defn rest_wrap [handler] (-> handler
+(defn rest-wrap [handler] (-> handler
                                    (json/wrap-json-response)
                                    (prms/wrap-params)))
 
-(def forum (bidi/make-handler ["/" {"child_comments" (rest_wrap get_child_comments)
-                                    "add_comment" (rest_wrap add_comment)
+(def forum (bidi/make-handler ["/" {"child_comments" (rest-wrap get_child_comments)
+                                    "add_comment" (rest-wrap add_comment)
+                                    "flag_types" (rest-wrap get-flag-types)
+                                    "flag_comment" (rest-wrap update-comment-flags)
                                     "index" index
                                     "static/js/cljs.js" serve_js
                                     #".*" (fn [_]

@@ -79,7 +79,17 @@
 (def request-chan (chan))
 (start-resource-provider request-chan)
 
-(defn comment-entry-box [{:keys [parent-id user-id question-id parent-box-toggle error-store update-callback]}]
+(defn userid-select [userid-atom]
+  "Select user id. For testing, until proper auth is set up"
+  (fn []
+    [:div.somebox
+     [:div.text "Select your userid"]
+     [:input {:type "number"
+              :placeholder "Enter a userid"
+              :value @userid-atom
+              :on-change #(reset! userid-atom (-> % .-target .-value))}]]))
+
+(defn comment-entry-box [{:keys [parent-id user-id-atom question-id parent-box-toggle error-store update-callback]}]
   "Render a comment entry box. Disables the parent box toggle upon successful;y adding
    a comment, and updates parent error"
   (let [txt (re/atom "")]
@@ -89,10 +99,10 @@
                 :placeholder "Enter a comment..."
                 :value @txt
                 :on-change #(reset! txt (-> % .-target .-value))}]
-       [:button {:on-click #(add-comment question-id parent-id user-id parent-box-toggle @txt error-store update-callback)}
+       [:button {:on-click #(add-comment question-id parent-id @user-id-atom parent-box-toggle @txt error-store update-callback)}
         "Submit"]])))
 
-(defn display-comment [req-c {:keys [userid text commentid questionid]}]
+(defn display-comment [req-c {:keys [userid text commentid questionid cur-user-atom]}]
   (let [expanded (re/atom false)
         child-comment-atom (re/atom {})
         showing-comment-entry (re/atom false)
@@ -108,7 +118,7 @@
        (if @expanded
          [:div.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
           (if @showing-comment-entry "Abort comment" "Enter Comment")])
-       (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id userid :question-id questionid
+       (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
                                                         :parent-box-toggle showing-comment-entry :error-store error-atom
                                                         :update-callback children-update-callback}])
        (when (not= @error-atom "") [:div.error-text @error-atom])
@@ -118,5 +128,15 @@
            ^{:key (:commentid child-comment)}
            [display-comment req-c (assoc child-comment :questionid questionid)]))])))
 
-(re/render [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0}] (.-body js/document))
+(defn forum-page []
+  (let [userid (re/atom 0)]
+    (fn []
+      [:div.whole-page
+       [userid-select userid]
+       [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0 :cur-user-atom userid}]])))
+      
+
+                                        ;(re/render [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0}] (.-body js/document))
+
+(re/render [forum-page] (.-body js/document))
 
