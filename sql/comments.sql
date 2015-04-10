@@ -18,13 +18,18 @@ create table if not exists FlagType(
 
 create table if not exists CommentFlag(
        FlagId int NOT NULL,
-       CommentId int NOT NULL,       
+       CommentId int NOT NULL,
+       UserId int NOT NULL,
        FOREIGN KEY (FlagId) 
               REFERENCES FlagType(FlagId)
 	      ON UPDATE CASCADE
     	      ON DELETE RESTRICT,
        FOREIGN KEY (CommentId) 
               REFERENCES Comment(CommentId)
+	      ON UPDATE CASCADE
+    	      ON DELETE RESTRICT,
+       FOREIGN KEY (UserId) 
+              REFERENCES User(UserId)
 	      ON UPDATE CASCADE
     	      ON DELETE RESTRICT
        )ENGINE=INNODB;
