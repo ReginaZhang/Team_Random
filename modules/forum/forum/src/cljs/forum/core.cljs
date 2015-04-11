@@ -45,7 +45,6 @@
 (defn flag-comment
   "Tell the backend to flag a comment"
   [flagger-id comment-id flag-ids-store error-store update-callback]
-  (print @flag-ids-store)
   (backend-request "/flag_comment" {:comment_id comment-id :user_id flagger-id :flag_ids (keys (filter #(val %) @flag-ids-store))}
                    (fn [[ok response]] (if ok (update-callback)
                                            (reset! error-store (str response))))))
@@ -150,12 +149,12 @@
         sibling-update-callback #(go (>! req-c {:type :update-children :comment-id parentid
                                                 :success-callback
                                                 (fn [] (reset! showing-update-flags false)
-                                                  (print "HERE")
+                                                  ;(print "HERE")
                                                   (swap! redraw-hook inc))}))
         comment-flag-store (re/atom {})
         flag-update-fn #(flag-comment @cur-user-atom commentid comment-flag-store error-atom sibling-update-callback)]
     (fn []
-      (print (str "commentid " commentid " " "flagids " flagids))
+      ;(print (str "commentid " commentid " " "flagids " flagids))
       (if (some #(get @filter-store %) flagids) nil
           [:div.comment-region
            [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
