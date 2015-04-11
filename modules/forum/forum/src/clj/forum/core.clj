@@ -38,7 +38,7 @@ on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment
 
 
 (defn update-comment-flags [{{:strs [flag_ids comment_id user_id]} :params}]
-  (let [flag-ids (if (seq? flag_ids) flag_ids [flag_ids])]
+  (let [flag-ids (if (vector? flag_ids) flag_ids [flag_ids])]
     (jdb/delete! health-db :CommentFlag ["CommentId = ? and UserId = ?" comment_id user_id])
     (let [vecs (map (fn [flag-id] [user_id comment_id flag-id]) flag-ids)
           insert (fn [& vals]
