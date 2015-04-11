@@ -11,7 +11,7 @@
                :user "kimjongun"
                :password "KimJongUnIsGreat"})
   
-(defn get-child-comments-db [parent-id]
+(defn get-child-comments-db-2 [parent-id]
   (let [comments (jdb/query health-db
                             ["SELECT * from Comment where ParentId = ?" parent-id]
                             :row-fn #(select-keys % [:commentid :text :userid]))]
@@ -22,6 +22,21 @@
                               :row-fn #(select-keys % [:flagid]))))
          comments)))
 
+(defn merge-comments-with-flags [acc cur]
+  (let [id (:commentid cur)
+        flag (:flagid cur)]
+    (if (contains? acc id)
+      (update-in acc [id :flagids] conj flag)
+      (assoc acc id (assoc cur :flagids (if flag [flag] []))))))
+
+(defn get-child-comments-db [parent-id]
+  (sort-by :commentid (vals (reduce merge-comments-with-flags {}
+          (jdb/query health-db
+             ["select * from Comment left join CommentFlag 
+on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment.CommentId" parent-id]
+             :row-fn #(select-keys % [:commentid :text :userid :flagid]))))))
+
+
 (defn update-comment-flags [{{:strs [flag_ids comment_id user_id]} :params}]
   (jdb/delete! health-db :CommentFlag ["CommentId = ? and UserId = ?" comment_id user_id])
   (let [vecs (map (fn [flag-id] [user_id comment_id flag-id]) flag_ids)
@@ -31,7 +46,8 @@
                                      vals))]
     (apply insert vecs)
     {:status 200 :body {:text "Successfully updated comment flags!"}}))
-    
+
+
 (defn get-flag-types [_]
   {:status 200
    :body

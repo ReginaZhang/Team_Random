@@ -102,14 +102,14 @@
   (fn []
     [:div.flag-select-box
      "Which kind of comments would you like to filter out?"
-     (for [keyval @flagtype-store]
-       [:div.checkbox
-        [:input {:type "checkbox"
-                 :name "flagtype"
-                 :value (key keyval)
-                 :on-change #(swap! select-flag-store assoc (key keyval) (-> % .-target .-selected))}]
-        (val keyval)])
-     [:button {:on-click #()}
+     (doall (for [keyval @flagtype-store]
+              ^{:key (key keyval)}
+              [:div.checkbox
+               [:input {:type "checkbox"
+                        :checked (get @select-flag-store (key keyval))
+                        :on-change #(swap! select-flag-store update (key keyval) not)}]
+               (val keyval)]))
+     [:button {:on-click #(print @select-flag-store)}
       "Update"]]))
 
 (defn comment-entry-box [{:keys [parent-id user-id-atom question-id parent-box-toggle error-store update-callback]}]
@@ -125,7 +125,7 @@
        [:button {:on-click #(add-comment question-id parent-id @user-id-atom parent-box-toggle @txt error-store update-callback)}
         "Submit"]])))
 
-(defn display-comment [req-c {:keys [userid text commentid questionid cur-user-atom]}]
+(defn display-comment [req-c {:keys [userid text commentid questionid flagids flagtypes filter-store cur-user-atom]}]
   "Display a comment, and its children if show children is clicked. Also may show options
    for replying, flagging, voting, editing and deleting a comment."
   (let [expanded (re/atom false)
@@ -135,23 +135,27 @@
         children-req {:type :children-request :comment-id commentid :atom child-comment-atom}
         children-update-callback (fn [] (go (>! req-c {:type :update-children :comment-id commentid})))]
     (fn []
-      [:div.comment-region
-       [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
-       [:div.comment-text text]
-       [:div.comment-child-toggle {:on-click #(swap! expanded not)}
-        (if @expanded "-" "+")]
-       (if @expanded
-         [:div.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
-          (if @showing-comment-entry "Abort comment" "Enter Comment")])
-       (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
-                                                        :parent-box-toggle showing-comment-entry :error-store error-atom
-                                                        :update-callback children-update-callback}])
-       (when (not= @error-atom "") [:div.error-text @error-atom])
-       (when @expanded
-         (go (>! req-c children-req))
-         (for [child-comment (:children @child-comment-atom)]                                       
-           ^{:key (:commentid child-comment)}
-           [display-comment req-c (assoc child-comment :questionid questionid)]))])))
+      (if (some #(get @filter-store %) flagids) nil
+          [:div.comment-region
+           [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
+           [:div.comment-text "Flagged as:" (doall (map #(str (get @flagtypes %) " ") flagids))]
+           [:div.comment-text text]
+           [:div.comment-child-toggle {:on-click #(swap! expanded not)}
+            (if @expanded "-" "+")]
+           (if @expanded
+             [:div.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
+              (if @showing-comment-entry "Abort comment" "Enter Comment")])
+           (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
+                                                            :parent-box-toggle showing-comment-entry :error-store error-atom
+                                                            :update-callback children-update-callback}])
+           (when (not= @error-atom "") [:div.error-text @error-atom])
+           (when @expanded
+             (go (>! req-c children-req))
+             (for [child-comment (:children @child-comment-atom)]                                       
+               ^{:key (:commentid child-comment)}
+               [display-comment req-c
+                (assoc child-comment :questionid questionid :filter-store filter-store :flagtypes flagtypes
+                       :cur-user-atom cur-user-atom)]))]))))
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
@@ -166,7 +170,9 @@
       [:div.whole-page
        [userid-select userid-store]
        [flag-select flagtype-store filtered-flags]
-       [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0 :cur-user-atom userid-store}]])))
+       [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0
+                                      :flagids [3] :filter-store filtered-flags
+                                      :flagtypes flagtype-store :cur-user-atom userid-store}]])))
       
 
                                         ;(re/render [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0}] (.-body js/document))
