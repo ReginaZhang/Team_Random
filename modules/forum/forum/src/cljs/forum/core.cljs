@@ -41,6 +41,15 @@
                                              (update-callback))
                                          (reset! error-store (str response))))))
 
+(defn get-flag-types
+  "Get a mapping of flag ids to flag names"
+  [flagtype-store]
+  (backend-request "/flag_types" {}
+                   (fn [[ok response]] (if ok (reset! flagtype-store
+                                                      (reduce #(assoc %1 (:flagid %2) (:flagname %2)) {} response))
+                                           (do (.error js/console (str response))
+                                               (get-flag-types flagtype-store))))))
+
 (defn start-resource-provider
   "Tbe resource provider fetches and caches comments
   Takes a channel through which {:chan, :comment-id}
@@ -76,11 +85,9 @@
               (when cached-val
                   (request-child-comments post-id cache)))))))))
 
-(def request-chan (chan))
-(start-resource-provider request-chan)
-
-(defn userid-select [userid-atom]
+(defn userid-select
   "Select user id. For testing, until proper auth is set up"
+  [userid-atom]
   (fn []
     [:div.somebox
      [:div.text "Select your userid"]
@@ -88,6 +95,22 @@
               :placeholder "Enter a userid"
               :value @userid-atom
               :on-change #(reset! userid-atom (-> % .-target .-value))}]]))
+
+(defn flag-select
+  "Select one or more flags via a html checkbox"
+  [flagtype-store select-flag-store]
+  (fn []
+    [:div.flag-select-box
+     "Which kind of comments would you like to filter out?"
+     (for [keyval @flagtype-store]
+       [:div.checkbox
+        [:input {:type "checkbox"
+                 :name "flagtype"
+                 :value (key keyval)
+                 :on-change #(swap! select-flag-store assoc (key keyval) (-> % .-target .-selected))}]
+        (val keyval)])
+     [:button {:on-click #()}
+      "Update"]]))
 
 (defn comment-entry-box [{:keys [parent-id user-id-atom question-id parent-box-toggle error-store update-callback]}]
   "Render a comment entry box. Disables the parent box toggle upon successful;y adding
@@ -103,6 +126,8 @@
         "Submit"]])))
 
 (defn display-comment [req-c {:keys [userid text commentid questionid cur-user-atom]}]
+  "Display a comment, and its children if show children is clicked. Also may show options
+   for replying, flagging, voting, editing and deleting a comment."
   (let [expanded (re/atom false)
         child-comment-atom (re/atom {})
         showing-comment-entry (re/atom false)
@@ -128,12 +153,20 @@
            ^{:key (:commentid child-comment)}
            [display-comment req-c (assoc child-comment :questionid questionid)]))])))
 
-(defn forum-page []
-  (let [userid (re/atom 0)]
+(defn forum-page
+  "Forum page containing all the components, used for testing and demonstration"
+  []
+  (let [userid-store (re/atom 0)
+        flagtype-store (re/atom {})
+        filtered-flags (re/atom {})
+        request-chan (chan)]
+    (start-resource-provider request-chan)
+    (get-flag-types flagtype-store)
     (fn []
       [:div.whole-page
-       [userid-select userid]
-       [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0 :cur-user-atom userid}]])))
+       [userid-select userid-store]
+       [flag-select flagtype-store filtered-flags]
+       [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0 :cur-user-atom userid-store}]])))
       
 
                                         ;(re/render [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0}] (.-body js/document))
