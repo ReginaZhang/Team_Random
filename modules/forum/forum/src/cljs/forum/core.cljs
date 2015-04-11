@@ -122,9 +122,10 @@
        [:button {:on-click callback-fn}
         "Update"] nil)]))
 
-(defn comment-entry-box [{:keys [parent-id user-id-atom question-id parent-box-toggle error-store update-callback]}]
+(defn comment-entry-box
   "Render a comment entry box. Disables the parent box toggle upon successful;y adding
-   a comment, and updates parent error"
+  a comment, and updates parent error"
+  [{:keys [parent-id user-id-atom question-id parent-box-toggle error-store update-callback]}]
   (let [txt (re/atom "")]
     (fn []
       [:div.comment-entry-box
@@ -135,23 +136,24 @@
        [:button {:on-click #(add-comment question-id parent-id @user-id-atom parent-box-toggle @txt error-store update-callback)}
         "Submit"]])))
 
-(defn display-comment [req-c {:keys [userid text commentid questionid parentid flagids flagtypes redraw-hook filter-store cur-user-atom]}]
+(defn display-comment
   "Display a comment, and its children if show children is clicked. Also may show options
-   for replying, flagging, voting, editing and deleting a comment."
+  for replying, flagging, voting, editing and deleting a comment."
+  [req-c {:keys [userid text commentid questionid parentid flagids flagtypes encompassing-atom index filter-store cur-user-atom]}]
   (let [expanded (re/atom false)
         child-comment-atom (re/atom {})
         showing-comment-entry (re/atom false)
         showing-update-flags (re/atom false)
         error-atom (re/atom "")
-        redraw-children-hook (re/atom true)
         children-req {:type :children-request :comment-id commentid :atom child-comment-atom}
         children-update-callback #(go (>! req-c {:type :update-children :comment-id commentid}))
+        comment-flag-store (re/atom {})
         sibling-update-callback #(go (>! req-c {:type :update-children :comment-id parentid
                                                 :success-callback
                                                 (fn [] (reset! showing-update-flags false)
                                                   ;(print "HERE")
-                                                  (swap! redraw-hook inc))}))
-        comment-flag-store (re/atom {})
+                                                  (swap! encompassing-atom
+                                                         (fn [vals] assoc-in vals [index :flagids] @comment-flag-store)))}))
         flag-update-fn #(flag-comment @cur-user-atom commentid comment-flag-store error-atom sibling-update-callback)]
     (fn []
       ;(print (str "commentid " commentid " " "flagids " flagids))
@@ -175,16 +177,16 @@
            (when (not= @error-atom "") [:div.error-text @error-atom])
            (when @expanded
              (go (>! req-c children-req))
-             (for [child-comment (:children @child-comment-atom)]                                       
+             (doall (for [child-comment (:children @child-comment-atom) i (range (count @child-comment-atom))]
                ^{:key (:commentid child-comment)}
                [display-comment req-c
                 (assoc child-comment :questionid questionid :filter-store filter-store :flagtypes flagtypes
-                       :redraw-hook redraw-children-hook :cur-user-atom cur-user-atom)]))]))))
+                       :encompassing-atom child-comment-atom :index i :cur-user-atom cur-user-atom)])))]))))
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
   []
-  (let [userid-store (re/atom 0)
+  (let [userid-store (re/atom 1)
         flagtype-store (re/atom {})
         filtered-flags (re/atom {})
         request-chan (chan)]
@@ -199,8 +201,6 @@
                                       :flagids [3] :filter-store filtered-flags
                                       :flagtypes flagtype-store :cur-user-atom userid-store}]])))
       
-
-                                        ;(re/render [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0}] (.-body js/document))
 
 (re/render [forum-page] (.-body js/document))
 
