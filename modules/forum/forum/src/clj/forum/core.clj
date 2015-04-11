@@ -34,18 +34,19 @@
           (jdb/query health-db
              ["select * from Comment left join CommentFlag 
 on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment.CommentId" parent-id]
-             :row-fn #(select-keys % [:commentid :text :userid :flagid]))))))
+             :row-fn #(select-keys % [:commentid :text :userid :flagid :parentid]))))))
 
 
 (defn update-comment-flags [{{:strs [flag_ids comment_id user_id]} :params}]
-  (jdb/delete! health-db :CommentFlag ["CommentId = ? and UserId = ?" comment_id user_id])
-  (let [vecs (map (fn [flag-id] [user_id comment_id flag-id]) flag_ids)
-        insert (fn [& vals]
-                 (apply jdb/insert! health-db :CommentFlag
-                                     [:UserId :CommentId :FlagId]
+  (let [flag-ids (if (seq? flag_ids) flag_ids [flag_ids])]
+    (jdb/delete! health-db :CommentFlag ["CommentId = ? and UserId = ?" comment_id user_id])
+    (let [vecs (map (fn [flag-id] [user_id comment_id flag-id]) flag-ids)
+          insert (fn [& vals]
+                   (apply jdb/insert! health-db :CommentFlag
+                          [:UserId :CommentId :FlagId]
                                      vals))]
-    (apply insert vecs)
-    {:status 200 :body {:text "Successfully updated comment flags!"}}))
+      (if (seq? vecs) (apply insert vecs) (insert vecs))
+      {:status 200 :body {:text "Successfully updated comment flags!"}})))
 
 
 (defn get-flag-types [_]

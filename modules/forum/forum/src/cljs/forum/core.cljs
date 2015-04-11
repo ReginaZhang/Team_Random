@@ -22,13 +22,14 @@
 (defn request-child-comments
   "Make an asynchronous request to get child comments and store them
   in the given atom, updating the cache to contain the results"
-  [comment-id cache]
+  [comment-id cache extra-success-callback]
   (backend-request "/child_comments"
                    {:parent_id comment-id}
                    (fn [[ok response]] (if ok (let [store (:store (get @cache comment-id))
                                                     new-val {:children response :store store }]
                                                 (swap! cache assoc comment-id new-val)
-                                                (reset! store {:children response}))
+                                                (reset! store {:children response})
+                                                (when extra-success-callback (extra-success-callback)))
                                            (.error js/console (str response))))))
 
 (defn add-comment
@@ -40,6 +41,14 @@
                                          (do (reset! parent-box-toggle false)
                                              (update-callback))
                                          (reset! error-store (str response))))))
+
+(defn flag-comment
+  "Tell the backend to flag a comment"
+  [flagger-id comment-id flag-ids-store error-store update-callback]
+  (print @flag-ids-store)
+  (backend-request "/flag_comment" {:comment_id comment-id :user_id flagger-id :flag_ids (keys (filter #(val %) @flag-ids-store))}
+                   (fn [[ok response]] (if ok (update-callback)
+                                           (reset! error-store (str response))))))
 
 (defn get-flag-types
   "Get a mapping of flag ids to flag names"
@@ -75,15 +84,16 @@
                 ;;Otherwise add store to cache and request updating it
                 (do
                   (swap! cache assoc post-id {:children nil :store children-store})
-                  (request-child-comments post-id cache))))
+                  (request-child-comments post-id cache nil))))
             
             :update-children
             (let
                 [post-id (:comment-id req)
                  children-store (:atom req)
-                 cached-val (get @cache post-id)]
+                 cached-val (get @cache post-id)
+                 success-callback (:success-callback req)]
               (when cached-val
-                  (request-child-comments post-id cache)))))))))
+                  (request-child-comments post-id cache success-callback)))))))))
 
 (defn userid-select
   "Select user id. For testing, until proper auth is set up"
@@ -98,10 +108,10 @@
 
 (defn flag-select
   "Select one or more flags via a html checkbox"
-  [flagtype-store select-flag-store]
+  [{:keys [flagtype-store select-flag-store text callback-fn]}]
   (fn []
     [:div.flag-select-box
-     "Which kind of comments would you like to filter out?"
+     text
      (doall (for [keyval @flagtype-store]
               ^{:key (key keyval)}
               [:div.checkbox
@@ -109,8 +119,9 @@
                         :checked (get @select-flag-store (key keyval))
                         :on-change #(swap! select-flag-store update (key keyval) not)}]
                (val keyval)]))
-     [:button {:on-click #(print @select-flag-store)}
-      "Update"]]))
+     (if callback-fn
+       [:button {:on-click callback-fn}
+        "Update"] nil)]))
 
 (defn comment-entry-box [{:keys [parent-id user-id-atom question-id parent-box-toggle error-store update-callback]}]
   "Render a comment entry box. Disables the parent box toggle upon successful;y adding
@@ -125,21 +136,35 @@
        [:button {:on-click #(add-comment question-id parent-id @user-id-atom parent-box-toggle @txt error-store update-callback)}
         "Submit"]])))
 
-(defn display-comment [req-c {:keys [userid text commentid questionid flagids flagtypes filter-store cur-user-atom]}]
+(defn display-comment [req-c {:keys [userid text commentid questionid parentid flagids flagtypes redraw-hook filter-store cur-user-atom]}]
   "Display a comment, and its children if show children is clicked. Also may show options
    for replying, flagging, voting, editing and deleting a comment."
   (let [expanded (re/atom false)
         child-comment-atom (re/atom {})
         showing-comment-entry (re/atom false)
+        showing-update-flags (re/atom false)
         error-atom (re/atom "")
+        redraw-children-hook (re/atom true)
         children-req {:type :children-request :comment-id commentid :atom child-comment-atom}
-        children-update-callback (fn [] (go (>! req-c {:type :update-children :comment-id commentid})))]
+        children-update-callback #(go (>! req-c {:type :update-children :comment-id commentid}))
+        sibling-update-callback #(go (>! req-c {:type :update-children :comment-id parentid
+                                                :success-callback
+                                                (fn [] (reset! showing-update-flags false)
+                                                  (print "HERE")
+                                                  (swap! redraw-hook inc))}))
+        comment-flag-store (re/atom {})
+        flag-update-fn #(flag-comment @cur-user-atom commentid comment-flag-store error-atom sibling-update-callback)]
     (fn []
+      (print (str "commentid " commentid " " "flagids " flagids))
       (if (some #(get @filter-store %) flagids) nil
           [:div.comment-region
            [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
            [:div.comment-text "Flagged as:" (doall (map #(str (get @flagtypes %) " ") flagids))]
            [:div.comment-text text]
+           [:div.flag-select-box {:on-click #(swap! showing-update-flags not)}
+            (if @showing-update-flags "Abort flagging" "Click here to flag this comment")]
+           (when @showing-update-flags [flag-select {:flagtype-store flagtypes :select-flag-store comment-flag-store
+                     :text "What flags apply to this comment?" :callback-fn flag-update-fn}])
            [:div.comment-child-toggle {:on-click #(swap! expanded not)}
             (if @expanded "-" "+")]
            (if @expanded
@@ -155,7 +180,7 @@
                ^{:key (:commentid child-comment)}
                [display-comment req-c
                 (assoc child-comment :questionid questionid :filter-store filter-store :flagtypes flagtypes
-                       :cur-user-atom cur-user-atom)]))]))))
+                       :redraw-hook redraw-children-hook :cur-user-atom cur-user-atom)]))]))))
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
@@ -167,10 +192,11 @@
     (start-resource-provider request-chan)
     (get-flag-types flagtype-store)
     (fn []
-      [:div.whole-page
+      [:div.whole-page 
        [userid-select userid-store]
-       [flag-select flagtype-store filtered-flags]
-       [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0
+       [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
+                     :text "Filter out what kind of comments?" :callback-fn nil}]
+       [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0 :parentid 0
                                       :flagids [3] :filter-store filtered-flags
                                       :flagtypes flagtype-store :cur-user-atom userid-store}]])))
       
