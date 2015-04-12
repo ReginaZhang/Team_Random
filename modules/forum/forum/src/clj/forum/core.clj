@@ -3,7 +3,8 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.json :as json]
             [ring.middleware.params :as prms]
-            [bidi.ring :as bidi])
+            ;[bidi.ring :as bidir]
+            [bidi.bidi :as bidi])
   (:gen-class))
 
 (def health-db {:subprotocol "mysql"
@@ -11,17 +12,6 @@
                :user "kimjongun"
                :password "KimJongUnIsGreat"})
   
-(defn get-child-comments-db-2 [parent-id]
-  (let [comments (jdb/query health-db
-                            ["SELECT * from Comment where ParentId = ?" parent-id]
-                            :row-fn #(select-keys % [:commentid :text :userid]))]
-    (map (fn [comment]
-           (assoc comment :flags
-                  (jdb/query health-db
-                              ["SELECT * from CommentFlag where CommentId = ?" (:commentid comment)]
-                              :row-fn #(select-keys % [:flagid]))))
-         comments)))
-
 (defn merge-comments-with-flags [acc cur]
   (let [id (:commentid cur)
         flag (:flagid cur)]
@@ -40,14 +30,22 @@ on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment
 (defn update-comment-flags [{{:strs [flag_ids comment_id user_id]} :params}]
   (let [flag-ids (if (vector? flag_ids) flag_ids [flag_ids])]
     (jdb/delete! health-db :CommentFlag ["CommentId = ? and UserId = ?" comment_id user_id])
-    (let [vecs (map (fn [flag-id] [user_id comment_id flag-id]) flag-ids)
-          insert (fn [& vals]
-                   (apply jdb/insert! health-db :CommentFlag
-                          [:UserId :CommentId :FlagId]
-                                     vals))]
-      (if (seq? vecs) (apply insert vecs) (insert vecs))
-      {:status 200 :body {:text "Successfully updated comment flags!"}})))
+    (when (not= flag_ids "null")
+      (let [vecs (map (fn [flag-id] [user_id comment_id flag-id]) flag-ids)
+            insert (fn [& vals]
+                     (apply jdb/insert! health-db :CommentFlag
+                            [:UserId :CommentId :FlagId]
+                            vals))]
+        (if (seq? vecs) (apply insert vecs) (insert vecs))))
+    {:status 200 :body {:text "Successfully updated comment flags!"}}))
 
+(defn delete-comment [{{:strs [comment_id]} :params}]
+  (jdb/update! health-db :Comment {:Deleted 1} ["CommentId = ?" comment_id])
+  {:status 200 :body {:text "Successfully deleted comment!"}})
+
+(defn edit-comment [{{:strs [comment_id text]} :params}]
+  (jdb/update! health-db :Comment {:Text text} ["CommentId = ?" comment_id])
+  {:status 200 :body {:text "Successfully edited comment!"}})
 
 (defn get-flag-types [_]
   {:status 200
@@ -84,15 +82,40 @@ on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment
                                    (json/wrap-json-response)
                                    (prms/wrap-params)))
 
-(def forum (bidi/make-handler ["/" {"child_comments" (rest-wrap get_child_comments)
-                                    "add_comment" (rest-wrap add_comment)
+(def routes ["/" {"child_comments" :child-comments
+                  "add_comment" :add-comment
+                  "delete_comment" :delete-comment
+                  "edit_comment" :edit-comment
+                  "flag_types" :flag-types
+                  "flag_comment" :flag-comment
+                  "index" :index
+                  "static/js/cljs.js" :serve_js}])
+
+(defn forum [request]
+  (if-let [match (bidi/match-route routes (:uri request))]
+    (let [handler (:handler match)
+          handler-fn       
+          (get {:child-comments (rest-wrap get_child_comments)
+                :add-comment (rest-wrap add_comment)
+                :delete-comment (rest-wrap delete-comment)
+                :edit-comment (rest-wrap edit-comment)
+                :flag-types (rest-wrap get-flag-types)
+                :flag-comment (rest-wrap update-comment-flags)
+                :index index
+                :serve_js serve_js}
+               handler)]
+      (handler-fn request))
+    (fn [_]
+      {:status 404 :body "404 page not found"})))
+  
+(comment (def forum3 (bidir/make-handler ["/" {"child_comments" (rest-wrap get_child_comments)
+                                      "add_comment" (rest-wrap add_comment)
+                                      "delete_comment" (rest-wrap delete-comment)
+                                    "edit_comment" (rest-wrap edit-comment)
                                     "flag_types" (rest-wrap get-flag-types)
                                     "flag_comment" (rest-wrap update-comment-flags)
                                     "index" index
                                     "static/js/cljs.js" serve_js
                                     #".*" (fn [_]
                                             {:status 404
-                                             :body "404 Page not found"})}]))
-
-(let [{{:strs [a d]} :params} {:params {"a" "A", "b" "B", "c" "C", "d" "D"}}]
-  (println a d))
+                                             :body "404 Page not found"})}])))
