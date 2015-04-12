@@ -7,6 +7,7 @@ create table if not exists Comment(
        QuestionId int NOT NULL,
        Text text NOT NULL,
        UserId int NOT NULL,
+       Deleted bit(1) NOT NULL,
        PRIMARY KEY (CommentId)
        )ENGINE=INNODB;
 
