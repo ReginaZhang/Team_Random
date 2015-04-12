@@ -45,9 +45,10 @@
 (defn flag-comment
   "Tell the backend to flag a comment"
   [flagger-id comment-id flag-ids-store error-store update-callback]
-  (backend-request "/flag_comment" {:comment_id comment-id :user_id flagger-id :flag_ids (keys (filter #(val %) @flag-ids-store))}
-                   (fn [[ok response]] (if ok (update-callback)
-                                           (reset! error-store (str response))))))
+  (let [flag-ids (keys (filter #(val %) @flag-ids-store))]
+    (backend-request "/flag_comment" {:comment_id comment-id :user_id flagger-id :flag_ids flag-ids}
+                     (fn [[ok response]] (if ok (update-callback flag-ids)
+                                             (reset! error-store (str response)))))))
 
 (defn get-flag-types
   "Get a mapping of flag ids to flag names"
@@ -139,7 +140,7 @@
 (defn display-comment
   "Display a comment, and its children if show children is clicked. Also may show options
   for replying, flagging, voting, editing and deleting a comment."
-  [req-c {:keys [userid text commentid questionid parentid flagids flagtypes encompassing-atom index filter-store cur-user-atom]}]
+  [{:keys [req-c userid text commentid questionid parentid flagids flagtypes filter-store cur-user-atom]}]
   (let [expanded (re/atom false)
         child-comment-atom (re/atom {})
         showing-comment-entry (re/atom false)
@@ -148,19 +149,19 @@
         children-req {:type :children-request :comment-id commentid :atom child-comment-atom}
         children-update-callback #(go (>! req-c {:type :update-children :comment-id commentid}))
         comment-flag-store (re/atom {})
-        sibling-update-callback #(go (>! req-c {:type :update-children :comment-id parentid
-                                                :success-callback
-                                                (fn [] (reset! showing-update-flags false)
-                                                  ;(print "HERE")
-                                                  (swap! encompassing-atom
-                                                         (fn [vals] assoc-in vals [index :flagids] @comment-flag-store)))}))
+        sibling-update-callback (fn [new-flagids]
+                                 ;Update flags on the comment
+                                  (reset! flagids new-flagids)
+                                  ;Request flags be updated in backend, and reset flag display
+                                  (go (>! req-c {:type :update-children :comment-id parentid :success-callback
+                                                 #(reset! showing-update-flags false)})))  
         flag-update-fn #(flag-comment @cur-user-atom commentid comment-flag-store error-atom sibling-update-callback)]
     (fn []
       ;(print (str "commentid " commentid " " "flagids " flagids))
-      (if (some #(get @filter-store %) flagids) nil
+      (if (some #(get @filter-store %) @flagids) nil
           [:div.comment-region
            [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
-           [:div.comment-text "Flagged as:" (doall (map #(str (get @flagtypes %) " ") flagids))]
+           [:div.comment-text "Flagged as:" (doall (map #(str (get @flagtypes %) " ") @flagids))]
            [:div.comment-text text]
            [:div.flag-select-box {:on-click #(swap! showing-update-flags not)}
             (if @showing-update-flags "Abort flagging" "Click here to flag this comment")]
@@ -177,11 +178,12 @@
            (when (not= @error-atom "") [:div.error-text @error-atom])
            (when @expanded
              (go (>! req-c children-req))
-             (doall (for [child-comment (:children @child-comment-atom) i (range (count @child-comment-atom))]
-               ^{:key (:commentid child-comment)}
-               [display-comment req-c
-                (assoc child-comment :questionid questionid :filter-store filter-store :flagtypes flagtypes
-                       :encompassing-atom child-comment-atom :index i :cur-user-atom cur-user-atom)])))]))))
+             (doall (for [child-comment (:children @child-comment-atom)]
+                      (let [flags-store (re/atom (:flagids child-comment))]
+                        ^{:key (:commentid child-comment)}
+                        [display-comment
+                         (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
+                                :cur-user-atom cur-user-atom :flagids flags-store)]))))]))))
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
@@ -197,9 +199,8 @@
        [userid-select userid-store]
        [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
                      :text "Filter out what kind of comments?" :callback-fn nil}]
-       [display-comment request-chan {:userid 0 :text "test comment" :commentid 0 :questionid 0 :parentid 0
-                                      :flagids [3] :filter-store filtered-flags
-                                      :flagtypes flagtype-store :cur-user-atom userid-store}]])))
+       [display-comment {:req-c request-chan :userid 0 :text "test comment" :commentid 0 :questionid 0 :parentid 0
+                         :flagids (re/atom [3]) :filter-store filtered-flags :flagtypes flagtype-store :cur-user-atom userid-store}]])))
       
 
 (re/render [forum-page] (.-body js/document))
