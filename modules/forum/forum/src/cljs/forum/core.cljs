@@ -61,7 +61,7 @@
   (let [flag-ids (keys (filter #(val %) @flag-ids-store))]
     (backend-request "/flag_comment" {:comment_id comment-id :user_id flagger-id :flag_ids flag-ids}
                      (fn [[ok response]] (if ok (update-callback flag-ids)
-                                             (reset! error-store (str response)))))))
+                                             (reset! error-store "Error: db rejected flag; maybe you used a non-existing userid? Try userid 1."))))))
 
 (defn get-flag-types
   "Get a mapping of flag ids to flag names"
@@ -113,11 +113,16 @@
   [userid-atom]
   (fn []
     [:div.somebox
-     [:div.text "Select your userid"]
+     [:div.text "Select your userid. You can edit and delete posts with the same posterid as your userid."]
+     [:div.text "NOTE: right now only user 1 can flag comments, as user 1 is the only user in the database, and trying to create a flag with a non-existing user violates a foreign key constraint."]
      [:input {:type "number"
               :placeholder "Enter a userid"
               :value @userid-atom
-              :on-change #(reset! userid-atom (-> % .-target .-value))}]]))
+              :on-change #(let [newval (-> % .-target .-value)
+                                numval (js/parseInt newval)]
+                            (if numval
+                              (reset! userid-atom numval)
+                              (reset! userid-atom 1)))}]]))
 
 (defn flag-select
   "Select one or more flags via a html checkbox"
@@ -166,7 +171,7 @@
 (defn display-comment
   "Display a comment, and its children if show children is clicked. Also may show options
   for replying, flagging, voting, editing and deleting a comment."
-  [{:keys [req-c userid text commentid questionid parentid flagids flagtypes filter-store cur-user-atom]}]
+  [{:keys [req-c userid text commentid questionid parentid flagids flagtypes deleted filter-store cur-user-atom]}]
   (let [expanded (re/atom false)
         child-comment-atom (re/atom {})
         showing-comment-entry (re/atom false)
@@ -184,26 +189,28 @@
                                     (update-parents-children))    ;Request flags be updated in backend, and reset flag display
         flag-update-fn #(flag-comment @cur-user-atom commentid comment-flag-store error-atom post-flag-update-callback)
         comment-delete-fn #(delete-comment commentid error-atom (fn [] (reset! text "!!DELETED!!")
+                                                                  (reset! deleted true)
                                                                   (update-parents-children)))
         post-comment-edit-callback (fn[] (reset! text @edited-text-atom)
+                                     (reset! editing-comment false)
                                      (update-parents-children))]
     (fn []
       (if (some #(get @filter-store %) @flagids) nil
           [:div.comment-region
            [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
            [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
-           [:div.comment-text (str "Comment text is: " "\"" @text "\"")]
-           [:div.comment-text (str "commentid: " commentid " " " posterid: " userid " cur-usr: " @cur-user-atom)]
-           (when (= @cur-user-atom userid)
+           [:div.comment-text  (if @deleted "!!DELETED!!" (str "Comment text is: " "\"" @text "\""))]
+           (when (and (= @cur-user-atom userid) (not @deleted))
              [:div.edit-select-box {:on-click #(swap! editing-comment not)}
               (if @editing-comment "Abort editing" "E (Click here to edit this comment)")])
            (when (and (= @cur-user-atom userid) @editing-comment)
              [comment-edit-box {:comment-id commentid :text-store edited-text-atom :error-store error-atom
                                 :update-callback post-comment-edit-callback}])
-           (when (= @cur-user-atom userid)
+           (when (and (= @cur-user-atom userid) (not @deleted))
              [:div.delete-text {:on-click comment-delete-fn} "D (Click here to delete this comment)"])
-           [:div.flag-select-box {:on-click #(swap! showing-update-flags not)}
-            (if @showing-update-flags "Abort flagging" "F (Click here to flag this comment)")]
+           (when (not @deleted)
+             [:div.flag-select-box {:on-click #(swap! showing-update-flags not)}
+              (if @showing-update-flags "Abort flagging" "F (Click here to flag this comment)")])
            (when @showing-update-flags [flag-select {:flagtype-store flagtypes :select-flag-store comment-flag-store
                      :text "What flags apply to this comment?" :callback-fn flag-update-fn}])
            [:div.comment-child-toggle {:on-click #(swap! expanded not)}
@@ -219,11 +226,12 @@
              (go (>! req-c children-req))
              (doall (for [child-comment (:children @child-comment-atom)]
                       (let [flags-store (re/atom (:flagids child-comment))
-                            text-store (re/atom (:text child-comment)) ]
+                            text-store (re/atom (:text child-comment))
+                            deleted-store (re/atom (:deleted child-comment))]
                         ^{:key (:commentid child-comment)}
                         [display-comment
                          (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
-                                :cur-user-atom cur-user-atom :flagids flags-store :text text-store)]))))]))))
+                                :cur-user-atom cur-user-atom :flagids flags-store :text text-store :deleted deleted-store)]))))]))))
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
@@ -235,16 +243,15 @@
     (start-resource-provider request-chan)
     (get-flag-types flagtype-store)
     (fn []
-      [:div.whole-page 
+      [:div.whole-page
        [userid-select userid-store]
        [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
                      :text "Filter out what kind of comments?" :callback-fn nil}]
        [display-comment {:req-c request-chan :userid 0
-                         :text (re/atom "I am am dummy root comment with no life in the DB, a mere placeholder for a health question. 
-I cannot be flagged or deleted.")
+                         :text (re/atom "I am a dummy root comment with no life in the DB, a mere placeholder for a health question. 
+I am immortal, and cannot be flagged or permanently edited/deleted.")
                          :commentid 0 :questionid 0 :parentid 0 :flagids (re/atom [3]) :filter-store filtered-flags
-                         :flagtypes flagtype-store :cur-user-atom userid-store}]])))
+                         :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom false)}]])))
       
-
 (re/render [forum-page] (.-body js/document))
 
