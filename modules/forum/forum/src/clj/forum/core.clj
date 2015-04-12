@@ -3,7 +3,6 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.json :as json]
             [ring.middleware.params :as prms]
-            ;[bidi.ring :as bidir]
             [bidi.bidi :as bidi])
   (:gen-class))
 
@@ -24,7 +23,8 @@
           (jdb/query health-db
              ["select * from Comment left join CommentFlag 
 on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment.CommentId" parent-id]
-             :row-fn #(select-keys % [:commentid :text :userid :flagid :parentid]))))))
+             :row-fn #(let [comment (select-keys % [:commentid :text :userid :flagid :parentid :deleted])]
+                        (if (:deleted comment) (assoc comment :text "!!DELETED!!") comment)))))))
 
 
 (defn update-comment-flags [{{:strs [flag_ids comment_id user_id]} :params}]
@@ -105,17 +105,4 @@ on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment
                 :serve_js serve_js}
                handler)]
       (handler-fn request))
-    (fn [_]
-      {:status 404 :body "404 page not found"})))
-  
-(comment (def forum3 (bidir/make-handler ["/" {"child_comments" (rest-wrap get_child_comments)
-                                      "add_comment" (rest-wrap add_comment)
-                                      "delete_comment" (rest-wrap delete-comment)
-                                    "edit_comment" (rest-wrap edit-comment)
-                                    "flag_types" (rest-wrap get-flag-types)
-                                    "flag_comment" (rest-wrap update-comment-flags)
-                                    "index" index
-                                    "static/js/cljs.js" serve_js
-                                    #".*" (fn [_]
-                                            {:status 404
-                                             :body "404 Page not found"})}])))
+    {:status 404 :body "404 page not found"}))

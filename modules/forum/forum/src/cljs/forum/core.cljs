@@ -42,6 +42,19 @@
                                              (update-callback))
                                          (reset! error-store (str response))))))
 
+(defn delete-comment
+  "Make a backend request to delete a comment"
+  [comment-id error-store success-callback]
+  (backend-request "/delete_comment" {:comment_id comment-id}
+                   (fn [[ok response]] (if ok (success-callback) (reset! error-store (str response))))))
+
+(defn edit-comment
+  "Make a backend request to edit a comment"
+  [comment-id text error-store success-callback]
+  (backend-request "/edit_comment" {:comment_id comment-id :text text}
+                   (fn [[ok response]] (if ok (success-callback) (reset! error-store (str response))))))
+
+
 (defn flag-comment
   "Tell the backend to flag a comment"
   [flagger-id comment-id flag-ids-store error-store update-callback]
@@ -137,6 +150,19 @@
        [:button {:on-click #(add-comment question-id parent-id @user-id-atom parent-box-toggle @txt error-store update-callback)}
         "Submit"]])))
 
+(defn comment-edit-box
+  "Render a comment entry box. Disables the parent edit box toggle upon successful;y editing
+  a comment, and updates parent error"
+  [{:keys [comment-id text-store error-store update-callback]}]
+  (fn []
+    [:div.comment-entry-box
+     [:input {:type "text"
+              :placeholder "Edit your comment..."
+              :value @text-store
+              :on-change #(reset! text-store (-> % .-target .-value))}]
+       [:button {:on-click #(edit-comment comment-id @text-store error-store update-callback)}
+        "Save"]]))
+
 (defn display-comment
   "Display a comment, and its children if show children is clicked. Also may show options
   for replying, flagging, voting, editing and deleting a comment."
@@ -146,29 +172,42 @@
         showing-comment-entry (re/atom false)
         showing-update-flags (re/atom false)
         error-atom (re/atom "")
+        edited-text-atom (re/atom @text)
+        editing-comment (re/atom false)
         children-req {:type :children-request :comment-id commentid :atom child-comment-atom}
         children-update-callback #(go (>! req-c {:type :update-children :comment-id commentid}))
         comment-flag-store (re/atom {})
-        sibling-update-callback (fn [new-flagids]
-                                 ;Update flags on the comment
-                                  (reset! flagids new-flagids)
-                                  ;Request flags be updated in backend, and reset flag display
-                                  (go (>! req-c {:type :update-children :comment-id parentid :success-callback
-                                                 #(reset! showing-update-flags false)})))  
-        flag-update-fn #(flag-comment @cur-user-atom commentid comment-flag-store error-atom sibling-update-callback)]
+        update-parents-children #(go (>! req-c {:type :update-children :comment-id parentid :success-callback
+                                                (fn [] (reset! showing-update-flags false))}))
+        post-flag-update-callback (fn [new-flagids]                                        
+                                    (reset! flagids new-flagids) ;Update flags on the comment
+                                    (update-parents-children))    ;Request flags be updated in backend, and reset flag display
+        flag-update-fn #(flag-comment @cur-user-atom commentid comment-flag-store error-atom post-flag-update-callback)
+        comment-delete-fn #(delete-comment commentid error-atom (fn [] (reset! text "!!DELETED!!")
+                                                                  (update-parents-children)))
+        post-comment-edit-callback (fn[] (reset! text @edited-text-atom)
+                                     (update-parents-children))]
     (fn []
-      ;(print (str "commentid " commentid " " "flagids " flagids))
       (if (some #(get @filter-store %) @flagids) nil
           [:div.comment-region
            [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
-           [:div.comment-text "Flagged as:" (doall (map #(str (get @flagtypes %) " ") @flagids))]
-           [:div.comment-text text]
+           [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
+           [:div.comment-text (str "Comment text is: " "\"" @text "\"")]
+           [:div.comment-text (str "commentid: " commentid " " " posterid: " userid " cur-usr: " @cur-user-atom)]
+           (when (= @cur-user-atom userid)
+             [:div.edit-select-box {:on-click #(swap! editing-comment not)}
+              (if @editing-comment "Abort editing" "E (Click here to edit this comment)")])
+           (when (and (= @cur-user-atom userid) @editing-comment)
+             [comment-edit-box {:comment-id commentid :text-store edited-text-atom :error-store error-atom
+                                :update-callback post-comment-edit-callback}])
+           (when (= @cur-user-atom userid)
+             [:div.delete-text {:on-click comment-delete-fn} "D (Click here to delete this comment)"])
            [:div.flag-select-box {:on-click #(swap! showing-update-flags not)}
-            (if @showing-update-flags "Abort flagging" "Click here to flag this comment")]
+            (if @showing-update-flags "Abort flagging" "F (Click here to flag this comment)")]
            (when @showing-update-flags [flag-select {:flagtype-store flagtypes :select-flag-store comment-flag-store
                      :text "What flags apply to this comment?" :callback-fn flag-update-fn}])
            [:div.comment-child-toggle {:on-click #(swap! expanded not)}
-            (if @expanded "-" "+")]
+            (if @expanded "- (click here to hide children)" "+ (click here to show children)")]
            (if @expanded
              [:div.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
               (if @showing-comment-entry "Abort comment" "Enter Comment")])
@@ -179,11 +218,12 @@
            (when @expanded
              (go (>! req-c children-req))
              (doall (for [child-comment (:children @child-comment-atom)]
-                      (let [flags-store (re/atom (:flagids child-comment))]
+                      (let [flags-store (re/atom (:flagids child-comment))
+                            text-store (re/atom (:text child-comment)) ]
                         ^{:key (:commentid child-comment)}
                         [display-comment
                          (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
-                                :cur-user-atom cur-user-atom :flagids flags-store)]))))]))))
+                                :cur-user-atom cur-user-atom :flagids flags-store :text text-store)]))))]))))
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
@@ -199,8 +239,11 @@
        [userid-select userid-store]
        [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
                      :text "Filter out what kind of comments?" :callback-fn nil}]
-       [display-comment {:req-c request-chan :userid 0 :text "test comment" :commentid 0 :questionid 0 :parentid 0
-                         :flagids (re/atom [3]) :filter-store filtered-flags :flagtypes flagtype-store :cur-user-atom userid-store}]])))
+       [display-comment {:req-c request-chan :userid 0
+                         :text (re/atom "I am am dummy root comment with no life in the DB, a mere placeholder for a health question. 
+I cannot be flagged or deleted.")
+                         :commentid 0 :questionid 0 :parentid 0 :flagids (re/atom [3]) :filter-store filtered-flags
+                         :flagtypes flagtype-store :cur-user-atom userid-store}]])))
       
 
 (re/render [forum-page] (.-body js/document))
