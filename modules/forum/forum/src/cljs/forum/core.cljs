@@ -217,7 +217,7 @@
             (if @expanded "- (click here to hide children)" "+ (click here to show children)")]
            (if @expanded
              [:div.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
-              (if @showing-comment-entry "Abort comment" "Enter Comment")])
+              (if @showing-comment-entry "Abort comment" "Click here to enter a reply to this comment!")])
            (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
                                                             :parent-box-toggle showing-comment-entry :error-store error-atom
                                                             :update-callback children-update-callback}])
