@@ -16,7 +16,7 @@ public class App {
 
 	public static void main(String[] args) throws SQLException {
 		
-		spark.SparkBase.port(8888);
+		spark.SparkBase.port(8000);
 		 
 		spark.Spark.before((req,res)->{			
 		    res.header("Access-Control-Allow-Headers", "*");

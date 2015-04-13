@@ -33,7 +33,7 @@
   <tr>
   	<th>
   		<h3><em>Food Nutrition</em></h3>
-  		<form method="POST" action="http://45.56.85.191:8888/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
+  		<form method="POST" action="http://45.56.85.191:8000/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
   			Search Food Name:
   			<input type="text"
   			 	   name="searchString"
@@ -62,7 +62,7 @@
   		<br><table class="calculator">
   		<tr>
   			<th>
-  			<form method="POST" action="http://45.56.85.191:8888/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, this)">
+  			<form method="POST" action="http://45.56.85.191:8000/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, this)">
   			<p>BMI Calculator</p>
   			<p><br>To determine if you're at a healthy weight,</br><br> enter the following information and calculate</br><br>your body mass index(BMI)</br></p>
   			<input type="radio" name="hasRegistered" value="false" onclick="registered(false)" checked>Not registered
@@ -111,7 +111,7 @@
     	</table>
     	</br>
     	<p>Adding/removing food from diet</p>
-    		<form method="POST" action="http://45.56.85.191:8888/diet/modify" id="modify_diet" onsubmit="submitForm(event, this)">
+    		<form method="POST" action="http://45.56.85.191:8000/diet/modify" id="modify_diet" onsubmit="submitForm(event, this)">
     		<input type="radio" name="modiType" value="add" onclick="addOrDelete(true)"checked>Add
     		<input type="radio" name="modiType" value="delete" onclick="addOrDelete(false)">Remove
     		<input type="text" name="foodId" placeholder="Type food id here, one per time!">
