@@ -29,5 +29,5 @@ conf={
         }
 
     }
-
+cherrypy.server.socket_host="45.56.85.191"
 cherrypy.quickstart(HealthOverflow(), '/', conf)
