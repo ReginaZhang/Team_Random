@@ -28,7 +28,7 @@ public class App {
 		
 		Gson gs = new Gson(); //GSON tool just for array to json and vice versa
 		
-		
+		System.out.println("Reached roots");
 		
 		//receiving JSON sent by client via POST request
 		//expecting {"memberId":"10000", "foodName0":"Sandwich", "foodName1":"Butter", ...}
