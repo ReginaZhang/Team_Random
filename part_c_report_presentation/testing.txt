@@ -1,0 +1,15 @@
+Testing
+
+For the user interface testing, we will run a small program and test automatically
+at a regular time to make sure all essential elements are presented and visible to 
+the users and that all links are functioning. This will be done using Python libs
+called Selenium and Unittest. The first one is a library specially for web browsing
+and testing. The program would be able to "see" the pages, "move" the mice and "click"
+on the buttons just like it was a human. The second module is a built-in library of
+Python for running tests units and output the basic report to standard-out. For instance,
+whether the particular test case has failed or succeeded and, if failed, what are the
+error messages (predefined by the programmer or in the default way).
+
+We would also be using our forum as a place to discuss our project, so that we could
+test our forum and database functionalities as well as experience our forum from the
+signed-up users' view in a fun and proud way.
