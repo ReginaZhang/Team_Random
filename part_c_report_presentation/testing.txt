@@ -13,3 +13,9 @@ error messages (predefined by the programmer or in the default way).
 We would also be using our forum as a place to discuss our project, so that we could
 test our forum and database functionalities as well as experience our forum from the
 signed-up users' view in a fun and proud way.
+
+As we are the developers of our own website, it is hard to discover the usability 
+problems. In order to get the ideas of how to make our site more user-friends, we
+would also be going around, looking for volunteers (e.g. our friends) who would like
+to take a tour of our website and provide some feedback as a reference of how we could
+improve our website.
