@@ -2,7 +2,6 @@ use HealthDB;
 
 create table if not exists Question(
        QuestionId int NOT NULL AUTO_INCREMENT,
-       QuestionText text NOT NULL,
        QuestionDeleted bit(1) NOT NULL,
        PRIMARY KEY (QuestionId)
        )ENGINE=INNODB;       
