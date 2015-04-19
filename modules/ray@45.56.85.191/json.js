@@ -74,7 +74,7 @@ function addOrDelete(truthValue) {
 function showDiet(){
 
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://45.56.85.191:8000/diet", true);
+  xhr.open("POST", "http://localhost:8000/diet", true);
   xhr.setRequestHeader('Content-Type', 'application/json');
 
   var data = {};

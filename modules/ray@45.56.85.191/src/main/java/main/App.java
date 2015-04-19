@@ -17,19 +17,9 @@ public class App {
 	public static void main(String[] args) throws SQLException {
 		
 		spark.SparkBase.port(8000);
-		
-		spark.Spark.options("/*", (req,res)->{
-			 
-		    String accessControlRequestHeaders = req.headers("Access-Control-Request-Headers");
-		    if (accessControlRequestHeaders != null) {
-		        	res.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-		    	} else {
-		    		res.header("Access-Control-Request-Headers", "Content-Type, content-type");
-		    	}
-		    return "OK";
-		});
 		 
 		spark.Spark.before((req,res)->{			
+		    res.header("Access-Control-Allow-Headers", "Content-Type, content-type");
 		    res.header("Access-Control-Request-Methods", "POST");
 		    res.header("Access-Control-Allow-Origin", "http://45.56.85.191:8080");
 		});
