@@ -45,7 +45,7 @@ Risk: Server's Linux distribution breaks on upgrade
 Trigger: Can't boot VPS
 Likelihood: Unlikely; the team member responsible for devops has been using it for over two years without any such breakace occurring.
 Impact: Major
-Contingency plan: Switch to our backup VPS, and use that until the original server is reinstalled.
+Contingency plan: Switch to our backup VPS image, and use that until the original server is reinstalled.
 
 Risk: Our database loses or corrupts data.
 Trigger: Inconsistent data indentified in the database
