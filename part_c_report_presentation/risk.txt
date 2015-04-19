@@ -9,14 +9,31 @@ To avoid SQL injection attacks, we will make use of the JDBC library for sanitis
 To ensure the security of our database, all database connections made by our backend will use accounts with restricted access permissions, so that even if an attacker were somehow able to execute malicious SQL, the damage they could do would be limited. We're working under the assumption that site administrators will be familiar with SQL, so the site itself doesn't include any administration functionality: administration is done solely by SQL and scripts run separately to the site's services. This increases security, as if the site has no admin functionality, then obviously such functionality cannot be hijacked.
 
 
-
 Risk Management Plan
+
+Operational risks:
 
 Risk: Someone gaining access to our vps. This could happen if they are able to hack our root password or the password for our VPS provider account.
 Trigger: Increased bandwidth usage, unable to login, weird login times.
 Likelihood: Unlikely
 Impact: Moderate. May have to pay for bandwidth if the hacker goes over our limit, and migrate to a new server.
 Contingency plan: contact VPS provider and cancel account, move to backup Digital Ocean VPS that we have prepared.
+
+Risk: Unauthorized advertisements. One of the biggest problems health-related websites face is being drowned by users advertising various health products; cosmetics, nutrition supplements and so on. These ads are presented as fake 'anecdotes' about how the user has overcome some health or diet-related issues. Such ads not only potentialyl reduce users' enjoyment of the site, but could also mislead them into using products that are actually of no benefit to them.
+Trigger: Many posts/comments appearing that mention commercial products.
+Likelihood: High
+Impact: Moderate
+Contingency plan: We will add the product names to a blacklist, and all posts containing those names will be automatically flagged as "commercial". Commercial posts will be hidden by default. We will also have a separate service that queries the database regularly and detects any users that are repeatedly posting commercial products, and deletes them. Our site guidelines will encourage posting like "magnesium chloride helped me ___", not "Acme Brand(R) Magnesiex Chlorighty helped me ____".
+
+Client risks:
+
+Risk: Political/legal action makes a portion of the site's functionality unfeasible
+Trigger: Legislation is passed making part of our site's operations illegal, or we're sued
+Likelihood: Low
+Impact: Major
+Contingency plan: Jettison the site element that's subject to that political/legal action. Our site's breadth is rather wide, encompassing both diet and exercise, and containing both a forum and a health app, so it could sacrifice a part of its functionality and still function.
+
+Technological risks:
 
 Risk: Github down. It could be due to some internal Github issues, or maybe Github could be DDOSd by the Chinese government again.
 Trigger: Can't connect to Github, news reports that it's down.
@@ -30,26 +47,28 @@ Likelihood: Unlikely; the team member responsible for devops has been using it f
 Impact: Major
 Contingency plan: Switch to our backup VPS, and use that until the original server is reinstalled.
 
-Risk: A Team member disappears, or has an unexpectedly high workload or an accident
-Trigger: The teammate ignores all communications for two days, or tells us they are sick or busier than expected.
+Risk: Our database loses or corrupts data.
+Trigger: Inconsistent data indentified in the database
 Likelihood: Unlikely
 Impact: Moderate
-Contingency plan: We make sure everyone has a general understanding of everyone else's code, but also assign each person to follow one other team member, so they're more closely familiar with that other person's code, and if a person disappears then the person assigned to them can replace them. We also have an iterative, staged development process, so we can priorities whatever features are highest priority, leaving a less-important feature incomplete without affecting the overall readiness of the site.
-
-Risk: Political/legal action makes a portion of the site's functionality unfeasible
-Trigger: Legislation passed, or we're sued
-Likelihood: Low
-Impact: Major
-Contingency plan: Jettison the site element that's subject to that political/legal action. Our site's breadth is rather wide, encompassing both diet and exercise, and containing both a forum and a health app, so it could sacrifice a part of its functionality and still function.
-
-Risk: Unauthorized advertisements. One of the biggest problems health-related websites face is being drowned by users advertising various health products; cosmetics, nutrition supplements and so on. These ads are presented as fake 'anecdotes' about how the user has overcome some health or diet-related issues. Such ads not only potentialyl reduce users' enjoyment of the site, but could also mislead them into using products that are actually of no benefit to them.
-Trigger: Many posts/comments appearing that mention commercial products.
-Likelihood: High
-Impact: Moderate
-Contingency plan: We will add the product names to a blacklist, and all posts containing those names will be automatically flagged as "commercial". Commercial posts will be hidden by default. We will also have a separate service that queries the database regularly and detects any users that are repeatedly posting commercial products, and deletes them. Our site guidelines will encourage posting like "magnesium chloride helped me ___", not "Acme Brand(R) Magnesiex Chlorighty helped me ____".
+Contingency plan: Restore the relevant tables from backups. Regular backups are kept in case this happens.
 
 Risk: API failure. We currently use a nutrition API provided by the US Government, and if it failed we would not be able to access updated nutrition information.
 Trigger: API returns 404
 Likelihood: low
 Impact: Major
 Contingency plan: We will use cached data: we cache nutrition information on the most commonly requested foods in our database. If the API is down permanently, then we will then transition to our backup service, which uses a different nutrition API. Our microservices architecture makes swapping out our API service for a new one relatively straightforward.
+
+Schedule risks:
+
+Risk: A Team member disappears, or has an unexpectedly high workload or an accident
+Trigger: The teammate ignores all communications for two days, or tells us they are sick or busier than expected.
+Likelihood: Unlikely
+Impact: Moderate
+Contingency plan: We make sure everyone has a general understanding of everyone else's code, but also assign each person to follow one other team member, so they're more closely familiar with that other person's code, and if a person disappears then the person assigned to them can replace them. We also have an iterative, staged development process, so we can priorities whatever features are highest priority, leaving a less-important feature incomplete without affecting the overall readiness of the site.
+
+Risk: A feature takes longer than expected, and seems like it may not be finished by the deadline.
+Trigger: Extrapolating from the current rate of progress on the feature suggests it will be complete well after it's due.
+Likelihood: Unlikely
+Impact: Major
+Contingency plan: If the feature is important, we will scale it back. If it's a lower priority feature, we will scrap it and divert resources to the other more important features.
