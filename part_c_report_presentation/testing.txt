@@ -1,21 +1,11 @@
 Testing
 
-For the user interface testing, we will run a small program and test automatically
-at a regular time to make sure all essential elements are presented and visible to 
-the users and that all links are functioning. This will be done using Python libs
-called Selenium and Unittest. The first one is a library specially for web browsing
-and testing. The program would be able to "see" the pages, "move" the mice and "click"
-on the buttons just like it was a human. The second module is a built-in library of
-Python for running tests units and output the basic report to standard-out. For instance,
-whether the particular test case has failed or succeeded and, if failed, what are the
-error messages (predefined by the programmer or in the default way).
+For the user interface testing, we will run a program  at regular intervals that will automatically that all essential elements are presented and visible to users and that all links are functioning. This will be done using Python the Python libraries for the Selenium testing framework, and the Python Unittest library. Selenium allows automating of user interface testing, simulating a user that is able to "see" the pages, "move" the mice and "click" on the buttons just like it a human user. Regular testing with Selenium will catch any issues that appear with our user interface. The Unittest module will be used for API testing, querying our APIs for particular data and ensuring the output produced is as expected. This will allow us to identify any bugs or regressions introduced into our JSON APIs and quickly address them.
 
-We would also be using our forum as a place to discuss our project, so that we could
-test our forum and database functionalities as well as experience our forum from the
-signed-up users' view in a fun and proud way.
+For usability testing, we will seek out volunteers willing to test our site, and quiz them on their experience as a user. Their feedback will be recored and used to help address any shortcomings of our design, and this will be conducted as a continuous process throughout our site's development, to allow continuous improvement of our user interface.
 
-As we are the developers of our own website, it is hard to discover the usability 
-problems. In order to get the ideas of how to make our site more user-friends, we
-would also be going around, looking for volunteers (e.g. our friends) who would like
-to take a tour of our website and provide some feedback as a reference of how we could
-improve our website.
+To aid in testing the forum functionality, we will use it for our collaboration on the project. This will allow us to identify any issues with its functionality that hinder useability or reduce user enjoyment, and also to identify and address any performance/scaling issues that arise. We will similarly invite friends to use the forum for collaboration and report on their experiences.
+
+Along with using Python to test our JSON APIs, we will also test complex parts of the backend code directly, via unit tests in the language that the functionality being tested is written in. This will ensure no regressions occur in the logic of our site.
+
+As well as testing individual API endpoints, we will also set up integration tests to ensure that multiple APIs work together in harmony. One set of tests will ensure the forum backend APIs behave as expected by the forum frontend, and another wil ensure that the health manager backend APIs behave as expected by the health manager frontend.
