@@ -1,0 +1,38 @@
+Security:
+For authentication, we're giving users the opportunity to either sign in with Google/Facebook over OAuth or create an account directly with us. Wben they successfully log in, we will store in the database a hash of their IP, login cookie and browser header. All pages will check the database via AJAX to determine whether the client is logged in, and display content accordingly. API calls will similarly require this hash and only return results when the requester is logged in. For users who register directly with use, their passwords will be hashed and salted, with care taken not to store their passwords in plain text format anywhere in our system.
+
+This approach to authentication is far from perfect, and should we have sufficient time we'll move to an approach that takes advantage of encryption. Given the iterative nature of our site's development, however, and the fact that it is not storing any high-value information, security is initially not our strongest priority.
+
+To avoid SQL injection attacks, we will make use of the JDBC library for sanitising all database inputs, in the case of Clojure and Java, and for Python we will use the input sanitisation features built into its MySql library.
+
+To ensure the security of our database, all database connections made by our backend will use accounts with restricted access permissions, so that even if an attacker were somehow able to execute malicious SQL, the damage they could do would be limited. We're working under the assumption that site administrators will be familiar with SQL, so the site itself doesn't include any administration functionality: administration is done solely by SQL and scripts run separately to the site's services. This increases security, as if the site has no admin functionality, then obviously such functionality cannot be hijacked.
+
+
+Risk: Someone gains access to our vps
+Trigger: Increased bandwidth usage, unable to login, weird login times.
+Likelihood: Unlikely
+Impact: moderate. May have to pay for bandwidth if they go over limit, and migrate to a new server.
+Contingency plan: contact VPS provider and cancel account, move to backup Digital Ocean server that we have prepared
+
+Risk: Github down, e.g. DDOSd by Chinese government.
+Trigger: Can't connect to Github, news reports.
+Likelihood: moderate
+Impact: Severe, can't coordinate development.
+Contingency plan: Move to mirror of our repo maintained on Bitbucket. If that fails, host own Git server on VPS.
+
+Risk: Server breaks on upgrade
+Trigger: Can't boot VPS
+Likelihood: Unlikely
+Impact: Major
+Contingency plan: Switch to backup VPS, and use that until original server reinstalled.
+
+Risk; Team member disappears, or has unexpectedly high workload or an accident
+Trigger: Teammate ignoring all communications for two days, or tells us they are sick or busier than expected
+Likelihood: Unlikely
+Contingency plan: We make sure everyone has a general understanding of everyone else's code, but also assign each person to follow one other, so they're more closely familiar with that other person's code, and if a person disappears then the person assigned to them can replace them.
+
+Risk: Political/legal action makes a portion of the site's functionality unfeasible
+Trigger: Legislation passed, or we're sued
+Likelihood: low
+Contingency plan: Jettison the site element that's subject to that political/legal action. Our site's breadth is rather wide, encompassing both diet and exercise, and containing both a forum and a health app, so it could sacrifice a part of its functionality and still function.
+
