@@ -250,7 +250,7 @@
        [display-comment {:req-c request-chan :userid 0
                          :text (re/atom "I am a dummy root comment with no life in the DB, a mere placeholder for a health question. 
 I am immortal, and cannot be flagged or permanently edited/deleted.")
-                         :commentid 0 :questionid 0 :parentid 0 :flagids (re/atom [3]) :filter-store filtered-flags
+                         :commentid 0 :questionid 1 :parentid nil :flagids (re/atom [3]) :filter-store filtered-flags
                          :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom false)}]])))
       
 (re/render [forum-page] (.-body js/document))

@@ -23,8 +23,8 @@
           (jdb/query health-db
              ["select * from Comment left join CommentFlag 
 on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment.CommentId" parent-id]
-             :row-fn #(let [comment (select-keys % [:commentid :text :userid :flagid :parentid :deleted])]
-                        (if (:deleted comment) (assoc comment :text "!!DELETED!!") comment)))))))
+             :row-fn #(let [comment (select-keys % [:commentid :commenttext :userid :flagid :parentid :deleted])]
+                        (assoc comment :text (if (:deleted comment) "!!DELETED!!" (:commenttext comment)))))))))
 
 
 (defn update-comment-flags [{{:strs [flag_ids comment_id user_id]} :params}]
@@ -44,7 +44,7 @@ on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment
   {:status 200 :body {:text "Successfully deleted comment!"}})
 
 (defn edit-comment [{{:strs [comment_id text]} :params}]
-  (jdb/update! health-db :Comment {:Text text} ["CommentId = ?" comment_id])
+  (jdb/update! health-db :Comment {:CommentText text} ["CommentId = ?" comment_id])
   {:status 200 :body {:text "Successfully edited comment!"}})
 
 (defn get-flag-types [_]
@@ -62,8 +62,10 @@ on CommentFlag.CommentId = Comment.CommentId where ParentId = ? order by Comment
 (defn add_comment [{{:strs [parent_id question_id text user_id]} :params}]
   (jdb/insert! health-db :Comment {:ParentId parent_id
                                    :QuestionId question_id
-                                   :Text text
-                                   :UserId user_id})
+                                   :CommentText text
+                                   :UserId user_id
+                                   :CommentDeleted false
+                                   :NumChildren 0})
     
   {:status 200
    :body {:text "Successfully added comment!"}})
