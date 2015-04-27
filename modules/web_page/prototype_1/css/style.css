@@ -70,73 +70,55 @@ a:hover
 }
 
 /*nav bar home /forum/health/about*/
-#home:hover,#home:focus
+
+
+
+.nav_element:hover,.nav_element:focus
+{
+
+    transition-timing-function:linear;
+    -webkit-transition-timing-function:linear;
+    -moz-transition-timing-function:linear;
+    transition-duration:0.3s;
+    -webkit-transition-duration:0.3s;
+    -moz-transition-duration:0.3s;
+    transform: scale(1.1,1.1);
+    -webkit-transform: scale(1.1,1.1);
+    -moz-transform: scale(1.1,1.1);
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
+    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
+}
+
+.nav_element.home:hover
 {
     background-color: #2A8896;
-    transition-timing-function:linear;
-    -webkit-transition-timing-function:linear;
-    -moz-transition-timing-function:linear;
-    transition-duration:0.3s;
-    -webkit-transition-duration:0.3s;
-    -moz-transition-duration:0.3s;
-    transform: scale(1.1,1.1);
-    -webkit-transform: scale(1.1,1.1);
-    -moz-transform: scale(1.1,1.1);
-    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
-    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
-    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
 
-#forum:hover,#forum:focus
+.nav_element.forum:hover
 {
     background-color: #684D7F;
-    transition-timing-function:linear;
-    -webkit-transition-timing-function:linear;
-    -moz-transition-timing-function:linear;
-    transition-duration:0.3s;
-    -webkit-transition-duration:0.3s;
-    -moz-transition-duration:0.3s;
-    transform: scale(1.1,1.1);
-    -webkit-transform: scale(1.1,1.1);
-    -moz-transform: scale(1.1,1.1);
-    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
-    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
-    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
 
-#health_manager:hover,#health_manager:focus
+.nav_element.health_manager:hover
 {
     background-color: #A03536;
-    transition-timing-function:linear;
-    -webkit-transition-timing-function:linear;
-    -moz-transition-timing-function:linear;
-    transition-duration:0.3s;
-    -webkit-transition-duration:0.3s;
-    -moz-transition-duration:0.3s;
-    transform: scale(1.1,1.1);
-    -webkit-transform: scale(1.1,1.1);
-    -moz-transform: scale(1.1,1.1);
-    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
-    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
-    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
 
-#about:hover,#about:focus
+
+.nav_element.SignUp:hover
+{
+    background-color: #D1AC5C;
+}
+
+.nav_element.about:hover
 {
     background-color: #58822E;
-    transition-timing-function:linear;
-    -webkit-transition-timing-function:linear;
-    -moz-transition-timing-function:linear;
-    transition-duration:0.3s;
-    -webkit-transition-duration:0.3s;
-    -moz-transition-duration:0.3s;
-    transform: scale(1.1,1.1);
-    -webkit-transform: scale(1.1,1.1);
-    -moz-transform: scale(1.1,1.1);
-    -webkit-box-shadow: 0px 7px 9px 0px rgba(50, 50, 50, 1);
-    -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
-    box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
+
+
+
+
 
 /***************************************/
 
@@ -270,5 +252,6 @@ a:hover
     margin:auto;
     width:1250px;
     height:350px;
+    /*border-color: red;*/
     /*border-color: red;*/
 }
