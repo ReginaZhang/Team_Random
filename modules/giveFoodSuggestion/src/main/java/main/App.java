@@ -3,7 +3,9 @@ package main;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+
 import java.lang.reflect.Type;
+import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class App {
 		
 		spark.SparkBase.port(8000);
 		
-		spark.Spark.options("/*", (req,res)->{
+		spark.Spark.options("/*", (req,res) -> {
 			 
 		    String accessControlRequestHeaders = req.headers("Access-Control-Request-Headers");
 		    if (accessControlRequestHeaders != null) {
@@ -26,19 +28,21 @@ public class App {
 		    	} else {
 		    		res.header("Access-Control-Request-Headers", "Content-Type, content-type");
 		    	}
+		    
 		    return "OK";
 		});
-		 
-		spark.Spark.before((req,res)->{			
-		    res.header("Access-Control-Request-Methods", "POST");
+		
+		spark.Spark.before((req,res) -> {
+			res.header("Access-Control-Request-Methods", "POST");
 		    res.header("Access-Control-Allow-Origin", "http://45.56.85.191:8080");
+		    
 		});
 		
 		HealthDb db = new HealthDb();
 		
 		Gson gs = new Gson(); //GSON tool just for array to json and vice versa
 		
-		System.out.println("Reached roots");
+		System.out.println("Reached server roots");
 		
 		//receiving JSON sent by client via POST request
 		//expecting {"memberId":"10000", "foodName0":"Sandwich", "foodName1":"Butter", ...}
@@ -217,6 +221,87 @@ public class App {
 			
 			//the json string will look like
 			//{"foodName0":"Peach", "foodName1":"Egg"}
+			
+		});
+		
+		spark.Spark.post("/user/login", "application/json", (req, res) -> {
+			
+			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
+			res.type("application/json"); //define return type
+			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
+			
+			HashMap<String, String> invalid = new HashMap<String, String>();
+			invalid.put("login", "invalid");
+			response.add(invalid);		
+			
+			
+			
+			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("username") || !info.containsKey("password"))) {
+				return gs.toJson(response);
+			}
+			
+			MessageDigest encrypter = MessageDigest.getInstance("SHA");
+				
+			encrypter.update(info.get("password").getBytes());
+			byte[] encrepted = encrypter.digest();
+			String encreptedString = new String(encrepted);
+			
+			String dbpw = db.executeQuery("User", "UserName", info.get("username")).getString("Password");
+			
+			response.remove(0);
+			HashMap<String, String> status = new HashMap<String, String>();
+			
+			if (dbpw.equals(encreptedString)) {			
+				status.put("login", "successful");
+			} else {
+				status.put("login", "failed");
+			}
+			
+			response.add(status);
+						
+			return gs.toJson(response); 
+			
+		});
+		
+		spark.Spark.post("/user/register", "application/json", (req, res) -> {
+			
+			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
+			res.type("application/json"); //define return type
+			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
+			
+			HashMap<String, String> invalid = new HashMap<String, String>();
+			invalid.put("register", "invalid");
+			response.add(invalid);		
+			
+			
+			
+			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("username") || !info.containsKey("password") || !info.containsKey("email"))) {
+				return gs.toJson(response);
+			}
+			
+			MessageDigest encrypter = MessageDigest.getInstance("SHA");
+				
+			encrypter.update(info.get("password").getBytes());
+			byte[] encrepted = encrypter.digest();
+			String encreptedString = new String(encrepted);
+			
+			HashMap<String, String> newUser = new HashMap<String, String>();
+			newUser.put("UserName", info.get("username"));
+			newUser.put("Password", encreptedString);
+			newUser.put("Email", info.get("email"));
+			
+			db.executeInsert("User", newUser);
+			
+			response.remove(0);
+			HashMap<String, String> status = new HashMap<String, String>();		
+			status.put("register", "successful");
+			response.add(status);
+						
+			return gs.toJson(response); 
 			
 		});
 				
