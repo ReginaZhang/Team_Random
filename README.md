@@ -1,9 +1,6 @@
 
 # Due Due Due
-
-- **Part C ---> Monday 5pm Week 7**
-    - Report and Presentation
-- Part D ---> Monday 5pm Week 9
+- **Part D ---> Monday 5pm Week 9**
     - Prototype Link
 - Part E ---> Monday 5pm Week 7 (I think it is a typo in spec ?)
     - Submit all code + Report and then Presentation
