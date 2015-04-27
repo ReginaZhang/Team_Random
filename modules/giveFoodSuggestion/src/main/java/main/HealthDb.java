@@ -150,7 +150,16 @@ public class HealthDb
 		HashMap<String, String> thisTable = this.TableSet.get(tableName.trim());
 		
 		PreparedStatement stmt = null;
-		String sql = "INSERT INTO " + tableName + " VALUES(";
+		String sql = "INSERT INTO " + tableName + " (";
+		
+		String[] ks = fieldValuePair.keySet().toArray(new String[fieldValuePair.size()]);
+		for (int i=0; i<fieldValuePair.size()-1; i++) {
+			sql += ks[i];
+			sql += ", ";
+		}
+		sql+=ks[fieldValuePair.size()-1];
+		sql+=") VALUES(";
+		
 		for (int i=0; i<fieldValuePair.size()-1; i++) {
 			sql += "?, ";
 		}
