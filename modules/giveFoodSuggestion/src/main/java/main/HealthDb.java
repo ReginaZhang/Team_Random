@@ -151,21 +151,17 @@ public class HealthDb
 		
 		PreparedStatement stmt = null;
 		String sql = "INSERT INTO " + tableName + " VALUES(";
-		for (int i=0; i<thisTable.size()-1; i++) {
+		for (int i=0; i<fieldValuePair.size()-1; i++) {
 			sql += "?, ";
 		}
 		sql+="?);";
 		
 		try {
-			
-			if (!thisTable.keySet().equals(fieldValuePair.keySet())) {
-				throw new Exception("Wrong fields");
-			}
-			
+						
 			stmt = conn.prepareStatement(sql);
 			
 			int paraIndex = 1;
-			for (String field: thisTable.keySet()) {
+			for (String field: fieldValuePair.keySet()) {
 				String type = thisTable.get(field);
 				
 				if(type.contains("double")) {
