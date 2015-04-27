@@ -1,27 +1,38 @@
 /**
  * Created by liubingfeng on 13/03/15.
+ *
+ *
  */
-function test_image_rotation() {
-    var imgObj = document.getElementById("test_image");
-    var degree;
-    if (imgObj.style.transform == "") {
-        console.log(imgObj.style.transform + "hello world");
-        degree = 10;
-        console.log(imgObj.style.transform = "rotate(" + degree + "deg)");
-    }
-    else {
-        degree = parseInt(imgObj.style.transform.match(/[0-9]+/)[0]);
-        if (degree >= 364) {
-            degree = 0;
-            imgObj.style.transform = "rotate(" + degree + "deg)";
-        }
-        else {
-            degree += 1;
-            imgObj.style.transform = "rotate(" + degree + "deg)";
-        }
+//image-position means image's position on carousel
+//middle element image-position =0  ,left =-1 ,right =1
+function initialize_carousel_eventListener() {
+    var carousel_elements = document.getElementsByClassName("carousel_element");
+    var i = 0;
+    for (i < 0; i < carousel_elements.length; i++) {
+        carousel_elements[i].addEventListener("click", function () {
+            jump_to_carousel_element(this);
+        });
     }
 }
-function test_image_3d_moving() {
+function test_function() {
+    console.log("in test func");
+}
+function jump_to_carousel_element(one_element) {
+    var index_one_element = return_current_carousel_image_position(one_element);
+    var index_middle_element = return_image_position_0();
+    //if jump+times == negative means shift to right
+    var jump_times = index_one_element - index_middle_element;
+    var i;
+    for (i = 0; i < Math.abs(jump_times); i++) {
+        //shift left
+        if (jump_times > 0) {
+            carousel_moving(1);
+        }
+        else {
+            carousel_moving(-1);
+        }
+    }
+    console.log("in jumping func " + "one element index : " + index_one_element + "mid index: " + index_middle_element + " src + " + one_element.src);
 }
 function get_image_position() {
     var obj_collection = document.getElementsByClassName("carousel_element");
@@ -32,8 +43,20 @@ function get_image_position() {
         console.log(obj_collection[i].getAttribute("image-position"));
     }
 }
-function return_image_position_0(obj_collection) {
+//return clicked carousel element's index position (start from 0 )
+function return_current_carousel_image_position(one_element) {
+    var carousel_elements = document.getElementsByClassName("carousel_element");
+    var i = 0;
+    for (i; i < carousel_elements.length; i++) {
+        if (carousel_elements[i] == one_element) {
+            return i;
+        }
+    }
+    return -1;
+}
+function return_image_position_0() {
     var i, index = -1;
+    var obj_collection = document.getElementsByClassName("carousel_element");
     for (i = 0; i < obj_collection.length; i++) {
         if (parseInt(obj_collection[i].getAttribute("image-position")) == 0) {
             index = i;
@@ -45,12 +68,13 @@ function return_image_position_0(obj_collection) {
 function carousel_moving(left_right) {
     var i, index, shift_index, obj_collection;
     obj_collection = document.getElementsByClassName("carousel_element");
-    index = return_image_position_0(obj_collection);
+    index = return_image_position_0();
     /*current focused item's index, i.e. middle one*/
     shift_index = index + parseInt(left_right);
     var obj_collection_outer_div = document.getElementById("carousel_section");
     var obj_collection_outer_div_width = obj_collection_outer_div.offsetWidth;
     var obj_one_width = obj_collection[0].offsetWidth;
+    //if the middle one is clicked
     if (shift_index < 0 || shift_index >= obj_collection.length) {
         return;
     }
@@ -59,36 +83,13 @@ function carousel_moving(left_right) {
         /*last focused one will be on right*/
         obj_collection[index].setAttribute("image-position", "-1");
         obj_collection[shift_index].setAttribute("image-position", "0");
-        /*
-        obj_collection[index].style.webkitTransform="perspective( 400px ) rotateY(-45deg) translateZ( -50px )";
-        obj_collection[index].style.MozTransform="perspective( 400px ) rotateY(-45deg) translateZ( -50px )";
-        obj_collection[index].style.transform="perspective( 400px ) rotateY(-45deg) translateZ( -50px )";*/
-        /*
-        obj_collection[shift_index].style.MozTransform="perspective( 400px ) translateZ( 50px )";
-        obj_collection[shift_index].style.Transform="perspective( 400px ) translateZ( 50px )";
-        obj_collection[shift_index].style.transform="perspective( 400px ) translateZ( 50px )";
-         */
-        /*
-        set_carousel_transform(obj_collection[index],(obj_collection_outer_div_width-obj_one_width)-50-10*(obj_collection.length-index)+"px","400px","-45deg","-50px",""+obj_collection.length-index);
-
-        set_carousel_transform(obj_collection[shift_index],(obj_collection_outer_div_width/2)-(obj_one_width/2)+"px","400px","0deg","25px",shift_index+"");*/
-        set_carousel_transform(obj_collection[index], 50 + 10 * index + "px", "400px", "45deg", "-100px", "" + index);
+        set_carousel_transform(obj_collection[index], 50 + 20 * index + "px", "400px", "45deg", "-100px", "" + index);
         set_carousel_transform(obj_collection[shift_index], (obj_collection_outer_div_width / 2) - (obj_one_width / 2) + "px", "400px", "0deg", "25px", shift_index + "");
     }
     else {
         obj_collection[index].setAttribute("image-position", "1");
         obj_collection[shift_index].setAttribute("image-position", "0");
-        /*obj_collection[index].style.webkitTransform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
-        obj_collection[index].style.MozTransform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
-        obj_collection[index].style.transform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
-        obj_collection[shift_index].style.MozTransform="perspective( 400px ) translateZ( 50px )";
-        obj_collection[shift_index].style.Transform="perspective( 400px ) translateZ( 50px )";
-        obj_collection[shift_index].style.transform="perspective( 400px ) translateZ( 50px )";*/
-        /*
-        set_carousel_transform(obj_collection[index],50+10*(obj_collection.length-index)+"px","400px","45deg","-50px",""+index);
-
-        set_carousel_transform(obj_collection[shift_index],(obj_collection_outer_div_width/2)-(obj_one_width/2)+"px","400px","0deg","25px",shift_index+"");*/
-        set_carousel_transform(obj_collection[index], (obj_collection_outer_div_width - obj_one_width) - 50 - 10 * (obj_collection.length - index) + "px", "400px", "-45deg", "-100px", "" + (obj_collection.length - index));
+        set_carousel_transform(obj_collection[index], (obj_collection_outer_div_width - obj_one_width) - 50 - 20 * (obj_collection.length - index) + "px", "400px", "-45deg", "-100px", "" + (obj_collection.length - index));
         set_carousel_transform(obj_collection[shift_index], (obj_collection_outer_div_width / 2) - (obj_one_width / 2) + "px", "400px", "0deg", "25px", shift_index + "");
     }
     /*
@@ -101,10 +102,13 @@ function carousel_initialize() {
     var obj_collection = document.getElementsByClassName("carousel_element");
     var obj_collection_length = obj_collection.length;
     var obj_collection_outer_div = document.getElementById("carousel_section");
+    //get carousel div width
     var obj_collection_outer_div_width = obj_collection_outer_div.offsetWidth;
+    //get carousel each element's width
     var obj_one_width = obj_collection[0].offsetWidth;
     console.log(document.getElementById("carousel_section").style.width);
     var i = 0;
+    //get the element ,set it in the middle as initialization
     var mid_index = Math.floor(obj_collection_length / 2);
     console.log("mid index " + mid_index);
     var one_element;
@@ -112,18 +116,25 @@ function carousel_initialize() {
         //all things on left
         one_element = obj_collection[i];
         one_element.setAttribute("image-position", "-1");
-        set_carousel_transform(one_element, 50 + 10 * i + "px", "400px", "45deg", "-100px", "" + i);
+        set_carousel_transform(one_element, 50 + 20 * i + "px", "400px", "45deg", "-100px", "" + i);
     }
+    //set middle element's attribute
     one_element = obj_collection[mid_index];
     one_element.setAttribute("image-position", "0");
     set_carousel_transform(one_element, (obj_collection_outer_div_width / 2) - (obj_one_width / 2) + "px", "400px", "0deg", "25px", "" + mid_index);
     for (i = mid_index + 1; i < obj_collection_length; i++) {
         one_element = obj_collection[i];
         one_element.setAttribute("image-position", "1");
-        set_carousel_transform(one_element, (obj_collection_outer_div_width - obj_one_width) - 50 - 10 * (obj_collection_length - i) + "px", "400px", "-45deg", "-100px", "" + (obj_collection_length - i));
+        set_carousel_transform(one_element, (obj_collection_outer_div_width - obj_one_width) - 50 - 20 * (obj_collection_length - i) + "px", "400px", "-45deg", "-100px", "" + (obj_collection_length - i));
     }
     console.log(obj_collection[0].getAttribute("image-position") + obj_collection[1].getAttribute("image-position") + obj_collection[2].getAttribute("image-position"));
 }
+//this function will set the position of each element tag on the carousel
+//one_element = current carousel is been operated
+//left is the position of  carousel element
+//perspective is how strong the 3d effect is
+//tranlateZ is the position of carousel in z axis
+//z_index is the layer of carousel element
 function set_carousel_transform(one_element, left, perspective, degree, translateZ, z_index) {
     one_element.style.zIndex = z_index;
     one_element.style.left = left;
