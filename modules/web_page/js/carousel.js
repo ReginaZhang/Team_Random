@@ -5,6 +5,7 @@
  */
 //image-position means image's position on carousel
 //middle element image-position =0  ,left =-1 ,right =1
+//add click event to all carousel elements
 function initialize_carousel_eventListener() {
     var carousel_elements = document.getElementsByClassName("carousel_element");
     var i = 0;
@@ -14,6 +15,17 @@ function initialize_carousel_eventListener() {
         });
     }
 }
+//detecting arrow key pressing
+document.onkeydown = function (e) {
+    switch (e.keyCode) {
+        case 37:
+            carousel_moving(1);
+            break;
+        case 39:
+            carousel_moving(-1);
+            break;
+    }
+};
 function test_function() {
     console.log("in test func");
 }
