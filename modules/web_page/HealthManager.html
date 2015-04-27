@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<title>Health Care</title>
+<link href="css/Site.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="main">
+  <h1><b>Welcome to Our Website</b></h1> 
+  <h2><i>Heath Manager</i></h2>
+  
+  <div id="nav"></div>
+
+  <br>
+  <table class="about">
+  <tr>
+  	<th>
+  		<h3><em>About</em></h3>
+  		<img src="GoodFood.jpg" alt="HTML5 Icon" style="width:180px;height:128px">
+  	</th>
+  	<td>
+  	 The website is design to...
+  	</td>
+  </tr>
+  </table>
+  </br>
+  
+  <br>
+  <table class="food">
+  <tr>
+  	<th>
+  		<h3><em>Food Nutrition</em></h3>
+  		<form method="POST" action="http://45.56.85.191:8000/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
+  			Search Food Name:
+  			<input type="text"
+  			 	   name="searchString"
+  			 	   placeholder="Search Here...">
+  			<input type="submit" 
+  			       id="submitButton1" 
+  			       value="Get Food!">
+  			<br><br>
+  			<p>Response</p>
+  			<p id="response"></p>
+  		</form>
+  		<p>Popular Search</p>
+  		<input type="button" onclick="alert('Fruit')" value="Fruit">
+  		<input type="button" onclick="alert('Meat')" value="Meat"> 
+  		<input type="button" onclick="alert('Drink')" value="Drink"> 	
+  	</th>
+  </tr>
+  </table>
+  </br>
+  
+  <br>
+  <table class="test">
+  <tr>
+  	<th>
+  		<h3><em><br>Health Test</br></em></h3>
+  		<br><table class="calculator">
+  		<tr>
+  			<th>
+  			<form method="POST" action="http://45.56.85.191:8000/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, this)">
+  			<p>BMI Calculator</p>
+  			<p><br>To determine if you're at a healthy weight,</br><br> enter the following information and calculate</br><br>your body mass index(BMI)</br></p>
+  			<input type="radio" name="hasRegistered" value="false" onclick="registered(false)" checked>Not registered
+  			<input type="radio" name="hasRegistered" value="true" onclick="registered(true)">Registered
+  			<br>
+  			<p>Weight 
+  			<input NAME="weight" VALUE="0" MAXLENGTH="15" SIZE=15>
+  			kg.
+  			<p>Height
+  			<input NAME="height" VALUE="0" 
+  			  MAXLENGTH="15" SIZE=15> 
+  			 cm.
+  			<br><p>Sex 
+  			<input type="checkbox" name="sex" value="Male">Male
+  			<input type="checkbox" name="sex" value="Female">Female
+  			<br>
+  			<input type="hidden" name="userId">
+  			<br><br>
+  			<input type="submit" id="submitButton" value="Get BMI!">
+  			<p>Response</p>
+  			<p id="response"></p>
+  		</form>
+  		</th>
+  	</tr>
+  	</table></br>	
+  	</th>
+  </tr>
+  </table>
+  </br>	
+  
+  <br>
+  <table class="plan">
+  <tr>
+  	<th>
+    	<h3><em>Health Plan</em></h3>
+    	
+    	<br>
+    	<table class="set">
+    	<tr>
+    		<th>
+    			<p>Set Personal Plan</p>
+    				<input type="button" onclick="alert('Member Sign in')" value="Sign in">     
+    				<input type="button" onclick="alert('Non-Member Sign up')" value="Sign up"> 
+    		</th>
+    	</tr>
+    	</table>
+    	</br>
+    	<p>Adding/removing food from diet</p>
+    		<form method="POST" action="http://45.56.85.191:8000/diet/modify" id="modify_diet" onsubmit="submitForm(event, this)">
+    		<input type="radio" name="modiType" value="add" onclick="addOrDelete(true)"checked>Add
+    		<input type="radio" name="modiType" value="delete" onclick="addOrDelete(false)">Remove
+    		<input type="text" name="foodId" placeholder="Type food id here, one per time!">
+    		<input type="hidden" name="dietId" value="1">
+    		<input type="submit" id="submitButton2" value="Add to Personal Diet Plan">
+    		</form>
+    		<p id="dietName"></p>
+    		<p id="diet" ></p>
+     </th>
+  </tr>
+  </table>
+  </br>  
+  <br>
+  <table class="comment">
+  <tr>
+  	<th>
+  		<h3><em>People Talk</em></h3>
+  	</th>
+  </tr>
+  </table>
+  </br>
+  		
+  <div id="footer">
+  	<p>This is our <strong>Website CSS Sticky Footer</strong></p>
+    <p class="copyright">Copyright &copy; Food and health Company;<a href="http://facebook.com/" title="Las Vegas Web Design">Facebook page</a>
+    </p>
+  </div>
+</div>
+
+<script src="js/Script.js"></script>
+<script src="js/json.js"></script> 
+
+
+
+</body>
+</html>

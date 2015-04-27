@@ -29,25 +29,34 @@ Date Created : 09.04.2015 8:31pm
         </div>
         <div>
             <ul class="nav navbar-nav">
-                <li ><a id="home" href="index.html">Home</a></li>
-                <li ><a id="forum" href="#">Forum</a></li>
-                <li ><a id="health_manager" href="#">Health Manager</a></li>
-                <li ><a id="about" href="about.html">About</a></li>
+                <li ><a class="nav_element home" href="index.html">Home</a></li>
+                <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>
+                <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>
+                <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>
+                <li ><a class="nav_element about" href="about.html">About</a></li>
             </ul>
         </div>
     </div>
 </nav>
 <br />
-
 <div id="left" onclick="carousel_moving(1);">left buttom</div>
+<div id="right" onclick="carousel_moving(-1);">rightbuttom</div>
+
 <div id="carousel_section">
     <img class="carousel_element" src="assets/dog1.png" />
     <img class="carousel_element" src="assets/dog2.png" />
     <img class="carousel_element" src="assets/dog3.png" />
+    <img class="carousel_element" src="assets/dog4.png" />
+    <img class="carousel_element" src="assets/dog5.png" />
+    <img class="carousel_element" src="assets/quo1.png" />
+    <img class="carousel_element" src="assets/quo2.png" />
+    <img class="carousel_element" src="assets/quo3.png" />
+    <img class="carousel_element" src="assets/quo4.png" />
+    <img class="carousel_element" src="assets/quo5.png" />
 </div>
-<div id="right" onclick="carousel_moving(-1);">rightbuttom</div>
-<script>carousel_initialize();</script>
 
+<script>carousel_initialize();</script>
+<script>initialize_carousel_eventListener();</script>
 <div id="page_footer">
     <hr />
     <p class="project_detials">Group Name: Ramdon</p>
