@@ -22,7 +22,7 @@ from constants import *
 import cherrypy
 import MySQLdb
 
-debug = 0
+debug = 1
 
 class FoodAPI:
 	
@@ -88,9 +88,16 @@ class FoodAPI:
 	search_food.exposed = True
 
 	def get_food_report(self, ndbno):
-		self.params = {"api_key":common["api_key"], "format":common["format"], "type":"b"}
-		self.url = url["food_report"]
-		r = request.get()
+		params = {"api_key":common["api_key"], "format":common["format"], "type":"b"}
+		result = self.send_request(url["report"], params)
+		new_report = {"ndbno":result["report"]["food"]["ndbno"],
+					"name":result["report"]["food"]["name"],
+					"nutrients":{}}
+		nutrients = result["report"]["food"]["nutrients"]
+		for nutrient in nutrients:
+			new_report["nutrients"][nutrient["name"]] = {"unit":nutrient["unit"],"value":nutrient["value"]}
+		return json.dumps(new_report)
+	get_food_report.exposed = True
 
 	def get_food_from_db(self):
 		cursor = connect_db()
