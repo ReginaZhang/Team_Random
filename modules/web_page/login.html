@@ -39,24 +39,51 @@ Date Created : 13.03.2015 1:31pm
 </nav>
 <br />
 
-<div id="login_div">
-
-    <form id="login_form" action="http://45.56.85.191:8000/user/register" method="post" >
-        <div class="form-group">
-            <label class="login_label">User Name</label>
-            <input type="text" class="form-control" id="input_username" placeholder="User Name">
-        </div>
-        <br/>
-        <div class="form-group">
-            <label class="login_label">Password</label>
-            <input type="password" class="form-control" id="input_password" placeholder="Password">
-        </div>
-        <br/>
-        <button type="submit" class="btn btn-default">Log In</button>
-    </form>
-
+<div id="login_div" popup="0">
 </div>
 
+<script>
+    function loginWindow()
+    {
+        one_obj=document.getElementById("login_div");
+        if(one_obj.getAttribute("popup")=="0")
+        {
+            loginPOPup(one_obj);
+        }
+        else
+        {
+            loginPOPdown(one_obj);
+        }
+    }
 
+    function loginPOPup(one_obj)
+    {
+        console.log("inner "+one_obj.getAttribute("popup"));
+        one_obj.innerHTML="<form id='login_form' action='http://45.56.85.191:8000/user/register' method='post' >\
+            <div class='form-group'>\
+    <label class='login_label'>User Name</label>\
+    <input type='text' class='form-control' id='input_username' placeholder='User Name' autofocus>\
+    </div>\
+    <br/>\
+    <div class='form-group'>\
+    <label class='login_label'>Password</label>\
+    <input type='password' class='form-control' id='input_password' placeholder='Password'>\
+    </div>\
+    <br/>\
+    <button type='submit' class='btn btn-default'>Log In</button>\
+    <button type='button' onclick='loginWindow();' class='btn btn-default'>Close</button>\
+    </form>\
+    "
+        //indicating it is poped up
+        one_obj.setAttribute("popup","1");
+    }
+    function loginPOPdown(one_obj)
+    {
+        one_obj.innerHTML="";
+        one_obj.setAttribute("popup","0");
+        console.log("in pop down");
+    }
+    loginWindow();
+</script>
 </body>
 </html>
