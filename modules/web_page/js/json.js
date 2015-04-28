@@ -7,8 +7,6 @@ function submitForm(event, form) {
 
     event.preventDefault();
 
-    document.getElementById("response").innerHTML = form.id;
-
     // collect the form data while iterating over the inputs
     var data = {};
     for (var i = 0, ii = form.length; i < ii; ++i) {
@@ -31,7 +29,8 @@ function submitForm(event, form) {
 
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
-          document.getElementById("response").innerHTML = xhr.responseText;
+          document.getElementById(form.id + "_response").innerHTML = xhr.responseText;
+          
           if (form.id == "modify_diet") {
             showDiet();
           }
@@ -52,7 +51,7 @@ function registered(truthValue) {
     document.getElementsByName("height")[0].style.display = "none";
     document.getElementsByName("weight")[0].style.display = "none";
     document.getElementsByName("userId")[0].value = 1;
-    document.getElementById("submitButton").value="Get Ray's BMI!";
+    document.getElementById("submitButton").style.display = "none";
   } else if (truthValue == false){
     document.getElementsByName("height")[0].style.display = "inline";
     document.getElementsByName("weight")[0].style.display = "inline";
