@@ -4,6 +4,7 @@
 
 //initialize google map
 function initialize(my_center_obj) {
+    //position
     var myCenter=my_center_obj;
     console.log("in initialize "+my_center_obj);
     if (myCenter==null)

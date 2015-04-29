@@ -19,7 +19,6 @@ public class HealthDb
 	private final String schemaName;
 	
 	private final MysqlDataSource ds;
-	private final Connection conn;
 	
 	private final HashMap<String, HashMap<String, String>> TableSet;
 	
@@ -39,7 +38,7 @@ public class HealthDb
 		ds.setDatabaseName(schemaName);
 		
 		System.out.println("Establishing connection to database");
-		conn = ds.getConnection();	
+		Connection conn = ds.getConnection();	
 		System.out.println("Connection Established");
 		
 		TableSet = new HashMap<String, HashMap<String, String>>();
@@ -80,7 +79,7 @@ public class HealthDb
 		ds.setDatabaseName(schemaName);
 		
 		System.out.println("Establishing connection to database");
-		conn = ds.getConnection();
+		Connection conn = ds.getConnection();
 		System.out.println("Connection Established");
 		
 		TableSet = new HashMap<String, HashMap<String, String>>();
@@ -104,19 +103,16 @@ public class HealthDb
 		System.out.println("Start-up successful");
 		
 	}
-	
-	public Connection getConnection() {
-		
-		return this.conn;
-		
-	}
+
 	
 	public ResultSet executeQuery(String tableName, String field, String value) {
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		Connection conn = null;
 		
 		try {
+			conn = ds.getConnection();
 			
 			String type = TableSet.get(tableName).get(field);
 			String wildcardQuery = "SELECT * FROM " + tableName + " WHERE " + field + " LIKE ?";
@@ -138,7 +134,6 @@ public class HealthDb
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 		
 		return rs;
@@ -150,6 +145,7 @@ public class HealthDb
 		HashMap<String, String> thisTable = this.TableSet.get(tableName.trim());
 		
 		PreparedStatement stmt = null;
+		Connection conn = null;
 		String sql = "INSERT INTO " + tableName + " (";
 		
 		String[] ks = fieldValuePair.keySet().toArray(new String[fieldValuePair.size()]);
@@ -166,7 +162,7 @@ public class HealthDb
 		sql+="?);";
 		
 		try {
-						
+			conn = ds.getConnection();
 			stmt = conn.prepareStatement(sql);
 			
 			int paraIndex = 1;
@@ -191,10 +187,11 @@ public class HealthDb
 		}
 		
 	}
-	
+
 	public void executeDelete(String tableName, HashMap<String, String> fieldValuePair) {
 		
 		PreparedStatement stmt = null;
+		Connection conn = null;
 		String sql = "DELETE FROM " + tableName + " WHERE ";
 
 		String[] fields = fieldValuePair.keySet().toArray(new String[fieldValuePair.size()]);
@@ -208,6 +205,7 @@ public class HealthDb
 		System.out.println(sql);
 		
 		try {
+			conn = ds.getConnection();
 			stmt = conn.prepareStatement(sql);
 			
 			int paraIndex = 1;
@@ -230,6 +228,10 @@ public class HealthDb
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public HashMap<String, HashMap<String, String>> getTableSet() {
+		return (HashMap<String, HashMap<String, String>>)TableSet.clone();
 	}
 	
 }

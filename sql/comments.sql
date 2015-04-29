@@ -15,6 +15,7 @@ create table if not exists Comment(
        UserId int NOT NULL,
        CommentDeleted bit(1) NOT NULL,
        NumChildren int NOT NULL,
+       Score int NOT NULL,
        PRIMARY KEY (CommentId),
        FOREIGN KEY (QuestionId)
        	       REFERENCES Question(QuestionId)

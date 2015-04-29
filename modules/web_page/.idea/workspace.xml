@@ -88,8 +88,8 @@
           <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/index.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-1.125" vertical-offset="498" max-vertical-offset="1125">
-                  <caret line="35" column="86" selection-start-line="35" selection-start-column="86" selection-end-line="35" selection-end-column="86" />
+                <state vertical-scroll-proportion="-1.25" vertical-offset="0" max-vertical-offset="1170">
+                  <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
                   <folding />
                 </state>
               </provider>
@@ -98,8 +98,8 @@
           <file leaf-file-name="google_api.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/google_api.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-9.49367" vertical-offset="0" max-vertical-offset="1080">
-                  <caret line="50" column="13" selection-start-line="4" selection-start-column="3" selection-end-line="50" selection-end-column="13" />
+                <state vertical-scroll-proportion="-0.56962025" vertical-offset="0" max-vertical-offset="1080">
+                  <caret line="3" column="107" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="107" />
                   <folding>
                     <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                   </folding>
@@ -110,9 +110,11 @@
           <file leaf-file-name="SignUp.html" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/SignUp.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-4.371859" vertical-offset="2610" max-vertical-offset="4050">
-                  <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                  <folding />
+                <state vertical-scroll-proportion="1.1507537" vertical-offset="2718" max-vertical-offset="3615">
+                  <caret line="223" column="100" selection-start-line="223" selection-start-column="100" selection-end-line="223" selection-end-column="100" />
+                  <folding>
+                    <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -130,8 +132,8 @@
           <file leaf-file-name="SignUp.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/js/SignUp.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
-                  <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.0" vertical-offset="219" max-vertical-offset="840">
+                  <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="80" />
                   <folding>
                     <element signature="n#!!doc;n#initialize#0" expanded="false" />
                   </folding>
@@ -190,6 +192,7 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/google_api.html" />
         <option value="$PROJECT_DIR$/js/SignUp.js" />
+        <option value="$PROJECT_DIR$/SignUp.html" />
       </list>
     </option>
   </component>
@@ -435,14 +438,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.125" vertical-offset="498" max-vertical-offset="1125">
-          <caret line="35" column="86" selection-start-line="35" selection-start-column="86" selection-end-line="35" selection-end-column="86" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/css/Site.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.5942029" vertical-offset="990" max-vertical-offset="1785">
@@ -483,12 +478,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/google_api.html">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.49367" vertical-offset="0" max-vertical-offset="1080">
-          <caret line="50" column="13" selection-start-line="4" selection-start-column="3" selection-end-line="50" selection-end-column="13" />
+        <state vertical-scroll-proportion="-1.25" vertical-offset="0" max-vertical-offset="1170">
+          <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/SignUp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="219" max-vertical-offset="840">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="80" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#!!doc;n#initialize#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -501,21 +504,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/SignUp.js">
+    <entry file="file://$PROJECT_DIR$/google_api.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state vertical-scroll-proportion="-0.56962025" vertical-offset="0" max-vertical-offset="1080">
+          <caret line="3" column="107" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="107" />
           <folding>
-            <element signature="n#!!doc;n#initialize#0" expanded="false" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SignUp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.371859" vertical-offset="2610" max-vertical-offset="4050">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="1.1507537" vertical-offset="2718" max-vertical-offset="3615">
+          <caret line="223" column="100" selection-start-line="223" selection-start-column="100" selection-end-line="223" selection-end-column="100" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#2;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

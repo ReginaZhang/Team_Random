@@ -4,12 +4,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
+
 import java.lang.reflect.Type;
 import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;import java.util.TreeMap;
+
 
 
 public class App {
@@ -275,9 +279,7 @@ public class App {
 			
 			HashMap<String, String> invalid = new HashMap<String, String>();
 			invalid.put("register", "invalid");
-			response.add(invalid);		
-			
-			
+			response.add(invalid);			
 			
 			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("username") || !info.containsKey("password") || !info.containsKey("email"))) {
 				return gs.toJson(response);
@@ -288,11 +290,19 @@ public class App {
 			encrypter.update(info.get("password").getBytes());
 			byte[] encrepted = encrypter.digest();
 			String encreptedString = new String(encrepted);
+			info.replace("password", encreptedString);		
+			
+			Map<String, String> infoIgnoreCase = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
+			infoIgnoreCase.putAll(info);
 			
 			HashMap<String, String> newUser = new HashMap<String, String>();
-			newUser.put("UserName", info.get("username"));
-			newUser.put("Password", encreptedString);
-			newUser.put("Email", info.get("email"));
+			Set<String> userTable = db.getTableSet().get("User").keySet();
+			
+			for (String field: userTable) {
+				if (infoIgnoreCase.containsKey(field)) {
+					newUser.put(field, infoIgnoreCase.get(field));
+				}
+			}
 			
 			db.executeInsert("User", newUser);
 			
@@ -308,11 +318,6 @@ public class App {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 
 	        public void run() {
-	            try {
-					db.getConnection().close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 	            spark.SparkBase.stop();
 	        }
 	        

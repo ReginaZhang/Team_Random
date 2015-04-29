@@ -20,16 +20,22 @@ import json
 import unicodedata
 from constants import *
 import cherrypy
+import MySQLdb
 
 debug = 0
 
 class FoodAPI:
 	
-	def __init__(self):
+	'''def __init__(self):
 		self.params = {}
-		self.url = None
+		self.url = None'''
+
+	def send_request(self, url, param_dict):
+		r = requests.get(url, params = param_dict)
+		cherrypy.response.headers["content-type"] = "application/json"
+		return r.json()
 	
-	def get_list(self, lt = 'f', max = 10, offset = 0, sort = "n"):
+	def get_list(self, lt = 'f', max = 100, offset = 0, sort = "n"):
 		"""
 			get_list(lt, max, offset, sort)
 			
@@ -45,14 +51,14 @@ class FoodAPI:
 				JSON object of the list of items requested.
 				Including offset, id and food name.
 		"""
-		self.params = {"api_key":common["api_key"], "max":max, "offset":offset, "sort":sort}
-		self.url = url["list"]
-		r = requests.get(self.url, params = self.params)
-		cherrypy.response.headers["content-type"] = "application/json"
-		return json.dumps(r.json())
+		params = {"api_key":common["api_key"], "max":max, "offset":offset, "sort":sort}
+		r = self.send_request(url["list"], params)
+		#r = requests.get(self.url, params = self.params)
+		#cherrypy.response.headers["content-type"] = "application/json"
+		return json.dumps(r)#.json())
 	get_list.exposed = True
 	
-	def search_food(self, term = "", max = 10, offset = 0, sort = "r"):
+	def search_food(self, term = "", max = 100, offset = 0, sort = "r"):
 		"""
 			search_food(term, max, offset, sort)
 			
@@ -67,13 +73,42 @@ class FoodAPI:
 			@return:
 				JSON object of the list of items requested.
 		"""
-		self.params = {"api_key":common["api_key"], "q": term, "max":max, "offset":offset, "sort":sort}
-		self.url = url["search"]
-		r = requests.get(self.url, params = self.params)
-		cherrypy.response.headers["content-type"] = "application/json"
-		return json.dumps(r.json())
+		params = {"api_key":common["api_key"], "q": term, "max":max, "offset":offset, "sort":sort, "format":common["format"]}
+		results = self.send_request(url["search"], params)
+		#r = requests.get(self.url, params = self.params)
+		#cherrypy.response.headers["content-type"] = "application/json"
+		#return json.dumps(r.json())
+		#results = r.json()
+		items = results["list"]["item"]
+		new_r = {"items":[]}
+		for item in items:
+			new_dict = {"name": item["name"], "ndbno": item["ndbno"]}
+			new_r["items"].append(new_dict)
+		return json.dumps(new_r)
 	search_food.exposed = True
-		
+
+	def get_food_report(self, ndbno):
+		params = {"api_key":common["api_key"], "format":common["format"], "type":"b","ndbno":ndbno}
+		result = self.send_request(url["report"], params)
+		new_report = {"ndbno":result["report"]["food"]["ndbno"],
+					"name":result["report"]["food"]["name"],
+					"nutrients":{}}
+		nutrients = result["report"]["food"]["nutrients"]
+		for nutrient in nutrients:
+			new_report["nutrients"][nutrient["name"]] = {"unit":nutrient["unit"],"value":nutrient["value"]}
+		return json.dumps(new_report)
+	get_food_report.exposed = True
+
+	def get_food_from_db(self):
+		cursor = connect_db()
+		cursor.execute("select * from Food")
+		print cursor.fetchall()
+
+
+def connect_db():
+	database = MySQLdb.connect(host=db["host"], user=db["user"], passwd=db["password"], db=db["schema"])
+	return database.cursor()
+
 
 def CORS():
 	cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
@@ -93,3 +128,4 @@ if __name__ == '__main__':
 	else:
 		a = FoodAPI()
 		a.get_list()
+		a.get_food_from_db()
