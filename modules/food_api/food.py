@@ -93,9 +93,30 @@ class FoodAPI:
 		new_report = {"ndbno":result["report"]["food"]["ndbno"],
 					"name":result["report"]["food"]["name"],
 					"nutrients":{}}
-		nutrients = result["report"]["food"]["nutrients"]
-		for nutrient in nutrients:
+		nutrients_list = result["report"]["food"]["nutrients"]
+		f = open("nutrient_info.txt", "w")
+		f.write("nutrients = {")
+		for nutrient in nutrients_list:
 			new_report["nutrients"][nutrient["name"]] = {"unit":nutrient["unit"],"value":nutrient["value"]}
+			#print nutrient.keys()
+			#print nutrient["name"]
+			#print nutrient["unit"]
+			if nutrient["name"] == "Folate, DFE" or nutrient["name"] == "Niacin":
+				print nutrient["name"]
+				print u'\xb5'
+			try:
+				f.write("'%s':{'unit':'%s', 'group':'%s'},\n" % (nutrient["name"], nutrient["unit"], nutrient["group"]))
+			except Exception as e:
+				print e.__str__()
+				if "u'\\xb5'" in e.__str__():
+					f.write("'%s':{'unit':'%s', 'group':'%s'},\n" % (nutrient["name"], "u\\\'\\\\xb5\\\'g", nutrient["group"]))
+				else:
+					raise e
+		f.write("}")
+		f.close()
+		print nutrients
+		for nutrient in nutrients.keys():
+			print nutrients[nutrient]["unit"]
 		return json.dumps(new_report)
 	get_food_report.exposed = True
 
