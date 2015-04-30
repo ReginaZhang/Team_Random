@@ -43,11 +43,13 @@ nutrients = {'Water':{'unit':'g', 'group':'Proximates'},
 			'Riboflavin':{'unit':'mg', 'group':'Vitamins'},
 			'Niacin':{'unit':'mg', 'group':'Vitamins'},
 			'Vitamin B-6':{'unit':'mg', 'group':'Vitamins'},
-			'Folate, DFE':{'unit':'u\'\\xb5\'g', 'group':'Vitamins'},
-			'Vitamin B-12':{'unit':'u\'\\xb5\'g', 'group':'Vitamins'},
-			'Vitamin A, RAE':{'unit':'u\'\\xb5\'g', 'group':'Vitamins'},
+			'Folate, DFE':{'unit':'micro g', 'group':'Vitamins'},
+			'Vitamin B-12':{'unit':'micro g', 'group':'Vitamins'},
+			'Vitamin A, RAE':{'unit':'micro g', 'group':'Vitamins'},
 			'Vitamin A, IU':{'unit':'IU', 'group':'Vitamins'},
 			'Cholesterol':{'unit':'mg', 'group':'Lipids'},
 			'Caffeine':{'unit':'mg', 'group':'Other'}}
+
+micro_unicode = u'\xb5'
 
 """CatsKillDeadMen"""
