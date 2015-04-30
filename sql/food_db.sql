@@ -1,0 +1,28 @@
+use HealthDB;
+alter table Food (
+drop column Energy,
+add column Niacin float,
+add column IronFe float,
+add column Thiamin float,
+add column VitaminB6 float,
+add column CarbohydrateByDifference float,
+add column CalciumCa float,
+add column Water float,
+add column VitaminCTotalAscorbicAcid float,
+add column SodiumNa float,
+add column PhosphorusP float,
+add column VitaminAIU float,
+add column VitaminARAE float,
+add column PotassiumK float,
+add column Caffeine float,
+add column Riboflavin float,
+add column MagnesiumMg float,
+add column Cholesterol float,
+add column FiberTotalDietary float,
+add column VitaminB12 float,
+add column Energy float,
+add column TotalLipid(fat) float,
+add column ZincZn float,
+add column Protein float,
+add column FolateDFE float
+);
