@@ -24,7 +24,7 @@ add column Cholesterol float,
 add column FiberTotalDietary float,
 add column VitaminB12 float,
 add column Energy float,
-add column TotalLipid(fat) float,
+add column TotalLipid_Fat float,
 add column Zinc float,
 add column Protein float,
 add column FolateDFE float
