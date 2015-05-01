@@ -3,7 +3,7 @@ use HealthDB;
 alter table Food
 drop column Energy;
 
-alter table Food (
+alter table Food 
 add column Niacin float,
 add column Iron float,
 add column Thiamin float,
@@ -28,4 +28,4 @@ add column TotalLipid(fat) float,
 add column Zinc float,
 add column Protein float,
 add column FolateDFE float
-);
+;
