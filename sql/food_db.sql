@@ -1,8 +1,7 @@
 use HealthDB;
 
-alter table Food(
-drop column Energy
-);
+alter table Food
+drop column Energy;
 
 alter table Food (
 add column Niacin float,
