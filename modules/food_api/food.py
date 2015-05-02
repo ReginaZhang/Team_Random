@@ -22,7 +22,7 @@ from constants import *
 import cherrypy
 import MySQLdb
 
-debug = 0
+debug = 1
 
 class FoodAPI:
 	
@@ -58,7 +58,7 @@ class FoodAPI:
 		return json.dumps(r)#.json())
 	get_list.exposed = True
 	
-	def search_food(self, term = "", max = 100, offset = 0, sort = "r"):
+	def api_search(self, term = "", max = 100, offset = 0, sort = "r"):
 		"""
 			search_food(term, max, offset, sort)
 			
@@ -85,6 +85,17 @@ class FoodAPI:
 			new_dict = {"name": item["name"], "ndbno": item["ndbno"]}
 			new_r["items"].append(new_dict)
 		return json.dumps(new_r)
+
+	def search_food(self, term = "", offset = 0):
+		cursor = connect_db()
+		chars = list(term)
+		pattern = "%" + "%".join(chars) + "%"
+		cursor.execute("Select foodname, ndbno from Food where foodname like '%s' limit %d, %d;" % (pattern, offset, NUM_LIST_ITEM))
+		db_results = cursor.fetchall()
+		#print db_results
+		if len(db_results) < NUM_LIST_ITEM:
+			print "not enough"
+
 	search_food.exposed = True
 
 	def get_food_report(self, ndbno):
@@ -149,4 +160,5 @@ if __name__ == '__main__':
 	else:
 		a = FoodAPI()
 		a.get_list()
-		a.get_food_from_db()
+		#a.get_food_from_db()
+		a.search_food("pe")

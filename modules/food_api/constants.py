@@ -51,5 +51,6 @@ nutrients = {'Water':{'db_field': 'Water','unit':'g', 'group':'Proximates'},
 			'Caffeine':{'db_field': 'Caffeine','unit':'mg', 'group':'Other'}}
 
 micro_unicode = u'\xb5'
+NUM_LIST_ITEM = 10
 
 """CatsKillDeadMen"""
