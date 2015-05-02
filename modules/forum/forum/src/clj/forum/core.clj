@@ -104,15 +104,17 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
    :headers {"Content-Type" "text/html"}
    :body (slurp "static/index.html")})
 
-(defn serve_js [request]
-  {:status 200
-   :headers {"Content-Type" "text/javascript"}
-   :body (slurp "static/js/cljs.js")})
+(defn mk-serve-js [jsfile]
+  (fn [request]
+    {:status 200
+     :headers {"Content-Type" "text/javascript"}
+     :body (slurp (str "static/js/" jsfile ".js"))}))
 
-(defn serve_css [request]
-  {:status 200
-   :headers {"Content-Type" "text/css"}
-   :body (slurp "static/css/forum.css")})
+(defn mk-serve-css [cssfile]
+  (fn [request]
+    {:status 200
+     :headers {"Content-Type" "text/css"}
+     :body (slurp (str "static/css/" cssfile ".css"))}))
 
 
 (defn rest-wrap [handler] (-> handler
@@ -128,12 +130,13 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                   "vote_for" :vote-for
                   "questions" :questions
                   "index" :index
-                  "static/js/cljs.js" :serve_js
-                  "static/css/forum.css" :serve_css}])
+                  ["static/js/" :jsfile ".js"] :serve_js
+                  ["static/css/" :cssfile ".css"] :serve_css}])
 
 (defn forum [request]
   (if-let [match (bidi/match-route routes (:uri request))]
     (let [handler (:handler match)
+          params (:route-params match)
           handler-fn       
           (get {:child-comments (rest-wrap get_child_comments)
                 :add-comment (rest-wrap add_comment)
@@ -144,8 +147,8 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                 :vote-for (rest-wrap update-comment-vote)
                 :questions (rest-wrap get_questions)
                 :index index                
-                :serve_js serve_js
-                :serve_css serve_css}
+                :serve_js (mk-serve-js (:jsfile params))
+                :serve_css (mk-serve-css (:cssfile params))}
                handler)]
       (handler-fn request))
     {:status 404 :body "404 page not found"}))
