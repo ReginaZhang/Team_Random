@@ -94,7 +94,7 @@ class FoodAPI:
 		db_results = cursor.fetchall()
 		#print db_results
 		if len(db_results) < NUM_LIST_ITEM:
-			print "not enough"
+			api_search(term)
 
 	search_food.exposed = True
 
