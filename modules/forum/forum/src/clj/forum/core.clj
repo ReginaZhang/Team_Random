@@ -109,6 +109,12 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
    :headers {"Content-Type" "text/javascript"}
    :body (slurp "static/js/cljs.js")})
 
+(defn serve_css [request]
+  {:status 200
+   :headers {"Content-Type" "text/css"}
+   :body (slurp "static/css/forum.css")})
+
+
 (defn rest-wrap [handler] (-> handler
                                    (json/wrap-json-response)
                                    (prms/wrap-params)))
@@ -122,7 +128,8 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                   "vote_for" :vote-for
                   "questions" :questions
                   "index" :index
-                  "static/js/cljs.js" :serve_js}])
+                  "static/js/cljs.js" :serve_js
+                  "static/css/forum.css" :serve_css}])
 
 (defn forum [request]
   (if-let [match (bidi/match-route routes (:uri request))]
@@ -136,8 +143,9 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                 :flag-comment (rest-wrap update-comment-flags)
                 :vote-for (rest-wrap update-comment-vote)
                 :questions (rest-wrap get_questions)
-                :index index
-                :serve_js serve_js}
+                :index index                
+                :serve_js serve_js
+                :serve_css serve_css}
                handler)]
       (handler-fn request))
     {:status 404 :body "404 page not found"}))
