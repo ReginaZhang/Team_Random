@@ -41,6 +41,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
     {:status 200 :body {:text "Successfully updated comment flags!"}}))
 
 (defn update-comment-vote [{{:strs [comment_id user_id vote_type]} :params}]
+  ;;TODO: Don't allow another upvote if upvote already exists
   (if (and (not= vote_type "up") (not= vote_type "down"))
     (:status 404 :body {:text (str "Incorrect vote type " vote_type)})
     (do
@@ -83,6 +84,21 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
   {:status 200
    :body {:text "Successfully added comment!"}})
 
+(defn get_questions [_]
+  {:status 200
+   :body
+  (jdb/query health-db
+              ["SELECT * from Question natural join Comment where ParentId is NULL"]
+              :row-fn #(select-keys % [:questionid :questiondeleted :userid
+                                       :commentid :commenttext]))})
+
+(defn add_question [{{:strs [text user_id]} :params}]
+  (let [[{question_id :generated_key}] (jdb/insert! health-db :Question
+                                                    {:QuestionDeleted false})]
+    (add_comment {:params {"parent_id" nil "question_id" question_id "text" text
+                           "user_id" user_id}})
+      :body {:text "Successfully added comment!"}))
+
 (defn index [request]
   {:status 200
    :headers {"Content-Type" "text/html"}
@@ -104,6 +120,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                   "flag_types" :flag-types
                   "flag_comment" :flag-comment
                   "vote_for" :vote-for
+                  "questions" :questions
                   "index" :index
                   "static/js/cljs.js" :serve_js}])
 
@@ -118,6 +135,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                 :flag-types (rest-wrap get-flag-types)
                 :flag-comment (rest-wrap update-comment-flags)
                 :vote-for (rest-wrap update-comment-vote)
+                :questions (rest-wrap get_questions)
                 :index index
                 :serve_js serve_js}
                handler)]
