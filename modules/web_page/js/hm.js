@@ -2,10 +2,10 @@
  * Created by ra on 15-5-3.
  */
 
-$('document').ready(init());
-
 var serverAdd = "http://45.56.85.191:8000";
 var method = "POST";
+
+$('document').ready(init());
 
 function init() {
     //showDiet();
@@ -15,26 +15,25 @@ function init() {
         var trial = document.getElementById("trial");
         trial.parentNode.removeChild(trial);
 
-
-        var reg = document.getElementById("registered");
-
-        document.getElementById("tabNav").innerHTML =
-            "<ul id='tabNavMenu'>" +
-            "<li id='dashbdTab' class='selected' onclick='switchingTabs(0)'>Dashboard</li>" +
-            "<li id='fdTab' onclick='switchingTabs(1)'>Food & Diet</li>" +
-            "<li id='exerciseTab' onclick='switchingTabs(2)'>Health Test</li>" +
-            "<li id='statsTab' onclick='switchingTabs(3)'>Stats</li>" +
-            "</ul>";
-
-        generateDashbd();
+        tabSwitcher();
+        generateDashboard();
+        generateDiet();
+        generateExercise();
+        generateStats();
 
     } else {
 
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
 
-    }
+        document.getElementById("nav").innerHTML =
+            "<ul id='menu'>" +
+            "<li><a href='Food.html'>Food Nutrition</a></li>" +
+            "<li><a href='Test.html'>Health Test</a></li>" +
+            "<li><a href='Plan.html'>Health Plan</a></li>" +
+            "</ul>";
 
+    }
 
 }
 
@@ -42,56 +41,27 @@ function isRegistered() {
     return true;
 }
 
-function switchingTabs(index) {
-    var tnm = document.getElementById("tabNavMenu").childNodes;
-    if (tnm[index].className != "selected") {
+function tabSwitcher() {
+    $('.tabs .tab-links a').on('click', function(e)  {
+        var currentAttrValue = $(this).attr('href');
 
-        for (var i = 0; i < tnm.length; i++) {
-            if (tnm[i].className == "selected") {
-                tnm[i].className = null;
-            }
-        }
-
-        tnm[index].className = "selected";
-        var body = document.getElementById("regBody");
-
-        /*
-        if (index == 0) {
-            generateDashbd(body);
-        } else if (index == 1) {
-            generateFd(body);
-        } else if (index == 2) {
-            generateExercise(body);
-        } else if (index == 3) {
-            generateStats(body);
-        }
-        */
+        // Show/Hide Tabs
+        $('.tabs ' + currentAttrValue).show().siblings().hide();
+        console.log("in function");
+        // Change/remove current tab to active
+        $(this).parent('li').addClass('active').siblings().removeClass('active');
 
 
-    }
+        e.preventDefault();
+
+
+    });
 
 }
 
-function query(directory, data) {
 
-    var xhr = new XMLHttpRequest();
-    xhr.open(method, serverAdd + directory, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    // send the collected data as JSON
-    xhr.send(JSON.stringify(data));
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            return JSON.parse(xhr.responseText);
-        }
-    }
-
-}
-
-function generateDashbd(body) {
-
-    var nameBar = document.createElement("table");
+function generateDashboard() {
+    var nameBar = document.getElementById("nameBar");
 
     var userName = "ra";
     var userWeight = 62;
@@ -99,19 +69,83 @@ function generateDashbd(body) {
         hasRegistered: true,
         userId: 1
     };
-    var userBmi = query("/bmi", data);
 
-    var name = document.createElement("p").innerHTML = "Hi! " + userName;
-    var weight = document.createElement("p").innerHTML = "Weight: " + userWeight + "kg";
-    var bmi = document.createElement("p").innerHTML = "BMI: " + userBmi["bmi"] + ", " + userBmi["status"];
+    query("/bmi", data, function(userBmi) {
+        var name = document.createElement("p");
+        name.innerHTML = "Hi! " + userName;
+        name.className = "nameBar";
 
-    body.appendChild(name, weight, bmi);
+        var weight = document.createElement("p");
+        weight.innerHTML = "Weight: " + userWeight + "kg";
+        weight.className = "nameBar";
+
+        var bmi = document.createElement("p");
+        bmi.innerHTML = "BMI: " + userBmi["bmi"].slice(0,5) + ", " + userBmi["status"];
+        bmi.className = "nameBar";
+
+        nameBar.appendChild(name);
+        nameBar.appendChild(weight);
+        nameBar.appendChild(bmi);
+    });
+
+    data = {
+        dietId: 1
+    };
+    query("/diet", data, function(userDiet) {
+
+        var diet = "";
+
+        for (var i = 0; i < userDiet.length; i++) {
+            diet += userDiet[i]["foodName"];
+
+            if(i != userDiet.length-1) {
+                diet += ",   ";
+            }
+        }
+
+        document.getElementById("todaysDietItems").innerHTML = diet;
+
+    });
+
+}
+
+function generateDiet() {
+
+}
+
+function generateExercise() {
+
+}
+
+function generateStats() {
+
+}
+
+function query(directory, data, callback) {
+
+    var xhr = new XMLHttpRequest();
+    xhr.open(method, serverAdd + directory);
+    //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
+
+    // send the collected data as JSON
+    xhr.send(JSON.stringify(data));
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            callback(JSON.parse(xhr.responseText));
+        }
+    }
 
 }
 
 function submitForm(event, form) {
 
     event.preventDefault();
+
+    var dir;
+    if (form.id == "foodNutrition") {
+        dir = "/food";
+    }
 
     // collect the form data while iterating over the inputs
     var data = {};
@@ -124,31 +158,25 @@ function submitForm(event, form) {
         }
     }
 
-    // construct an HTTP request
-    var xhr = new XMLHttpRequest();
-    xhr.open(form.method, form.action, true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
+    query(dir, data, function(response) {
 
-    // send the collected data as JSON
-    xhr.send(JSON.stringify(data));
-    //document.getElementById("response").innerHTML = JSON.stringify(data)
+        if (form.id == "foodNutrition") {
+            var result = "";
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            document.getElementById(form.id + "_response").innerHTML = xhr.responseText;
+            for (var i = 0; i < response.length; i++) {
+                result += response[i]["foodName"];
 
-            if (form.id == "modify_diet") {
-                showDiet();
+                if (i != response.length - 1) {
+                    result += ",   ";
+                }
             }
 
+            document.getElementById(form.id + "Result").innerHTML = result;
         }
-    }
 
-    xhr.onloadend = function () {
-        // done
-    };
+    });
 
-};
+}
 
 
 function registered(truthValue) {
