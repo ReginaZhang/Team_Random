@@ -80,6 +80,14 @@
                                            (do (.error js/console (str response))
                                                (get-flag-types flagtype-store))))))
 
+(defn get-questions
+  "Get a list of questions"
+  [questions-store error-store]
+  (backend-request "/questions" {}
+                   (fn [[ok response]] (if ok (reset! questions-store response)
+                                           (reset! error-store "Error: could not get questions from DB. Maybe the DB is down?")))))
+                                               
+
 (defn start-resource-provider
   "Tbe resource provider fetches and caches comments
   Takes a channel through which {:chan, :comment-id}
@@ -253,6 +261,7 @@
                          (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
                                 :cur-user-atom cur-user-atom :flagids flags-store :text text-store :deleted deleted-store
                                 :score score-store :votetype vote-store)]))))]))))
+  
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
@@ -260,20 +269,24 @@
   (let [userid-store (re/atom 1)
         flagtype-store (re/atom {})
         filtered-flags (re/atom {1 true 2 true 3 true 4 true})
-        request-chan (chan)]
+        request-chan (chan)
+        question-store (re/atom {})]
     (start-resource-provider request-chan)
     (get-flag-types flagtype-store)
+    (get-questions question-store (re/atom {}))
     (fn []
       [:div.whole-page
-       [userid-select userid-store]
-       [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
-                     :text "Show what kind of comments?" :callback-fn nil}]
-       [display-comment {:req-c request-chan :userid 0
-                         :text (re/atom "I am a dummy root comment with no life in the DB, a mere placeholder for a health question. 
-I am immortal, and cannot be flagged or permanently edited/deleted.")
-                         :commentid 0 :questionid 1 :parentid nil :flagids (re/atom [3]) :filter-store filtered-flags
-                         :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom false) :score (re/atom 9000)
-                         :votetype (re/atom nil)}]])))
-      
+       (for [{:keys [questionid questiondeleted userid commentid commenttext]} @question-store]
+         ^{:key questionid}
+         [:div.question
+          [userid-select userid-store]
+          [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
+                        :text "Show what kind of comments?" :callback-fn nil}]       
+          [display-comment {:req-c request-chan :userid userid
+                            :text (re/atom commenttext)
+                            :commentid commentid :questionid questionid :parentid nil :flagids (re/atom [3]) :filter-store filtered-flags
+                            :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom questiondeleted) :score (re/atom 9000)
+                            :votetype (re/atom nil)}]])])))
+  
 (re/render [forum-page] (.-body js/document))
 
