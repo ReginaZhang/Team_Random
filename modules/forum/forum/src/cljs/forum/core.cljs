@@ -279,12 +279,13 @@
     (get-questions question-store (re/atom {}))
     (fn []
       [:div.whole-page
-       (for [{:keys [questionid questiondeleted userid commentid commenttext]} @question-store]
+       [userid-select userid-store]
+       [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
+                     :text "Show what kind of comments?" :callback-fn nil}]              
+       (for [{:keys [questionid questiondeleted userid commentid commenttext questiontitle]} @question-store]
          ^{:key questionid}
          [:div.question
-          [userid-select userid-store]
-          [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
-                        :text "Show what kind of comments?" :callback-fn nil}]       
+          [:div.question-title (str "Question title is: " questiontitle)]
           [display-comment {:req-c request-chan :userid userid
                             :text (re/atom commenttext)
                             :commentid commentid :questionid questionid :parentid nil :flagids (re/atom [3]) :filter-store filtered-flags
