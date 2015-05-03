@@ -8,6 +8,7 @@ body {
 
 #main {
     padding: 5px;
+
     padding-left:  15px;
     padding-right: 15px;
     background-color: #ffffff;
@@ -32,11 +33,11 @@ table.about th {
     width:40px;
 }
 
-table.food {
+table {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.food th { 
+table th {
     padding:10px;
 	width:40px;
 }

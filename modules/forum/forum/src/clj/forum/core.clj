@@ -89,15 +89,16 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
    :body
   (jdb/query health-db
               ["SELECT * from Question natural join Comment where ParentId is NULL"]
-              :row-fn #(select-keys % [:questionid :questiondeleted :userid
+              :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
                                        :commentid :commenttext]))})
 
-(defn add_question [{{:strs [text user_id]} :params}]
+(defn add_question [{{:strs [text user_id title]} :params}]
   (let [[{question_id :generated_key}] (jdb/insert! health-db :Question
-                                                    {:QuestionDeleted false})]
+                                                    {:QuestionDeleted false
+                                                     :QuestionTitle title})]
     (add_comment {:params {"parent_id" nil "question_id" question_id "text" text
                            "user_id" user_id}})
-      :body {:text "Successfully added comment!"}))
+    {:status 200 :body {:text "Successfully added question!"}}))
 
 (defn index [request]
   {:status 200
@@ -129,6 +130,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                   "flag_comment" :flag-comment
                   "vote_for" :vote-for
                   "questions" :questions
+                  "add_question" :add-question
                   "index" :index
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css}])
@@ -146,6 +148,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                 :flag-comment (rest-wrap update-comment-flags)
                 :vote-for (rest-wrap update-comment-vote)
                 :questions (rest-wrap get_questions)
+                :add_question (rest-wrap add_question)
                 :index index                
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))}
