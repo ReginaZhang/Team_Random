@@ -1,60 +1,18 @@
-<!--
-
-Group Name: Health overflow
-
-Date Created : 13.03.2015 1:31pm
-
--->
-
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <!-- Jquery -->
-    <script src="js/style.js" type="text/javascript"></script>
-    <script src="js/carousel.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link rel="stylesheet" href="css/carousel.css" type="text/css">
-    <title>Health Overflow</title>
-</head>
-<body>
-<div id="nav_bar">
-    <div id="logo">
-        <p>LOGO AREA</p>
-    </div>
-    <table cellspacing="10" id="nav_table">
-        <th class="nav_element"><a href="#">Home</a></th>
-        <th class="nav_element"><a href="#">Forum</a></th>
-        <th class="nav_element"><a href="#">Health Overflow</a></th>
-    </table>
-    <hr />
-</div>
-<br />
-<div id="page_footer">
-    <hr />
-    <p class="project_detials">Group Name: Ramdon</p>
-    <p class="project_detials"> Project Name: Health Overflow </p>
-</div>
-<!--
-<img onmouseover="setInterval(function(){test_image_rotation();}, 100)" id="test_image" src="assets/dog1.png" />
--->
-<!--
-<div id="stage" style="background: rgba(0,0,0,0.5);">
-    <img id="spinner" src="assets/dog1.png" />
-</div>>
--->
-<!--
-click left current focused one will move to right ,and its
-next one will move to middle ..
-so we pass in 1 instead of -1
--->
-<div id="left" onclick="carousel_moving(1);">left buttom</div>
-<div id="carousel_section">
-    <img class="carousel_element" src="assets/dog1.png" />
-    <img class="carousel_element" src="assets/dog2.png" />
-    <img class="carousel_element" src="assets/dog3.png" />
-</div>
-<div id="right" onclick="carousel_moving(-1);">rightbuttom</div>
-<script>carousel_initialize();</script>
-</body>
-</html>
+<form  action="login.php" autocomplete="on"> 
+     <h1>Log in</h1> 
+     <p> 
+          <label for="username" class="uname" data-icon="u" >Username:</label>
+          <input id="username" name="username" required="required" type="text" placeholder="Username"/>
+     </p>
+     <p> 
+          <label for="password" class="youpasswd" data-icon="p">Password:</label>
+          <input id="password" name="password" required="required" type="password" placeholder="Password" /> 
+     </p>
+     <p class="keeplogin"> 
+          <input type="checkbox" name="loginkeeping" id="loginkeeping" value="loginkeeping" /> 
+          <label for="loginkeeping">Keep me logged in</label>
+     </p>
+     <p class="login button"> 
+          <input type="submit" value="Login" /> 
+     </p>
+</form>

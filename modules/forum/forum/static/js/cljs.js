@@ -72858,10 +72858,10 @@ forum.core.backend_request = function forum$core$backend_request(uri, params, fu
   "response-format", "response-format", 1664465322), ajax.core.json_response_format.call(null, new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "keywords?", "keywords?", 764949733), true], null))], null));
 };
 forum.core.request_child_comments = function forum$core$request_child_comments(comment_id, user_id, cache, extra_success_callback) {
-  return forum.core.backend_request.call(null, "/child_comments", new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "parent_id", "parent_id", -1999171020), comment_id, new cljs.core.Keyword(null, "user_id", "user_id", 993497112), user_id], null), function(p__18449) {
-    var vec__18450 = p__18449;
-    var ok = cljs.core.nth.call(null, vec__18450, 0, null);
-    var response = cljs.core.nth.call(null, vec__18450, 1, null);
+  return forum.core.backend_request.call(null, "/child_comments", new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "parent_id", "parent_id", -1999171020), comment_id, new cljs.core.Keyword(null, "user_id", "user_id", 993497112), user_id], null), function(p__18794) {
+    var vec__18795 = p__18794;
+    var ok = cljs.core.nth.call(null, vec__18795, 0, null);
+    var response = cljs.core.nth.call(null, vec__18795, 1, null);
     if (cljs.core.truth_(ok)) {
       var store = (new cljs.core.Keyword(null, "store", "store", 1512230022)).cljs$core$IFn$_invoke$arity$1(cljs.core.get.call(null, cljs.core.deref.call(null, cache), comment_id));
       var new_val = new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "children", "children", -940561982), response, new cljs.core.Keyword(null, "store", "store", 1512230022), store], null);
@@ -72878,10 +72878,10 @@ forum.core.request_child_comments = function forum$core$request_child_comments(c
   });
 };
 forum.core.add_comment = function forum$core$add_comment(question_id, parent_id, user_id, parent_box_toggle, text, error_store, update_callback) {
-  return forum.core.backend_request.call(null, "/add_comment", new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "question_id", "question_id", 174030811), question_id, new cljs.core.Keyword(null, "parent_id", "parent_id", -1999171020), parent_id, new cljs.core.Keyword(null, "user_id", "user_id", 993497112), user_id, new cljs.core.Keyword(null, "text", "text", -1790561697), text], null), function(p__18453) {
-    var vec__18454 = p__18453;
-    var ok = cljs.core.nth.call(null, vec__18454, 0, null);
-    var response = cljs.core.nth.call(null, vec__18454, 1, null);
+  return forum.core.backend_request.call(null, "/add_comment", new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "question_id", "question_id", 174030811), question_id, new cljs.core.Keyword(null, "parent_id", "parent_id", -1999171020), parent_id, new cljs.core.Keyword(null, "user_id", "user_id", 993497112), user_id, new cljs.core.Keyword(null, "text", "text", -1790561697), text], null), function(p__18798) {
+    var vec__18799 = p__18798;
+    var ok = cljs.core.nth.call(null, vec__18799, 0, null);
+    var response = cljs.core.nth.call(null, vec__18799, 1, null);
     if (cljs.core.truth_(ok)) {
       cljs.core.reset_BANG_.call(null, parent_box_toggle, false);
       return update_callback.call(null);
@@ -72891,10 +72891,10 @@ forum.core.add_comment = function forum$core$add_comment(question_id, parent_id,
   });
 };
 forum.core.delete_comment = function forum$core$delete_comment(comment_id, error_store, success_callback) {
-  return forum.core.backend_request.call(null, "/delete_comment", new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "comment_id", "comment_id", -1363642063), comment_id], null), function(p__18457) {
-    var vec__18458 = p__18457;
-    var ok = cljs.core.nth.call(null, vec__18458, 0, null);
-    var response = cljs.core.nth.call(null, vec__18458, 1, null);
+  return forum.core.backend_request.call(null, "/delete_comment", new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "comment_id", "comment_id", -1363642063), comment_id], null), function(p__18802) {
+    var vec__18803 = p__18802;
+    var ok = cljs.core.nth.call(null, vec__18803, 0, null);
+    var response = cljs.core.nth.call(null, vec__18803, 1, null);
     if (cljs.core.truth_(ok)) {
       return success_callback.call(null);
     } else {
@@ -72903,10 +72903,10 @@ forum.core.delete_comment = function forum$core$delete_comment(comment_id, error
   });
 };
 forum.core.edit_comment = function forum$core$edit_comment(comment_id, text, error_store, success_callback) {
-  return forum.core.backend_request.call(null, "/edit_comment", new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "comment_id", "comment_id", -1363642063), comment_id, new cljs.core.Keyword(null, "text", "text", -1790561697), text], null), function(p__18461) {
-    var vec__18462 = p__18461;
-    var ok = cljs.core.nth.call(null, vec__18462, 0, null);
-    var response = cljs.core.nth.call(null, vec__18462, 1, null);
+  return forum.core.backend_request.call(null, "/edit_comment", new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "comment_id", "comment_id", -1363642063), comment_id, new cljs.core.Keyword(null, "text", "text", -1790561697), text], null), function(p__18806) {
+    var vec__18807 = p__18806;
+    var ok = cljs.core.nth.call(null, vec__18807, 0, null);
+    var response = cljs.core.nth.call(null, vec__18807, 1, null);
     if (cljs.core.truth_(ok)) {
       return success_callback.call(null);
     } else {
@@ -72915,14 +72915,14 @@ forum.core.edit_comment = function forum$core$edit_comment(comment_id, text, err
   });
 };
 forum.core.flag_comment = function forum$core$flag_comment(flagger_id, comment_id, flag_ids_store, error_store, update_callback) {
-  var flag_ids = cljs.core.keys.call(null, cljs.core.filter.call(null, function(p1__18463_SHARP_) {
-    return cljs.core.val.call(null, p1__18463_SHARP_);
+  var flag_ids = cljs.core.keys.call(null, cljs.core.filter.call(null, function(p1__18808_SHARP_) {
+    return cljs.core.val.call(null, p1__18808_SHARP_);
   }, cljs.core.deref.call(null, flag_ids_store)));
   return forum.core.backend_request.call(null, "/flag_comment", new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "comment_id", "comment_id", -1363642063), comment_id, new cljs.core.Keyword(null, "user_id", "user_id", 993497112), flagger_id, new cljs.core.Keyword(null, "flag_ids", "flag_ids", 331688537), flag_ids], null), function(flag_ids) {
-    return function(p__18466) {
-      var vec__18467 = p__18466;
-      var ok = cljs.core.nth.call(null, vec__18467, 0, null);
-      var response = cljs.core.nth.call(null, vec__18467, 1, null);
+    return function(p__18811) {
+      var vec__18812 = p__18811;
+      var ok = cljs.core.nth.call(null, vec__18812, 0, null);
+      var response = cljs.core.nth.call(null, vec__18812, 1, null);
       if (cljs.core.truth_(ok)) {
         return update_callback.call(null, flag_ids);
       } else {
@@ -72932,10 +72932,10 @@ forum.core.flag_comment = function forum$core$flag_comment(flagger_id, comment_i
   }(flag_ids));
 };
 forum.core.votefor_commment = function forum$core$votefor_commment(commentid, userid, vote, error_store, success_callback) {
-  return forum.core.backend_request.call(null, "/vote_for", new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "comment_id", "comment_id", -1363642063), commentid, new cljs.core.Keyword(null, "user_id", "user_id", 993497112), cljs.core.deref.call(null, userid), new cljs.core.Keyword(null, "vote_type", "vote_type", -293333277), vote], null), function(p__18470) {
-    var vec__18471 = p__18470;
-    var ok = cljs.core.nth.call(null, vec__18471, 0, null);
-    var response = cljs.core.nth.call(null, vec__18471, 1, null);
+  return forum.core.backend_request.call(null, "/vote_for", new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "comment_id", "comment_id", -1363642063), commentid, new cljs.core.Keyword(null, "user_id", "user_id", 993497112), cljs.core.deref.call(null, userid), new cljs.core.Keyword(null, "vote_type", "vote_type", -293333277), vote], null), function(p__18815) {
+    var vec__18816 = p__18815;
+    var ok = cljs.core.nth.call(null, vec__18816, 0, null);
+    var response = cljs.core.nth.call(null, vec__18816, 1, null);
     if (cljs.core.truth_(ok)) {
       return success_callback.call(null);
     } else {
@@ -72944,19 +72944,31 @@ forum.core.votefor_commment = function forum$core$votefor_commment(commentid, us
   });
 };
 forum.core.get_flag_types = function forum$core$get_flag_types(flagtype_store) {
-  return forum.core.backend_request.call(null, "/flag_types", cljs.core.PersistentArrayMap.EMPTY, function(p__18476) {
-    var vec__18477 = p__18476;
-    var ok = cljs.core.nth.call(null, vec__18477, 0, null);
-    var response = cljs.core.nth.call(null, vec__18477, 1, null);
+  return forum.core.backend_request.call(null, "/flag_types", cljs.core.PersistentArrayMap.EMPTY, function(p__18821) {
+    var vec__18822 = p__18821;
+    var ok = cljs.core.nth.call(null, vec__18822, 0, null);
+    var response = cljs.core.nth.call(null, vec__18822, 1, null);
     if (cljs.core.truth_(ok)) {
-      return cljs.core.reset_BANG_.call(null, flagtype_store, cljs.core.reduce.call(null, function(vec__18477, ok, response) {
-        return function(p1__18472_SHARP_, p2__18473_SHARP_) {
-          return cljs.core.assoc.call(null, p1__18472_SHARP_, (new cljs.core.Keyword(null, "flagid", "flagid", 1279712391)).cljs$core$IFn$_invoke$arity$1(p2__18473_SHARP_), (new cljs.core.Keyword(null, "flagname", "flagname", -539542240)).cljs$core$IFn$_invoke$arity$1(p2__18473_SHARP_));
+      return cljs.core.reset_BANG_.call(null, flagtype_store, cljs.core.reduce.call(null, function(vec__18822, ok, response) {
+        return function(p1__18817_SHARP_, p2__18818_SHARP_) {
+          return cljs.core.assoc.call(null, p1__18817_SHARP_, (new cljs.core.Keyword(null, "flagid", "flagid", 1279712391)).cljs$core$IFn$_invoke$arity$1(p2__18818_SHARP_), (new cljs.core.Keyword(null, "flagname", "flagname", -539542240)).cljs$core$IFn$_invoke$arity$1(p2__18818_SHARP_));
         };
-      }(vec__18477, ok, response), cljs.core.PersistentArrayMap.EMPTY, response));
+      }(vec__18822, ok, response), cljs.core.PersistentArrayMap.EMPTY, response));
     } else {
       console.error([cljs.core.str(response)].join(""));
       return forum$core$get_flag_types.call(null, flagtype_store);
+    }
+  });
+};
+forum.core.get_questions = function forum$core$get_questions(questions_store, error_store) {
+  return forum.core.backend_request.call(null, "/questions", cljs.core.PersistentArrayMap.EMPTY, function(p__18825) {
+    var vec__18826 = p__18825;
+    var ok = cljs.core.nth.call(null, vec__18826, 0, null);
+    var response = cljs.core.nth.call(null, vec__18826, 1, null);
+    if (cljs.core.truth_(ok)) {
+      return cljs.core.reset_BANG_.call(null, questions_store, response);
+    } else {
+      return cljs.core.reset_BANG_.call(null, error_store, "Error: could not get questions from DB. Maybe the DB is down?");
     }
   });
 };
@@ -72968,196 +72980,196 @@ forum.core.start_resource_provider = function forum$core$start_resource_provider
     return function() {
       var f__8711__auto__ = function() {
         var switch__8648__auto__ = function(c__8710__auto__, c, cache) {
-          return function(state_18599) {
-            var state_val_18600 = state_18599[1];
-            if (state_val_18600 === 7) {
-              var inst_18558 = state_18599[7];
-              var inst_18558__$1 = state_18599[2];
-              var inst_18559 = (new cljs.core.Keyword(null, "type", "type", 1174270348)).cljs$core$IFn$_invoke$arity$1(inst_18558__$1);
-              var state_18599__$1 = function() {
-                var statearr_18601 = state_18599;
-                statearr_18601[7] = inst_18558__$1;
-                return statearr_18601;
+          return function(state_18948) {
+            var state_val_18949 = state_18948[1];
+            if (state_val_18949 === 7) {
+              var inst_18907 = state_18948[7];
+              var inst_18907__$1 = state_18948[2];
+              var inst_18908 = (new cljs.core.Keyword(null, "type", "type", 1174270348)).cljs$core$IFn$_invoke$arity$1(inst_18907__$1);
+              var state_18948__$1 = function() {
+                var statearr_18950 = state_18948;
+                statearr_18950[7] = inst_18907__$1;
+                return statearr_18950;
               }();
-              var G__18602_18632 = inst_18559 instanceof cljs.core.Keyword ? inst_18559.fqn : null;
-              switch(G__18602_18632) {
+              var G__18951_18981 = inst_18908 instanceof cljs.core.Keyword ? inst_18908.fqn : null;
+              switch(G__18951_18981) {
                 case "update-children":
-                  var statearr_18603_18634 = state_18599__$1;
-                  statearr_18603_18634[1] = 13;
+                  var statearr_18952_18983 = state_18948__$1;
+                  statearr_18952_18983[1] = 13;
                   break;
                 case "children-request":
-                  var statearr_18604_18635 = state_18599__$1;
-                  statearr_18604_18635[1] = 9;
+                  var statearr_18953_18984 = state_18948__$1;
+                  statearr_18953_18984[1] = 9;
                   break;
                 default:
-                  throw new Error([cljs.core.str("No matching clause: "), cljs.core.str(inst_18559)].join(""));;
+                  throw new Error([cljs.core.str("No matching clause: "), cljs.core.str(inst_18908)].join(""));;
               }
               return new cljs.core.Keyword(null, "recur", "recur", -437573268);
             } else {
-              if (state_val_18600 === 1) {
-                var state_18599__$1 = state_18599;
-                var statearr_18605_18636 = state_18599__$1;
-                statearr_18605_18636[2] = null;
-                statearr_18605_18636[1] = 2;
+              if (state_val_18949 === 1) {
+                var state_18948__$1 = state_18948;
+                var statearr_18954_18985 = state_18948__$1;
+                statearr_18954_18985[2] = null;
+                statearr_18954_18985[1] = 2;
                 return new cljs.core.Keyword(null, "recur", "recur", -437573268);
               } else {
-                if (state_val_18600 === 4) {
-                  var state_18599__$1 = state_18599;
-                  return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null, state_18599__$1, 7, c);
+                if (state_val_18949 === 4) {
+                  var state_18948__$1 = state_18948;
+                  return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null, state_18948__$1, 7, c);
                 } else {
-                  if (state_val_18600 === 15) {
-                    var state_18599__$1 = state_18599;
-                    var statearr_18606_18637 = state_18599__$1;
-                    statearr_18606_18637[2] = null;
-                    statearr_18606_18637[1] = 16;
+                  if (state_val_18949 === 15) {
+                    var state_18948__$1 = state_18948;
+                    var statearr_18955_18986 = state_18948__$1;
+                    statearr_18955_18986[2] = null;
+                    statearr_18955_18986[1] = 16;
                     return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                   } else {
-                    if (state_val_18600 === 13) {
-                      var inst_18577 = state_18599[8];
-                      var inst_18558 = state_18599[7];
-                      var inst_18577__$1 = (new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800)).cljs$core$IFn$_invoke$arity$1(inst_18558);
-                      var inst_18578 = (new cljs.core.Keyword(null, "user-id", "user-id", -206822291)).cljs$core$IFn$_invoke$arity$1(inst_18558);
-                      var inst_18579 = (new cljs.core.Keyword(null, "atom", "atom", -397043653)).cljs$core$IFn$_invoke$arity$1(inst_18558);
-                      var inst_18580 = cljs.core.deref.call(null, cache);
-                      var inst_18581 = cljs.core.get.call(null, inst_18580, inst_18577__$1);
-                      var inst_18582 = (new cljs.core.Keyword(null, "success-callback", "success-callback", 1817337463)).cljs$core$IFn$_invoke$arity$1(inst_18558);
-                      var state_18599__$1 = function() {
-                        var statearr_18607 = state_18599;
-                        statearr_18607[8] = inst_18577__$1;
-                        statearr_18607[9] = inst_18582;
-                        statearr_18607[10] = inst_18579;
-                        statearr_18607[11] = inst_18578;
-                        return statearr_18607;
+                    if (state_val_18949 === 13) {
+                      var inst_18926 = state_18948[8];
+                      var inst_18907 = state_18948[7];
+                      var inst_18926__$1 = (new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800)).cljs$core$IFn$_invoke$arity$1(inst_18907);
+                      var inst_18927 = (new cljs.core.Keyword(null, "user-id", "user-id", -206822291)).cljs$core$IFn$_invoke$arity$1(inst_18907);
+                      var inst_18928 = (new cljs.core.Keyword(null, "atom", "atom", -397043653)).cljs$core$IFn$_invoke$arity$1(inst_18907);
+                      var inst_18929 = cljs.core.deref.call(null, cache);
+                      var inst_18930 = cljs.core.get.call(null, inst_18929, inst_18926__$1);
+                      var inst_18931 = (new cljs.core.Keyword(null, "success-callback", "success-callback", 1817337463)).cljs$core$IFn$_invoke$arity$1(inst_18907);
+                      var state_18948__$1 = function() {
+                        var statearr_18956 = state_18948;
+                        statearr_18956[8] = inst_18926__$1;
+                        statearr_18956[9] = inst_18928;
+                        statearr_18956[10] = inst_18927;
+                        statearr_18956[11] = inst_18931;
+                        return statearr_18956;
                       }();
-                      if (cljs.core.truth_(inst_18581)) {
-                        var statearr_18608_18638 = state_18599__$1;
-                        statearr_18608_18638[1] = 14;
+                      if (cljs.core.truth_(inst_18930)) {
+                        var statearr_18957_18987 = state_18948__$1;
+                        statearr_18957_18987[1] = 14;
                       } else {
-                        var statearr_18609_18639 = state_18599__$1;
-                        statearr_18609_18639[1] = 15;
+                        var statearr_18958_18988 = state_18948__$1;
+                        statearr_18958_18988[1] = 15;
                       }
                       return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                     } else {
-                      if (state_val_18600 === 6) {
-                        var inst_18595 = state_18599[2];
-                        var state_18599__$1 = state_18599;
-                        var statearr_18610_18640 = state_18599__$1;
-                        statearr_18610_18640[2] = inst_18595;
-                        statearr_18610_18640[1] = 3;
+                      if (state_val_18949 === 6) {
+                        var inst_18944 = state_18948[2];
+                        var state_18948__$1 = state_18948;
+                        var statearr_18959_18989 = state_18948__$1;
+                        statearr_18959_18989[2] = inst_18944;
+                        statearr_18959_18989[1] = 3;
                         return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                       } else {
-                        if (state_val_18600 === 3) {
-                          var inst_18597 = state_18599[2];
-                          var state_18599__$1 = state_18599;
-                          return cljs.core.async.impl.ioc_helpers.return_chan.call(null, state_18599__$1, inst_18597);
+                        if (state_val_18949 === 3) {
+                          var inst_18946 = state_18948[2];
+                          var state_18948__$1 = state_18948;
+                          return cljs.core.async.impl.ioc_helpers.return_chan.call(null, state_18948__$1, inst_18946);
                         } else {
-                          if (state_val_18600 === 12) {
-                            var inst_18575 = state_18599[2];
-                            var state_18599__$1 = state_18599;
-                            var statearr_18611_18641 = state_18599__$1;
-                            statearr_18611_18641[2] = inst_18575;
-                            statearr_18611_18641[1] = 8;
+                          if (state_val_18949 === 12) {
+                            var inst_18924 = state_18948[2];
+                            var state_18948__$1 = state_18948;
+                            var statearr_18960_18990 = state_18948__$1;
+                            statearr_18960_18990[2] = inst_18924;
+                            statearr_18960_18990[1] = 8;
                             return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                           } else {
-                            if (state_val_18600 === 2) {
-                              var state_18599__$1 = state_18599;
-                              var statearr_18612_18642 = state_18599__$1;
-                              statearr_18612_18642[1] = 4;
+                            if (state_val_18949 === 2) {
+                              var state_18948__$1 = state_18948;
+                              var statearr_18961_18991 = state_18948__$1;
+                              statearr_18961_18991[1] = 4;
                               return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                             } else {
-                              if (state_val_18600 === 11) {
-                                var inst_18561 = state_18599[12];
-                                var inst_18562 = state_18599[13];
-                                var inst_18560 = state_18599[14];
-                                var inst_18568 = [new cljs.core.Keyword(null, "children", "children", -940561982), new cljs.core.Keyword(null, "store", "store", 1512230022)];
-                                var inst_18569 = [null, inst_18562];
-                                var inst_18570 = cljs.core.PersistentHashMap.fromArrays(inst_18568, inst_18569);
-                                var inst_18571 = cljs.core.swap_BANG_.call(null, cache, cljs.core.assoc, inst_18560, inst_18570);
-                                var inst_18572 = cljs.core.deref.call(null, inst_18561);
-                                var inst_18573 = forum.core.request_child_comments.call(null, inst_18560, inst_18572, cache, null);
-                                var state_18599__$1 = function() {
-                                  var statearr_18614 = state_18599;
-                                  statearr_18614[15] = inst_18571;
-                                  return statearr_18614;
+                              if (state_val_18949 === 11) {
+                                var inst_18909 = state_18948[12];
+                                var inst_18910 = state_18948[13];
+                                var inst_18911 = state_18948[14];
+                                var inst_18917 = [new cljs.core.Keyword(null, "children", "children", -940561982), new cljs.core.Keyword(null, "store", "store", 1512230022)];
+                                var inst_18918 = [null, inst_18911];
+                                var inst_18919 = cljs.core.PersistentHashMap.fromArrays(inst_18917, inst_18918);
+                                var inst_18920 = cljs.core.swap_BANG_.call(null, cache, cljs.core.assoc, inst_18909, inst_18919);
+                                var inst_18921 = cljs.core.deref.call(null, inst_18910);
+                                var inst_18922 = forum.core.request_child_comments.call(null, inst_18909, inst_18921, cache, null);
+                                var state_18948__$1 = function() {
+                                  var statearr_18963 = state_18948;
+                                  statearr_18963[15] = inst_18920;
+                                  return statearr_18963;
                                 }();
-                                var statearr_18615_18643 = state_18599__$1;
-                                statearr_18615_18643[2] = inst_18573;
-                                statearr_18615_18643[1] = 12;
+                                var statearr_18964_18992 = state_18948__$1;
+                                statearr_18964_18992[2] = inst_18922;
+                                statearr_18964_18992[1] = 12;
                                 return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                               } else {
-                                if (state_val_18600 === 9) {
-                                  var inst_18564 = state_18599[16];
-                                  var inst_18558 = state_18599[7];
-                                  var inst_18560 = state_18599[14];
-                                  var inst_18560__$1 = (new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800)).cljs$core$IFn$_invoke$arity$1(inst_18558);
-                                  var inst_18561 = (new cljs.core.Keyword(null, "user-id", "user-id", -206822291)).cljs$core$IFn$_invoke$arity$1(inst_18558);
-                                  var inst_18562 = (new cljs.core.Keyword(null, "atom", "atom", -397043653)).cljs$core$IFn$_invoke$arity$1(inst_18558);
-                                  var inst_18563 = cljs.core.deref.call(null, cache);
-                                  var inst_18564__$1 = cljs.core.get.call(null, inst_18563, inst_18560__$1);
-                                  var state_18599__$1 = function() {
-                                    var statearr_18616 = state_18599;
-                                    statearr_18616[16] = inst_18564__$1;
-                                    statearr_18616[12] = inst_18561;
-                                    statearr_18616[13] = inst_18562;
-                                    statearr_18616[14] = inst_18560__$1;
-                                    return statearr_18616;
+                                if (state_val_18949 === 9) {
+                                  var inst_18909 = state_18948[12];
+                                  var inst_18913 = state_18948[16];
+                                  var inst_18907 = state_18948[7];
+                                  var inst_18909__$1 = (new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800)).cljs$core$IFn$_invoke$arity$1(inst_18907);
+                                  var inst_18910 = (new cljs.core.Keyword(null, "user-id", "user-id", -206822291)).cljs$core$IFn$_invoke$arity$1(inst_18907);
+                                  var inst_18911 = (new cljs.core.Keyword(null, "atom", "atom", -397043653)).cljs$core$IFn$_invoke$arity$1(inst_18907);
+                                  var inst_18912 = cljs.core.deref.call(null, cache);
+                                  var inst_18913__$1 = cljs.core.get.call(null, inst_18912, inst_18909__$1);
+                                  var state_18948__$1 = function() {
+                                    var statearr_18965 = state_18948;
+                                    statearr_18965[12] = inst_18909__$1;
+                                    statearr_18965[13] = inst_18910;
+                                    statearr_18965[16] = inst_18913__$1;
+                                    statearr_18965[14] = inst_18911;
+                                    return statearr_18965;
                                   }();
-                                  if (cljs.core.truth_(inst_18564__$1)) {
-                                    var statearr_18617_18644 = state_18599__$1;
-                                    statearr_18617_18644[1] = 10;
+                                  if (cljs.core.truth_(inst_18913__$1)) {
+                                    var statearr_18966_18993 = state_18948__$1;
+                                    statearr_18966_18993[1] = 10;
                                   } else {
-                                    var statearr_18618_18645 = state_18599__$1;
-                                    statearr_18618_18645[1] = 11;
+                                    var statearr_18967_18994 = state_18948__$1;
+                                    statearr_18967_18994[1] = 11;
                                   }
                                   return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                                 } else {
-                                  if (state_val_18600 === 5) {
-                                    var state_18599__$1 = state_18599;
-                                    var statearr_18619_18646 = state_18599__$1;
-                                    statearr_18619_18646[2] = null;
-                                    statearr_18619_18646[1] = 6;
+                                  if (state_val_18949 === 5) {
+                                    var state_18948__$1 = state_18948;
+                                    var statearr_18968_18995 = state_18948__$1;
+                                    statearr_18968_18995[2] = null;
+                                    statearr_18968_18995[1] = 6;
                                     return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                                   } else {
-                                    if (state_val_18600 === 14) {
-                                      var inst_18577 = state_18599[8];
-                                      var inst_18582 = state_18599[9];
-                                      var inst_18578 = state_18599[11];
-                                      var inst_18584 = cljs.core.deref.call(null, inst_18578);
-                                      var inst_18585 = forum.core.request_child_comments.call(null, inst_18577, inst_18584, cache, inst_18582);
-                                      var state_18599__$1 = state_18599;
-                                      var statearr_18620_18647 = state_18599__$1;
-                                      statearr_18620_18647[2] = inst_18585;
-                                      statearr_18620_18647[1] = 16;
+                                    if (state_val_18949 === 14) {
+                                      var inst_18926 = state_18948[8];
+                                      var inst_18927 = state_18948[10];
+                                      var inst_18931 = state_18948[11];
+                                      var inst_18933 = cljs.core.deref.call(null, inst_18927);
+                                      var inst_18934 = forum.core.request_child_comments.call(null, inst_18926, inst_18933, cache, inst_18931);
+                                      var state_18948__$1 = state_18948;
+                                      var statearr_18969_18996 = state_18948__$1;
+                                      statearr_18969_18996[2] = inst_18934;
+                                      statearr_18969_18996[1] = 16;
                                       return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                                     } else {
-                                      if (state_val_18600 === 16) {
-                                        var inst_18588 = state_18599[2];
-                                        var state_18599__$1 = state_18599;
-                                        var statearr_18621_18648 = state_18599__$1;
-                                        statearr_18621_18648[2] = inst_18588;
-                                        statearr_18621_18648[1] = 8;
+                                      if (state_val_18949 === 16) {
+                                        var inst_18937 = state_18948[2];
+                                        var state_18948__$1 = state_18948;
+                                        var statearr_18970_18997 = state_18948__$1;
+                                        statearr_18970_18997[2] = inst_18937;
+                                        statearr_18970_18997[1] = 8;
                                         return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                                       } else {
-                                        if (state_val_18600 === 10) {
-                                          var inst_18564 = state_18599[16];
-                                          var inst_18562 = state_18599[13];
-                                          var inst_18566 = cljs.core.reset_BANG_.call(null, inst_18562, inst_18564);
-                                          var state_18599__$1 = state_18599;
-                                          var statearr_18622_18649 = state_18599__$1;
-                                          statearr_18622_18649[2] = inst_18566;
-                                          statearr_18622_18649[1] = 12;
+                                        if (state_val_18949 === 10) {
+                                          var inst_18913 = state_18948[16];
+                                          var inst_18911 = state_18948[14];
+                                          var inst_18915 = cljs.core.reset_BANG_.call(null, inst_18911, inst_18913);
+                                          var state_18948__$1 = state_18948;
+                                          var statearr_18971_18998 = state_18948__$1;
+                                          statearr_18971_18998[2] = inst_18915;
+                                          statearr_18971_18998[1] = 12;
                                           return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                                         } else {
-                                          if (state_val_18600 === 8) {
-                                            var inst_18591 = state_18599[2];
-                                            var state_18599__$1 = function() {
-                                              var statearr_18623 = state_18599;
-                                              statearr_18623[17] = inst_18591;
-                                              return statearr_18623;
+                                          if (state_val_18949 === 8) {
+                                            var inst_18940 = state_18948[2];
+                                            var state_18948__$1 = function() {
+                                              var statearr_18972 = state_18948;
+                                              statearr_18972[17] = inst_18940;
+                                              return statearr_18972;
                                             }();
-                                            var statearr_18624_18650 = state_18599__$1;
-                                            statearr_18624_18650[2] = null;
-                                            statearr_18624_18650[1] = 2;
+                                            var statearr_18973_18999 = state_18948__$1;
+                                            statearr_18973_18999[2] = null;
+                                            statearr_18973_18999[1] = 2;
                                             return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                                           } else {
                                             return null;
@@ -73183,17 +73195,17 @@ forum.core.start_resource_provider = function forum$core$start_resource_provider
           return function() {
             var forum$core$start_resource_provider_$_state_machine__8649__auto__ = null;
             var forum$core$start_resource_provider_$_state_machine__8649__auto____0 = function() {
-              var statearr_18628 = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
-              statearr_18628[0] = forum$core$start_resource_provider_$_state_machine__8649__auto__;
-              statearr_18628[1] = 1;
-              return statearr_18628;
+              var statearr_18977 = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null];
+              statearr_18977[0] = forum$core$start_resource_provider_$_state_machine__8649__auto__;
+              statearr_18977[1] = 1;
+              return statearr_18977;
             };
-            var forum$core$start_resource_provider_$_state_machine__8649__auto____1 = function(state_18599) {
+            var forum$core$start_resource_provider_$_state_machine__8649__auto____1 = function(state_18948) {
               while (true) {
                 var ret_value__8650__auto__ = function() {
                   try {
                     while (true) {
-                      var result__8651__auto__ = switch__8648__auto__.call(null, state_18599);
+                      var result__8651__auto__ = switch__8648__auto__.call(null, state_18948);
                       if (cljs.core.keyword_identical_QMARK_.call(null, result__8651__auto__, new cljs.core.Keyword(null, "recur", "recur", -437573268))) {
                         continue;
                       } else {
@@ -73201,21 +73213,21 @@ forum.core.start_resource_provider = function forum$core$start_resource_provider
                       }
                       break;
                     }
-                  } catch (e18629) {
-                    if (e18629 instanceof Object) {
-                      var ex__8652__auto__ = e18629;
-                      var statearr_18630_18651 = state_18599;
-                      statearr_18630_18651[5] = ex__8652__auto__;
-                      cljs.core.async.impl.ioc_helpers.process_exception.call(null, state_18599);
+                  } catch (e18978) {
+                    if (e18978 instanceof Object) {
+                      var ex__8652__auto__ = e18978;
+                      var statearr_18979_19000 = state_18948;
+                      statearr_18979_19000[5] = ex__8652__auto__;
+                      cljs.core.async.impl.ioc_helpers.process_exception.call(null, state_18948);
                       return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                     } else {
-                      throw e18629;
+                      throw e18978;
                     }
                   }
                 }();
                 if (cljs.core.keyword_identical_QMARK_.call(null, ret_value__8650__auto__, new cljs.core.Keyword(null, "recur", "recur", -437573268))) {
-                  var G__18652 = state_18599;
-                  state_18599 = G__18652;
+                  var G__19001 = state_18948;
+                  state_18948 = G__19001;
                   continue;
                 } else {
                   return ret_value__8650__auto__;
@@ -73223,12 +73235,12 @@ forum.core.start_resource_provider = function forum$core$start_resource_provider
                 break;
               }
             };
-            forum$core$start_resource_provider_$_state_machine__8649__auto__ = function(state_18599) {
+            forum$core$start_resource_provider_$_state_machine__8649__auto__ = function(state_18948) {
               switch(arguments.length) {
                 case 0:
                   return forum$core$start_resource_provider_$_state_machine__8649__auto____0.call(this);
                 case 1:
-                  return forum$core$start_resource_provider_$_state_machine__8649__auto____1.call(this, state_18599);
+                  return forum$core$start_resource_provider_$_state_machine__8649__auto____1.call(this, state_18948);
               }
               throw new Error("Invalid arity: " + arguments.length);
             };
@@ -73239,9 +73251,9 @@ forum.core.start_resource_provider = function forum$core$start_resource_provider
         }(switch__8648__auto__, c__8710__auto__, c, cache);
       }();
       var state__8712__auto__ = function() {
-        var statearr_18631 = f__8711__auto__.call(null);
-        statearr_18631[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__8710__auto__;
-        return statearr_18631;
+        var statearr_18980 = f__8711__auto__.call(null);
+        statearr_18980[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__8710__auto__;
+        return statearr_18980;
       }();
       return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null, state__8712__auto__);
     };
@@ -73252,8 +73264,8 @@ forum.core.userid_select = function forum$core$userid_select(userid_atom) {
   return function() {
     return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.somebox", "div.somebox", -1172912417), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.text", "div.text", 645060726), "Select your userid. You can edit and delete posts with the same posterid as your userid."], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, 
     "div.text", "div.text", 645060726), "NOTE: right now only user 1 can flag comments, as user 1 is the only user in the database, and trying to create a flag with a non-existing user violates a foreign key constraint."], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "input", "input", 556931961), new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "type", "type", 1174270348), "number", new cljs.core.Keyword(null, 
-    "placeholder", "placeholder", -104873083), "Enter a userid", new cljs.core.Keyword(null, "value", "value", 305978217), cljs.core.deref.call(null, userid_atom), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(p1__18653_SHARP_) {
-      var newval = p1__18653_SHARP_.target.value;
+    "placeholder", "placeholder", -104873083), "Enter a userid", new cljs.core.Keyword(null, "value", "value", 305978217), cljs.core.deref.call(null, userid_atom), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(p1__19002_SHARP_) {
+      var newval = p1__19002_SHARP_.target.value;
       var numval = parseInt(newval);
       if (cljs.core.truth_(numval)) {
         return cljs.core.reset_BANG_.call(null, userid_atom, numval);
@@ -73263,42 +73275,42 @@ forum.core.userid_select = function forum$core$userid_select(userid_atom) {
     }], null)], null)], null);
   };
 };
-forum.core.flag_select = function forum$core$flag_select(p__18654) {
-  var map__18660 = p__18654;
-  var map__18660__$1 = cljs.core.seq_QMARK_.call(null, map__18660) ? cljs.core.apply.call(null, cljs.core.hash_map, map__18660) : map__18660;
-  var callback_fn = cljs.core.get.call(null, map__18660__$1, new cljs.core.Keyword(null, "callback-fn", "callback-fn", 2018892720));
-  var text = cljs.core.get.call(null, map__18660__$1, new cljs.core.Keyword(null, "text", "text", -1790561697));
-  var select_flag_store = cljs.core.get.call(null, map__18660__$1, new cljs.core.Keyword(null, "select-flag-store", "select-flag-store", -983328603));
-  var flagtype_store = cljs.core.get.call(null, map__18660__$1, new cljs.core.Keyword(null, "flagtype-store", "flagtype-store", 1589165883));
-  return function(map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store) {
+forum.core.flag_select = function forum$core$flag_select(p__19003) {
+  var map__19009 = p__19003;
+  var map__19009__$1 = cljs.core.seq_QMARK_.call(null, map__19009) ? cljs.core.apply.call(null, cljs.core.hash_map, map__19009) : map__19009;
+  var callback_fn = cljs.core.get.call(null, map__19009__$1, new cljs.core.Keyword(null, "callback-fn", "callback-fn", 2018892720));
+  var text = cljs.core.get.call(null, map__19009__$1, new cljs.core.Keyword(null, "text", "text", -1790561697));
+  var select_flag_store = cljs.core.get.call(null, map__19009__$1, new cljs.core.Keyword(null, "select-flag-store", "select-flag-store", -983328603));
+  var flagtype_store = cljs.core.get.call(null, map__19009__$1, new cljs.core.Keyword(null, "flagtype-store", "flagtype-store", 1589165883));
+  return function(map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store) {
     return function() {
       return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.flag-select-box", "div.flag-select-box", 1850211671), text, cljs.core.doall.call(null, function() {
-        var iter__5030__auto__ = function(map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store) {
-          return function forum$core$flag_select_$_iter__18661(s__18662) {
-            return new cljs.core.LazySeq(null, function(map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store) {
+        var iter__5030__auto__ = function(map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store) {
+          return function forum$core$flag_select_$_iter__19010(s__19011) {
+            return new cljs.core.LazySeq(null, function(map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store) {
               return function() {
-                var s__18662__$1 = s__18662;
+                var s__19011__$1 = s__19011;
                 while (true) {
-                  var temp__4126__auto__ = cljs.core.seq.call(null, s__18662__$1);
+                  var temp__4126__auto__ = cljs.core.seq.call(null, s__19011__$1);
                   if (temp__4126__auto__) {
-                    var s__18662__$2 = temp__4126__auto__;
-                    if (cljs.core.chunked_seq_QMARK_.call(null, s__18662__$2)) {
-                      var c__5028__auto__ = cljs.core.chunk_first.call(null, s__18662__$2);
+                    var s__19011__$2 = temp__4126__auto__;
+                    if (cljs.core.chunked_seq_QMARK_.call(null, s__19011__$2)) {
+                      var c__5028__auto__ = cljs.core.chunk_first.call(null, s__19011__$2);
                       var size__5029__auto__ = cljs.core.count.call(null, c__5028__auto__);
-                      var b__18664 = cljs.core.chunk_buffer.call(null, size__5029__auto__);
+                      var b__19013 = cljs.core.chunk_buffer.call(null, size__5029__auto__);
                       if (function() {
-                        var i__18663 = 0;
+                        var i__19012 = 0;
                         while (true) {
-                          if (i__18663 < size__5029__auto__) {
-                            var keyval = cljs.core._nth.call(null, c__5028__auto__, i__18663);
-                            cljs.core.chunk_append.call(null, b__18664, cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.checkbox", "div.checkbox", 389009838), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "input", "input", 556931961), new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1174270348), "checkbox", new cljs.core.Keyword(null, 
-                            "checked", "checked", -50955819), cljs.core.get.call(null, cljs.core.deref.call(null, select_flag_store), cljs.core.key.call(null, keyval)), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(i__18663, keyval, c__5028__auto__, size__5029__auto__, b__18664, s__18662__$2, temp__4126__auto__, map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store) {
+                          if (i__19012 < size__5029__auto__) {
+                            var keyval = cljs.core._nth.call(null, c__5028__auto__, i__19012);
+                            cljs.core.chunk_append.call(null, b__19013, cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.checkbox", "div.checkbox", 389009838), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "input", "input", 556931961), new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1174270348), "checkbox", new cljs.core.Keyword(null, 
+                            "checked", "checked", -50955819), cljs.core.get.call(null, cljs.core.deref.call(null, select_flag_store), cljs.core.key.call(null, keyval)), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(i__19012, keyval, c__5028__auto__, size__5029__auto__, b__19013, s__19011__$2, temp__4126__auto__, map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store) {
                               return function() {
                                 return cljs.core.swap_BANG_.call(null, select_flag_store, cljs.core.update, cljs.core.key.call(null, keyval), cljs.core.not);
                               };
-                            }(i__18663, keyval, c__5028__auto__, size__5029__auto__, b__18664, s__18662__$2, temp__4126__auto__, map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store)], null)], null), cljs.core.val.call(null, keyval)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), cljs.core.key.call(null, keyval)], null)));
-                            var G__18665 = i__18663 + 1;
-                            i__18663 = G__18665;
+                            }(i__19012, keyval, c__5028__auto__, size__5029__auto__, b__19013, s__19011__$2, temp__4126__auto__, map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store)], null)], null), cljs.core.val.call(null, keyval)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), cljs.core.key.call(null, keyval)], null)));
+                            var G__19014 = i__19012 + 1;
+                            i__19012 = G__19014;
                             continue;
                           } else {
                             return true;
@@ -73306,18 +73318,18 @@ forum.core.flag_select = function forum$core$flag_select(p__18654) {
                           break;
                         }
                       }()) {
-                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__18664), forum$core$flag_select_$_iter__18661.call(null, cljs.core.chunk_rest.call(null, s__18662__$2)));
+                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__19013), forum$core$flag_select_$_iter__19010.call(null, cljs.core.chunk_rest.call(null, s__19011__$2)));
                       } else {
-                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__18664), null);
+                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__19013), null);
                       }
                     } else {
-                      var keyval = cljs.core.first.call(null, s__18662__$2);
+                      var keyval = cljs.core.first.call(null, s__19011__$2);
                       return cljs.core.cons.call(null, cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.checkbox", "div.checkbox", 389009838), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "input", "input", 556931961), new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null, "type", "type", 1174270348), "checkbox", new cljs.core.Keyword(null, 
-                      "checked", "checked", -50955819), cljs.core.get.call(null, cljs.core.deref.call(null, select_flag_store), cljs.core.key.call(null, keyval)), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(keyval, s__18662__$2, temp__4126__auto__, map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store) {
+                      "checked", "checked", -50955819), cljs.core.get.call(null, cljs.core.deref.call(null, select_flag_store), cljs.core.key.call(null, keyval)), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(keyval, s__19011__$2, temp__4126__auto__, map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store) {
                         return function() {
                           return cljs.core.swap_BANG_.call(null, select_flag_store, cljs.core.update, cljs.core.key.call(null, keyval), cljs.core.not);
                         };
-                      }(keyval, s__18662__$2, temp__4126__auto__, map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store)], null)], null), cljs.core.val.call(null, keyval)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), cljs.core.key.call(null, keyval)], null)), forum$core$flag_select_$_iter__18661.call(null, cljs.core.rest.call(null, s__18662__$2)));
+                      }(keyval, s__19011__$2, temp__4126__auto__, map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store)], null)], null), cljs.core.val.call(null, keyval)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), cljs.core.key.call(null, keyval)], null)), forum$core$flag_select_$_iter__19010.call(null, cljs.core.rest.call(null, s__19011__$2)));
                     }
                   } else {
                     return null;
@@ -73325,78 +73337,78 @@ forum.core.flag_select = function forum$core$flag_select(p__18654) {
                   break;
                 }
               };
-            }(map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store), null, null);
+            }(map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store), null, null);
           };
-        }(map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store);
+        }(map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store);
         return iter__5030__auto__.call(null, cljs.core.deref.call(null, flagtype_store));
       }()), cljs.core.truth_(callback_fn) ? new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button", "button", 1456579943), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), callback_fn], null), "Update"], null) : null], null);
     };
-  }(map__18660, map__18660__$1, callback_fn, text, select_flag_store, flagtype_store);
+  }(map__19009, map__19009__$1, callback_fn, text, select_flag_store, flagtype_store);
 };
-forum.core.comment_entry_box = function forum$core$comment_entry_box(p__18667) {
-  var map__18669 = p__18667;
-  var map__18669__$1 = cljs.core.seq_QMARK_.call(null, map__18669) ? cljs.core.apply.call(null, cljs.core.hash_map, map__18669) : map__18669;
-  var update_callback = cljs.core.get.call(null, map__18669__$1, new cljs.core.Keyword(null, "update-callback", "update-callback", 587369026));
-  var error_store = cljs.core.get.call(null, map__18669__$1, new cljs.core.Keyword(null, "error-store", "error-store", -984020518));
-  var parent_box_toggle = cljs.core.get.call(null, map__18669__$1, new cljs.core.Keyword(null, "parent-box-toggle", "parent-box-toggle", -1182132907));
-  var question_id = cljs.core.get.call(null, map__18669__$1, new cljs.core.Keyword(null, "question-id", "question-id", 529146980));
-  var user_id_atom = cljs.core.get.call(null, map__18669__$1, new cljs.core.Keyword(null, "user-id-atom", "user-id-atom", 475579560));
-  var parent_id = cljs.core.get.call(null, map__18669__$1, new cljs.core.Keyword(null, "parent-id", "parent-id", -1400729131));
+forum.core.comment_entry_box = function forum$core$comment_entry_box(p__19016) {
+  var map__19018 = p__19016;
+  var map__19018__$1 = cljs.core.seq_QMARK_.call(null, map__19018) ? cljs.core.apply.call(null, cljs.core.hash_map, map__19018) : map__19018;
+  var update_callback = cljs.core.get.call(null, map__19018__$1, new cljs.core.Keyword(null, "update-callback", "update-callback", 587369026));
+  var error_store = cljs.core.get.call(null, map__19018__$1, new cljs.core.Keyword(null, "error-store", "error-store", -984020518));
+  var parent_box_toggle = cljs.core.get.call(null, map__19018__$1, new cljs.core.Keyword(null, "parent-box-toggle", "parent-box-toggle", -1182132907));
+  var question_id = cljs.core.get.call(null, map__19018__$1, new cljs.core.Keyword(null, "question-id", "question-id", 529146980));
+  var user_id_atom = cljs.core.get.call(null, map__19018__$1, new cljs.core.Keyword(null, "user-id-atom", "user-id-atom", 475579560));
+  var parent_id = cljs.core.get.call(null, map__19018__$1, new cljs.core.Keyword(null, "parent-id", "parent-id", -1400729131));
   var txt = reagent.core.atom.call(null, "");
-  return function(txt, map__18669, map__18669__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id) {
+  return function(txt, map__19018, map__19018__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id) {
     return function() {
       return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-entry-box", "div.comment-entry-box", 598106899), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "input", "input", 556931961), new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "type", "type", 1174270348), "text", new cljs.core.Keyword(null, "placeholder", "placeholder", -104873083), 
-      "Enter a comment...", new cljs.core.Keyword(null, "value", "value", 305978217), cljs.core.deref.call(null, txt), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(txt, map__18669, map__18669__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id) {
-        return function(p1__18666_SHARP_) {
-          return cljs.core.reset_BANG_.call(null, txt, p1__18666_SHARP_.target.value);
+      "Enter a comment...", new cljs.core.Keyword(null, "value", "value", 305978217), cljs.core.deref.call(null, txt), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(txt, map__19018, map__19018__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id) {
+        return function(p1__19015_SHARP_) {
+          return cljs.core.reset_BANG_.call(null, txt, p1__19015_SHARP_.target.value);
         };
-      }(txt, map__18669, map__18669__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id)], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button", "button", 1456579943), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(txt, map__18669, map__18669__$1, update_callback, error_store, parent_box_toggle, question_id, 
+      }(txt, map__19018, map__19018__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id)], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button", "button", 1456579943), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(txt, map__19018, map__19018__$1, update_callback, error_store, parent_box_toggle, question_id, 
       user_id_atom, parent_id) {
         return function() {
           return forum.core.add_comment.call(null, question_id, parent_id, cljs.core.deref.call(null, user_id_atom), parent_box_toggle, cljs.core.deref.call(null, txt), error_store, update_callback);
         };
-      }(txt, map__18669, map__18669__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id)], null), "Submit"], null)], null);
+      }(txt, map__19018, map__19018__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id)], null), "Submit"], null)], null);
     };
-  }(txt, map__18669, map__18669__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id);
+  }(txt, map__19018, map__19018__$1, update_callback, error_store, parent_box_toggle, question_id, user_id_atom, parent_id);
 };
-forum.core.comment_edit_box = function forum$core$comment_edit_box(p__18671) {
-  var map__18673 = p__18671;
-  var map__18673__$1 = cljs.core.seq_QMARK_.call(null, map__18673) ? cljs.core.apply.call(null, cljs.core.hash_map, map__18673) : map__18673;
-  var update_callback = cljs.core.get.call(null, map__18673__$1, new cljs.core.Keyword(null, "update-callback", "update-callback", 587369026));
-  var error_store = cljs.core.get.call(null, map__18673__$1, new cljs.core.Keyword(null, "error-store", "error-store", -984020518));
-  var text_store = cljs.core.get.call(null, map__18673__$1, new cljs.core.Keyword(null, "text-store", "text-store", -1952653936));
-  var comment_id = cljs.core.get.call(null, map__18673__$1, new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800));
-  return function(map__18673, map__18673__$1, update_callback, error_store, text_store, comment_id) {
+forum.core.comment_edit_box = function forum$core$comment_edit_box(p__19020) {
+  var map__19022 = p__19020;
+  var map__19022__$1 = cljs.core.seq_QMARK_.call(null, map__19022) ? cljs.core.apply.call(null, cljs.core.hash_map, map__19022) : map__19022;
+  var update_callback = cljs.core.get.call(null, map__19022__$1, new cljs.core.Keyword(null, "update-callback", "update-callback", 587369026));
+  var error_store = cljs.core.get.call(null, map__19022__$1, new cljs.core.Keyword(null, "error-store", "error-store", -984020518));
+  var text_store = cljs.core.get.call(null, map__19022__$1, new cljs.core.Keyword(null, "text-store", "text-store", -1952653936));
+  var comment_id = cljs.core.get.call(null, map__19022__$1, new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800));
+  return function(map__19022, map__19022__$1, update_callback, error_store, text_store, comment_id) {
     return function() {
       return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-entry-box", "div.comment-entry-box", 598106899), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "input", "input", 556931961), new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "type", "type", 1174270348), "text", new cljs.core.Keyword(null, "placeholder", "placeholder", -104873083), 
-      "Edit your comment...", new cljs.core.Keyword(null, "value", "value", 305978217), cljs.core.deref.call(null, text_store), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(map__18673, map__18673__$1, update_callback, error_store, text_store, comment_id) {
-        return function(p1__18670_SHARP_) {
-          return cljs.core.reset_BANG_.call(null, text_store, p1__18670_SHARP_.target.value);
+      "Edit your comment...", new cljs.core.Keyword(null, "value", "value", 305978217), cljs.core.deref.call(null, text_store), new cljs.core.Keyword(null, "on-change", "on-change", -732046149), function(map__19022, map__19022__$1, update_callback, error_store, text_store, comment_id) {
+        return function(p1__19019_SHARP_) {
+          return cljs.core.reset_BANG_.call(null, text_store, p1__19019_SHARP_.target.value);
         };
-      }(map__18673, map__18673__$1, update_callback, error_store, text_store, comment_id)], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button", "button", 1456579943), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(map__18673, map__18673__$1, update_callback, error_store, text_store, comment_id) {
+      }(map__19022, map__19022__$1, update_callback, error_store, text_store, comment_id)], null)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button", "button", 1456579943), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(map__19022, map__19022__$1, update_callback, error_store, text_store, comment_id) {
         return function() {
           return forum.core.edit_comment.call(null, comment_id, cljs.core.deref.call(null, text_store), error_store, update_callback);
         };
-      }(map__18673, map__18673__$1, update_callback, error_store, text_store, comment_id)], null), "Save"], null)], null);
+      }(map__19022, map__19022__$1, update_callback, error_store, text_store, comment_id)], null), "Save"], null)], null);
     };
-  }(map__18673, map__18673__$1, update_callback, error_store, text_store, comment_id);
+  }(map__19022, map__19022__$1, update_callback, error_store, text_store, comment_id);
 };
-forum.core.display_comment = function forum$core$display_comment(p__18677) {
-  var map__18730 = p__18677;
-  var map__18730__$1 = cljs.core.seq_QMARK_.call(null, map__18730) ? cljs.core.apply.call(null, cljs.core.hash_map, map__18730) : map__18730;
-  var parentid = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "parentid", "parentid", 46077050));
-  var flagids = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "flagids", "flagids", 446703613));
-  var text = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "text", "text", -1790561697));
-  var deleted = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "deleted", "deleted", -510100639));
-  var cur_user_atom = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "cur-user-atom", "cur-user-atom", 1908663971));
-  var userid = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "userid", "userid", 1974246085));
-  var commentid = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "commentid", "commentid", 1114919753));
-  var votetype = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "votetype", "votetype", 766516137));
-  var filter_store = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "filter-store", "filter-store", -2132752342));
-  var questionid = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "questionid", "questionid", -274916981));
-  var flagtypes = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "flagtypes", "flagtypes", 860831115));
-  var req_c = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "req-c", "req-c", -410070802));
-  var score = cljs.core.get.call(null, map__18730__$1, new cljs.core.Keyword(null, "score", "score", -1963588780));
+forum.core.display_comment = function forum$core$display_comment(p__19026) {
+  var map__19079 = p__19026;
+  var map__19079__$1 = cljs.core.seq_QMARK_.call(null, map__19079) ? cljs.core.apply.call(null, cljs.core.hash_map, map__19079) : map__19079;
+  var parentid = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "parentid", "parentid", 46077050));
+  var flagids = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "flagids", "flagids", 446703613));
+  var text = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "text", "text", -1790561697));
+  var deleted = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "deleted", "deleted", -510100639));
+  var cur_user_atom = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "cur-user-atom", "cur-user-atom", 1908663971));
+  var userid = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "userid", "userid", 1974246085));
+  var commentid = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "commentid", "commentid", 1114919753));
+  var votetype = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "votetype", "votetype", 766516137));
+  var filter_store = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "filter-store", "filter-store", -2132752342));
+  var questionid = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "questionid", "questionid", -274916981));
+  var flagtypes = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "flagtypes", "flagtypes", 860831115));
+  var req_c = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "req-c", "req-c", -410070802));
+  var score = cljs.core.get.call(null, map__19079__$1, new cljs.core.Keyword(null, "score", "score", -1963588780));
   var expanded = reagent.core.atom.call(null, false);
   var child_comment_atom = reagent.core.atom.call(null, cljs.core.PersistentArrayMap.EMPTY);
   var showing_comment_entry = reagent.core.atom.call(null, false);
@@ -73405,47 +73417,47 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
   var edited_text_atom = reagent.core.atom.call(null, cljs.core.deref.call(null, text));
   var editing_comment = reagent.core.atom.call(null, false);
   var children_req = new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "children-request", "children-request", -1847299497), new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800), commentid, new cljs.core.Keyword(null, "user-id", "user-id", -206822291), cur_user_atom, new cljs.core.Keyword(null, "atom", "atom", -397043653), child_comment_atom], null);
-  var children_update_callback = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+  var children_update_callback = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
     return function() {
       var c__8710__auto__ = cljs.core.async.chan.call(null, 1);
-      cljs.core.async.impl.dispatch.run.call(null, function(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+      cljs.core.async.impl.dispatch.run.call(null, function(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
         return function() {
           var f__8711__auto__ = function() {
-            var switch__8648__auto__ = function(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
-              return function(state_18737) {
-                var state_val_18738 = state_18737[1];
-                if (state_val_18738 === 2) {
-                  var inst_18735 = state_18737[2];
-                  var state_18737__$1 = state_18737;
-                  return cljs.core.async.impl.ioc_helpers.return_chan.call(null, state_18737__$1, inst_18735);
+            var switch__8648__auto__ = function(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+              return function(state_19086) {
+                var state_val_19087 = state_19086[1];
+                if (state_val_19087 === 2) {
+                  var inst_19084 = state_19086[2];
+                  var state_19086__$1 = state_19086;
+                  return cljs.core.async.impl.ioc_helpers.return_chan.call(null, state_19086__$1, inst_19084);
                 } else {
-                  if (state_val_18738 === 1) {
-                    var inst_18731 = [new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800), new cljs.core.Keyword(null, "user-id", "user-id", -206822291)];
-                    var inst_18732 = [new cljs.core.Keyword(null, "update-children", "update-children", 1871853561), commentid, cur_user_atom];
-                    var inst_18733 = cljs.core.PersistentHashMap.fromArrays(inst_18731, inst_18732);
-                    var state_18737__$1 = state_18737;
-                    return cljs.core.async.impl.ioc_helpers.put_BANG_.call(null, state_18737__$1, 2, req_c, inst_18733);
+                  if (state_val_19087 === 1) {
+                    var inst_19080 = [new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800), new cljs.core.Keyword(null, "user-id", "user-id", -206822291)];
+                    var inst_19081 = [new cljs.core.Keyword(null, "update-children", "update-children", 1871853561), commentid, cur_user_atom];
+                    var inst_19082 = cljs.core.PersistentHashMap.fromArrays(inst_19080, inst_19081);
+                    var state_19086__$1 = state_19086;
+                    return cljs.core.async.impl.ioc_helpers.put_BANG_.call(null, state_19086__$1, 2, req_c, inst_19082);
                   } else {
                     return null;
                   }
                 }
               };
-            }(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
-            return function(switch__8648__auto__, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+            }(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+            return function(switch__8648__auto__, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
               return function() {
                 var forum$core$display_comment_$_state_machine__8649__auto__ = null;
                 var forum$core$display_comment_$_state_machine__8649__auto____0 = function() {
-                  var statearr_18742 = [null, null, null, null, null, null, null];
-                  statearr_18742[0] = forum$core$display_comment_$_state_machine__8649__auto__;
-                  statearr_18742[1] = 1;
-                  return statearr_18742;
+                  var statearr_19091 = [null, null, null, null, null, null, null];
+                  statearr_19091[0] = forum$core$display_comment_$_state_machine__8649__auto__;
+                  statearr_19091[1] = 1;
+                  return statearr_19091;
                 };
-                var forum$core$display_comment_$_state_machine__8649__auto____1 = function(state_18737) {
+                var forum$core$display_comment_$_state_machine__8649__auto____1 = function(state_19086) {
                   while (true) {
                     var ret_value__8650__auto__ = function() {
                       try {
                         while (true) {
-                          var result__8651__auto__ = switch__8648__auto__.call(null, state_18737);
+                          var result__8651__auto__ = switch__8648__auto__.call(null, state_19086);
                           if (cljs.core.keyword_identical_QMARK_.call(null, result__8651__auto__, new cljs.core.Keyword(null, "recur", "recur", -437573268))) {
                             continue;
                           } else {
@@ -73453,21 +73465,21 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                           }
                           break;
                         }
-                      } catch (e18743) {
-                        if (e18743 instanceof Object) {
-                          var ex__8652__auto__ = e18743;
-                          var statearr_18744_18782 = state_18737;
-                          statearr_18744_18782[5] = ex__8652__auto__;
-                          cljs.core.async.impl.ioc_helpers.process_exception.call(null, state_18737);
+                      } catch (e19092) {
+                        if (e19092 instanceof Object) {
+                          var ex__8652__auto__ = e19092;
+                          var statearr_19093_19131 = state_19086;
+                          statearr_19093_19131[5] = ex__8652__auto__;
+                          cljs.core.async.impl.ioc_helpers.process_exception.call(null, state_19086);
                           return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                         } else {
-                          throw e18743;
+                          throw e19092;
                         }
                       }
                     }();
                     if (cljs.core.keyword_identical_QMARK_.call(null, ret_value__8650__auto__, new cljs.core.Keyword(null, "recur", "recur", -437573268))) {
-                      var G__18783 = state_18737;
-                      state_18737 = G__18783;
+                      var G__19132 = state_19086;
+                      state_19086 = G__19132;
                       continue;
                     } else {
                       return ret_value__8650__auto__;
@@ -73475,12 +73487,12 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                     break;
                   }
                 };
-                forum$core$display_comment_$_state_machine__8649__auto__ = function(state_18737) {
+                forum$core$display_comment_$_state_machine__8649__auto__ = function(state_19086) {
                   switch(arguments.length) {
                     case 0:
                       return forum$core$display_comment_$_state_machine__8649__auto____0.call(this);
                     case 1:
-                      return forum$core$display_comment_$_state_machine__8649__auto____1.call(this, state_18737);
+                      return forum$core$display_comment_$_state_machine__8649__auto____1.call(this, state_19086);
                   }
                   throw new Error("Invalid arity: " + arguments.length);
                 };
@@ -73488,68 +73500,68 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                 forum$core$display_comment_$_state_machine__8649__auto__.cljs$core$IFn$_invoke$arity$1 = forum$core$display_comment_$_state_machine__8649__auto____1;
                 return forum$core$display_comment_$_state_machine__8649__auto__;
               }();
-            }(switch__8648__auto__, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+            }(switch__8648__auto__, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
           }();
           var state__8712__auto__ = function() {
-            var statearr_18745 = f__8711__auto__.call(null);
-            statearr_18745[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__8710__auto__;
-            return statearr_18745;
+            var statearr_19094 = f__8711__auto__.call(null);
+            statearr_19094[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__8710__auto__;
+            return statearr_19094;
           }();
           return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null, state__8712__auto__);
         };
-      }(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
+      }(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
       return c__8710__auto__;
     };
-  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
   var comment_flag_store = reagent.core.atom.call(null, cljs.core.PersistentArrayMap.EMPTY);
-  var update_parents_children = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+  var update_parents_children = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
     return function() {
       var c__8710__auto__ = cljs.core.async.chan.call(null, 1);
-      cljs.core.async.impl.dispatch.run.call(null, function(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+      cljs.core.async.impl.dispatch.run.call(null, function(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
         return function() {
           var f__8711__auto__ = function() {
-            var switch__8648__auto__ = function(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
-              return function(state_18753) {
-                var state_val_18754 = state_18753[1];
-                if (state_val_18754 === 2) {
-                  var inst_18751 = state_18753[2];
-                  var state_18753__$1 = state_18753;
-                  return cljs.core.async.impl.ioc_helpers.return_chan.call(null, state_18753__$1, inst_18751);
+            var switch__8648__auto__ = function(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+              return function(state_19102) {
+                var state_val_19103 = state_19102[1];
+                if (state_val_19103 === 2) {
+                  var inst_19100 = state_19102[2];
+                  var state_19102__$1 = state_19102;
+                  return cljs.core.async.impl.ioc_helpers.return_chan.call(null, state_19102__$1, inst_19100);
                 } else {
-                  if (state_val_18754 === 1) {
-                    var inst_18746 = [new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800), new cljs.core.Keyword(null, "user-id", "user-id", -206822291), new cljs.core.Keyword(null, "success-callback", "success-callback", 1817337463)];
-                    var inst_18747 = function() {
-                      return function(inst_18746, state_val_18754, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+                  if (state_val_19103 === 1) {
+                    var inst_19095 = [new cljs.core.Keyword(null, "type", "type", 1174270348), new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800), new cljs.core.Keyword(null, "user-id", "user-id", -206822291), new cljs.core.Keyword(null, "success-callback", "success-callback", 1817337463)];
+                    var inst_19096 = function() {
+                      return function(inst_19095, state_val_19103, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
                         return function() {
                           return cljs.core.reset_BANG_.call(null, showing_update_flags, false);
                         };
-                      }(inst_18746, state_val_18754, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+                      }(inst_19095, state_val_19103, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
                     }();
-                    var inst_18748 = [new cljs.core.Keyword(null, "update-children", "update-children", 1871853561), parentid, cur_user_atom, inst_18747];
-                    var inst_18749 = cljs.core.PersistentHashMap.fromArrays(inst_18746, inst_18748);
-                    var state_18753__$1 = state_18753;
-                    return cljs.core.async.impl.ioc_helpers.put_BANG_.call(null, state_18753__$1, 2, req_c, inst_18749);
+                    var inst_19097 = [new cljs.core.Keyword(null, "update-children", "update-children", 1871853561), parentid, cur_user_atom, inst_19096];
+                    var inst_19098 = cljs.core.PersistentHashMap.fromArrays(inst_19095, inst_19097);
+                    var state_19102__$1 = state_19102;
+                    return cljs.core.async.impl.ioc_helpers.put_BANG_.call(null, state_19102__$1, 2, req_c, inst_19098);
                   } else {
                     return null;
                   }
                 }
               };
-            }(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
-            return function(switch__8648__auto__, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+            }(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+            return function(switch__8648__auto__, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
               return function() {
                 var forum$core$display_comment_$_state_machine__8649__auto__ = null;
                 var forum$core$display_comment_$_state_machine__8649__auto____0 = function() {
-                  var statearr_18758 = [null, null, null, null, null, null, null];
-                  statearr_18758[0] = forum$core$display_comment_$_state_machine__8649__auto__;
-                  statearr_18758[1] = 1;
-                  return statearr_18758;
+                  var statearr_19107 = [null, null, null, null, null, null, null];
+                  statearr_19107[0] = forum$core$display_comment_$_state_machine__8649__auto__;
+                  statearr_19107[1] = 1;
+                  return statearr_19107;
                 };
-                var forum$core$display_comment_$_state_machine__8649__auto____1 = function(state_18753) {
+                var forum$core$display_comment_$_state_machine__8649__auto____1 = function(state_19102) {
                   while (true) {
                     var ret_value__8650__auto__ = function() {
                       try {
                         while (true) {
-                          var result__8651__auto__ = switch__8648__auto__.call(null, state_18753);
+                          var result__8651__auto__ = switch__8648__auto__.call(null, state_19102);
                           if (cljs.core.keyword_identical_QMARK_.call(null, result__8651__auto__, new cljs.core.Keyword(null, "recur", "recur", -437573268))) {
                             continue;
                           } else {
@@ -73557,21 +73569,21 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                           }
                           break;
                         }
-                      } catch (e18759) {
-                        if (e18759 instanceof Object) {
-                          var ex__8652__auto__ = e18759;
-                          var statearr_18760_18784 = state_18753;
-                          statearr_18760_18784[5] = ex__8652__auto__;
-                          cljs.core.async.impl.ioc_helpers.process_exception.call(null, state_18753);
+                      } catch (e19108) {
+                        if (e19108 instanceof Object) {
+                          var ex__8652__auto__ = e19108;
+                          var statearr_19109_19133 = state_19102;
+                          statearr_19109_19133[5] = ex__8652__auto__;
+                          cljs.core.async.impl.ioc_helpers.process_exception.call(null, state_19102);
                           return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                         } else {
-                          throw e18759;
+                          throw e19108;
                         }
                       }
                     }();
                     if (cljs.core.keyword_identical_QMARK_.call(null, ret_value__8650__auto__, new cljs.core.Keyword(null, "recur", "recur", -437573268))) {
-                      var G__18785 = state_18753;
-                      state_18753 = G__18785;
+                      var G__19134 = state_19102;
+                      state_19102 = G__19134;
                       continue;
                     } else {
                       return ret_value__8650__auto__;
@@ -73579,12 +73591,12 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                     break;
                   }
                 };
-                forum$core$display_comment_$_state_machine__8649__auto__ = function(state_18753) {
+                forum$core$display_comment_$_state_machine__8649__auto__ = function(state_19102) {
                   switch(arguments.length) {
                     case 0:
                       return forum$core$display_comment_$_state_machine__8649__auto____0.call(this);
                     case 1:
-                      return forum$core$display_comment_$_state_machine__8649__auto____1.call(this, state_18753);
+                      return forum$core$display_comment_$_state_machine__8649__auto____1.call(this, state_19102);
                   }
                   throw new Error("Invalid arity: " + arguments.length);
                 };
@@ -73592,91 +73604,91 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                 forum$core$display_comment_$_state_machine__8649__auto__.cljs$core$IFn$_invoke$arity$1 = forum$core$display_comment_$_state_machine__8649__auto____1;
                 return forum$core$display_comment_$_state_machine__8649__auto__;
               }();
-            }(switch__8648__auto__, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+            }(switch__8648__auto__, c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
           }();
           var state__8712__auto__ = function() {
-            var statearr_18761 = f__8711__auto__.call(null);
-            statearr_18761[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__8710__auto__;
-            return statearr_18761;
+            var statearr_19110 = f__8711__auto__.call(null);
+            statearr_19110[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__8710__auto__;
+            return statearr_19110;
           }();
           return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null, state__8712__auto__);
         };
-      }(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
+      }(c__8710__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
       return c__8710__auto__;
     };
-  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
-  var post_flag_update_callback = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+  var post_flag_update_callback = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
     return function(new_flagids) {
       cljs.core.reset_BANG_.call(null, flagids, new_flagids);
       return update_parents_children.call(null);
     };
-  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
-  var flag_update_fn = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+  var flag_update_fn = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
     return function() {
       return forum.core.flag_comment.call(null, cljs.core.deref.call(null, cur_user_atom), commentid, comment_flag_store, error_atom, post_flag_update_callback);
     };
-  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
-  var comment_delete_fn = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+  var comment_delete_fn = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
     return function() {
-      return forum.core.delete_comment.call(null, commentid, error_atom, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+      return forum.core.delete_comment.call(null, commentid, error_atom, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
         return function() {
           cljs.core.reset_BANG_.call(null, text, "!!DELETED!!");
           cljs.core.reset_BANG_.call(null, deleted, true);
           return update_parents_children.call(null);
         };
-      }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
+      }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
     };
-  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
-  var post_comment_edit_callback = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+  var post_comment_edit_callback = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
     return function() {
       cljs.core.reset_BANG_.call(null, text, cljs.core.deref.call(null, edited_text_atom));
       cljs.core.reset_BANG_.call(null, editing_comment, false);
       return update_parents_children.call(null);
     };
-  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
-  var vote_callback = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+  var vote_callback = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
     return function(vote) {
-      return forum.core.votefor_commment.call(null, commentid, cur_user_atom, vote, error_atom, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, 
+      return forum.core.votefor_commment.call(null, commentid, cur_user_atom, vote, error_atom, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, 
       filter_store, questionid, flagtypes, req_c, score) {
         return function() {
           cljs.core.reset_BANG_.call(null, votetype, vote);
           cljs.core.swap_BANG_.call(null, score, cljs.core._EQ_.call(null, vote, "up") ? cljs.core.inc : cljs.core.dec);
           return update_parents_children.call(null);
         };
-      }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
+      }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
     };
-  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
-  return function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+  return function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
     return function() {
-      if (cljs.core.not.call(null, cljs.core.some.call(null, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, 
+      if (cljs.core.not.call(null, cljs.core.some.call(null, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, 
       questionid, flagtypes, req_c, score) {
-        return function(p1__18674_SHARP_) {
-          return cljs.core.get.call(null, cljs.core.deref.call(null, filter_store), p1__18674_SHARP_);
+        return function(p1__19023_SHARP_) {
+          return cljs.core.get.call(null, cljs.core.deref.call(null, filter_store), p1__19023_SHARP_);
         };
-      }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score), cljs.core.deref.call(null, 
-      flagids)))) {
+      }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score), cljs.core.deref.call(null, 
+      flagids))) && cljs.core.count.call(null, cljs.core.deref.call(null, flagids)) > 0) {
         return null;
       } else {
         return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-region", "div.comment-region", 1998535834), new cljs.core.PersistentVector(null, 16, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-rest", "div.comment-rest", 1113122736), cljs.core.not.call(null, cljs.core.deref.call(null, deleted)) && !cljs.core._EQ_.call(null, cljs.core.deref.call(null, votetype), "up") ? new cljs.core.PersistentVector(null, 
         3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button.vote.up", "button.vote.up", -189582934), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, 
-        post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+        post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
           return function() {
             return vote_callback.call(null, "up");
           };
-        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), "Upvote"], null) : 
+        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), "Upvote"], null) : 
         null, cljs.core.not.call(null, cljs.core.deref.call(null, deleted)) && !cljs.core._EQ_.call(null, cljs.core.deref.call(null, votetype), "down") ? new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button.vote.down", "button.vote.down", -1495785125), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, 
-        error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+        error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
           return function() {
             return vote_callback.call(null, "down");
           };
-        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), "Downvote"], 
+        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), "Downvote"], 
         null) : null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "br", "br", 934104792)], null), cljs.core._EQ_.call(null, cljs.core.deref.call(null, cur_user_atom), userid) && cljs.core.not.call(null, cljs.core.deref.call(null, deleted)) ? new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.edit-select-box", "div.edit-select-box", 762701526), new cljs.core.PersistentArrayMap(null, 
-        1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, 
+        1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, 
         filter_store, questionid, flagtypes, req_c, score) {
           return function() {
             return cljs.core.swap_BANG_.call(null, editing_comment, cljs.core.not);
           };
-        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), cljs.core.truth_(cljs.core.deref.call(null, 
+        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), cljs.core.truth_(cljs.core.deref.call(null, 
         editing_comment)) ? "Abort editing" : "E (Click here to edit this comment)"], null) : null, cljs.core.truth_(function() {
           var and__4264__auto__ = cljs.core._EQ_.call(null, cljs.core.deref.call(null, cur_user_atom), userid);
           if (and__4264__auto__) {
@@ -73687,69 +73699,69 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
         }()) ? new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.comment_edit_box, new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "comment-id", "comment-id", -1387285800), commentid, new cljs.core.Keyword(null, "text-store", "text-store", -1952653936), edited_text_atom, new cljs.core.Keyword(null, "error-store", "error-store", -984020518), error_atom, new cljs.core.Keyword(null, "update-callback", "update-callback", 587369026), post_comment_edit_callback], 
         null)], null) : null, cljs.core._EQ_.call(null, cljs.core.deref.call(null, cur_user_atom), userid) && cljs.core.not.call(null, cljs.core.deref.call(null, deleted)) ? new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.delete-text", "div.delete-text", 76501260), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), comment_delete_fn], null), "D (Click here to delete this comment)"], 
         null) : null, cljs.core.not.call(null, cljs.core.deref.call(null, deleted)) ? new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button.flag_button", "button.flag_button", 1287577589), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, 
-        children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+        children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
           return function() {
             return cljs.core.swap_BANG_.call(null, showing_update_flags, cljs.core.not);
           };
-        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), cljs.core.truth_(cljs.core.deref.call(null, 
+        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), cljs.core.truth_(cljs.core.deref.call(null, 
         showing_update_flags)) ? "Abort flagging" : "Add Commen Flag"], null) : null, cljs.core.truth_(cljs.core.deref.call(null, showing_update_flags)) ? new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.flag_select, new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "flagtype-store", "flagtype-store", 1589165883), flagtypes, new cljs.core.Keyword(null, "select-flag-store", "select-flag-store", -983328603), comment_flag_store, new cljs.core.Keyword(null, 
         "text", "text", -1790561697), "What flags apply to this comment?", new cljs.core.Keyword(null, "callback-fn", "callback-fn", 2018892720), flag_update_fn], null)], null) : null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "br", "br", 934104792)], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button.comment-child-toggle", "button.comment-child-toggle", 
-        -1783493017), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, 
+        -1783493017), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, 
         deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
           return function() {
             return cljs.core.swap_BANG_.call(null, expanded, cljs.core.not);
           };
-        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), cljs.core.truth_(cljs.core.deref.call(null, 
+        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), cljs.core.truth_(cljs.core.deref.call(null, 
         expanded)) ? "hide replies" : "show replies"], null), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "br", "br", 934104792)], null), cljs.core.truth_(cljs.core.deref.call(null, expanded)) ? new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "button.comment-entry-box-toggle", "button.comment-entry-box-toggle", -1527759635), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, 
-        "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, 
+        "on-click", "on-click", 1632826543), function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, 
         req_c, score) {
           return function() {
             return cljs.core.swap_BANG_.call(null, showing_comment_entry, cljs.core.not);
           };
-        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), cljs.core.truth_(cljs.core.deref.call(null, 
+        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score)], null), cljs.core.truth_(cljs.core.deref.call(null, 
         showing_comment_entry)) ? "Abort comment" : "Enter Reply"], null) : null, cljs.core.truth_(cljs.core.deref.call(null, showing_comment_entry)) ? new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.comment_entry_box, new cljs.core.PersistentArrayMap(null, 6, [new cljs.core.Keyword(null, "parent-id", "parent-id", -1400729131), commentid, new cljs.core.Keyword(null, "user-id-atom", "user-id-atom", 475579560), cur_user_atom, new cljs.core.Keyword(null, 
         "question-id", "question-id", 529146980), questionid, new cljs.core.Keyword(null, "parent-box-toggle", "parent-box-toggle", -1182132907), showing_comment_entry, new cljs.core.Keyword(null, "error-store", "error-store", -984020518), error_atom, new cljs.core.Keyword(null, "update-callback", "update-callback", 587369026), children_update_callback], null)], null) : null, cljs.core.not_EQ_.call(null, cljs.core.deref.call(null, error_atom), "") ? new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, 
         [new cljs.core.Keyword(null, "div.error-text", "div.error-text", -1928114148), cljs.core.deref.call(null, error_atom)], null) : null, cljs.core.truth_(cljs.core.deref.call(null, expanded)) ? function() {
-          var c__8710__auto___18786 = cljs.core.async.chan.call(null, 1);
-          cljs.core.async.impl.dispatch.run.call(null, function(c__8710__auto___18786, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, 
+          var c__8710__auto___19135 = cljs.core.async.chan.call(null, 1);
+          cljs.core.async.impl.dispatch.run.call(null, function(c__8710__auto___19135, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, 
           filter_store, questionid, flagtypes, req_c, score) {
             return function() {
               var f__8711__auto__ = function() {
-                var switch__8648__auto__ = function(c__8710__auto___18786, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, 
+                var switch__8648__auto__ = function(c__8710__auto___19135, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, 
                 questionid, flagtypes, req_c, score) {
-                  return function(state_18765) {
-                    var state_val_18766 = state_18765[1];
-                    if (state_val_18766 === 2) {
-                      var inst_18763 = state_18765[2];
-                      var state_18765__$1 = state_18765;
-                      return cljs.core.async.impl.ioc_helpers.return_chan.call(null, state_18765__$1, inst_18763);
+                  return function(state_19114) {
+                    var state_val_19115 = state_19114[1];
+                    if (state_val_19115 === 2) {
+                      var inst_19112 = state_19114[2];
+                      var state_19114__$1 = state_19114;
+                      return cljs.core.async.impl.ioc_helpers.return_chan.call(null, state_19114__$1, inst_19112);
                     } else {
-                      if (state_val_18766 === 1) {
-                        var state_18765__$1 = state_18765;
-                        return cljs.core.async.impl.ioc_helpers.put_BANG_.call(null, state_18765__$1, 2, req_c, children_req);
+                      if (state_val_19115 === 1) {
+                        var state_19114__$1 = state_19114;
+                        return cljs.core.async.impl.ioc_helpers.put_BANG_.call(null, state_19114__$1, 2, req_c, children_req);
                       } else {
                         return null;
                       }
                     }
                   };
-                }(c__8710__auto___18786, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, 
+                }(c__8710__auto___19135, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, 
                 score);
-                return function(switch__8648__auto__, c__8710__auto___18786, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, 
+                return function(switch__8648__auto__, c__8710__auto___19135, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, 
                 questionid, flagtypes, req_c, score) {
                   return function() {
                     var forum$core$display_comment_$_state_machine__8649__auto__ = null;
                     var forum$core$display_comment_$_state_machine__8649__auto____0 = function() {
-                      var statearr_18770 = [null, null, null, null, null, null, null];
-                      statearr_18770[0] = forum$core$display_comment_$_state_machine__8649__auto__;
-                      statearr_18770[1] = 1;
-                      return statearr_18770;
+                      var statearr_19119 = [null, null, null, null, null, null, null];
+                      statearr_19119[0] = forum$core$display_comment_$_state_machine__8649__auto__;
+                      statearr_19119[1] = 1;
+                      return statearr_19119;
                     };
-                    var forum$core$display_comment_$_state_machine__8649__auto____1 = function(state_18765) {
+                    var forum$core$display_comment_$_state_machine__8649__auto____1 = function(state_19114) {
                       while (true) {
                         var ret_value__8650__auto__ = function() {
                           try {
                             while (true) {
-                              var result__8651__auto__ = switch__8648__auto__.call(null, state_18765);
+                              var result__8651__auto__ = switch__8648__auto__.call(null, state_19114);
                               if (cljs.core.keyword_identical_QMARK_.call(null, result__8651__auto__, new cljs.core.Keyword(null, "recur", "recur", -437573268))) {
                                 continue;
                               } else {
@@ -73757,21 +73769,21 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                               }
                               break;
                             }
-                          } catch (e18771) {
-                            if (e18771 instanceof Object) {
-                              var ex__8652__auto__ = e18771;
-                              var statearr_18772_18787 = state_18765;
-                              statearr_18772_18787[5] = ex__8652__auto__;
-                              cljs.core.async.impl.ioc_helpers.process_exception.call(null, state_18765);
+                          } catch (e19120) {
+                            if (e19120 instanceof Object) {
+                              var ex__8652__auto__ = e19120;
+                              var statearr_19121_19136 = state_19114;
+                              statearr_19121_19136[5] = ex__8652__auto__;
+                              cljs.core.async.impl.ioc_helpers.process_exception.call(null, state_19114);
                               return new cljs.core.Keyword(null, "recur", "recur", -437573268);
                             } else {
-                              throw e18771;
+                              throw e19120;
                             }
                           }
                         }();
                         if (cljs.core.keyword_identical_QMARK_.call(null, ret_value__8650__auto__, new cljs.core.Keyword(null, "recur", "recur", -437573268))) {
-                          var G__18788 = state_18765;
-                          state_18765 = G__18788;
+                          var G__19137 = state_19114;
+                          state_19114 = G__19137;
                           continue;
                         } else {
                           return ret_value__8650__auto__;
@@ -73779,12 +73791,12 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                         break;
                       }
                     };
-                    forum$core$display_comment_$_state_machine__8649__auto__ = function(state_18765) {
+                    forum$core$display_comment_$_state_machine__8649__auto__ = function(state_19114) {
                       switch(arguments.length) {
                         case 0:
                           return forum$core$display_comment_$_state_machine__8649__auto____0.call(this);
                         case 1:
-                          return forum$core$display_comment_$_state_machine__8649__auto____1.call(this, state_18765);
+                          return forum$core$display_comment_$_state_machine__8649__auto____1.call(this, state_19114);
                       }
                       throw new Error("Invalid arity: " + arguments.length);
                     };
@@ -73792,58 +73804,58 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                     forum$core$display_comment_$_state_machine__8649__auto__.cljs$core$IFn$_invoke$arity$1 = forum$core$display_comment_$_state_machine__8649__auto____1;
                     return forum$core$display_comment_$_state_machine__8649__auto__;
                   }();
-                }(switch__8648__auto__, c__8710__auto___18786, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, 
+                }(switch__8648__auto__, c__8710__auto___19135, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, 
                 flagtypes, req_c, score);
               }();
               var state__8712__auto__ = function() {
-                var statearr_18773 = f__8711__auto__.call(null);
-                statearr_18773[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__8710__auto___18786;
-                return statearr_18773;
+                var statearr_19122 = f__8711__auto__.call(null);
+                statearr_19122[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__8710__auto___19135;
+                return statearr_19122;
               }();
               return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null, state__8712__auto__);
             };
-          }(c__8710__auto___18786, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
+          }(c__8710__auto___19135, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score));
           return cljs.core.doall.call(null, function() {
-            var iter__5030__auto__ = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, 
+            var iter__5030__auto__ = function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, 
             req_c, score) {
-              return function forum$core$display_comment_$_iter__18774(s__18775) {
-                return new cljs.core.LazySeq(null, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, 
+              return function forum$core$display_comment_$_iter__19123(s__19124) {
+                return new cljs.core.LazySeq(null, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, 
                 flagtypes, req_c, score) {
                   return function() {
-                    var s__18775__$1 = s__18775;
+                    var s__19124__$1 = s__19124;
                     while (true) {
-                      var temp__4126__auto__ = cljs.core.seq.call(null, s__18775__$1);
+                      var temp__4126__auto__ = cljs.core.seq.call(null, s__19124__$1);
                       if (temp__4126__auto__) {
-                        var s__18775__$2 = temp__4126__auto__;
-                        if (cljs.core.chunked_seq_QMARK_.call(null, s__18775__$2)) {
-                          var c__5028__auto__ = cljs.core.chunk_first.call(null, s__18775__$2);
+                        var s__19124__$2 = temp__4126__auto__;
+                        if (cljs.core.chunked_seq_QMARK_.call(null, s__19124__$2)) {
+                          var c__5028__auto__ = cljs.core.chunk_first.call(null, s__19124__$2);
                           var size__5029__auto__ = cljs.core.count.call(null, c__5028__auto__);
-                          var b__18777 = cljs.core.chunk_buffer.call(null, size__5029__auto__);
+                          var b__19126 = cljs.core.chunk_buffer.call(null, size__5029__auto__);
                           if (function() {
-                            var i__18776 = 0;
+                            var i__19125 = 0;
                             while (true) {
-                              if (i__18776 < size__5029__auto__) {
-                                var child_comment = cljs.core._nth.call(null, c__5028__auto__, i__18776);
-                                cljs.core.chunk_append.call(null, b__18777, function() {
-                                  var vec__18780 = cljs.core.map.call(null, function(i__18776, child_comment, c__5028__auto__, size__5029__auto__, b__18777, s__18775__$2, temp__4126__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, 
-                                  map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
-                                    return function(p1__18675_SHARP_) {
-                                      return reagent.core.atom.call(null, p1__18675_SHARP_.call(null, child_comment));
+                              if (i__19125 < size__5029__auto__) {
+                                var child_comment = cljs.core._nth.call(null, c__5028__auto__, i__19125);
+                                cljs.core.chunk_append.call(null, b__19126, function() {
+                                  var vec__19129 = cljs.core.map.call(null, function(i__19125, child_comment, c__5028__auto__, size__5029__auto__, b__19126, s__19124__$2, temp__4126__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, 
+                                  map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
+                                    return function(p1__19024_SHARP_) {
+                                      return reagent.core.atom.call(null, p1__19024_SHARP_.call(null, child_comment));
                                     };
-                                  }(i__18776, child_comment, c__5028__auto__, size__5029__auto__, b__18777, s__18775__$2, temp__4126__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, 
+                                  }(i__19125, child_comment, c__5028__auto__, size__5029__auto__, b__19126, s__19124__$2, temp__4126__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, 
                                   text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score), new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "flagids", "flagids", 446703613), new cljs.core.Keyword(null, "text", "text", -1790561697), new cljs.core.Keyword(null, "deleted", "deleted", -510100639), new cljs.core.Keyword(null, "score", "score", -1963588780), new cljs.core.Keyword(null, "votetype", 
                                   "votetype", 766516137)], null));
-                                  var flags_store = cljs.core.nth.call(null, vec__18780, 0, null);
-                                  var text_store = cljs.core.nth.call(null, vec__18780, 1, null);
-                                  var deleted_store = cljs.core.nth.call(null, vec__18780, 2, null);
-                                  var score_store = cljs.core.nth.call(null, vec__18780, 3, null);
-                                  var vote_store = cljs.core.nth.call(null, vec__18780, 4, null);
+                                  var flags_store = cljs.core.nth.call(null, vec__19129, 0, null);
+                                  var text_store = cljs.core.nth.call(null, vec__19129, 1, null);
+                                  var deleted_store = cljs.core.nth.call(null, vec__19129, 2, null);
+                                  var score_store = cljs.core.nth.call(null, vec__19129, 3, null);
+                                  var vote_store = cljs.core.nth.call(null, vec__19129, 4, null);
                                   return cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum$core$display_comment, cljs.core.assoc.call(null, child_comment, new cljs.core.Keyword(null, "req-c", "req-c", -410070802), req_c, new cljs.core.Keyword(null, "questionid", "questionid", -274916981), questionid, new cljs.core.Keyword(null, "filter-store", "filter-store", -2132752342), filter_store, new cljs.core.Keyword(null, "flagtypes", "flagtypes", 
                                   860831115), flagtypes, new cljs.core.Keyword(null, "cur-user-atom", "cur-user-atom", 1908663971), cur_user_atom, new cljs.core.Keyword(null, "flagids", "flagids", 446703613), flags_store, new cljs.core.Keyword(null, "text", "text", -1790561697), text_store, new cljs.core.Keyword(null, "deleted", "deleted", -510100639), deleted_store, new cljs.core.Keyword(null, "score", "score", -1963588780), score_store, new cljs.core.Keyword(null, "votetype", "votetype", 766516137), 
                                   vote_store)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), (new cljs.core.Keyword(null, "commentid", "commentid", 1114919753)).cljs$core$IFn$_invoke$arity$1(child_comment)], null));
                                 }());
-                                var G__18789 = i__18776 + 1;
-                                i__18776 = G__18789;
+                                var G__19138 = i__19125 + 1;
+                                i__19125 = G__19138;
                                 continue;
                               } else {
                                 return true;
@@ -73851,29 +73863,29 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                               break;
                             }
                           }()) {
-                            return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__18777), forum$core$display_comment_$_iter__18774.call(null, cljs.core.chunk_rest.call(null, s__18775__$2)));
+                            return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__19126), forum$core$display_comment_$_iter__19123.call(null, cljs.core.chunk_rest.call(null, s__19124__$2)));
                           } else {
-                            return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__18777), null);
+                            return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__19126), null);
                           }
                         } else {
-                          var child_comment = cljs.core.first.call(null, s__18775__$2);
+                          var child_comment = cljs.core.first.call(null, s__19124__$2);
                           return cljs.core.cons.call(null, function() {
-                            var vec__18781 = cljs.core.map.call(null, function(child_comment, s__18775__$2, temp__4126__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, 
+                            var vec__19130 = cljs.core.map.call(null, function(child_comment, s__19124__$2, temp__4126__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, 
                             cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
-                              return function(p1__18675_SHARP_) {
-                                return reagent.core.atom.call(null, p1__18675_SHARP_.call(null, child_comment));
+                              return function(p1__19024_SHARP_) {
+                                return reagent.core.atom.call(null, p1__19024_SHARP_.call(null, child_comment));
                               };
-                            }(child_comment, s__18775__$2, temp__4126__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, 
+                            }(child_comment, s__19124__$2, temp__4126__auto__, expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, 
                             questionid, flagtypes, req_c, score), new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "flagids", "flagids", 446703613), new cljs.core.Keyword(null, "text", "text", -1790561697), new cljs.core.Keyword(null, "deleted", "deleted", -510100639), new cljs.core.Keyword(null, "score", "score", -1963588780), new cljs.core.Keyword(null, "votetype", "votetype", 766516137)], null));
-                            var flags_store = cljs.core.nth.call(null, vec__18781, 0, null);
-                            var text_store = cljs.core.nth.call(null, vec__18781, 1, null);
-                            var deleted_store = cljs.core.nth.call(null, vec__18781, 2, null);
-                            var score_store = cljs.core.nth.call(null, vec__18781, 3, null);
-                            var vote_store = cljs.core.nth.call(null, vec__18781, 4, null);
+                            var flags_store = cljs.core.nth.call(null, vec__19130, 0, null);
+                            var text_store = cljs.core.nth.call(null, vec__19130, 1, null);
+                            var deleted_store = cljs.core.nth.call(null, vec__19130, 2, null);
+                            var score_store = cljs.core.nth.call(null, vec__19130, 3, null);
+                            var vote_store = cljs.core.nth.call(null, vec__19130, 4, null);
                             return cljs.core.with_meta(new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum$core$display_comment, cljs.core.assoc.call(null, child_comment, new cljs.core.Keyword(null, "req-c", "req-c", -410070802), req_c, new cljs.core.Keyword(null, "questionid", "questionid", -274916981), questionid, new cljs.core.Keyword(null, "filter-store", "filter-store", -2132752342), filter_store, new cljs.core.Keyword(null, "flagtypes", "flagtypes", 860831115), 
                             flagtypes, new cljs.core.Keyword(null, "cur-user-atom", "cur-user-atom", 1908663971), cur_user_atom, new cljs.core.Keyword(null, "flagids", "flagids", 446703613), flags_store, new cljs.core.Keyword(null, "text", "text", -1790561697), text_store, new cljs.core.Keyword(null, "deleted", "deleted", -510100639), deleted_store, new cljs.core.Keyword(null, "score", "score", -1963588780), score_store, new cljs.core.Keyword(null, "votetype", "votetype", 766516137), vote_store)], 
                             null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), (new cljs.core.Keyword(null, "commentid", "commentid", 1114919753)).cljs$core$IFn$_invoke$arity$1(child_comment)], null));
-                          }(), forum$core$display_comment_$_iter__18774.call(null, cljs.core.rest.call(null, s__18775__$2)));
+                          }(), forum$core$display_comment_$_iter__19123.call(null, cljs.core.rest.call(null, s__19124__$2)));
                         }
                       } else {
                         return null;
@@ -73881,39 +73893,107 @@ forum.core.display_comment = function forum$core$display_comment(p__18677) {
                       break;
                     }
                   };
-                }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score), null, null);
+                }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score), null, null);
               };
-            }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+            }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
             return iter__5030__auto__.call(null, (new cljs.core.Keyword(null, "children", "children", -940561982)).cljs$core$IFn$_invoke$arity$1(cljs.core.deref.call(null, child_comment_atom)));
           }());
         }() : null], null), new cljs.core.PersistentVector(null, 5, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-text-region", "div.comment-text-region", -1497963564), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-text", "div.comment-text", 968011177), [cljs.core.str("Comment by user id: "), cljs.core.str(userid), cljs.core.str(" with comment id: "), cljs.core.str(commentid)].join("")], 
         null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-text", "div.comment-text", 968011177), [cljs.core.str("score is : "), cljs.core.str(cljs.core.deref.call(null, score)), cljs.core.str(", and current user voted it: "), cljs.core.str(cljs.core.deref.call(null, votetype))].join("")], null), new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-text", 
-        "div.comment-text", 968011177), "Flagged as: ", cljs.core.doall.call(null, cljs.core.map.call(null, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, 
+        "div.comment-text", 968011177), "Flagged as: ", cljs.core.doall.call(null, cljs.core.map.call(null, function(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, 
         userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score) {
-          return function(p1__18676_SHARP_) {
-            return[cljs.core.str(cljs.core.get.call(null, cljs.core.deref.call(null, flagtypes), p1__18676_SHARP_)), cljs.core.str(" ")].join("");
+          return function(p1__19025_SHARP_) {
+            return[cljs.core.str(cljs.core.get.call(null, cljs.core.deref.call(null, flagtypes), p1__19025_SHARP_)), cljs.core.str(" ")].join("");
           };
-        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score), cljs.core.deref.call(null, 
+        }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score), cljs.core.deref.call(null, 
         flagids)))], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.comment-text", "div.comment-text", 968011177), cljs.core.truth_(cljs.core.deref.call(null, deleted)) ? "!!DELETED!!" : [cljs.core.str("Comment text is: "), cljs.core.str('"'), cljs.core.str(cljs.core.deref.call(null, text)), cljs.core.str('"')].join("")], null)], null)], null);
       }
     };
-  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__18730, map__18730__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
+  }(expanded, child_comment_atom, showing_comment_entry, showing_update_flags, error_atom, edited_text_atom, editing_comment, children_req, children_update_callback, comment_flag_store, update_parents_children, post_flag_update_callback, flag_update_fn, comment_delete_fn, post_comment_edit_callback, vote_callback, map__19079, map__19079__$1, parentid, flagids, text, deleted, cur_user_atom, userid, commentid, votetype, filter_store, questionid, flagtypes, req_c, score);
 };
 forum.core.forum_page = function forum$core$forum_page() {
   var userid_store = reagent.core.atom.call(null, 1);
   var flagtype_store = reagent.core.atom.call(null, cljs.core.PersistentArrayMap.EMPTY);
   var filtered_flags = reagent.core.atom.call(null, new cljs.core.PersistentArrayMap(null, 4, [1, true, 2, true, 3, true, 4, true], null));
   var request_chan = cljs.core.async.chan.call(null);
+  var question_store = reagent.core.atom.call(null, cljs.core.PersistentArrayMap.EMPTY);
   forum.core.start_resource_provider.call(null, request_chan);
   forum.core.get_flag_types.call(null, flagtype_store);
-  return function(userid_store, flagtype_store, filtered_flags, request_chan) {
+  forum.core.get_questions.call(null, question_store, reagent.core.atom.call(null, cljs.core.PersistentArrayMap.EMPTY));
+  return function(userid_store, flagtype_store, filtered_flags, request_chan, question_store) {
     return function() {
       return new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.whole-page", "div.whole-page", 1221178455), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.userid_select, userid_store], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.flag_select, new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "flagtype-store", "flagtype-store", 
-      1589165883), flagtype_store, new cljs.core.Keyword(null, "select-flag-store", "select-flag-store", -983328603), filtered_flags, new cljs.core.Keyword(null, "text", "text", -1790561697), "Show what kind of comments?", new cljs.core.Keyword(null, "callback-fn", "callback-fn", 2018892720), null], null)], null), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.display_comment, cljs.core.PersistentHashMap.fromArrays([new cljs.core.Keyword(null, "deleted", 
-      "deleted", -510100639), new cljs.core.Keyword(null, "cur-user-atom", "cur-user-atom", 1908663971), new cljs.core.Keyword(null, "userid", "userid", 1974246085), new cljs.core.Keyword(null, "commentid", "commentid", 1114919753), new cljs.core.Keyword(null, "votetype", "votetype", 766516137), new cljs.core.Keyword(null, "filter-store", "filter-store", -2132752342), new cljs.core.Keyword(null, "questionid", "questionid", -274916981), new cljs.core.Keyword(null, "flagtypes", "flagtypes", 860831115), 
-      new cljs.core.Keyword(null, "req-c", "req-c", -410070802), new cljs.core.Keyword(null, "score", "score", -1963588780), new cljs.core.Keyword(null, "parentid", "parentid", 46077050), new cljs.core.Keyword(null, "flagids", "flagids", 446703613), new cljs.core.Keyword(null, "text", "text", -1790561697)], [reagent.core.atom.call(null, false), userid_store, 0, 0, reagent.core.atom.call(null, null), filtered_flags, 1, flagtype_store, request_chan, reagent.core.atom.call(null, 9E3), null, reagent.core.atom.call(null, 
-      new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [3], null)), reagent.core.atom.call(null, "I am a dummy root comment with no life in the DB, a mere placeholder for a health question. \nI am immortal, and cannot be flagged or permanently edited/deleted.")])], null)], null);
+      1589165883), flagtype_store, new cljs.core.Keyword(null, "select-flag-store", "select-flag-store", -983328603), filtered_flags, new cljs.core.Keyword(null, "text", "text", -1790561697), "Show what kind of comments?", new cljs.core.Keyword(null, "callback-fn", "callback-fn", 2018892720), null], null)], null), function() {
+        var iter__5030__auto__ = function(userid_store, flagtype_store, filtered_flags, request_chan, question_store) {
+          return function forum$core$forum_page_$_iter__19147(s__19148) {
+            return new cljs.core.LazySeq(null, function(userid_store, flagtype_store, filtered_flags, request_chan, question_store) {
+              return function() {
+                var s__19148__$1 = s__19148;
+                while (true) {
+                  var temp__4126__auto__ = cljs.core.seq.call(null, s__19148__$1);
+                  if (temp__4126__auto__) {
+                    var s__19148__$2 = temp__4126__auto__;
+                    if (cljs.core.chunked_seq_QMARK_.call(null, s__19148__$2)) {
+                      var c__5028__auto__ = cljs.core.chunk_first.call(null, s__19148__$2);
+                      var size__5029__auto__ = cljs.core.count.call(null, c__5028__auto__);
+                      var b__19150 = cljs.core.chunk_buffer.call(null, size__5029__auto__);
+                      if (function() {
+                        var i__19149 = 0;
+                        while (true) {
+                          if (i__19149 < size__5029__auto__) {
+                            var map__19153 = cljs.core._nth.call(null, c__5028__auto__, i__19149);
+                            var map__19153__$1 = cljs.core.seq_QMARK_.call(null, map__19153) ? cljs.core.apply.call(null, cljs.core.hash_map, map__19153) : map__19153;
+                            var questiontitle = cljs.core.get.call(null, map__19153__$1, new cljs.core.Keyword(null, "questiontitle", "questiontitle", 313037688));
+                            var commenttext = cljs.core.get.call(null, map__19153__$1, new cljs.core.Keyword(null, "commenttext", "commenttext", -1292267771));
+                            var commentid = cljs.core.get.call(null, map__19153__$1, new cljs.core.Keyword(null, "commentid", "commentid", 1114919753));
+                            var userid = cljs.core.get.call(null, map__19153__$1, new cljs.core.Keyword(null, "userid", "userid", 1974246085));
+                            var questiondeleted = cljs.core.get.call(null, map__19153__$1, new cljs.core.Keyword(null, "questiondeleted", "questiondeleted", -2069066252));
+                            var questionid = cljs.core.get.call(null, map__19153__$1, new cljs.core.Keyword(null, "questionid", "questionid", -274916981));
+                            cljs.core.chunk_append.call(null, b__19150, cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.question", "div.question", 1474152370), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.question-title", "div.question-title", -100594146), [cljs.core.str("Question title is: "), cljs.core.str(questiontitle)].join("")], null), 
+                            new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.display_comment, cljs.core.PersistentHashMap.fromArrays([new cljs.core.Keyword(null, "deleted", "deleted", -510100639), new cljs.core.Keyword(null, "cur-user-atom", "cur-user-atom", 1908663971), new cljs.core.Keyword(null, "userid", "userid", 1974246085), new cljs.core.Keyword(null, "commentid", "commentid", 1114919753), new cljs.core.Keyword(null, "votetype", "votetype", 766516137), 
+                            new cljs.core.Keyword(null, "filter-store", "filter-store", -2132752342), new cljs.core.Keyword(null, "questionid", "questionid", -274916981), new cljs.core.Keyword(null, "flagtypes", "flagtypes", 860831115), new cljs.core.Keyword(null, "req-c", "req-c", -410070802), new cljs.core.Keyword(null, "score", "score", -1963588780), new cljs.core.Keyword(null, "parentid", "parentid", 46077050), new cljs.core.Keyword(null, "flagids", "flagids", 446703613), new cljs.core.Keyword(null, 
+                            "text", "text", -1790561697)], [reagent.core.atom.call(null, questiondeleted), userid_store, userid, commentid, reagent.core.atom.call(null, null), filtered_flags, questionid, flagtype_store, request_chan, reagent.core.atom.call(null, 9E3), null, reagent.core.atom.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [3], null)), reagent.core.atom.call(null, commenttext)])], null)], null), new cljs.core.PersistentArrayMap(null, 1, 
+                            [new cljs.core.Keyword(null, "key", "key", -1516042587), questionid], null)));
+                            var G__19155 = i__19149 + 1;
+                            i__19149 = G__19155;
+                            continue;
+                          } else {
+                            return true;
+                          }
+                          break;
+                        }
+                      }()) {
+                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__19150), forum$core$forum_page_$_iter__19147.call(null, cljs.core.chunk_rest.call(null, s__19148__$2)));
+                      } else {
+                        return cljs.core.chunk_cons.call(null, cljs.core.chunk.call(null, b__19150), null);
+                      }
+                    } else {
+                      var map__19154 = cljs.core.first.call(null, s__19148__$2);
+                      var map__19154__$1 = cljs.core.seq_QMARK_.call(null, map__19154) ? cljs.core.apply.call(null, cljs.core.hash_map, map__19154) : map__19154;
+                      var questiontitle = cljs.core.get.call(null, map__19154__$1, new cljs.core.Keyword(null, "questiontitle", "questiontitle", 313037688));
+                      var commenttext = cljs.core.get.call(null, map__19154__$1, new cljs.core.Keyword(null, "commenttext", "commenttext", -1292267771));
+                      var commentid = cljs.core.get.call(null, map__19154__$1, new cljs.core.Keyword(null, "commentid", "commentid", 1114919753));
+                      var userid = cljs.core.get.call(null, map__19154__$1, new cljs.core.Keyword(null, "userid", "userid", 1974246085));
+                      var questiondeleted = cljs.core.get.call(null, map__19154__$1, new cljs.core.Keyword(null, "questiondeleted", "questiondeleted", -2069066252));
+                      var questionid = cljs.core.get.call(null, map__19154__$1, new cljs.core.Keyword(null, "questionid", "questionid", -274916981));
+                      return cljs.core.cons.call(null, cljs.core.with_meta(new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.question", "div.question", 1474152370), new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null, "div.question-title", "div.question-title", -100594146), [cljs.core.str("Question title is: "), cljs.core.str(questiontitle)].join("")], null), new cljs.core.PersistentVector(null, 
+                      2, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.display_comment, cljs.core.PersistentHashMap.fromArrays([new cljs.core.Keyword(null, "deleted", "deleted", -510100639), new cljs.core.Keyword(null, "cur-user-atom", "cur-user-atom", 1908663971), new cljs.core.Keyword(null, "userid", "userid", 1974246085), new cljs.core.Keyword(null, "commentid", "commentid", 1114919753), new cljs.core.Keyword(null, "votetype", "votetype", 766516137), new cljs.core.Keyword(null, "filter-store", 
+                      "filter-store", -2132752342), new cljs.core.Keyword(null, "questionid", "questionid", -274916981), new cljs.core.Keyword(null, "flagtypes", "flagtypes", 860831115), new cljs.core.Keyword(null, "req-c", "req-c", -410070802), new cljs.core.Keyword(null, "score", "score", -1963588780), new cljs.core.Keyword(null, "parentid", "parentid", 46077050), new cljs.core.Keyword(null, "flagids", "flagids", 446703613), new cljs.core.Keyword(null, "text", "text", -1790561697)], [reagent.core.atom.call(null, 
+                      questiondeleted), userid_store, userid, commentid, reagent.core.atom.call(null, null), filtered_flags, questionid, flagtype_store, request_chan, reagent.core.atom.call(null, 9E3), null, reagent.core.atom.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [3], null)), reagent.core.atom.call(null, commenttext)])], null)], null), new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "key", "key", -1516042587), questionid], 
+                      null)), forum$core$forum_page_$_iter__19147.call(null, cljs.core.rest.call(null, s__19148__$2)));
+                    }
+                  } else {
+                    return null;
+                  }
+                  break;
+                }
+              };
+            }(userid_store, flagtype_store, filtered_flags, request_chan, question_store), null, null);
+          };
+        }(userid_store, flagtype_store, filtered_flags, request_chan, question_store);
+        return iter__5030__auto__.call(null, cljs.core.deref.call(null, question_store));
+      }()], null);
     };
-  }(userid_store, flagtype_store, filtered_flags, request_chan);
+  }(userid_store, flagtype_store, filtered_flags, request_chan, question_store);
 };
 reagent.core.render.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [forum.core.forum_page], null), document.body);

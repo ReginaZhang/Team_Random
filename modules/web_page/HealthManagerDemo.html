@@ -2,66 +2,36 @@
 
 <html>
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<title>Health Care</title>
-<link href="css/hm.css" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css" type="text/css">
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+<div class="header">
+<title>Health Manager</title>
+<link href="css/Demo.css" rel="stylesheet">
+</div>
 </head>
+
 <body>
 
-<nav class="navbar navbar-custom">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="index.html">Health Overflow</a>
-        </div>
-        <div>
-            <ul class="nav navbar-nav">
-                <li ><a id="home" href="index.html">Home</a></li>
-                <li ><a id="forum" href="#">Forum</a></li>
-                <li ><a id="health_manager" href="#">Health Manager</a></li>
-                <li ><a id="about" href="about.html">About</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<br />
-
 <div id="main">
-  <h1><b>Health Manager</b></h1> 
+  <h1><b>Heath Manager Demo Page</b></h1>
+  <h2><i>Welcome to Our Website</i></h2>
   
   <div id="nav"></div>
-
-  <br>
-  <table class="about">
-  <tr>
-  	<th>
-  		<h3><em>About</em></h3>
-  		<img src="GoodFood.jpg" alt="HTML5 Icon" style="width:180px;height:128px">
-  	</th>
-  	<td>
-  	 Try out some of the cool features we offer! Sign up if you want to experience the full power version!
-  	</td>
-  </tr>
-  </table>
-  </br>
   
   <br>
   <table class="food">
   <tr>
   	<th>
   		<h3><em>Food Nutrition</em></h3>
-  		<form method="POST" action="http://45.56.85.191:8000/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
-  			Search Food By Name:
+  		<form method="POST" action="http://45.56.85.191:8888/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
+  			Search Food Name:
   			<input type="text"
   			 	   name="searchString"
   			 	   placeholder="Search Here...">
   			<input type="submit" 
   			       id="submitButton1" 
-  			       value="Search">
+  			       value="Get Food!">
   			<br><br>
   			<p>Response</p>
-  			<p id="gimme_these_food_response"></p>
+  			<p id="Response"></p>
   		</form>
   		<p>Popular Search</p>
   		<input type="button" onclick="alert('Fruit')" value="Fruit">
@@ -80,7 +50,7 @@
   		<br><table class="calculator">
   		<tr>
   			<th>
-  			<form method="POST" action="http://45.56.85.191:8000/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, this)">
+  			<form method="POST" action="http://45.56.85.191:8888/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, this)">
   			<p>BMI Calculator</p>
   			<p><br>To determine if you're at a healthy weight,</br><br> enter the following information and calculate</br><br>your body mass index(BMI)</br></p>
   			<input type="radio" name="hasRegistered" value="false" onclick="registered(false)" checked>Not registered
@@ -101,7 +71,7 @@
   			<br><br>
   			<input type="submit" id="submitButton" value="Get BMI!">
   			<p>Response</p>
-  			<p id="gimme_rays_bmi_response"></p>
+  			<p id="Result"></p>
   		</form>
   		</th>
   	</tr>
@@ -129,7 +99,7 @@
     	</table>
     	</br>
     	<p>Adding/removing food from diet</p>
-    		<form method="POST" action="http://45.56.85.191:8000/diet/modify" id="modify_diet" onsubmit="submitForm(event, this)">
+    		<form method="POST" action="http://45.56.85.191:8888/diet/modify" id="modify_diet" onsubmit="submitForm(event, this)">
     		<input type="radio" name="modiType" value="add" onclick="addOrDelete(true)"checked>Add
     		<input type="radio" name="modiType" value="delete" onclick="addOrDelete(false)">Remove
     		<input type="text" name="foodId" placeholder="Type food id here, one per time!">
@@ -139,15 +109,6 @@
     		<p id="dietName"></p>
     		<p id="diet" ></p>
      </th>
-  </tr>
-  </table>
-  </br>  
-  <br>
-  <table class="comment">
-  <tr>
-  	<th>
-  		<h3><em>People Talk</em></h3>
-  	</th>
   </tr>
   </table>
   </br>
