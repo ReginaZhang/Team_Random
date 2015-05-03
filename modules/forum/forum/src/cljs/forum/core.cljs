@@ -214,11 +214,12 @@
 
            [:div.comment-rest
            (when (and (not @deleted) (not (= @votetype "up")))
-             [:div.vote.up {:on-click #(vote-callback "up")}
+             [:button.vote.up {:on-click #(vote-callback "up")}
               "Upvote"])
            (when (and (not @deleted) (not (= @votetype "down")))
-             [:div.vote.down {:on-click #(vote-callback "down")}
+             [:button.vote.down {:on-click #(vote-callback "down")}
               "Downvote"])
+            [:br]
            (when (and (= @cur-user-atom userid) (not @deleted))
              [:div.edit-select-box {:on-click #(swap! editing-comment not)}
               (if @editing-comment "Abort editing" "E (Click here to edit this comment)")])
@@ -228,15 +229,17 @@
            (when (and (= @cur-user-atom userid) (not @deleted))
              [:div.delete-text {:on-click comment-delete-fn} "D (Click here to delete this comment)"])
            (when (not @deleted)
-             [:div.flag-select-box {:on-click #(swap! showing-update-flags not)}
-              (if @showing-update-flags "Abort flagging" "F (Click here to flag this comment)")])
+             [:button.flag_button {:on-click #(swap! showing-update-flags not)}
+              (if @showing-update-flags "Abort flagging" "Add Commen Flag")])
            (when @showing-update-flags [flag-select {:flagtype-store flagtypes :select-flag-store comment-flag-store
                      :text "What flags apply to this comment?" :callback-fn flag-update-fn}])
-           [:div.comment-child-toggle {:on-click #(swap! expanded not)}
-            (if @expanded "- (click here to hide children)" "+ (click here to show children)")]
+           [:br]
+            [:button.comment-child-toggle {:on-click #(swap! expanded not)}
+            (if @expanded "hide replies" "show replies")]
+            [:br]
            (if @expanded
-             [:div.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
-              (if @showing-comment-entry "Abort comment" "Click here to enter a reply to this comment!")])
+             [:button.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
+              (if @showing-comment-entry "Abort comment" "Enter Reply")])
            (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
                                                             :parent-box-toggle showing-comment-entry :error-store error-atom
                                                             :update-callback children-update-callback}])
