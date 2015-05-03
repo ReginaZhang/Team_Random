@@ -22,9 +22,10 @@
 (defn request-child-comments
   "Make an asynchronous request to get child comments and store them
   in the given atom, updating the cache to contain the results"
-  [comment-id cache extra-success-callback]
+  [comment-id user-id cache extra-success-callback]
   (backend-request "/child_comments"
-                   {:parent_id comment-id}
+                   {:parent_id comment-id
+                    :user_id user-id}
                    (fn [[ok response]] (if ok (let [store (:store (get @cache comment-id))
                                                     new-val {:children response :store store }]
                                                 (swap! cache assoc comment-id new-val)
@@ -63,6 +64,13 @@
                      (fn [[ok response]] (if ok (update-callback flag-ids)
                                              (reset! error-store "Error: db rejected flag; maybe you used a non-existing userid? Try userid 1."))))))
 
+(defn votefor-commment
+  "Submit an up or down vote for a comment"
+  [commentid userid vote error-store success-callback]
+  (backend-request "/vote_for" {:comment_id commentid :user_id @userid :vote_type vote}
+                   (fn [[ok response]] (if ok (success-callback)
+                                           (reset! error-store "Error: db rejected vote; maybe you used a non-existing userid? Try userid 1.")))))
+
 (defn get-flag-types
   "Get a mapping of flag ids to flag names"
   [flagtype-store]
@@ -71,6 +79,14 @@
                                                       (reduce #(assoc %1 (:flagid %2) (:flagname %2)) {} response))
                                            (do (.error js/console (str response))
                                                (get-flag-types flagtype-store))))))
+
+(defn get-questions
+  "Get a list of questions"
+  [questions-store error-store]
+  (backend-request "/questions" {}
+                   (fn [[ok response]] (if ok (reset! questions-store response)
+                                           (reset! error-store "Error: could not get questions from DB. Maybe the DB is down?")))))
+                                               
 
 (defn start-resource-provider
   "Tbe resource provider fetches and caches comments
@@ -88,6 +104,7 @@
             :children-request
             (let
                 [post-id (:comment-id req)
+                 user-id (:user-id req)
                  children-store (:atom req)
                  cached-val (get @cache post-id)]
               (if cached-val
@@ -97,16 +114,17 @@
                 ;;Otherwise add store to cache and request updating it
                 (do
                   (swap! cache assoc post-id {:children nil :store children-store})
-                  (request-child-comments post-id cache nil))))
+                  (request-child-comments post-id @user-id cache nil))))
             
             :update-children
             (let
                 [post-id (:comment-id req)
+                 user-id (:user-id req)
                  children-store (:atom req)
                  cached-val (get @cache post-id)
                  success-callback (:success-callback req)]
               (when cached-val
-                  (request-child-comments post-id cache success-callback)))))))))
+                  (request-child-comments post-id @user-id cache success-callback)))))))))
 
 (defn userid-select
   "Select user id. For testing, until proper auth is set up"
@@ -171,7 +189,7 @@
 (defn display-comment
   "Display a comment, and its children if show children is clicked. Also may show options
   for replying, flagging, voting, editing and deleting a comment."
-  [{:keys [req-c userid text commentid questionid parentid flagids flagtypes deleted filter-store cur-user-atom]}]
+  [{:keys [req-c userid text commentid questionid parentid flagids flagtypes score votetype deleted filter-store cur-user-atom]}]
   (let [expanded (re/atom false)
         child-comment-atom (re/atom {})
         showing-comment-entry (re/atom false)
@@ -179,10 +197,10 @@
         error-atom (re/atom "")
         edited-text-atom (re/atom @text)
         editing-comment (re/atom false)
-        children-req {:type :children-request :comment-id commentid :atom child-comment-atom}
-        children-update-callback #(go (>! req-c {:type :update-children :comment-id commentid}))
+        children-req {:type :children-request :comment-id commentid :user-id cur-user-atom :atom child-comment-atom}
+        children-update-callback #(go (>! req-c {:type :update-children :comment-id commentid :user-id cur-user-atom}))
         comment-flag-store (re/atom {})
-        update-parents-children #(go (>! req-c {:type :update-children :comment-id parentid :success-callback
+        update-parents-children #(go (>! req-c {:type :update-children :comment-id parentid :user-id cur-user-atom :success-callback
                                                 (fn [] (reset! showing-update-flags false))}))
         post-flag-update-callback (fn [new-flagids]                                        
                                     (reset! flagids new-flagids) ;Update flags on the comment
@@ -193,13 +211,22 @@
                                                                   (update-parents-children)))
         post-comment-edit-callback (fn[] (reset! text @edited-text-atom)
                                      (reset! editing-comment false)
-                                     (update-parents-children))]
+                                     (update-parents-children))
+        vote-callback (fn [vote] (votefor-commment commentid cur-user-atom vote error-atom
+                                                   (fn[]  (reset! votetype vote)
+                                                     (swap! score (if (= vote "up") inc dec))                        
+                                                     (update-parents-children))))]
     (fn []
-      (if (some #(get @filter-store %) @flagids) nil
+      (if (and (not (some #(get @filter-store %) @flagids)) (> (count @flagids) 0)) nil
           [:div.comment-region
-           [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
-           [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
-           [:div.comment-text  (if @deleted "!!DELETED!!" (str "Comment text is: " "\"" @text "\""))]
+
+           [:div.comment-rest
+           (when (and (not @deleted) (not (= @votetype "up")))
+             [:div.vote.up {:on-click #(vote-callback "up")}
+              "Upvote"])
+           (when (and (not @deleted) (not (= @votetype "down")))
+             [:div.vote.down {:on-click #(vote-callback "down")}
+              "Downvote"])
            (when (and (= @cur-user-atom userid) (not @deleted))
              [:div.edit-select-box {:on-click #(swap! editing-comment not)}
               (if @editing-comment "Abort editing" "E (Click here to edit this comment)")])
@@ -225,33 +252,45 @@
            (when @expanded
              (go (>! req-c children-req))
              (doall (for [child-comment (:children @child-comment-atom)]
-                      (let [flags-store (re/atom (:flagids child-comment))
-                            text-store (re/atom (:text child-comment))
-                            deleted-store (re/atom (:deleted child-comment))]
+                      (let [[flags-store text-store deleted-store score-store vote-store]
+                            (map #(re/atom (% child-comment)) [:flagids :text :deleted :score :votetype])]
                         ^{:key (:commentid child-comment)}
                         [display-comment
                          (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
-                                :cur-user-atom cur-user-atom :flagids flags-store :text text-store :deleted deleted-store)]))))]))))
+                                :cur-user-atom cur-user-atom :flagids flags-store :text text-store :deleted deleted-store
+                                :score score-store :votetype vote-store)]))))]
+           [:div.comment-text-region
+            [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
+            [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
+            [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
+            [:div.comment-text  (if @deleted "!!DELETED!!" (str "Comment text is: " "\"" @text "\""))]]]))))
+
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
   []
   (let [userid-store (re/atom 1)
         flagtype-store (re/atom {})
-        filtered-flags (re/atom {})
-        request-chan (chan)]
+        filtered-flags (re/atom {1 true 2 true 3 true 4 true})
+        request-chan (chan)
+        question-store (re/atom {})]
     (start-resource-provider request-chan)
     (get-flag-types flagtype-store)
+    (get-questions question-store (re/atom {}))
     (fn []
       [:div.whole-page
        [userid-select userid-store]
        [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
-                     :text "Filter out what kind of comments?" :callback-fn nil}]
-       [display-comment {:req-c request-chan :userid 0
-                         :text (re/atom "I am a dummy root comment with no life in the DB, a mere placeholder for a health question. 
-I am immortal, and cannot be flagged or permanently edited/deleted.")
-                         :commentid 0 :questionid 1 :parentid nil :flagids (re/atom [3]) :filter-store filtered-flags
-                         :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom false)}]])))
-      
+                     :text "Show what kind of comments?" :callback-fn nil}]              
+       (for [{:keys [questionid questiondeleted userid commentid commenttext questiontitle]} @question-store]
+         ^{:key questionid}
+         [:div.question
+          [:div.question-title (str "Question title is: " questiontitle)]
+          [display-comment {:req-c request-chan :userid userid
+                            :text (re/atom commenttext)
+                            :commentid commentid :questionid questionid :parentid nil :flagids (re/atom [3]) :filter-store filtered-flags
+                            :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom questiondeleted) :score (re/atom 9000)
+                            :votetype (re/atom nil)}]])])))
+  
 (re/render [forum-page] (.-body js/document))
 

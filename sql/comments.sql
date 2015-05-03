@@ -3,6 +3,7 @@ use HealthDB;
 create table if not exists Question(
        QuestionId int NOT NULL AUTO_INCREMENT,
        QuestionDeleted bit(1) NOT NULL,
+       QuestionTitle varchar(255) NOT NULL,
        PRIMARY KEY (QuestionId)
        )ENGINE=INNODB;       
 
@@ -15,6 +16,7 @@ create table if not exists Comment(
        UserId int NOT NULL,
        CommentDeleted bit(1) NOT NULL,
        NumChildren int NOT NULL,
+       Score int NOT NULL,
        PRIMARY KEY (CommentId),
        FOREIGN KEY (QuestionId)
        	       REFERENCES Question(QuestionId)
