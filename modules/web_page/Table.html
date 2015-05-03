@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML dynamic table using JavaScript</title>
+    <script type="text/javascript" src="js/app.js"></script>
+</head>
+<body onload="load()">
+<div id="myform">
+    <b>Simple form with food</b>
+    <table>
+        <tr>
+            <td>Food Name:</td>
+            <td><input type="text" id="name">
+                <input type="button" id="add" value="Add" onclick="Javascript:addRow()"></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+</div>
+<div id="mydata">
+    <b>Current data in the system ...</b>
+    <table id="myTableData"  border="1" cellpadding="2">
+        <tr>
+            <td>&nbsp;</td>
+            <td><b>Week1</b></td>
+            <td><b>Monday</b></td>
+            <td><b>Tuesday</b></td>
+            <td><b>Wednesday</b></td>
+            <td><b>Thursday</b></td>
+            <td><b>Friday</b></td>
+            <td><b>Saturday</b></td>
+            <td><b>Sunday</b></td>
+        </tr>
+    </table>
+    &nbsp;
+
+</div>
+<div id="myDynamicTable">
+    <input type="button" id="create" value="Click here" onclick="Javascript:addTable()">
+    to create a Table and add some data using JavaScript
+</div>
+<script src="Table.js"></script>
+</body>
+</html>

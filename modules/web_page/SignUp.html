@@ -1,232 +1,298 @@
 <!DOCTYPE html>
-<html>     
+<html>
 <head>
-<title>Sign up</title>
-    <script src="js/SignUp.js" type="text/javascript"></script>
-    <script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <script src="js/bootstrap.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <div class="header">
+        <title>Health Manager</title>
+        <link href="css/SignUp.css" rel="stylesheet">
+        <script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    </div>
 </head>
 <body>
-<div id="web">  
+<div id="main">
+    <h1><b>Heath Manager Registration Page</b></h1>
+    <li><a href="HealthCare.html" class="current"><span>Health Manager Demo Page</span></a></li>
 
- <h1><div class="header">Health Manager</div></h1>
-    <div class="navigation">
-    <ul>
-        <li><a href="HealthCare.html" class="current"><span>Health Plan</span></a></li>       
-    </ul>
-</div>
-
-        
-<div class="container"> 
+    <div class ="container">
         <h2 class="login">Sign Up</h2>
         <form action="doSignUp.py" method="get">
-            
+
             <fieldset id="user ID">
                 <legend><h3>User ID</h3></legend>
-                <p>User name *                 
-                <input type="text"
-                   required="required"                   
-                   name="username" />
+                <p>User name *
+                    <input type="text"
+                           required="required"
+                           name="username" />
                 </p>
-                <p>Password *                
-                <input type="password" 
-                   required="required"                   
-                   name="password" />
+                <p>Password *
+                    <input type="password"
+                           required="required"
+                           name="password" />
                 </p>
-                <p>Confirm Password *                 
-                <input type="confirmpassword" 
-                      required="required"                   
-                      name="confirmpassword" />
+                <p>Confirm Password *
+                    <input type="confirmpassword"
+                           required="required"
+                           name="confirmpassword" />
                 </p>
-                
+
             </fieldset>
-            <br><br><fieldset>
-                <legend><h3>Personal detail</h3></legend>
-                <div class="detail">
-                        <p>First Name *               
-                        <input class="firstname" 
-                         name="firstname" 
-                         id="firstname"
-                         required="required"                         
-                         type="text" value="" />
+            <br><br>
+            <div class="detail">
+                <form>
+                    <fieldset id="personal detail">
+                        <legend><h3>Personal detail</h3></legend>
+                        <p>First Name *
+                            <input class="firstname"
+                                   name="firstname"
+                                   id="firstname"
+                                   required="required"
+                                   type="text" value="" />
                         </p>
-                        <p>Middle Name *               
-                        <input class="middlename" 
-                         name="middlename" 
-                         id="middlename"                         
-                         type="text" value="" />
+                        <p>Middle Name
+                            <input class="middlename"
+                                   name="middlename"
+                                   id="middlename"
+                                   type="text" value="" />
                         </p>
-                        <p>Last Name *               
-                        <input class="lastname" 
-                         name="lastname" 
-                         id="lastname"
-                         required="required"                          
-                         type="text" value="" />
-                        </p>
-                        <p>Gender *
-                        	<select name="Gernder">
-                        	<option value="male">Male</option>option>
-                        	<option value="female">Female</option>
-                        	</select>
-                        	</p>
-                        <p>Date of Birth *    
-                          <select name="month" onChange="changeDate(this.options[selectedIndex].value);">
-                          <option value="na">Month</option>
-                          <option value="1">January</option>
-                          <option value="2">February</option>
-                          <option value="3">March</option>
-                          <option value="4">April</option>
-                          <option value="5">May</option>
-                          <option value="6">June</option>
-                          <option value="7">July</option>
-                          <option value="8">August</option>
-                          <option value="9">September</option> 
-                          <option value="10">October</option>
-                          <option value="11">November</option>
-                          <option value="12">December</option>
-                          </select>
-                          <select name="day" id="day">
-                          <option value="na">Day</option>
-                          </select>
-                          <select name="year" id="year">
-                          <option value="na">Year</option>
-                          </select>
-                     		<script language="JavaScript" type="text/javascript">
-                                 	function changeDate(i){
-                                 		//console.log("hehe");
-                                 		var e = document.getElementById('day');
-                                 		while(e.length>0)
-                                 		{
-                                 			e.remove(e.length-1);
-                                 		}
-                                 		var j=-1;
-                                 		//console.log("j : "+j);
-                                 		if(i=="na")
-                                 		{
-                                 			k=0;
-                                 		}
-                                 		else if(i==2)
-                                 		{
-                                 			k=28;
-                                 		}
-                                 		else if(i==4||i==6||i==9||i==11)
-                                 		{
-                                 			k=30;
-                                 		}
-                                 		else
-                                 		{
-                                 			k=31;
-                                 		}
-                                 		//console.log("hehe");
-                                 		//console.log("j : "+j);
-                                 		while(j++<k){
-                                 			var s=document.createElement('option');
-                                 			var e=document.getElementById('day');
-                                 			if(j==0){
-                                 				console.log("hahah");
-                                 				s.text="Day";
-                                 				s.value="na";
-                                 				try{
-                                 					e.add(s,null);
-                                 				}
-                                 				catch(ex){
-                                 					e.add(s);
-                                 				}
-                                 			}
-                                 			else{
-                                 				console.log("hahah2");
-                                 				s.text=j;
-                                 				s.value=j;
-                                 				try{
-                                 					e.add(s,null);
-                                 				}
-                                 				catch(ex){
-                                 					e.add(s);
-                                 				}
-                                 			}
-                                 		}
-                                 	y = 1998;
-                                 	while (y-->1908){
-                                 	//console.log("hahah3");
-                                 		var s = document.createElement('option');
-                                 		var e = document.getElementById('year');
-                                 		s.text=y;
-                                 		s.value=y;
-                                 		try{
-                                 			e.add(s,null);
-                                 		}
-                                 		catch(ex){
-                                 			e.add(s);
-                                 		}
-                                 	}
-                                 	}
-                                 
-                             </script> 
-                        </p>
-                        <p>Height *
-                           <input class="height"
-                           name="height"
-                           id="height"
-                           required="required"
-                           type="text" value="" /
-                           ></p>
-                        <p>Weight *
-                           <input class="weight"
-                           name="weight"
-                           id="weight"
-                           required="required"
-                           type="text" value="" /
-                           ></p>
-                        <p>Contact Number *          
-                        <input class="contact" 
-                         name="contact" 
-                         id="contact" 
-                         required="required"
-                         maxlength="10"
-                         type="text" value="" />
-                         (10 digit number)
+                        <p>Last Name *
+                            <input class="lastname"
+                                   name="lastname"
+                                   id="lastname"
+                                   required="required"
+                                   type="text" value="" />
                         </p>
                         <p>Email Address *
-                          <input class="email"
-                          name="email"
-                          id="email"
-                          required="required"
-                          placeholder=" example@domain.com"
-                          type="text" value="" /
-                          </p></div>
+                            <input class="email"
+                                   name="email"
+                                   id="email"
+                                   required="required"
+                                   placeholder=" example@domain.com"
+                                   type="text" value="" />
+                        </p>
+                        <script type="text/javascript">
+                            function unhide(divID) {
+                                var item = document.getElementById(divID);
+                                if (item) {
+                                    item.className=(item.className=='hidden')?'unhidden':'hidden';
+                                    //console.log("in function , equality : "+divID+item.className);
+                                }
 
-            <button type="button" onclick="codeAddress();">Hello</button>
-                </div>
-            </fieldset>
-            <br><br><fieldset>
-            <legend>Terms and Conditions</legend>
-                 <p class="agreement">
-                    <input type="checkbox" value=""/>
-                    <label>*  I accept the <a href="#">Terms and Conditions</a></label>
-                    </p>
-                 <p class="agreement">
-                    <input type="checkbox" value=""/>
-                    <label>I want to receive personalized offers by your site</label>
-                    </p>
+                            }
+                        </script>
+                        <li><p><a href="javascript:unhide('optional');" id="black">Optional Fields</a></p></li>
+                        <p>Click to fill in more detailed information</p>
+                        <div id="optional" class="hidden">
+                            <p>Gender
+                                <select name="Gernder">
+                                    <option value="male">Male</option>option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </p>
+                            <p>Date of Birth
+                                <select name="month" onChange="changeDate(this.options[selectedIndex].value);">
+                                    <option value="na">Month</option>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                                <select name="day" id="day">
+                                    <option value="na">Day</option>
+                                </select>
+                                <select name="year" id="year">
+                                    <option value="na">Year</option>
+                                </select>
+                                <script language="JavaScript" type="text/javascript">
+                                    function changeDate(i){
+                                        //console.log("hehe");
+                                        var e = document.getElementById('day');
+                                        var s;
+                                        while(e.length>0)
+                                        {
+                                            e.remove(e.length-1);
+                                        }
+                                        var j=-1;
+                                        //console.log("j : "+j);
+                                        if(i=="na")
+                                        {
+                                            k=0;
+                                        }
+                                        else if(i==2)
+                                        {
+                                            k=28;
+                                        }
+                                        else if(i==4||i==6||i==9||i==11)
+                                        {
+                                            k=30;
+                                        }
+                                        else
+                                        {
+                                            k=31;
+                                        }
+                                        //console.log("hehe");
+                                        //console.log("j : "+j);
+                                        while(j++<k){
+                                            s=document.createElement('option');
+                                            e=document.getElementById('day');
+                                            if(j==0){
+                                                //console.log("hahah");
+                                                s.text="Day";
+                                                s.value="na";
+                                                try{
+                                                    e.add(s,null);
+                                                }
+                                                catch(ex){
+                                                    e.add(s);
+                                                }
+                                            }
+                                            else{
+                                                //console.log("hahah2");
+                                                s.text=j;
+                                                s.value=j;
+                                                try{
+                                                    e.add(s,null);
+                                                }
+                                                catch(ex){
+                                                    e.add(s);
+                                                }
+                                            }
+                                        }
+                                        y = 1998;
+                                        while (y-->1908){
+                                            //console.log("hahah3");
+                                            s = document.createElement('option');
+                                            e = document.getElementById('year');
+                                            s.text=y;
+                                            s.value=y;
+                                            try{
+                                                e.add(s,null);
+                                            }
+                                            catch(ex){
+                                                e.add(s);
+                                            }
+                                        }
+                                    }
+
+                                </script>
+                            </p>
+                            <p>Contact Number
+                                <input class="contact"
+                                       name="contact"
+                                       id="contact"
+                                       required="required"
+                                       maxlength="10"
+                                       type="text" value="" />
+                                (10 digit number)
+                            </p>
+                            <p>Height
+                                <input class="height"
+                                       name="height"
+                                       id="height"
+                                       required="required"
+                                       type="text" value="" />
+                            </p>
+                            <p>Weight
+                                <input class="weight"
+                                       name="weight"
+                                       id="weight"
+                                       required="required"
+                                       type="text" value="" />
+                            </p>
+                            <p>Street Number
+                                <input class="streetnum"
+                                       name="streetnum"
+                                       id="streetnum"
+                                       required="required"
+                                       type="text" value="" />
+                            </p>
+                            <p>Street
+                                <input class="street"
+                                       name="street"
+                                       id="street"
+                                       required="required"
+                                       type="text" value="" />
+                                <select name="streettype">
+                                    <option>Road</option>
+                                    <option>Street</option>
+                                    <option>Avenue</option>
+                                </select>
+                            </p>
+                            <p>Major Municipality
+                                <input class="major"
+                                       name="major"
+                                       id="major"
+                                       type="text" value=""/>
+                            </p>
+                            <p>District
+                                <input class="district"
+                                       name="district"
+                                       id="district"
+                                       required="required"
+                                       type="text" value="" />
+                            </p>
+                            <p>Postal Area
+                                <input class="postal"
+                                       name="postal"
+                                       id="postal"
+                                       required="required"
+                                       type="text" value="" />
+                            </p>
+                            <p>Country
+                                <input class="country"
+                                       name="country"
+                                       id="country"
+                                       required="required"
+                                       type="country" value="" />
+                            </p>
+                        </div>
                     </fieldset>
-            <br><br><div id="buttons" class="row_input">
-                <input type="submit" value="Submit" />
-                
+                </form>
             </div>
         </form>
     </div>
- <div class="push"></div>
-
-<div id="map_div">
-    <!-- need codeaddress here as well search box change will only make when we select from drop down-->
-    <input id="autocomplete" placeholder="Enter your address" type="text" onkeyup="codeAddress();"/>
-    <div id="googleMap" style="width:800px;height:500px;"></div>
+    <br><br>
+    <fieldset>
+        <legend>Terms and Conditions</legend>
+        <p class="agreement">
+            <input type="checkbox" value=""/>
+            <label>*  I accept the <a href="#">Terms and Conditions</a></label>
+        </p>
+        <p class="agreement">
+            <input type="checkbox" value=""/>
+            <label>I want to receive personalized offers by your site</label>
+        </p>
+    </fieldset>
+    <br><br><div id="buttons" class="row_input">
+    <input type="submit" value="Submit" />
 
 </div>
-<script>
-    google.maps.event.addDomListener(window, 'load', function(){initialize(null);});
-</script>
+
+
+    <div class="push"></div>
+
+    <div id="footer">
+        <p>This is our <strong>Website CSS Sticky Footer</strong></p>
+        <p class="copyright">Copyright &copy; Food and health Company;<a href="http://facebook.com/" title="Las Vegas Web Design">Facebook page</a>
+        </p>
+    </div>
+    <div id="map_div">
+        <!-- need codeaddress here as well search box change will only make when we select from drop down-->
+        <input id="autocomplete" placeholder="Enter your address" type="text" onkeyup="codeAddress();"/>
+        <div id="googleMap" style="width:800px;height:500px;"></div>
+
+
+    </div>
+    <script src="js/SignUp.js" type="text/javascript"></script>
 </body>
 </html>
+
