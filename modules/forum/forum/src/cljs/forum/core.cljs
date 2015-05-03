@@ -215,12 +215,13 @@
            [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
            [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
            [:div.comment-text  (if @deleted "!!DELETED!!" (str "Comment text is: " "\"" @text "\""))]
+           [:div.comment-rest
            (when (and (not @deleted) (not (= @votetype "up")))
-             [:div.vote-text {:on-click #(vote-callback "up")}
-              "^ (Upvote this comment)"])
+             [:div.vote.up {:on-click #(vote-callback "up")}
+              "Upvote"])
            (when (and (not @deleted) (not (= @votetype "down")))
-             [:div.vote-text {:on-click #(vote-callback "down")}
-              "v (Downvote this comment)"])
+             [:div.vote.down {:on-click #(vote-callback "down")}
+              "Downvote"])
            (when (and (= @cur-user-atom userid) (not @deleted))
              [:div.edit-select-box {:on-click #(swap! editing-comment not)}
               (if @editing-comment "Abort editing" "E (Click here to edit this comment)")])
@@ -252,7 +253,7 @@
                         [display-comment
                          (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
                                 :cur-user-atom cur-user-atom :flagids flags-store :text text-store :deleted deleted-store
-                                :score score-store :votetype vote-store)]))))]))))
+                                :score score-store :votetype vote-store)]))))]]))))
 
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
