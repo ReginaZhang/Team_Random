@@ -10,8 +10,6 @@
 </head>
 
 <body>
-    <div id="testing">3123
-        </div>
     <div id="main">
         <h1><b>Heath Manager Registered Page</b></h1>
         <h2><i>Welcome to Our Website</i></h2>
@@ -27,16 +25,91 @@
                 <div id="tab1" class="tab active">
                     <p>Tab #1 content goes here!</p>
                     <p> AAA</p>
+
                 </div>
 
                 <div id="tab2" class="tab">
                     <p>Tab #2 content goes here!</p>
-                    <p>BBB</p>
+                    <table class="food">
+                        <tr>
+                            <th>
+                                <h3><em>Food Nutrition</em></h3>
+                                <form method="POST" action="http://45.56.85.191:8888/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
+                                    Search Food Name:
+                                    <input type="text"
+                                           name="searchString"
+                                           placeholder="Search Here...">
+                                    <input type="submit"
+                                           id="submitButton1"
+                                           value="Get Food!">
+                                    <br><br>
+                                    <p>Response</p>
+                                    <p id="Response"></p>
+                                </form>
+                            </th>
+                        </tr>
+                    </table>
+
+                    <table class="Plan">
+                        <caption>Weekly Diet Plan</caption>
+                        <thead>
+                        <tr>
+                            <th scope="col">Week1</th>
+                            <th scope="col">Monday</th>
+                            <th scope="col">Tuesday</th>
+                            <th scope="col">Wednesday</th>
+                            <th scope="col">Thursday</th>
+                            <th scope="col">Friday</th>
+                            <th scope="col">Saturday</th>
+                            <th scope="col">Sunday</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <strong class="meal-title">Breakfast</strong>
+                            </td>
+                            <td class="item-Mon">1</td>
+                            <td class="item-Tue">2</td>
+                            <td class="item-Wed">3</td>
+                            <td class="item-Thur">4</td>
+                            <td class="item-Fri">5</td>
+                            <td class="item-Sat">6</td>
+                            <td class="item-Sun">7</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong class="meal-title">Lunch</strong>
+                            </td>
+                            <td class="item-Mon">1</td>
+                            <td class="item-Tue">2</td>
+                            <td class="item-Wed">3</td>
+                            <td class="item-Thur">4</td>
+                            <td class="item-Fri">5</td>
+                            <td class="item-Sat">6</td>
+                            <td class="item-Sun">7</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong class="meal-title">Dinner</strong>
+                            </td>
+                            <td class="item-Mon">1</td>
+                            <td class="item-Tue">2</td>
+                            <td class="item-Wed">3</td>
+                            <td class="item-Thur">4</td>
+                            <td class="item-Fri">5</td>
+                            <td class="item-Sat">6</td>
+                            <td class="item-Sun">7</td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
                 </div>
 
                 <div id="tab3" class="tab">
-                    <p>Tab #3 content goes here!</p>
-                    <p>CCC</p>
+                    <p>Suggestions</p>
+                    <p>It is better to......</p>
                 </div>
 
             </div>
@@ -50,5 +123,6 @@
         <script src="Jquery.js"></script>
 
     </div>
+        </div>
 </body>
  </html>
