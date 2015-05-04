@@ -86,7 +86,7 @@ body
 }
 
 .header{
-    background:url("../assets/headhead.jpg");
+    background:url("http://45.56.85.191:8080/assets/headhead.jpg");
     padding: 40px 20px 80px 20px;
     font-family: 'Dancing Script', Georgia, Times, serif;
     font-size: 50px;
@@ -95,7 +95,7 @@ body
 }
 #footer {
     position:relative;
-    background: url("../assets/footer.gif");
+    background: url("http://45.56.85.191:8080/assets/footer.gif");
     height: 150px; /* .push must be the same height as .footer */
 
 }
