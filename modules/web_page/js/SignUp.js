@@ -14,7 +14,7 @@ function initialize(my_center_obj) {
     var searchBox = new google.maps.places.SearchBox(document.getElementById("autocomplete"));
     var mapProp = {
         center:myCenter,
-        zoom:11,
+        zoom:15,
         mapTypeId:google.maps.MapTypeId.ROADMAP,
         panControl:true,
         zoomControl:true,
@@ -51,3 +51,80 @@ function codeAddress()
     console.log("address: "+address);
     return null;
 }
+
+
+
+//
+
+function changeDate(i){
+    //console.log("hehe");
+    var e = document.getElementById('day');
+    var s;
+    while(e.length>0)
+    {
+        e.remove(e.length-1);
+    }
+    var j=-1;
+    //console.log("j : "+j);
+    if(i=="na")
+    {
+        k=0;
+    }
+    else if(i==2)
+    {
+        k=28;
+    }
+    else if(i==4||i==6||i==9||i==11)
+    {
+        k=30;
+    }
+    else
+    {
+        k=31;
+    }
+    //console.log("hehe");
+    //console.log("j : "+j);
+    while(j++<k){
+        s=document.createElement('option');
+        e=document.getElementById('day');
+        if(j==0){
+            //console.log("hahah");
+            s.text="Day";
+            s.value="na";
+            try{
+                e.add(s,null);
+            }
+            catch(ex){
+                e.add(s);
+            }
+        }
+        else{
+            //console.log("hahah2");
+            s.text=j;
+            s.value=j;
+            try{
+                e.add(s,null);
+            }
+            catch(ex){
+                e.add(s);
+            }
+        }
+    }
+    y = 1998;
+    while (y-->1908){
+        //console.log("hahah3");
+        s = document.createElement('option');
+        e = document.getElementById('year');
+        s.text=y;
+        s.value=y;
+        try{
+            e.add(s,null);
+        }
+        catch(ex){
+            e.add(s);
+        }
+    }
+}
+
+
+

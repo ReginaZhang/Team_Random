@@ -71,14 +71,7 @@
                                    placeholder=" example@domain.com"
                                    type="text" value="" />
                         </p>
-                        <div id="map_div">
-                            <!-- need codeaddress here as well search box change will only make when we select from drop down-->
-                            <input id="autocomplete" placeholder="Enter your address" type="text" onkeyup="codeAddress();"/>
-                            <div id="googleMap" style="width:800px;height:500px;"></div>
 
-
-                        </div>
-                        <!-- start google map-->
                         <script src="js/SignUp.js" type="text/javascript"></script>
                         <script type="text/javascript">
                             function unhide(divID) {
@@ -121,78 +114,6 @@
                                 <select name="year" id="year">
                                     <option value="na">Year</option>
                                 </select>
-                                <script language="JavaScript" type="text/javascript">
-                                    function changeDate(i){
-                                        //console.log("hehe");
-                                        var e = document.getElementById('day');
-                                        var s;
-                                        while(e.length>0)
-                                        {
-                                            e.remove(e.length-1);
-                                        }
-                                        var j=-1;
-                                        //console.log("j : "+j);
-                                        if(i=="na")
-                                        {
-                                            k=0;
-                                        }
-                                        else if(i==2)
-                                        {
-                                            k=28;
-                                        }
-                                        else if(i==4||i==6||i==9||i==11)
-                                        {
-                                            k=30;
-                                        }
-                                        else
-                                        {
-                                            k=31;
-                                        }
-                                        //console.log("hehe");
-                                        //console.log("j : "+j);
-                                        while(j++<k){
-                                            s=document.createElement('option');
-                                            e=document.getElementById('day');
-                                            if(j==0){
-                                                //console.log("hahah");
-                                                s.text="Day";
-                                                s.value="na";
-                                                try{
-                                                    e.add(s,null);
-                                                }
-                                                catch(ex){
-                                                    e.add(s);
-                                                }
-                                            }
-                                            else{
-                                                //console.log("hahah2");
-                                                s.text=j;
-                                                s.value=j;
-                                                try{
-                                                    e.add(s,null);
-                                                }
-                                                catch(ex){
-                                                    e.add(s);
-                                                }
-                                            }
-                                        }
-                                        y = 1998;
-                                        while (y-->1908){
-                                            //console.log("hahah3");
-                                            s = document.createElement('option');
-                                            e = document.getElementById('year');
-                                            s.text=y;
-                                            s.value=y;
-                                            try{
-                                                e.add(s,null);
-                                            }
-                                            catch(ex){
-                                                e.add(s);
-                                            }
-                                        }
-                                    }
-
-                                </script>
                             </p>
                             <p>Contact Number
                                 <input class="contact"
@@ -217,51 +138,13 @@
                                        required="required"
                                        type="text" value="" />
                             </p>
-                            <p>Street Number
-                                <input class="streetnum"
-                                       name="streetnum"
-                                       id="streetnum"
-                                       required="required"
-                                       type="text" value="" />
-                            </p>
-                            <p>Street
-                                <input class="street"
-                                       name="street"
-                                       id="street"
-                                       required="required"
-                                       type="text" value="" />
-                                <select name="streettype">
-                                    <option>Road</option>
-                                    <option>Street</option>
-                                    <option>Avenue</option>
-                                </select>
-                            </p>
-                            <p>Major Municipality
-                                <input class="major"
-                                       name="major"
-                                       id="major"
-                                       type="text" value=""/>
-                            </p>
-                            <p>District
-                                <input class="district"
-                                       name="district"
-                                       id="district"
-                                       required="required"
-                                       type="text" value="" />
-                            </p>
-                            <p>Postal Area
-                                <input class="postal"
-                                       name="postal"
-                                       id="postal"
-                                       required="required"
-                                       type="text" value="" />
-                            </p>
-                            <p>Country
-                                <input class="country"
-                                       name="country"
-                                       id="country"
-                                       required="required"
-                                       type="country" value="" />
+                            <p>
+                            <div id="map_div">
+                                <!-- need codeaddress here as well search box change will only make when we select from drop down-->
+
+                                Address<input id="autocomplete" placeholder="Enter your address" type="text" onkeyup="codeAddress();"/>
+                                <div id="googleMap" style="width:800px;height:500px;"></div>
+                            </div>
                             </p>
                         </div>
                     </fieldset>
