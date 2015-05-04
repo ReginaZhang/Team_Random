@@ -238,7 +238,7 @@
              [:div.delete-text {:on-click comment-delete-fn} "D (Click here to delete this comment)"])
            (when (not @deleted)
              [:button.flag_button {:on-click #(swap! showing-update-flags not)}
-              (if @showing-update-flags "Abort flagging" "Add Commen Flag")])
+              (if @showing-update-flags "Abort flagging" "Add Comment Flag")])
            (when @showing-update-flags [flag-select {:flagtype-store flagtypes :select-flag-store comment-flag-store
                      :text "What flags apply to this comment?" :callback-fn flag-update-fn}])
            [:br]
@@ -294,6 +294,7 @@
                             :commentid commentid :questionid questionid :parentid nil :flagids (re/atom [3]) :filter-store filtered-flags
                             :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom questiondeleted) :score (re/atom 9000)
                             :votetype (re/atom nil)}]])])))
-  
-(re/render [forum-page] (.-body js/document))
+(set! (.-onload js/window) #(re/render [forum-page] (js/document.getElementById "forum")))
+;(print ( js/document.getElementById "test"))
+;(re/render [forum-page] (js/document.getElementById "test"))
 
