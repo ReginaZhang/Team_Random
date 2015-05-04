@@ -7,7 +7,7 @@
   (:gen-class))
 
 (def health-db {:subprotocol "mysql"
-               :subname "//45.56.85.191"
+               :subname "//45.56.85.191/HealthDB"
                :user "kimjongun"
                :password "KimJongUnIsGreat"})
   
