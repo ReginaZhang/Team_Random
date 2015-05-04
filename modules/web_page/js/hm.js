@@ -1,6 +1,3 @@
-/**
- * Created by ra on 15-5-3.
- */
 
 var serverAdd = "http://45.56.85.191:8000";
 var method = "POST";

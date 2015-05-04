@@ -1,6 +1,3 @@
-/**
- * Created by liubingfeng on 29/04/15.
- */
 
 //initialize google map
 function initialize(my_center_obj) {
