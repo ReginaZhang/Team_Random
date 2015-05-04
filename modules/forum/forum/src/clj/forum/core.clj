@@ -117,6 +117,12 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
      :headers {"Content-Type" "text/css"}
      :body (slurp (str "static/css/" cssfile ".css"))}))
 
+(defn mk-serve-asset [assetfile]
+      (fn [request]
+          {:status 200
+           :headers {"Content-Type" "image/gif"}
+           :body (slurp (str "static/assets/" assetfile))}))
+
 
 (defn rest-wrap [handler] (-> handler
                                    (json/wrap-json-response)
@@ -133,7 +139,8 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                   "add_question" :add-question
                   "index" :index
                   ["static/js/" :jsfile ".js"] :serve_js
-                  ["static/css/" :cssfile ".css"] :serve_css}])
+                  ["static/css/" :cssfile ".css"] :serve_css
+                  ["static/assets/" :assetfile] :serve_asset}])
 
 (defn forum [request]
   (if-let [match (bidi/match-route routes (:uri request))]
@@ -151,7 +158,8 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                 :add-question (rest-wrap add_question)
                 :index index                
                 :serve_js (mk-serve-js (:jsfile params))
-                :serve_css (mk-serve-css (:cssfile params))}
+                :serve_css (mk-serve-css (:cssfile params))
+                :serve_asset (mk-serve-asset (:assetfile params))}
                handler)]
       (handler-fn request))
     {:status 404 :body "404 page not found"}))
