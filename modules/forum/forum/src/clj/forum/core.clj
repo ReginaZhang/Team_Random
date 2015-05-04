@@ -7,7 +7,7 @@
   (:gen-class))
 
 (def health-db {:subprotocol "mysql"
-               :subname "//45.56.85.191:3306/HealthDB"
+               :subname "//45.56.85.191/HealthDB"
                :user "kimjongun"
                :password "KimJongUnIsGreat"})
   
@@ -41,6 +41,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
     {:status 200 :body {:text "Successfully updated comment flags!"}}))
 
 (defn update-comment-vote [{{:strs [comment_id user_id vote_type]} :params}]
+  ;;TODO: Don't allow another upvote if upvote already exists
   (if (and (not= vote_type "up") (not= vote_type "down"))
     (:status 404 :body {:text (str "Incorrect vote type " vote_type)})
     (do
@@ -52,7 +53,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
       {:status 200 :body {:text "Successfully updated comment vote!"}})))
 
 (defn delete-comment [{{:strs [comment_id]} :params}]
-  (jdb/update! health-db :Comment {:Deleted 1} ["CommentId = ?" comment_id])
+  (jdb/update! health-db :Comment {:CommentDeleted 1} ["CommentId = ?" comment_id])
   {:status 200 :body {:text "Successfully deleted comment!"}})
 
 (defn edit-comment [{{:strs [comment_id text]} :params}]
@@ -83,15 +84,45 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
   {:status 200
    :body {:text "Successfully added comment!"}})
 
+(defn get_questions [_]
+  {:status 200
+   :body
+  (jdb/query health-db
+              ["SELECT * from Question natural join Comment where ParentId is NULL"]
+              :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
+                                       :commentid :commenttext]))})
+
+(defn add_question [{{:strs [text user_id title]} :params}]
+  (let [[{question_id :generated_key}] (jdb/insert! health-db :Question
+                                                    {:QuestionDeleted false
+                                                     :QuestionTitle title})]
+    (add_comment {:params {"parent_id" nil "question_id" question_id "text" text
+                           "user_id" user_id}})
+    {:status 200 :body {:text "Successfully added question!"}}))
+
 (defn index [request]
   {:status 200
    :headers {"Content-Type" "text/html"}
    :body (slurp "static/index.html")})
 
-(defn serve_js [request]
-  {:status 200
-   :headers {"Content-Type" "text/javascript"}
-   :body (slurp "static/js/cljs.js")})
+(defn mk-serve-js [jsfile]
+  (fn [request]
+    {:status 200
+     :headers {"Content-Type" "text/javascript"}
+     :body (slurp (str "static/js/" jsfile ".js"))}))
+
+(defn mk-serve-css [cssfile]
+  (fn [request]
+    {:status 200
+     :headers {"Content-Type" "text/css"}
+     :body (slurp (str "static/css/" cssfile ".css"))}))
+
+(defn mk-serve-asset [assetfile]
+      (fn [request]
+          {:status 200
+           :headers {"Content-Type" "image/gif"}
+           :body (slurp (str "static/assets/" assetfile))}))
+
 
 (defn rest-wrap [handler] (-> handler
                                    (json/wrap-json-response)
@@ -104,12 +135,17 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                   "flag_types" :flag-types
                   "flag_comment" :flag-comment
                   "vote_for" :vote-for
+                  "questions" :questions
+                  "add_question" :add-question
                   "index" :index
-                  "static/js/cljs.js" :serve_js}])
+                  ["static/js/" :jsfile ".js"] :serve_js
+                  ["static/css/" :cssfile ".css"] :serve_css
+                  ["static/assets/" :assetfile] :serve_asset}])
 
 (defn forum [request]
   (if-let [match (bidi/match-route routes (:uri request))]
     (let [handler (:handler match)
+          params (:route-params match)
           handler-fn       
           (get {:child-comments (rest-wrap get_child_comments)
                 :add-comment (rest-wrap add_comment)
@@ -118,8 +154,12 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                 :flag-types (rest-wrap get-flag-types)
                 :flag-comment (rest-wrap update-comment-flags)
                 :vote-for (rest-wrap update-comment-vote)
-                :index index
-                :serve_js serve_js}
+                :questions (rest-wrap get_questions)
+                :add-question (rest-wrap add_question)
+                :index index                
+                :serve_js (mk-serve-js (:jsfile params))
+                :serve_css (mk-serve-css (:cssfile params))
+                :serve_asset (mk-serve-asset (:assetfile params))}
                handler)]
       (handler-fn request))
     {:status 404 :body "404 page not found"}))

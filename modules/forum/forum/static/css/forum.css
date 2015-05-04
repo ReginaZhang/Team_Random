@@ -1,0 +1,101 @@
+body
+{
+    margin-left:15px;
+    margin-right:15px;
+}
+.comment-region {
+    position:relative;
+    border-radius: 10px;
+    margin-left: 30px;
+    margin-right: 30px;
+    background-color: #EEEEEE;
+    -webkit-box-shadow: 0px 0px 5px 4px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 4px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 4px rgba(0,0,0,0.75);
+    font-family: 'Dancing Script', Georgia, Times, serif;
+    font-size: 20px;
+    display: flex;
+}
+.comment-text {
+}
+.comment-child-toggle {
+    color: blue;
+}
+.comment-entry-box-toggle{
+
+    color: purple;
+}
+.comment-text-region
+{
+    margin-left: 10px;
+    margin-right: 10px;
+    width:400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    -webkit-flex: 1;
+    flex: 1;
+
+}
+.comment-rest
+{
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    -webkit-flex: initial;
+    flex: initial;
+}
+.flag-select-box {
+    margin-left: 10px;
+}
+.delete-text {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: red;
+}
+.edit-select-box {
+    margin-left: 10px;
+    color: yellow;
+}
+.error-text {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1.3em;
+    color: red;
+}
+
+.flag-select-box
+{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.vote.up:before
+{
+    content: "\25B2 ";
+
+}
+.vote.down:before
+{
+    content: "\25BC ";
+}
+
+.vote
+{
+
+}
+
+.header{
+    background:url("http://45.56.85.191:8080/assets/headhead.jpg");
+    padding: 40px 20px 80px 20px;
+    font-family: 'Dancing Script', Georgia, Times, serif;
+    font-size: 50px;
+
+    color:white;
+}
+#footer {
+    position:relative;
+    background: url("http://45.56.85.191:8080/assets/footer.gif");
+    height: 150px; /* .push must be the same height as .footer */
+
+}

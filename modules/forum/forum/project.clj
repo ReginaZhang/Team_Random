@@ -18,7 +18,7 @@
             [lein-cljsbuild "1.0.5"]]
   :ring {:handler forum.core/forum
          :auto-reload? true
-         :auto-refresh? true}
+         :auto-refresh? false}
   :resource-paths ["static/js" "static"]
   :source-paths ["src/clj"]
   :cljsbuild {:builds

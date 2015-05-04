@@ -3,6 +3,7 @@ use HealthDB;
 create table if not exists Question(
        QuestionId int NOT NULL AUTO_INCREMENT,
        QuestionDeleted bit(1) NOT NULL,
+       QuestionTitle varchar(255) NOT NULL,
        PRIMARY KEY (QuestionId)
        )ENGINE=INNODB;       
 

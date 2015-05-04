@@ -24,23 +24,27 @@ public class App {
 		
 		spark.SparkBase.port(8000);
 		
-		spark.Spark.options("/*", (req,res) -> {
-			 
-		    String accessControlRequestHeaders = req.headers("Access-Control-Request-Headers");
+		spark.Spark.before((req,res) -> {
+			
+			String accessControlRequestHeaders = req.headers("Access-Control-Request-Headers");
 		    if (accessControlRequestHeaders != null) {
-		        	res.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-		    	} else {
-		    		res.header("Access-Control-Request-Headers", "Content-Type, content-type");
-		    	}
+		        res.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+		    } else {
+		    	res.header("Access-Control-Allow-Headers", "*");
+		    }
+			
+		    String allowOriginRequestHeaders = req.headers("Origin");
 		    
-		    return "OK";
+		    if (allowOriginRequestHeaders != null) {
+		        res.header("Access-Control-Allow-Origin", allowOriginRequestHeaders);
+		    } else {
+		    	res.header("Access-Control-Allow-Origin", "*");
+		    }
+		    
+		    res.header("Access-Control-Request-Methods", "POST");
+				
 		});
 		
-		spark.Spark.before((req,res) -> {
-			res.header("Access-Control-Request-Methods", "POST");
-		    res.header("Access-Control-Allow-Origin", "http://45.56.85.191:8080");
-		    
-		});
 		
 		HealthDb db = new HealthDb();
 		
