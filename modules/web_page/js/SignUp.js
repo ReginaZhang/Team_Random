@@ -126,5 +126,13 @@ function changeDate(i){
     }
 }
 
+function unhide(divID) {
+    var item = document.getElementById(divID);
+    if (item) {
+        item.className=(item.className=='hidden')?'unhidden':'hidden';
+        //console.log("in function , equality : "+divID+item.className);
+    }
+
+}
 
 
