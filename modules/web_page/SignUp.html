@@ -2,195 +2,194 @@
 <html>
 <head>
 
-        <title>Health Manager</title>
-        <link href="css/SignUp.css" rel="stylesheet">
-        <script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-        <script src="js/style.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="css/style.css" type="text/css">
+    <title>Health Manager</title>
+    <link href="css/SignUp.css" rel="stylesheet">
+    <script src="js/jquery-2.1.3.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script src="js/style.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <div class="header"></div>
 <body>
-    <nav class="navbar navbar-custom">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.html">Health Overflow</a>
-            </div>
-            <div>
-                <ul class="nav navbar-nav">
-                    <li ><a class="nav_element home" href="index.html">Home</a></li>
-                    <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>
-                    <li ><a class="nav_element health_manager" href="HealthManagerDemo.html">Health Manager</a></li>
-                    <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>
-                    <li ><a class="nav_element Login" onclick="loginWindow();" href="#">Login</a></li>
-                    <li ><a class="nav_element about" href="about.html">About</a></li>
-                </ul>
-            </div>
+<nav class="navbar navbar-custom">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Health Overflow</a>
         </div>
-    </nav>
-    <br />
-    <div class ="container">
-        <div id="main">
-            <h1><b>Heath Manager Registration Page</b></h1>
-            <li><a href="HealthCare.html" class="current"><span>Health Manager Demo Page</span></a></li>
+        <div>
+            <ul class="nav navbar-nav">
+                <li ><a class="nav_element home" href="index.html">Home</a></li>
+                <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>
+                <li ><a class="nav_element health_manager" href="HealthManagerDemo.html">Health Manager</a></li>
+                <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>
+                <li ><a class="nav_element Login" onclick="loginWindow();" href="#">Login</a></li>
+                <li ><a class="nav_element about" href="about.html">About</a></li>
+            </ul>
         </div>
-        <h2 class="login">Sign Up</h2>
-        <form action="doSignUp.py" method="get">
+    </div>
+</nav>
+<br />
+<div class ="container">
+    <div id="main">
+        <h1><b>Heath Manager Registration Page</b></h1>
+        <li><a href="HealthCare.html" class="current"><span>Health Manager Demo Page</span></a></li>
+    </div>
+    <h2 class="login">Sign Up</h2>
+    <form action="doSignUp.py" method="get">
 
-            <fieldset id="user ID">
-                <legend><h3>User ID</h3></legend>
-                <p>User name *
-                    <input type="text"
-                           required="required"
-                           name="username" />
-                </p>
-                <p>Password *
-                    <input type="password"
-                           required="required"
-                           name="password" />
-                </p>
-                <p>Confirm Password *
-                    <input type="confirmpassword"
-                           required="required"
-                           name="confirmpassword" />
-                </p>
-
-            </fieldset>
-            <br><br>
-            <div class="detail">
-                <form>
-                    <fieldset id="personal detail">
-                        <legend><h3>Personal detail</h3></legend>
-                        <p>First Name *
-                            <input class="firstname"
-                                   name="firstname"
-                                   id="firstname"
-                                   required="required"
-                                   type="text" value="" />
-                        </p>
-                        <p>Middle Name
-                            <input class="middlename"
-                                   name="middlename"
-                                   id="middlename"
-                                   type="text" value="" />
-                        </p>
-                        <p>Last Name *
-                            <input class="lastname"
-                                   name="lastname"
-                                   id="lastname"
-                                   required="required"
-                                   type="text" value="" />
-                        </p>
-                        <p>Email Address *
-                            <input class="email"
-                                   name="email"
-                                   id="email"
-                                   required="required"
-                                   placeholder=" example@domain.com"
-                                   type="text" value="" />
-                        </p>
-
-                        <li><p><a href="javascript:unhide('optional');" id="black">Optional Fields</a></p></li>
-                        <p>Click to fill in more detailed information</p>
-                        <div id="optional" class="hidden">
-                            <p>Gender
-                                <select name="Gernder">
-                                    <option value="male">Male</option>option>
-                                    <option value="female">Female</option>
-                                </select>
-                            </p>
-                            <p>Date of Birth
-                                <select name="month" onChange="changeDate(this.options[selectedIndex].value);">
-                                    <option value="na">Month</option>
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
-                                    <option value="10">October</option>
-                                    <option value="11">November</option>
-                                    <option value="12">December</option>
-                                </select>
-                                <select name="day" id="day">
-                                    <option value="na">Day</option>
-                                </select>
-                                <select name="year" id="year">
-                                    <option value="na">Year</option>
-                                </select>
-                            </p>
-                            <p>Contact Number
-                                <input class="contact"
-                                       name="contact"
-                                       id="contact"
-                                       required="required"
-                                       maxlength="10"
-                                       type="text" value="" />
-                                (10 digit number)
-                            </p>
-                            <p>Height
-                                <input class="height"
-                                       name="height"
-                                       id="height"
-                                       required="required"
-                                       type="text" value="" />
-                            </p>
-                            <p>Weight
-                                <input class="weight"
-                                       name="weight"
-                                       id="weight"
-                                       required="required"
-                                       type="text" value="" />
-                            </p>
-                            <p>
-                            <div id="map_div">
-                                <!-- need codeaddress here as well search box change will only make when we select from drop down-->
-
-                                Address<input id="autocomplete" placeholder="Enter your address" type="text" onkeyup="codeAddress();"/>
-                                <div id="googleMap" style="width:800px;height:500px;"></div>
-                            </div>
-                            <script src="js/SignUp.js" type="text/javascript"></script>
-                            </p>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </form>
-        <br><br>
-        <fieldset>
-            <legend>Terms and Conditions</legend>
-            <p class="agreement">
-                <input type="checkbox" value=""/>
-                <label>*  I accept the <a href="#">Terms and Conditions</a></label>
+        <fieldset id="user ID">
+            <legend><h3>User ID</h3></legend>
+            <p>User name *
+                <input type="text"
+                       required="required"
+                       name="username" />
             </p>
-            <p class="agreement">
-                <input type="checkbox" value=""/>
-                <label>I want to receive personalized offers by your site</label>
+            <p>Password *
+                <input type="password"
+                       required="required"
+                       name="password" />
             </p>
+            <p>Confirm Password *
+                <input type="confirmpassword"
+                       required="required"
+                       name="confirmpassword" />
+            </p>
+
         </fieldset>
-        <br><br><div id="buttons" class="row_input">
-        <input type="submit" value="Submit" />
-    </div>
+        <br><br>
+        <div class="detail">
+            <form>
+                <fieldset id="personal detail">
+                    <legend><h3>Personal detail</h3></legend>
+                    <p>First Name *
+                        <input class="firstname"
+                               name="firstname"
+                               id="firstname"
+                               required="required"
+                               type="text" value="" />
+                    </p>
+                    <p>Middle Name
+                        <input class="middlename"
+                               name="middlename"
+                               id="middlename"
+                               type="text" value="" />
+                    </p>
+                    <p>Last Name *
+                        <input class="lastname"
+                               name="lastname"
+                               id="lastname"
+                               required="required"
+                               type="text" value="" />
+                    </p>
+                    <p>Email Address *
+                        <input class="email"
+                               name="email"
+                               id="email"
+                               required="required"
+                               placeholder=" example@domain.com"
+                               type="text" value="" />
+                    </p>
 
-        <div class="push"></div>
+                    <li><p><a href="javascript:unhide('optional');" id="black">Optional Fields</a></p></li>
+                    <p>Click to fill in more detailed information</p>
+                    <div id="optional" class="hidden">
+                        <p>Gender
+                            <select name="Gernder">
+                                <option value="male">Male</option>option>
+                                <option value="female">Female</option>
+                            </select>
+                        </p>
+                        <p>Date of Birth
+                            <select name="month" onChange="changeDate(this.options[selectedIndex].value);">
+                                <option value="na">Month</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                            <select name="day" id="day">
+                                <option value="na">Day</option>
+                            </select>
+                            <select name="year" id="year">
+                                <option value="na">Year</option>
+                            </select>
+                        </p>
+                        <p>Contact Number
+                            <input class="contact"
+                                   name="contact"
+                                   id="contact"
+                                   required="required"
+                                   maxlength="10"
+                                   type="text" value="" />
+                            (10 digit number)
+                        </p>
+                        <p>Height
+                            <input class="height"
+                                   name="height"
+                                   id="height"
+                                   required="required"
+                                   type="text" value="" />
+                        </p>
+                        <p>Weight
+                            <input class="weight"
+                                   name="weight"
+                                   id="weight"
+                                   required="required"
+                                   type="text" value="" />
+                        </p>
+                        <p>
+                        <div id="map_div">
+                            <!-- need codeaddress here as well search box change will only make when we select from drop down-->
 
-
-    </div>
-
-    <div id="footer">
-        <p>This is our <strong>Website CSS Sticky Footer</strong></p>
-        <p class="copyright">Copyright &copy; Food and health Company;<a href="http://facebook.com/" title="Las Vegas Web Design">Facebook page</a>
+                            Address<input id="autocomplete" placeholder="Enter your address" type="text" onkeyup="codeAddress();"/>
+                            <div id="googleMap" style="width:800px;height:500px;"></div>
+                        </div>
+                        <script src="js/SignUp.js" type="text/javascript"></script>
+                        </p>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </form>
+    <br><br>
+    <fieldset>
+        <legend>Terms and Conditions</legend>
+        <p class="agreement">
+            <input type="checkbox" value=""/>
+            <label>*  I accept the <a href="#">Terms and Conditions</a></label>
         </p>
-    </div>
+        <p class="agreement">
+            <input type="checkbox" value=""/>
+            <label>I want to receive personalized offers by your site</label>
+        </p>
+    </fieldset>
+    <br><br><div id="buttons" class="row_input">
+    <input type="submit" value="Submit" />
+</div>
+
+    <div class="push"></div>
+
+
+</div>
+
+<div id="footer">
+    <p>This is our <strong>Website CSS Sticky Footer</strong></p>
+    <p class="copyright">Copyright &copy; Food and health Company;<a href="http://facebook.com/" title="Las Vegas Web Design">Facebook page</a>
+    </p>
+</div>
 
 
 
 
 </body>
 </html>
-
