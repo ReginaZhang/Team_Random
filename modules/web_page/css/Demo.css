@@ -9,7 +9,7 @@ html, body {
     width: 50%;
 }
 .header{
-    background:url("headhead.jpg");
+    background:url("../assets/headhead.jpg");
     padding: 40px 20px 80px 20px;
     font-family: 'Dancing Script', Georgia, Times, serif;
     font-size: 50px;
@@ -129,7 +129,7 @@ table.set th {
 }
 
 #footer {
-    background: url("footer.gif");
+    background: url("../assets/footer.gif");
     height: 150px; /* .push must be the same height as .footer */
 
 }
