@@ -53,7 +53,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
       {:status 200 :body {:text "Successfully updated comment vote!"}})))
 
 (defn delete-comment [{{:strs [comment_id]} :params}]
-  (jdb/update! health-db :Comment {:Deleted 1} ["CommentId = ?" comment_id])
+  (jdb/update! health-db :Comment {:CommentDeleted 1} ["CommentId = ?" comment_id])
   {:status 200 :body {:text "Successfully deleted comment!"}})
 
 (defn edit-comment [{{:strs [comment_id text]} :params}]
