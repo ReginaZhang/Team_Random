@@ -7,9 +7,9 @@
   (:gen-class))
 
 (def health-db {:subprotocol "mysql"
-               :subname "//45.56.85.191:3306/HealthDB"
-               :user "kimjongun"
-               :password "KimJongUnIsGreat"})
+               :subname "//127.0.0.1:3306/HealthDB"
+               :user "root"
+               :password "mleonveg"})
   
 (defn merge-comments-with-flags [acc cur]
   (let [id (:commentid cur)
@@ -148,7 +148,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                 :flag-comment (rest-wrap update-comment-flags)
                 :vote-for (rest-wrap update-comment-vote)
                 :questions (rest-wrap get_questions)
-                :add_question (rest-wrap add_question)
+                :add-question (rest-wrap add_question)
                 :index index                
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))}
