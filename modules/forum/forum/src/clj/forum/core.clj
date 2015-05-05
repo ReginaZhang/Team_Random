@@ -84,13 +84,16 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
   {:status 200
    :body {:text "Successfully added comment!"}})
 
-(defn get_questions [_]
+(defn get_questions [{{:strs [user_id]} :params}]
   {:status 200
    :body
-  (jdb/query health-db
-              ["SELECT * from Question natural join Comment where ParentId is NULL"]
-              :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
-                                       :commentid :commenttext]))})
+   (vals (reduce merge-comments-with-flags {}
+                 (jdb/query health-db
+                            ["SELECT * from Question natural join Comment
+left join Vote on Vote.CommentId = Comment.CommentId and Vote.UserId = ? left join CommentFlag 
+on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
+                            :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
+                                                     :commentid :commenttext :votetype :score :flagid]))))})
 
 (defn add_question [{{:strs [text user_id title]} :params}]
   (let [[{question_id :generated_key}] (jdb/insert! health-db :Question
