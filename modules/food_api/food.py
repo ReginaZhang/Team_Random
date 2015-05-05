@@ -126,6 +126,8 @@ class FoodAPI:
 	search_food.exposed = True
 
 	def get_food_report(self, ndbno):
+		if (ndbno < MIN_NDBNO) and (ndbno > MAX_NDBNO):
+			return json.dumps({})
 		(d,c) = connect_db()
 		c.execute("select * from Food where Ndbno='%s'" % ndbno)
 		r = c.fetchone()
