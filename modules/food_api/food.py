@@ -182,4 +182,4 @@ if __name__ == '__main__':
 		#a.get_list()
 		#a.get_food_from_db()
 		#a.search_food("pe")
-		a.get_food_report(ndbno="01009")
+		a.get_food_report(ndbno="01010")
