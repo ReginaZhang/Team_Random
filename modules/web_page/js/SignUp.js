@@ -1,4 +1,6 @@
 
+
+
 //initialize google map
 function initialize(my_center_obj) {
     //position
@@ -132,4 +134,26 @@ function unhide(divID) {
 
 }
 
+function sign_up()
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://45.56.85.191:8000/user/register", true);
+    var user_data = {};
+    user_data["username"]=document.getElementById("username").value;
+    user_data["password"]=document.getElementById("password").value;
+    //user_data["address"]=document.getElementById("autocomplete").value;
+    user_data["email"] = document.getElementById("email").value;
+    //user_data["username"] =document.getElementById("input_username").value;
+    //user_data["password"] =document.getElementById("input_password").value;
+    xhr.send(JSON.stringify(user_data));
+    console.log(JSON.stringify(user_data));
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status==200) {
+            console.log(xhr.responseText);
+        }
+    }
+
+
+}
 
