@@ -1,6 +1,5 @@
-/**
- * Created by liubingfeng on 29/04/15.
- */
+
+
 
 //initialize google map
 function initialize(my_center_obj) {
@@ -14,7 +13,7 @@ function initialize(my_center_obj) {
     var searchBox = new google.maps.places.SearchBox(document.getElementById("autocomplete"));
     var mapProp = {
         center:myCenter,
-        zoom:11,
+        zoom:15,
         mapTypeId:google.maps.MapTypeId.ROADMAP,
         panControl:true,
         zoomControl:true,
@@ -51,3 +50,110 @@ function codeAddress()
     console.log("address: "+address);
     return null;
 }
+
+
+
+//
+
+function changeDate(i){
+    //console.log("hehe");
+    var e = document.getElementById('day');
+    var s;
+    while(e.length>0)
+    {
+        e.remove(e.length-1);
+    }
+    var j=-1;
+    //console.log("j : "+j);
+    if(i=="na")
+    {
+        k=0;
+    }
+    else if(i==2)
+    {
+        k=28;
+    }
+    else if(i==4||i==6||i==9||i==11)
+    {
+        k=30;
+    }
+    else
+    {
+        k=31;
+    }
+    //console.log("hehe");
+    //console.log("j : "+j);
+    while(j++<k){
+        s=document.createElement('option');
+        e=document.getElementById('day');
+        if(j==0){
+            //console.log("hahah");
+            s.text="Day";
+            s.value="na";
+            try{
+                e.add(s,null);
+            }
+            catch(ex){
+                e.add(s);
+            }
+        }
+        else{
+            //console.log("hahah2");
+            s.text=j;
+            s.value=j;
+            try{
+                e.add(s,null);
+            }
+            catch(ex){
+                e.add(s);
+            }
+        }
+    }
+    y = 1998;
+    while (y-->1908){
+        //console.log("hahah3");
+        s = document.createElement('option');
+        e = document.getElementById('year');
+        s.text=y;
+        s.value=y;
+        try{
+            e.add(s,null);
+        }
+        catch(ex){
+            e.add(s);
+        }
+    }
+}
+
+function unhide(divID) {
+    var item = document.getElementById(divID);
+    if (item) {
+        item.className=(item.className=='hidden')?'unhidden':'hidden';
+        //console.log("in function , equality : "+divID+item.className);
+    }
+
+}
+
+function sign_up()
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://45.56.85.191:8000/user/register", true);
+    var user_data = {};
+    user_data["username"]=document.getElementById("username").value;
+    user_data["password"]=document.getElementById("password").value;
+    //user_data["address"]=document.getElementById("autocomplete").value;
+    user_data["email"] = document.getElementById("email").value;
+    //user_data["username"] =document.getElementById("input_username").value;
+    //user_data["password"] =document.getElementById("input_password").value;
+    xhr.send(JSON.stringify(user_data));
+    console.log(JSON.stringify(user_data));
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status==200) {
+            console.log(xhr.responseText);
+        }
+    }
+
+
+}
+

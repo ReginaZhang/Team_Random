@@ -82,8 +82,8 @@
 
 (defn get-questions
   "Get a list of questions"
-  [questions-store error-store]
-  (backend-request "/questions" {}
+  [questions-store userid error-store]
+  (backend-request "/questions" {:user_id @userid}
                    (fn [[ok response]] (if ok (reset! questions-store response)
                                            (reset! error-store "Error: could not get questions from DB. Maybe the DB is down?")))))
                                                
@@ -132,7 +132,8 @@
   (fn []
     [:div.somebox
      [:div.text "Select your userid. You can edit and delete posts with the same posterid as your userid."]
-     [:div.text "NOTE: right now only user 1 can flag comments, as user 1 is the only user in the database, and trying to create a flag with a non-existing user violates a foreign key constraint."]
+     [:div.text "This is just for testing."]
+     [:div.text "NOTE: right now only users 1 to 3 can post, flag and vote for comments, as these are the only user in the database, and trying to post with a non-existing user violates a foreign key constraint."]
      [:input {:type "number"
               :placeholder "Enter a userid"
               :value @userid-atom
@@ -238,7 +239,7 @@
              [:div.delete-text {:on-click comment-delete-fn} "D (Click here to delete this comment)"])
            (when (not @deleted)
              [:button.flag_button {:on-click #(swap! showing-update-flags not)}
-              (if @showing-update-flags "Abort flagging" "Add Commen Flag")])
+              (if @showing-update-flags "Abort flagging" "Add Comment Flag")])
            (when @showing-update-flags [flag-select {:flagtype-store flagtypes :select-flag-store comment-flag-store
                      :text "What flags apply to this comment?" :callback-fn flag-update-fn}])
            [:br]
@@ -279,21 +280,22 @@
         question-store (re/atom {})]
     (start-resource-provider request-chan)
     (get-flag-types flagtype-store)
-    (get-questions question-store (re/atom {}))
+    (get-questions question-store userid-store (re/atom {}))
     (fn []
       [:div.whole-page
        [userid-select userid-store]
        [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
                      :text "Show what kind of comments?" :callback-fn nil}]              
-       (for [{:keys [questionid questiondeleted userid commentid commenttext questiontitle]} @question-store]
+       (for [{:keys [questionid questiondeleted userid commentid commenttext questiontitle votetype score flagids]} @question-store]
          ^{:key questionid}
          [:div.question
           [:div.question-title (str "Question title is: " questiontitle)]
           [display-comment {:req-c request-chan :userid userid
                             :text (re/atom commenttext)
-                            :commentid commentid :questionid questionid :parentid nil :flagids (re/atom [3]) :filter-store filtered-flags
-                            :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom questiondeleted) :score (re/atom 9000)
-                            :votetype (re/atom nil)}]])])))
-  
-(re/render [forum-page] (.-body js/document))
+                            :commentid commentid :questionid questionid :parentid nil :flagids (re/atom flagids) :filter-store filtered-flags
+                            :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom questiondeleted) :score (re/atom score)
+                            :votetype (re/atom votetype)}]])])))
+(set! (.-onload js/window) #(re/render [forum-page] (js/document.getElementById "forum")))
+;(print ( js/document.getElementById "test"))
+;(re/render [forum-page] (js/document.getElementById "test"))
 

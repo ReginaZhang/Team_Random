@@ -1,13 +1,14 @@
 (ns forum.core
   (:require [clojure.java.jdbc :as jdb]
             [ring.adapter.jetty :as jetty]
+            [ring.util.response :as resp]
             [ring.middleware.json :as json]
             [ring.middleware.params :as prms]
             [bidi.bidi :as bidi])
   (:gen-class))
 
 (def health-db {:subprotocol "mysql"
-               :subname "//45.56.85.191:3306/HealthDB"
+               :subname "//45.56.85.191/HealthDB"
                :user "kimjongun"
                :password "KimJongUnIsGreat"})
   
@@ -53,7 +54,7 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
       {:status 200 :body {:text "Successfully updated comment vote!"}})))
 
 (defn delete-comment [{{:strs [comment_id]} :params}]
-  (jdb/update! health-db :Comment {:Deleted 1} ["CommentId = ?" comment_id])
+  (jdb/update! health-db :Comment {:CommentDeleted 1} ["CommentId = ?" comment_id])
   {:status 200 :body {:text "Successfully deleted comment!"}})
 
 (defn edit-comment [{{:strs [comment_id text]} :params}]
@@ -84,13 +85,16 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
   {:status 200
    :body {:text "Successfully added comment!"}})
 
-(defn get_questions [_]
+(defn get_questions [{{:strs [user_id]} :params}]
   {:status 200
    :body
-  (jdb/query health-db
-              ["SELECT * from Question natural join Comment where ParentId is NULL"]
-              :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
-                                       :commentid :commenttext]))})
+   (vals (reduce merge-comments-with-flags {}
+                 (jdb/query health-db
+                            ["SELECT * from Question natural join Comment
+left join Vote on Vote.CommentId = Comment.CommentId and Vote.UserId = ? left join CommentFlag 
+on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
+                            :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
+                                                     :commentid :commenttext :votetype :score :flagid]))))})
 
 (defn add_question [{{:strs [text user_id title]} :params}]
   (let [[{question_id :generated_key}] (jdb/insert! health-db :Question
@@ -105,11 +109,16 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
    :headers {"Content-Type" "text/html"}
    :body (slurp "static/index.html")})
 
-(defn mk-serve-js [jsfile]
+(defn mk-serve-js2 [jsfile]
   (fn [request]
     {:status 200
      :headers {"Content-Type" "text/javascript"}
      :body (slurp (str "static/js/" jsfile ".js"))}))
+
+(defn mk-serve-js [jsfile]
+  (fn [request]
+    (let [path (str "static/js/" jsfile ".js")]
+      (resp/content-type (resp/file-response path) "text/javascript"))))
 
 (defn mk-serve-css [cssfile]
   (fn [request]
@@ -117,10 +126,24 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
      :headers {"Content-Type" "text/css"}
      :body (slurp (str "static/css/" cssfile ".css"))}))
 
+(defn mk-serve-asset [assetfile]
+      (fn [request]
+          {:status 200
+           :headers {"Content-Type" "image/gif"}
+           :body (slurp (str "static/assets/" assetfile))}))
+
 
 (defn rest-wrap [handler] (-> handler
                                    (json/wrap-json-response)
                                    (prms/wrap-params)))
+(def loggedin-users (atom {}))
+(defn login-user [{{:strs [user_id ip header]} :params}]
+  (swap! loggedin-users #(assoc % [ip, header] user_id))
+  {:status 200 :body {:text "User recorded as logged in"}})
+
+(defn check-loggedin [{{:strs [ip header]} :params}]
+  {:status 200 :body
+   {:id (get @loggedin-users [ip, header])}})
 
 (def routes ["/" {"child_comments" :child-comments
                   "add_comment" :add-comment
@@ -132,8 +155,11 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                   "questions" :questions
                   "add_question" :add-question
                   "index" :index
+                  "login_user" :login-user
+                  "check_loggedin" :check-loggedin
                   ["static/js/" :jsfile ".js"] :serve_js
-                  ["static/css/" :cssfile ".css"] :serve_css}])
+                  ["static/css/" :cssfile ".css"] :serve_css
+                  ["static/assets/" :assetfile] :serve_asset}])
 
 (defn forum [request]
   (if-let [match (bidi/match-route routes (:uri request))]
@@ -148,10 +174,13 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
                 :flag-comment (rest-wrap update-comment-flags)
                 :vote-for (rest-wrap update-comment-vote)
                 :questions (rest-wrap get_questions)
-                :add_question (rest-wrap add_question)
-                :index index                
+                :add-question (rest-wrap add_question)
+                :index index
+                :login-user (rest-wrap login-user)
+                :check-loggedin (rest-wrap check-loggedin)
                 :serve_js (mk-serve-js (:jsfile params))
-                :serve_css (mk-serve-css (:cssfile params))}
+                :serve_css (mk-serve-css (:cssfile params))
+                :serve_asset (mk-serve-asset (:assetfile params))}
                handler)]
       (handler-fn request))
     {:status 404 :body "404 page not found"}))
