@@ -223,10 +223,9 @@ if __name__ == '__main__':
 					}
 				}
 		cherrypy.tools.CORS = cherrypy.Tool("before_finalize", CORS)
-		cherrypy.config.update({"server.socket_port": 1234})
-		#cherrypy.config.update({"server.socket_host":"45.56.85.191"})
+		cherrypy.config.update({"server.socket_port": 8888})
+		cherrypy.config.update({"server.socket_host":"45.56.85.191"})
 		cherrypy.quickstart(FoodAPI(), '/', conf)
-		requests.put("localhost:1234/request_body_test", data=json.dumps({"a":"b"}), headers={"content-type":"application/json"})
 	else:
 		a = FoodAPI()
 		#a.get_list()
