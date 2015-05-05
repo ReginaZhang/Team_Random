@@ -87,11 +87,11 @@ class FoodAPI:
 		return json.dumps(new_r)
 
 	def search_food(self, term = "", offset = 0):
-		cursor = connect_db()
+		(d,c) = connect_db()
 		chars = list(term)
 		pattern = "%" + "%".join(chars) + "%"
-		cursor.execute("Select foodname, ndbno from Food where foodname like '%s' limit %d, %d;" % (pattern, offset, NUM_LIST_ITEM))
-		db_results = cursor.fetchall()
+		c.execute("Select foodname, ndbno from Food where foodname like '%s' limit %d, %d;" % (pattern, offset, NUM_LIST_ITEM))
+		db_results = c.fetchall()
 		#print db_results
 		if len(db_results) < NUM_LIST_ITEM:
 			api_search(term)
@@ -107,8 +107,14 @@ class FoodAPI:
 		nutrients_list = result["report"]["food"]["nutrients"]
 		#f = open("nutrient_info.txt", "w")
 		#f.write("nutrients = {")
+		field_names = "FoodName,Ndbno,"
+		field_values = "'" + new_report["name"]+"','"+new_report["ndbno"]+"',"
 		for nutrient in nutrients_list:
+			if nutrient["name"] not in nutrients.keys():
+				continue
 			new_report["nutrients"][nutrient["name"]] = {"unit":nutrient["unit"],"value":nutrient["value"]}
+			field_names += nutrients[nutrient["name"]]["db_field"] + ","
+			field_values += nutrient["value"] + ","
 			#print nutrient.keys()
 			#print nutrient["name"]
 			#print nutrient["unit"]
@@ -128,18 +134,32 @@ class FoodAPI:
 		#print nutrients
 		#for nutrient in nutrients.keys():
 			#print nutrients[nutrient]["unit"]
+		sql_str = "insert into Food (%s) values (%s);" % (field_names[:-1], field_values[:-1])
+		print sql_str
+		(d,c) = connect_db()
+		c.execute("select FoodName from Food where Ndbno='%s';" % new_report["ndbno"])
+		if not c.fetchall():
+			try:
+				c.execute(sql_str)
+				d.commit()
+				#pass
+			except:
+				d.rollback()
+		else:
+			print "aaaaa"
 		return json.dumps(new_report)
 	get_food_report.exposed = True
 
 	def get_food_from_db(self):
-		cursor = connect_db()
-		cursor.execute("select * from Food")
-		print cursor.fetchall()
+		(d,c) = connect_db()
+		c.execute("select * from Food")
+		print c.fetchall()
 
 
 def connect_db():
 	database = MySQLdb.connect(host=db["host"], user=db["user"], passwd=db["password"], db=db["schema"])
-	return database.cursor()
+	cursor = database.cursor()
+	return (database, cursor)
 
 
 def CORS():
@@ -159,6 +179,7 @@ if __name__ == '__main__':
 		cherrypy.quickstart(FoodAPI(), '/', conf)
 	else:
 		a = FoodAPI()
-		a.get_list()
+		#a.get_list()
 		#a.get_food_from_db()
-		a.search_food("pe")
+		#a.search_food("pe")
+		a.get_food_report(ndbno="01009")

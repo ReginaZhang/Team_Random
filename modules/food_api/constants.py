@@ -48,7 +48,12 @@ nutrients = {'Water':{'db_field': 'Water','unit':'g', 'group':'Proximates'},
 			'Vitamin A, RAE':{'db_field': 'VitaminARAE','unit':'micro g', 'group':'Vitamins'},
 			'Vitamin A, IU':{'db_field': 'VitaminAIU','unit':'IU', 'group':'Vitamins'},
 			'Cholesterol':{'db_field': 'Cholesterol','unit':'mg', 'group':'Lipids'},
-			'Caffeine':{'db_field': 'Caffeine','unit':'mg', 'group':'Other'}}
+			'Caffeine':{'db_field': 'Caffeine','unit':'mg', 'group':'Other'},
+			'Sugars, total':{'db_field': 'SugarsTotal', 'unit':'g', 'group':'Proximates'},
+			'Vitamin E (alpha-tocopherol)':{'db_field': 'VitaminEAlphaTocopherol', 'unit':'mg', 'group':'Vitamins'},
+			'Vitamin D (D2 + D3)':{'db_field':'VitaminD_D2D3', 'unit':'micro g', 'group':'Vitamins'},
+			'Vitamin D':{'db_field':'VitaminD', 'unit':'IU', 'group':'Vitamins'},
+			'Vitamin K (phylloquinone)':{'db_field':'VitaminKPhylloquinone', 'unit':'micro g', 'group':'Vitamins'}}
 
 micro_unicode = u'\xb5'
 NUM_LIST_ITEM = 10
