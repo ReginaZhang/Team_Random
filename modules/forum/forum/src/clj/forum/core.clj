@@ -1,6 +1,7 @@
 (ns forum.core
   (:require [clojure.java.jdbc :as jdb]
             [ring.adapter.jetty :as jetty]
+            [ring.util.response :as resp]
             [ring.middleware.json :as json]
             [ring.middleware.params :as prms]
             [bidi.bidi :as bidi])
@@ -108,11 +109,16 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
    :headers {"Content-Type" "text/html"}
    :body (slurp "static/index.html")})
 
-(defn mk-serve-js [jsfile]
+(defn mk-serve-js2 [jsfile]
   (fn [request]
     {:status 200
      :headers {"Content-Type" "text/javascript"}
      :body (slurp (str "static/js/" jsfile ".js"))}))
+
+(defn mk-serve-js [jsfile]
+  (fn [request]
+    (let [path (str "static/js/" jsfile ".js")]
+      (resp/content-type (resp/file-response path) "text/javascript"))))
 
 (defn mk-serve-css [cssfile]
   (fn [request]
