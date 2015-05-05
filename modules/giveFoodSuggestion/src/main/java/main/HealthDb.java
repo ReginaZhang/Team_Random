@@ -1,5 +1,6 @@
 package main;
 
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -103,9 +104,45 @@ public class HealthDb
 		System.out.println("Start-up successful");
 		
 	}
+	
+public ResultSet executeQuery(String tableName, String field, String value) {
+		
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	Connection conn = null;
+	
+	try {
+		conn = ds.getConnection();
+		
+		String type = TableSet.get(tableName).get(field);
+		String wildcardQuery = "SELECT * FROM " + tableName + " WHERE " + field + " LIKE ?";
+		String equalQuery = "SELECT * FROM " + tableName + " WHERE " + field + " = ?";
+					
+		if(type.contains("double")) {
+			stmt = conn.prepareStatement(equalQuery);
+			stmt.setDouble(1, Double.parseDouble(value));
+		} else if(type.contains("int")) {
+			stmt = conn.prepareStatement(equalQuery);
+			stmt.setInt(1, Integer.parseInt(value));
+		} else if(type.contains("varchar") || type.contains("enum")) {
+			stmt = conn.prepareStatement(wildcardQuery);
+			stmt.setString(1, "%"+ value +"%");
+		}
+			
+		rs = stmt.executeQuery();
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	
+	return rs;
+		
+	}
 
 	
-	public ResultSet executeQuery(String tableName, String field, String value) {
+	public ResultSet executeQuery(String tableName, HashMap<String, String> fieldValuePair) {
+		
+		HashMap<String, String> thisTable = this.TableSet.get(tableName.trim());
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -114,23 +151,54 @@ public class HealthDb
 		try {
 			conn = ds.getConnection();
 			
-			String type = TableSet.get(tableName).get(field);
-			String wildcardQuery = "SELECT * FROM " + tableName + " WHERE " + field + " LIKE ?";
-			String equalQuery = "SELECT * FROM " + tableName + " WHERE " + field + " = ?";
+			String sql = "SELECT * FROM " + tableName + " WHERE ";
+			String[] ks = fieldValuePair.keySet().toArray(new String[fieldValuePair.size()]);
+			
+			for (int i=0; i<fieldValuePair.size(); i++) {
+				
+				sql += ks[i];
+				String type = thisTable.get(ks[i]);
+				if (fieldValuePair.get(ks[i]) == null) {
+					sql += " is null";
+				} else if (type == "varchar") {
+					sql += " like %?%";
+				} else {
+					sql += " = ?";
+				}
+				
+				if (i!=fieldValuePair.size()-1) {
+					sql+=" and ";
+				} else {
+					sql+=";";
+				}
+				
+			}
+			
+			System.out.println(sql);
+			stmt = conn.prepareStatement(sql);
+			
+			int index = 1;
+			for (String field: ks) {
+				String type = thisTable.get(field);
+				System.out.println("Type:" + type);
+				
+				if (fieldValuePair.get(field) != null) {
 						
-			if(type.contains("double")) {
-				stmt = conn.prepareStatement(equalQuery);
-				stmt.setDouble(1, Double.parseDouble(value));
-			} else if(type.contains("int")) {
-				stmt = conn.prepareStatement(equalQuery);
-				stmt.setInt(1, Integer.parseInt(value));
-			} else if(type.contains("varchar") || type.contains("enum")) {
-				stmt = conn.prepareStatement(wildcardQuery);
-				stmt.setString(1, "%"+ value +"%");
+					if(type.contains("double")) {					
+						stmt.setDouble(index, Double.parseDouble(fieldValuePair.get(field)));
+					} else if(type.contains("int")) {
+						stmt.setInt(index, Integer.parseInt(fieldValuePair.get(field)));
+					} else if(type.contains("varchar") || type.contains("enum")) {
+						stmt.setString(index, fieldValuePair.get(field));
+					}
+					
+				}
+				
+				index++;
+				
 			}
 				
 			rs = stmt.executeQuery();
-			rs.next();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -139,7 +207,7 @@ public class HealthDb
 		return rs;
 		
 	}
-	
+
 	public void executeInsert(String tableName, HashMap<String, String> fieldValuePair) {
 		
 		HashMap<String, String> thisTable = this.TableSet.get(tableName.trim());
@@ -228,6 +296,10 @@ public class HealthDb
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public String getServerName() {
+		return serverName;
 	}
 	
 	public HashMap<String, HashMap<String, String>> getTableSet() {

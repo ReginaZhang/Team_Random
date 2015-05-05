@@ -155,12 +155,15 @@ td:first-child {
 .item-Mon,
 .item-Tue,
 .item-Wed,
-.item-Thur,
+.item-Thu,
 .item-Fri,
 .item-Sat,
-.item-Sun {
+.item-Sun,
+.item-All {
     text-align: center;
 }
+
+
 .item-multiple {
     display: block;
 }
