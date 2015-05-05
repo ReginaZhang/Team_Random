@@ -130,6 +130,14 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
 (defn rest-wrap [handler] (-> handler
                                    (json/wrap-json-response)
                                    (prms/wrap-params)))
+(def loggedin-users (atom {}))
+(defn login-user [{{:strs [user_id ip header]} :params}]
+  (swap! loggedin-users #(assoc % [ip, header] user_id))
+  {:status 200 :body {:text "User recorded as logged in"}})
+
+(defn check-loggedin [{{:strs [ip header]} :params}]
+  {:status 200 :body
+   {:id (get @loggedin-users [ip, header])}})
 
 (def routes ["/" {"child_comments" :child-comments
                   "add_comment" :add-comment
@@ -141,6 +149,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                   "questions" :questions
                   "add_question" :add-question
                   "index" :index
+                  "login_user" :login-user
+                  "check_loggedin" :check-loggedin
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css
                   ["static/assets/" :assetfile] :serve_asset}])
@@ -159,7 +169,9 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                 :vote-for (rest-wrap update-comment-vote)
                 :questions (rest-wrap get_questions)
                 :add-question (rest-wrap add_question)
-                :index index                
+                :index index
+                :login-user (rest-wrap login-user)
+                :check-loggedin (rest-wrap check-loggedin)
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))
                 :serve_asset (mk-serve-asset (:assetfile params))}
