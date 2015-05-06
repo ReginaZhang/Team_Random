@@ -3,16 +3,19 @@ package main;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
-
+import java.io.BufferedReader;
 import java.lang.reflect.Type;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;import java.util.TreeMap;
+import java.util.Set;
+import java.util.TreeMap;
 
 
 
@@ -50,7 +53,7 @@ public class App {
 		
 		Gson gs = new Gson(); //GSON tool just for array to json and vice versa
 		
-		System.out.println("Reached server roots");
+		System.out.println("APIs Started");
 		
 		//receiving JSON sent by client via POST request
 		//expecting {"memberId":"10000", "foodName0":"Sandwich", "foodName1":"Butter", ...}
@@ -98,6 +101,7 @@ public class App {
 			} else if (info.get("hasRegistered").equals("true")) {
 				int id = Integer.valueOf(info.get("userId"));
 				ResultSet userInfo = db.executeQuery("User", "UserId", Integer.toString(id));
+				userInfo.next();
 				response = computeBmi(userInfo.getDouble("Height"), userInfo.getDouble("Weight"));
 			}
 						
@@ -128,9 +132,9 @@ public class App {
 			
 			int i=0;
 
-			if (foods.getRow() != 0) {
+			if (foods.isBeforeFirst()) {
 				response.remove(invalid);
-				do {
+				while (foods.next()) {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
 					oneFood.put("resultId", Integer.toString(i));
 					oneFood.put("foodId", foods.getString("FoodId"));
@@ -138,7 +142,7 @@ public class App {
 									
 					response.add(oneFood);
 					i++;
-				} while (foods.next());
+				} 
 			}
 						
 			return gs.toJson(response); 
@@ -161,33 +165,64 @@ public class App {
 			invalid.put("status", "invalid");
 			response.add(invalid);			
 			
-			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("dietId"))) {
+			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("userId"))) {
 				return gs.toJson(response);
 			}
 			
-			ResultSet foodInDiet = db.executeQuery("DietItem", "DietId", info.get("dietId").trim());
+			String dietId;
+			if (!info.containsKey("dietId")) {
+				HashMap<String, String> cond = new HashMap<String, String>();
+				cond.put("UserId", info.get("userId"));
+				cond.put("EndDate", null);
+				ResultSet rs = db.executeQuery("Diet", cond);
+				rs.next();
+				dietId = rs.getString("DietId");
+				System.out.println(dietId);
+			} else {
+				dietId = info.get("dietId");
+			}
+			
+			ResultSet allDiets = db.executeQuery("Diet", "UserId", info.get("userId"));
+			HashMap<String, String> dietList = new HashMap<String, String>();
+			
+			int index = 0;
+			while (allDiets.next()) {
+				if (!allDiets.getString("DietId").equals(dietId)) {
+					dietList.put(("otherDiet" + index), allDiets.getString("DietId"));
+					index++;
+				} else {
+					dietList.put("activeDiet", allDiets.getString("DietId"));
+				}
+			}
+			response.add(dietList);
+				
+			ResultSet foodInDiet = db.executeQuery("DietItem", "DietId", dietId);
 			
 			int i=0;
-
-			if (foodInDiet.getRow() != 0) {
-				response.remove(invalid);
-				do {
+			
+			response.remove(invalid);
+			if (foodInDiet.isBeforeFirst()) {	
+				
+				while (foodInDiet.next()) {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
 					
-					oneFood.put("resultId", Integer.toString(i));				
-					String foodName = db.executeQuery("Food", "FoodId", foodInDiet.getString("FoodId")).getString("FoodName");
-					oneFood.put("foodName", foodName);				
-					
+					oneFood.put("resultId", Integer.toString(i));
+					ResultSet oneFoodDetail = db.executeQuery("Food", "FoodId", foodInDiet.getString("FoodId"));
+					oneFoodDetail.next();
+					String foodName = oneFoodDetail.getString("FoodName");
+					oneFood.put("foodName", foodName);
+					oneFood.put("weekday", foodInDiet.getString("Weekday"));
+					oneFood.put("mealType", foodInDiet.getString("MealType"));
+										
 					response.add(oneFood);
 					i++;
-				} while (foodInDiet.next());
+				}
+			} else {
+				invalid.replace("status", "empty");
+				response.add(0, invalid);
 			}
 						
 			return gs.toJson(response); 
-			
-			
-			//the json string will look like
-			//{"foodName0":"Peach", "foodName1":"Egg"}
 			
 		});
 		
@@ -197,11 +232,8 @@ public class App {
 			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
 			
 			res.type("application/json"); //define return type
-			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
-			
-			HashMap<String, String> invalid = new HashMap<String, String>();
-			invalid.put("update", "failed");
-			response.add(invalid);			
+			HashMap<String, String> response = new HashMap<String, String>();
+			response.put("update", "failed");	
 			
 			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("foodId") || !info.containsKey("dietId") ||
 					!info.containsKey("modiType"))) {
@@ -221,14 +253,46 @@ public class App {
 			}
 			
 			response.remove(0);
-			HashMap<String, String> status = new HashMap<String, String>();
-			status.put("update", "successful");
-			response.add(status);
+			response.put("update", "successful");
 			
 			return gs.toJson(response); 
 			
 			//the json string will look like
 			//{"foodName0":"Peach", "foodName1":"Egg"}
+			
+		});
+		
+		spark.Spark.post("/user/check", "application/json", (req, res) -> {
+			
+			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
+			res.type("application/json"); //define return type
+			HashMap<String, String> response = new HashMap<String, String>();
+			response.put("check", "invalid");
+			
+			if (req.contentLength() == EMPTY_CONTENT || !info.containsKey("userId") || !info.containsKey("userIp")) {
+				return gs.toJson(response);
+			}
+			
+			String checkUrl = "http://" + db.getServerName() + ":80/check_loggedin?ip=" + info.get("userIp") + "&header=" + URLEncoder.encode(req.headers("User-Agent"), "UTF-8");
+	
+			System.out.println(checkUrl);
+			URL urlObj = new URL(checkUrl);
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlObj.openStream()));
+			String id = br.readLine().substring(7, 8);
+			
+			System.out.println("ID:" + id);
+				
+			if (id.equals(info.get("userId"))) {
+				ResultSet user = db.executeQuery("User", "UserId", info.get("userId"));
+				user.next();
+				response.clear();
+				response.put("userName", user.getString("UserName"));
+				response.put("userWeight", user.getString("Weight"));
+			}			
+					
+			return gs.toJson(response); 
 			
 		});
 		
@@ -238,15 +302,11 @@ public class App {
 			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
 			
 			res.type("application/json"); //define return type
-			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
+			HashMap<String, String> response = new HashMap<String, String>();
+			response.put("login", "invalid");
 			
-			HashMap<String, String> invalid = new HashMap<String, String>();
-			invalid.put("login", "invalid");
-			response.add(invalid);		
-			
-			
-			
-			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("username") || !info.containsKey("password"))) {
+					
+			if ((req.contentLength() == EMPTY_CONTENT || (!info.containsKey("username") && !info.containsKey("email")) || !info.containsKey("password")) || !info.containsKey("userIp")) {
 				return gs.toJson(response);
 			}
 			
@@ -256,19 +316,32 @@ public class App {
 			byte[] encrepted = encrypter.digest();
 			String encreptedString = new String(encrepted);
 			
-			String dbpw = db.executeQuery("User", "UserName", info.get("username")).getString("Password");
+			String whichId = info.containsKey("username") ? "UserName" : "Email";
 			
-			response.remove(0);
-			HashMap<String, String> status = new HashMap<String, String>();
+			ResultSet user = db.executeQuery("User", whichId, info.get(whichId.toLowerCase()));
+
+			response.replace("login", "failed");
 			
-			if (dbpw.equals(encreptedString)) {			
-				status.put("login", "successful");
-			} else {
-				status.put("login", "failed");
+			if(!user.next()) {				
+				return gs.toJson(response);
 			}
 			
-			response.add(status);
-						
+			String dbpw = user.getString("Password");
+					
+			if (dbpw.equals(encreptedString)) {
+				response.clear();
+				
+				String registerLogedInUrl = "http://" + db.getServerName() + ":80/login_user?ip=" + info.get("userIp") + "&header=" + URLEncoder.encode(req.headers("User-Agent"), "UTF-8") + "&user_id=" + user.getString("UserId");				
+				
+				System.out.println(registerLogedInUrl);
+				URL urlObj = new URL(registerLogedInUrl);
+				urlObj.openStream();
+								
+				response.put("login", "successful");				
+				response.put("userId", user.getString("UserId"));				
+				response.put("userName", user.getString("UserName"));
+			} 
+									
 			return gs.toJson(response); 
 			
 		});
@@ -279,15 +352,18 @@ public class App {
 			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
 			
 			res.type("application/json"); //define return type
-			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
+			HashMap<String, String> response = new HashMap<String, String>();
+			response.put("register", "invalid");
 			
-			HashMap<String, String> invalid = new HashMap<String, String>();
-			invalid.put("register", "invalid");
-			response.add(invalid);			
 			
 			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("username") || !info.containsKey("password") || !info.containsKey("email"))) {
 				return gs.toJson(response);
 			}
+			
+			if (db.executeQuery("User", "UserName", info.get("username")).isBeforeFirst()) {
+				return gs.toJson(response);
+			}
+			
 			
 			MessageDigest encrypter = MessageDigest.getInstance("SHA");
 				
@@ -310,10 +386,8 @@ public class App {
 			
 			db.executeInsert("User", newUser);
 			
-			response.remove(0);
-			HashMap<String, String> status = new HashMap<String, String>();		
-			status.put("register", "successful");
-			response.add(status);
+			response.clear();
+			response.put("register", "successful");
 						
 			return gs.toJson(response); 
 			

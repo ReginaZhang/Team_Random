@@ -1,13 +1,16 @@
 
-var serverAdd = "http://45.56.85.191:8000";
-var method = "POST";
+var serverAdd = "http://45.56.85.191";
+var defaultMethod = "POST";
+var userId = null;
+var userName = null;
+var userWeight = null;
 
-$('document').ready(init());
+$('document').ready(isLoginedIn());
 
 function init() {
     //showDiet();
 
-    if(isRegistered()) {
+    if(userId) {
 
         var trial = document.getElementById("trial");
         trial.parentNode.removeChild(trial);
@@ -22,20 +25,51 @@ function init() {
 
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
+        console.log("Not reg")
 
-        document.getElementById("nav").innerHTML =
-            "<ul id='menu'>" +
-            "<li><a href='Food.html'>Food Nutrition</a></li>" +
-            "<li><a href='Test.html'>Health Test</a></li>" +
-            "<li><a href='Plan.html'>Health Plan</a></li>" +
-            "</ul>";
 
     }
 
 }
 
-function isRegistered() {
-    return true;
+function isLoginedIn() {
+
+    var header = navigator.userAgent;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://api.hostip.info/get_json.php");
+    //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
+    // send the collected data as JSON
+    xhr.send();
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+
+            var userIp = JSON.parse(xhr.responseText).ip;
+
+            query(":80/check_loggedin?ip=" + userIp + "&header=" + header, "GET", {}, function(id){
+
+                if (id.id != null) {
+                    userId = id.id;
+                    query(":8000/user/check", defaultMethod, {userId: userId, userIp: userIp}, function(userDetail) {
+
+                        userName = userDetail.userName;
+                        userWeight = userDetail.userWeight;
+
+                        init();
+
+                    });
+
+                } else {
+                    $("#trialBody").html("Not logged in!");
+                    init();
+                }
+
+            });
+        }
+
+    };
+
 }
 
 function tabSwitcher() {
@@ -60,14 +94,12 @@ function tabSwitcher() {
 function generateDashboard() {
     var nameBar = document.getElementById("nameBar");
 
-    var userName = "ra";
-    var userWeight = 62;
     var data = {
         hasRegistered: true,
-        userId: 1
+        userId: userId
     };
 
-    query("/bmi", data, function(userBmi) {
+    query(":8000/bmi", defaultMethod, data, function(userBmi) {
         var name = document.createElement("p");
         name.innerHTML = "Hi! " + userName;
         name.className = "nameBar";
@@ -77,7 +109,7 @@ function generateDashboard() {
         weight.className = "nameBar";
 
         var bmi = document.createElement("p");
-        bmi.innerHTML = "BMI: " + userBmi["bmi"].slice(0,5) + ", " + userBmi["status"];
+        bmi.innerHTML = "BMI: " + userBmi.bmi.slice(0,5) + ", " + userBmi.status;
         bmi.className = "nameBar";
 
         nameBar.appendChild(name);
@@ -85,19 +117,40 @@ function generateDashboard() {
         nameBar.appendChild(bmi);
     });
 
-    data = {
-        dietId: 1
-    };
-    query("/diet", data, function(userDiet) {
+    query(":8000/diet", defaultMethod,  data, function(userDiet) {
 
         var diet = "";
 
-        for (var i = 0; i < userDiet.length; i++) {
-            diet += userDiet[i]["foodName"];
+        if (!userDiet[0].status) {
+            $("#emptyWarning").remove();
 
-            if(i != userDiet.length-1) {
-                diet += ",   ";
+            for (var i = 1; i < userDiet.length; i++) {
+
+                var today = new Date();
+                var whichWeekDay = today.getDate();
+                var weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                var found = false;
+
+                if (userDiet[i].weekday == weekDays[whichWeekDay]) {
+
+                    found = true;
+                    diet += userDiet[i].foodName;
+
+                    if (i != userDiet.length - 1) {
+                        diet += ",   ";
+                    }
+
+                }
+
             }
+
+            if(!found) {
+                diet = "You have nothing in the diet for today!";
+            }
+
+        } else {
+            diet = "You have nothing in the diet for today!";
+            $("#emptyWarning").html("Current diet is empty!");
         }
 
         document.getElementById("todaysDietItems").innerHTML = diet;
@@ -107,6 +160,58 @@ function generateDashboard() {
 }
 
 function generateDiet() {
+
+    var user = {
+        userId: userId
+    };
+
+    query(":8000/diet", defaultMethod,  user, function(userDiet) {
+
+        for (var i = 1; i < userDiet.length; i++) {
+
+            var thisFood = userDiet[i];
+
+            var foodName = thisFood.foodName;
+            var weekday = thisFood.weekday;
+            var meal = thisFood.mealType;
+
+
+            var selector = "";
+
+            var mealId = (meal == "B" ? "#breakfast" : (meal == "L" ? "#lunch" :
+                (meal=== "D" ? "#dinner" : "#other")));
+
+            if (mealId == "#other" ) {
+                if (weekday != "NA") {
+                    mealId += "_with_weekday";
+                } else {
+                    mealId += "_flexi";
+                }
+            }
+
+            selector += mealId;
+            selector += " .item-";
+
+            if (weekday != "NA") {
+                selector += weekday;
+            } else {
+                selector += "All";
+            }
+
+            $(selector).html((($(selector).html() !== undefined) ? $(selector).html() : "") + foodName + "<br>");
+
+
+        }
+
+
+
+
+    });
+
+
+
+
+
 
 }
 
@@ -118,7 +223,7 @@ function generateStats() {
 
 }
 
-function query(directory, data, callback) {
+function query(directory, method, data, callback) {
 
     var xhr = new XMLHttpRequest();
     xhr.open(method, serverAdd + directory);
@@ -155,7 +260,7 @@ function submitForm(event, form) {
         }
     }
 
-    query(dir, data, function(response) {
+    query(":8000"+dir, defaultMethod, data, function(response) {
 
         if (form.id == "foodNutrition") {
             var result = "";
@@ -164,7 +269,7 @@ function submitForm(event, form) {
                 result += response[i]["foodName"];
 
                 if (i != response.length - 1) {
-                    result += ",   ";
+                    result += "<br>";
                 }
             }
 
