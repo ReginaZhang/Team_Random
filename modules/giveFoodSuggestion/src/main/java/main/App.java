@@ -293,7 +293,7 @@ public class App {
 			response.put("login", "invalid");
 			
 					
-			if ((req.contentLength() == EMPTY_CONTENT || (!info.containsKey("username") && !info.containsKey("email")) || !info.containsKey("password") ||info.containsKey("userIp"))) {
+			if ((req.contentLength() == EMPTY_CONTENT || (!info.containsKey("username") && !info.containsKey("email")) || !info.containsKey("password"))){ //||!info.containsKey("userIp"))) {
 				return gs.toJson(response);
 			}
 			
@@ -318,7 +318,8 @@ public class App {
 			if (dbpw.equals(encreptedString)) {
 				response.clear();
 				
-				String registerLogedInUrl = "HTTP://" + db.getServerName() + "/login_user?ip=" + info.get("userIp") + "&header=" + req.headers("User-Agent") + "&user_id=" + user.getString("UserId");
+				String registerLogedInUrl = "http://" + db.getServerName() + ":80/login_user?ip=" + info.get("userIp") + "&header=" + req.headers("User-Agent") + "&user_id=" + user.getString("UserId");
+				System.out.println(registerLogedInUrl);
 				URL urlObj = new URL(registerLogedInUrl);
 				HttpURLConnection urlconn = (HttpURLConnection) urlObj.openConnection(); 
 				urlconn.setRequestMethod("GET");

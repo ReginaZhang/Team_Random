@@ -26,12 +26,7 @@ function init() {
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
 
-        document.getElementById("nav").innerHTML =
-            "<ul id='menu'>" +
-            "<li><a href='Food.html'>Food Nutrition</a></li>" +
-            "<li><a href='Test.html'>Health Test</a></li>" +
-            "<li><a href='Plan.html'>Health Plan</a></li>" +
-            "</ul>";
+
 
     }
 
@@ -51,9 +46,9 @@ function isLoginedIn() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
 
-            query("/check_loggedin?ip=" + JSON.parse(xhr.responseText).ip + "&header=" + header, "GET", {}, function(id){
+            query(":80/check_loggedin?ip=" + JSON.parse(xhr.responseText).ip + "&header=" + header, "GET", {}, function(id){
 
-                if (id.id != "null") {
+                if (id.id != null) {
                     userId = id.id;
                     query(":8000/user/check/", defaultMethod, {userId: userId}, function(userDetail) {
 
@@ -62,13 +57,15 @@ function isLoginedIn() {
 
                     });
 
+                } else {
+                    $("#trialBody").html("Not logged in!");
                 }
 
             });
         }
     };
-    */
 
+*/
     userId = 1;
     userName = "ra";
     userWeight = 62;

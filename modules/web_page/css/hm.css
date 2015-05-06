@@ -1,6 +1,9 @@
 html, body {
     height: 100%;
 }
+.navbar {
+    margin-bottom: 0px;
+}
 #web{
     min-height: 100%;
     height: auto;
@@ -45,6 +48,7 @@ ul {
     list-style-type: disc;
     -webkit-margin-before: 1em;
     -webkit-margin-after: 0em;
+    margin-bottom: 0em !important;
 }
 
 /*----- Tabs -----*/
