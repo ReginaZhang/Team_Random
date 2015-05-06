@@ -1,4 +1,3 @@
-
 var serverAdd = "http://45.56.85.191";
 var defaultMethod = "POST";
 var userId = null;
@@ -10,18 +9,9 @@ $('document').ready(isLoginedIn());
 
 function isLoginedIn() {
 
-    var header = navigator.userAgent;
+    $.getJSON("http://api.ipify.org?format=json", "", function(data) {
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://api.ipify.org?format=json");
-    //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
-    // send the collected data as JSON
-    xhr.send();
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-
-            var userIp = JSON.parse(xhr.responseText).ip;
+            var userIp = data.ip;
 
             query(":8000/user/check", defaultMethod, {userIp: userIp}, function(userDetail) {
 
@@ -33,9 +23,7 @@ function isLoginedIn() {
 
             });
 
-        }
-
-    };
+    });
 
 }
 
