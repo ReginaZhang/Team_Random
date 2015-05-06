@@ -3,6 +3,7 @@ package main;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+
 import java.io.BufferedReader;
 import java.lang.reflect.Type;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -22,8 +24,46 @@ import java.util.TreeMap;
 public class App {
 	
 	private static final int EMPTY_CONTENT = -1;
+	
+	private static final HashMap<String, ArrayList<String>> compulsaryFields = new HashMap<String, ArrayList<String>>();
 
 	public static void main(String[] args) throws SQLException {
+		
+		compulsaryFields.put("/bmi", new ArrayList<String>(Arrays.asList(new String[] {
+				"hasRegistered"
+				})));
+		
+		compulsaryFields.put("/food", new ArrayList<String>(Arrays.asList(new String[] {
+				"searchString"
+				})));
+		
+		compulsaryFields.put("/diet", new ArrayList<String>(Arrays.asList(new String[] {
+				"userId"
+				})));
+		
+		compulsaryFields.put("/diet/modify", new ArrayList<String>(Arrays.asList(new String[] {
+				"foodId",
+				"dietId",
+				"weekday",
+				"mealType",
+				"modiType"
+				})));
+		
+		compulsaryFields.put("/user/check", new ArrayList<String>(Arrays.asList(new String[] {
+				"userIp"
+				})));
+		
+		compulsaryFields.put("/user/login", new ArrayList<String>(Arrays.asList(new String[] {
+				"password",
+				"userIp"
+				})));
+		
+		compulsaryFields.put("/user/register", new ArrayList<String>(Arrays.asList(new String[] {
+				"username",
+				"password",
+				"email"
+				})));
+		
 		
 		spark.SparkBase.port(8000);
 		
@@ -54,33 +94,6 @@ public class App {
 		Gson gs = new Gson(); //GSON tool just for array to json and vice versa
 		
 		System.out.println("APIs Started");
-		
-		//receiving JSON sent by client via POST request
-		//expecting {"memberId":"10000", "foodName0":"Sandwich", "foodName1":"Butter", ...}
-		spark.Spark.post("/add", "application/json", (req, res) -> {
-						
-			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
-			HashMap<String, String> diet = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
-			
-			if (req.contentLength() == EMPTY_CONTENT) {
-				diet = new HashMap<String, String>();						
-			}
-			
-			Food[] fs = new Food[diet.size()]; //the response array to be transformed into JSON
-			
-			int count = 0; //loop through the food names and write them to response array
-			for (String f: diet.values()) {
-				fs[count] = new Food(f);
-				count++;
-			}
-			
-			res.type("application/json"); //define return type
-			return gs.toJson(fs); //use GSON to transform the array to JSON
-			
-			//the json string will look like
-			//{"name":"saobi","calorie":0.0,"secondaryNutritionInfo":{"vitamin G":123123.0,"hydrogen":123.0}}
-			
-		});
 		
 		spark.Spark.post("/bmi", "application/json", (req, res) -> {
 			
@@ -136,9 +149,21 @@ public class App {
 				response.remove(invalid);
 				while (foods.next()) {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
-					oneFood.put("resultId", Integer.toString(i));
-					oneFood.put("foodId", foods.getString("FoodId"));
-					oneFood.put("foodName", foods.getString("FoodName"));
+					
+					HashMap<String, String> foodTable = db.getTableSet().get("Food");
+					Set<String> ks = foodTable.keySet();
+					
+					for (String field: ks) {
+						
+						String fieldClone = field;
+						
+						if (field.equals("FoodName") || field.equals("FoodId")) {
+							field = field.toLowerCase().charAt(0) + field.substring(1);					
+						}
+						
+						oneFood.put(field, foods.getString(fieldClone));
+						
+					}
 									
 					response.add(oneFood);
 					i++;
@@ -177,7 +202,6 @@ public class App {
 				ResultSet rs = db.executeQuery("Diet", cond);
 				rs.next();
 				dietId = rs.getString("DietId");
-				System.out.println(dietId);
 			} else {
 				dietId = info.get("dietId");
 			}
@@ -206,11 +230,24 @@ public class App {
 				while (foodInDiet.next()) {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
 					
-					oneFood.put("resultId", Integer.toString(i));
 					ResultSet oneFoodDetail = db.executeQuery("Food", "FoodId", foodInDiet.getString("FoodId"));
 					oneFoodDetail.next();
-					String foodName = oneFoodDetail.getString("FoodName");
-					oneFood.put("foodName", foodName);
+					
+					HashMap<String, String> foodTable = db.getTableSet().get("Food");
+					Set<String> ks = foodTable.keySet();
+					
+					for (String field: ks) {
+						
+						String fieldClone = field;
+						
+						if (field.equals("FoodName") || field.equals("FoodId")) {
+							field = field.toLowerCase().charAt(0) + field.substring(1);					
+						}
+						
+						oneFood.put(field, oneFoodDetail.getString(fieldClone));
+						
+					}
+					
 					oneFood.put("weekday", foodInDiet.getString("Weekday"));
 					oneFood.put("mealType", foodInDiet.getString("MealType"));
 										
@@ -219,7 +256,7 @@ public class App {
 				}
 			} else {
 				invalid.replace("status", "empty");
-				response.add(0, invalid);
+				response.add(invalid);
 			}
 						
 			return gs.toJson(response); 
@@ -235,20 +272,26 @@ public class App {
 			HashMap<String, String> response = new HashMap<String, String>();
 			response.put("update", "failed");	
 			
-			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("foodId") || !info.containsKey("dietId") ||
-					!info.containsKey("modiType"))) {
+			if (!isReqValid("/diet/modify", info.keySet())) {
 				return gs.toJson(response);
 			}
 			
+			Set<String> ks = db.getTableSet().get("FoodDiet").keySet();
 			HashMap<String, String> foodInDiet = new HashMap<String,String>();
-			foodInDiet.put("FoodId", info.get("foodId"));
-			foodInDiet.put("DietId", info.get("dietId"));
 			
-			if(info.get("modiType").equals("delete")) {
-				db.executeDelete("DietItem", foodInDiet);
-			} else if(info.get("modiType").equals("add")) {
-				db.executeInsert("DietItem", foodInDiet);
-			} else {
+			for (String field: ks) {
+				foodInDiet.put(field, info.get(field.toLowerCase().charAt(0) + field.substring(1)));
+			}
+			
+			try {
+				if(info.get("modiType").equals("delete")) {
+					db.executeDelete("DietItem", foodInDiet);
+				} else if(info.get("modiType").equals("add")) {
+					db.executeInsert("DietItem", foodInDiet);
+				} else {
+					return gs.toJson(response);
+				}
+			} catch (Exception e) {
 				return gs.toJson(response);
 			}
 			
@@ -271,26 +314,35 @@ public class App {
 			HashMap<String, String> response = new HashMap<String, String>();
 			response.put("check", "invalid");
 			
-			if (req.contentLength() == EMPTY_CONTENT || !info.containsKey("userId") || !info.containsKey("userIp")) {
+			if (!isReqValid("/user/check", info.keySet())) {
 				return gs.toJson(response);
 			}
 			
 			String checkUrl = "http://" + db.getServerName() + ":80/check_loggedin?ip=" + info.get("userIp") + "&header=" + URLEncoder.encode(req.headers("User-Agent"), "UTF-8");
-	
-			System.out.println(checkUrl);
+			
 			URL urlObj = new URL(checkUrl);
 			BufferedReader br = new BufferedReader(new InputStreamReader(urlObj.openStream()));
-			String id = br.readLine().substring(7, 8);
+			String json = br.readLine();
+			String idValue = json.substring(7, json.indexOf("\"}"));
 			
-			System.out.println("ID:" + id);
-				
-			if (id.equals(info.get("userId"))) {
-				ResultSet user = db.executeQuery("User", "UserId", info.get("userId"));
+
+			
+			try {
+				int id = Integer.parseInt(idValue);
+				ResultSet user = db.executeQuery("User", "UserId", Integer.toString(id));
 				user.next();
 				response.clear();
-				response.put("userName", user.getString("UserName"));
-				response.put("userWeight", user.getString("Weight"));
-			}			
+				
+				Set<String> ks = db.getTableSet().get("User").keySet();
+				for (String field: ks) {
+					if (!field.equals("Password")) {
+						response.put(field.toLowerCase().charAt(0) + field.substring(1), user.getString(field));
+					}
+				}
+				
+			} catch (NumberFormatException e) {
+				
+			}
 					
 			return gs.toJson(response); 
 			
@@ -306,7 +358,7 @@ public class App {
 			response.put("login", "invalid");
 			
 					
-			if ((req.contentLength() == EMPTY_CONTENT || (!info.containsKey("username") && !info.containsKey("email")) || !info.containsKey("password")) || !info.containsKey("userIp")) {
+			if (!isReqValid("/user/login", info.keySet()) && (!info.containsKey("username") && !info.containsKey("email"))) {
 				return gs.toJson(response);
 			}
 			
@@ -333,7 +385,6 @@ public class App {
 				
 				String registerLogedInUrl = "http://" + db.getServerName() + ":80/login_user?ip=" + info.get("userIp") + "&header=" + URLEncoder.encode(req.headers("User-Agent"), "UTF-8") + "&user_id=" + user.getString("UserId");				
 				
-				System.out.println(registerLogedInUrl);
 				URL urlObj = new URL(registerLogedInUrl);
 				urlObj.openStream();
 								
@@ -414,6 +465,17 @@ public class App {
 		
 		return  bmiInfo;
 		
+	}
+	
+	private static boolean isReqValid(String api, Set<String> ks) {
+		
+		for (String field: compulsaryFields.get(api)) {
+			if (!ks.contains(field)) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 }

@@ -59,80 +59,89 @@
                         </tr>
                     </table>
                     <div class="plan">
-                    <table class="Plan">
-                        <caption>Weekly Diet Plan</caption>
-                        <caption id="emptyWarning"></caption>
-                        <thead>
-                        <tr>
-                            <th scope="col">Week</th>
-                            <th scope="col">Monday</th>
-                            <th scope="col">Tuesday</th>
-                            <th scope="col">Wednesday</th>
-                            <th scope="col">Thursday</th>
-                            <th scope="col">Friday</th>
-                            <th scope="col">Saturday</th>
-                            <th scope="col">Sunday</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr id="breakfast">
-                            <td>
-                                <strong class="meal-title">Breakfast</strong>
-                            </td>
-                            <td class="item-Mon"></td>
-                            <td class="item-Tue"></td>
-                            <td class="item-Wed"></td>
-                            <td class="item-Thu"></td>
-                            <td class="item-Fri"></td>
-                            <td class="item-Sat"></td>
-                            <td class="item-Sun"></td>
-                        </tr>
-                        <tr id="lunch">
-                            <td>
-                                <strong class="meal-title">Lunch</strong>
-                            </td>
-                            <td class="item-Mon"></td>
-                            <td class="item-Tue"></td>
-                            <td class="item-Wed"></td>
-                            <td class="item-Thu"></td>
-                            <td class="item-Fri"></td>
-                            <td class="item-Sat"></td>
-                            <td class="item-Sun"></td>
-                        </tr>
-                        <tr id="dinner">
-                            <td>
-                                <strong class="meal-title">Dinner</strong>
-                            </td>
-                            <td class="item-Mon"></td>
-                            <td class="item-Tue"></td>
-                            <td class="item-Wed"></td>
-                            <td class="item-Thu"></td>
-                            <td class="item-Fri"></td>
-                            <td class="item-Sat"></td>
-                            <td class="item-Sun"></td>
-                        </tr>
-                        <tr id="other_with_weekday">
-                            <td>
-                                <strong class="meal-title">Others</strong>
-                            </td>
-                            <td class="item-Mon"></td>
-                            <td class="item-Tue"></td>
-                            <td class="item-Wed"></td>
-                            <td class="item-Thu"></td>
-                            <td class="item-Fri"></td>
-                            <td class="item-Sat"></td>
-                            <td class="item-Sun"></td>
-                        </tr>
-                        <tr id="other_flexi">
-                            <td>
-                                <strong class="meal-title">Backup choices</strong>
-                            </td>
-                            <td colspan= 7 class="item-All"></td>
-                        </tr>
-                        </tbody>
+                        <table class="Plan">
+                            <caption>Weekly Diet Plan</caption>
+                            <caption id="empty-warning"></caption>
+                            <thead>
+                            <tr>
+                                <th scope="col">Week</th>
+                                <th scope="col">Monday</th>
+                                <th scope="col">Tuesday</th>
+                                <th scope="col">Wednesday</th>
+                                <th scope="col">Thursday</th>
+                                <th scope="col">Friday</th>
+                                <th scope="col">Saturday</th>
+                                <th scope="col">Sunday</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr id="breakfast">
+                                <td>
+                                    <strong class="meal-title">Breakfast</strong>
+                                </td>
+                                <td class="item-Mon"></td>
+                                <td class="item-Tue"></td>
+                                <td class="item-Wed"></td>
+                                <td class="item-Thu"></td>
+                                <td class="item-Fri"></td>
+                                <td class="item-Sat"></td>
+                                <td class="item-Sun"></td>
+                            </tr>
+                            <tr id="lunch">
+                                <td>
+                                    <strong class="meal-title">Lunch</strong>
+                                </td>
+                                <td class="item-Mon"></td>
+                                <td class="item-Tue"></td>
+                                <td class="item-Wed"></td>
+                                <td class="item-Thu"></td>
+                                <td class="item-Fri"></td>
+                                <td class="item-Sat"></td>
+                                <td class="item-Sun"></td>
+                            </tr>
+                            <tr id="dinner">
+                                <td>
+                                    <strong class="meal-title">Dinner</strong>
+                                </td>
+                                <td class="item-Mon"></td>
+                                <td class="item-Tue"></td>
+                                <td class="item-Wed"></td>
+                                <td class="item-Thu"></td>
+                                <td class="item-Fri"></td>
+                                <td class="item-Sat"></td>
+                                <td class="item-Sun"></td>
+                            </tr>
+                            <tr id="other_with_weekday">
+                                <td>
+                                    <strong class="meal-title">Others</strong>
+                                </td>
+                                <td class="item-Mon"></td>
+                                <td class="item-Tue"></td>
+                                <td class="item-Wed"></td>
+                                <td class="item-Thu"></td>
+                                <td class="item-Fri"></td>
+                                <td class="item-Sat"></td>
+                                <td class="item-Sun"></td>
+                            </tr>
+                            <tr id="other_flexi">
+                                <td>
+                                    <strong class="meal-title">Backup choices</strong>
+                                </td>
+                                <td colspan= 7 class="item-All"></td>
+                            </tr>
+                            </tbody>
 
-                    </table>
-                </div>
+                        </table>
+                    </div>
+
+                    <div id="diet_nutrition">
+
+                    </div>
+
+                    <select id="diet_list" onchange="changeDiet(this.value); this.selectedIndex = -1">
+
+                    </select>
+
                 </div>
 
                 <div id="tab3" class="tab">
