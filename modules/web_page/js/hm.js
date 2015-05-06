@@ -5,12 +5,12 @@ var userId = null;
 var userName = null;
 var userWeight = null;
 
-$('document').ready(init());
+$('document').ready(isLoginedIn());
 
 function init() {
     //showDiet();
 
-    if(isLoginedIn()) {
+    if(userId) {
 
         var trial = document.getElementById("trial");
         trial.parentNode.removeChild(trial);
@@ -25,7 +25,7 @@ function init() {
 
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
-
+        console.log("Not reg")
 
 
     }
@@ -34,7 +34,6 @@ function init() {
 
 function isLoginedIn() {
 
-    /*
     var header = navigator.userAgent;
 
     var xhr = new XMLHttpRequest();
@@ -46,32 +45,30 @@ function isLoginedIn() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
 
-            query(":80/check_loggedin?ip=" + JSON.parse(xhr.responseText).ip + "&header=" + header, "GET", {}, function(id){
+            var userIp = JSON.parse(xhr.responseText).ip;
+
+            query(":80/check_loggedin?ip=" + userIp + "&header=" + header, "GET", {}, function(id){
 
                 if (id.id != null) {
                     userId = id.id;
-                    query(":8000/user/check/", defaultMethod, {userId: userId}, function(userDetail) {
+                    query(":8000/user/check", defaultMethod, {userId: userId, userIp: userIp}, function(userDetail) {
 
                         userName = userDetail.userName;
                         userWeight = userDetail.userWeight;
+
+                        init();
 
                     });
 
                 } else {
                     $("#trialBody").html("Not logged in!");
+                    init();
                 }
 
             });
         }
+
     };
-
-*/
-    userId = 1;
-    userName = "ra";
-    userWeight = 62;
-
-    return userId;
-
 
 }
 

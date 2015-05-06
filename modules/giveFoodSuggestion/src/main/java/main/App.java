@@ -3,9 +3,11 @@ package main;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -269,15 +271,26 @@ public class App {
 			HashMap<String, String> response = new HashMap<String, String>();
 			response.put("check", "invalid");
 			
-			if (req.contentLength() == EMPTY_CONTENT || !info.containsKey("userId")) {
+			if (req.contentLength() == EMPTY_CONTENT || !info.containsKey("userId") || !info.containsKey("userIp")) {
 				return gs.toJson(response);
 			}
 			
-			ResultSet user = db.executeQuery("User", "UserId", info.get("userId"));
-			user.next();
-			response.clear();
-			response.put("userName", user.getString("UserName"));
-			response.put("userWeight", user.getString("UserWeight"));
+			String checkUrl = "http://" + db.getServerName() + ":80/check_loggedin?ip=" + info.get("userIp") + "&header=" + URLEncoder.encode(req.headers("User-Agent"), "UTF-8");
+	
+			System.out.println(checkUrl);
+			URL urlObj = new URL(checkUrl);
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlObj.openStream()));
+			String id = br.readLine().substring(7, 8);
+			
+			System.out.println("ID:" + id);
+				
+			if (id.equals(info.get("userId"))) {
+				ResultSet user = db.executeQuery("User", "UserId", info.get("userId"));
+				user.next();
+				response.clear();
+				response.put("userName", user.getString("UserName"));
+				response.put("userWeight", user.getString("Weight"));
+			}			
 					
 			return gs.toJson(response); 
 			
@@ -293,7 +306,7 @@ public class App {
 			response.put("login", "invalid");
 			
 					
-			if ((req.contentLength() == EMPTY_CONTENT || (!info.containsKey("username") && !info.containsKey("email")) || !info.containsKey("password"))){ //||!info.containsKey("userIp"))) {
+			if ((req.contentLength() == EMPTY_CONTENT || (!info.containsKey("username") && !info.containsKey("email")) || !info.containsKey("password")) || !info.containsKey("userIp")) {
 				return gs.toJson(response);
 			}
 			
@@ -318,13 +331,12 @@ public class App {
 			if (dbpw.equals(encreptedString)) {
 				response.clear();
 				
-				String registerLogedInUrl = "http://" + db.getServerName() + ":80/login_user?ip=" + info.get("userIp") + "&header=" + req.headers("User-Agent") + "&user_id=" + user.getString("UserId");
+				String registerLogedInUrl = "http://" + db.getServerName() + ":80/login_user?ip=" + info.get("userIp") + "&header=" + URLEncoder.encode(req.headers("User-Agent"), "UTF-8") + "&user_id=" + user.getString("UserId");				
+				
 				System.out.println(registerLogedInUrl);
 				URL urlObj = new URL(registerLogedInUrl);
-				HttpURLConnection urlconn = (HttpURLConnection) urlObj.openConnection(); 
-				urlconn.setRequestMethod("GET");
-				urlconn.connect();
-				
+				urlObj.openStream();
+								
 				response.put("login", "successful");				
 				response.put("userId", user.getString("UserId"));				
 				response.put("userName", user.getString("UserName"));
