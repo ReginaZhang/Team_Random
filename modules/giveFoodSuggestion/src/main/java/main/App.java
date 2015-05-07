@@ -49,6 +49,12 @@ public class App {
 				"modiType"
 				})));
 		
+		compulsaryFields.put("/diet/create", new ArrayList<String>(Arrays.asList(new String[] {
+				"userId",
+				"dietName",
+				"dietType",
+				})));
+		
 		compulsaryFields.put("/user/check", new ArrayList<String>(Arrays.asList(new String[] {
 				"userIp"
 				})));
@@ -190,39 +196,45 @@ public class App {
 			invalid.put("status", "invalid");
 			response.add(invalid);			
 			
-			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("userId"))) {
+			if (!isReqValid("/diet", info.keySet())) {
 				return gs.toJson(response);
 			}
 			
-			String dietId;
-			if (!info.containsKey("dietId")) {
-				HashMap<String, String> cond = new HashMap<String, String>();
-				cond.put("UserId", info.get("userId"));
-				cond.put("EndDate", null);
-				ResultSet rs = db.executeQuery("Diet", cond);
-				rs.next();
-				dietId = rs.getString("DietId");
-			} else {
-				dietId = info.get("dietId");
-			}
-			
+			String dietId = null;
 			ResultSet allDiets = db.executeQuery("Diet", "UserId", info.get("userId"));
-			HashMap<String, String> dietList = new HashMap<String, String>();
 			
-			int index = 0;
 			while (allDiets.next()) {
-				if (!allDiets.getString("DietId").equals(dietId)) {
-					dietList.put(("otherDiet" + index), allDiets.getString("DietId"));
-					index++;
+				HashMap<String, String> oneDiet = new HashMap<String, String>();
+				Set<String> fields = db.getTableSet().get("Diet").keySet();
+				
+				String type;
+				if (!info.containsKey("dietId")) {
+					if (allDiets.getDate("EndDate") != null) {
+						type = "other";
+					} else {
+						dietId = allDiets.getString("dietId");
+						type = "active";
+					}
 				} else {
-					dietList.put("activeDiet", allDiets.getString("DietId"));
+					dietId = info.get("dietId");
+					if (!allDiets.getString("DietId").equals(dietId)) {
+						type = (allDiets.getDate("EndDate") == null ? "current" : "other");
+					} else {
+						type = "active";
+					}
 				}
+				
+				oneDiet.put("activeType", type);
+				
+				for (String field: fields) {
+					oneDiet.put(field.toLowerCase().charAt(0) + field.substring(1), allDiets.getString(field));
+				}
+				
+				response.add(oneDiet);
+				
 			}
-			response.add(dietList);
 				
 			ResultSet foodInDiet = db.executeQuery("DietItem", "DietId", dietId);
-			
-			int i=0;
 			
 			response.remove(invalid);
 			if (foodInDiet.isBeforeFirst()) {	
@@ -252,7 +264,6 @@ public class App {
 					oneFood.put("mealType", foodInDiet.getString("MealType"));
 										
 					response.add(oneFood);
-					i++;
 				}
 			} else {
 				invalid.replace("status", "empty");
@@ -276,7 +287,7 @@ public class App {
 				return gs.toJson(response);
 			}
 			
-			Set<String> ks = db.getTableSet().get("FoodDiet").keySet();
+			Set<String> ks = db.getTableSet().get("DietItem").keySet();
 			HashMap<String, String> foodInDiet = new HashMap<String,String>();
 			
 			for (String field: ks) {
@@ -288,10 +299,26 @@ public class App {
 					db.executeDelete("DietItem", foodInDiet);
 				} else if(info.get("modiType").equals("add")) {
 					db.executeInsert("DietItem", foodInDiet);
+				} else if(info.get("modiType").equals("start")) {
+					HashMap<String, String> cond = new HashMap<String, String>();
+					cond.put("EndDate", null);
+					
+					HashMap<String, String> newValue = new HashMap<String, String>();
+					newValue.put("EndDate", "now()");
+					
+					db.executeUpdate("Diet", cond, newValue);
+					
+					cond.clear();
+					cond.put("DietId", info.get("dietId"));					
+					newValue.put("StartDate", "now()");
+					newValue.replace("EndDate", null);		
+					
+					db.executeUpdate("Diet", cond, newValue);
 				} else {
-					return gs.toJson(response);
+					throw new Exception("modiType is not valid");
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				return gs.toJson(response);
 			}
 			
@@ -302,6 +329,35 @@ public class App {
 			
 			//the json string will look like
 			//{"foodName0":"Peach", "foodName1":"Egg"}
+			
+		});
+		
+		spark.Spark.post("/diet/create", "application/json", (req, res) -> {
+			
+			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
+			res.type("application/json"); //define return type
+			HashMap<String, String> response = new HashMap<String, String>();
+			response.put("dietCreate", "invalid");
+			
+			if (!isReqValid("/diet/create", info.keySet())) {
+				return gs.toJson(response);
+			}
+			
+			try {
+				for (String field: info.keySet()) {
+					info.put(field.toUpperCase().charAt(0) + field.substring(1), info.get(field));
+					info.remove(field);
+				}
+				
+				db.executeInsert("Diet", info);
+				response.replace("dietCreate", "successul");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+			return gs.toJson(response); 
 			
 		});
 		

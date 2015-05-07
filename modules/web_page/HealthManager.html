@@ -47,14 +47,15 @@
                                     Search Food Name:
                                     <input type="text"
                                            name="searchString"
-                                           placeholder="Search Here...">
+                                           placeholder="Search Here..."
+                                           required="true">
                                     <input type="submit"
                                            id="submitButton1"
                                            value="Search">
                                     <br><br>
-                                    <p>Results</p>
-                                    <p id="foodNutritionResult"></p>
                                 </form>
+                                <p>Results</p>
+                                <p id="foodNutritionResult"></p>
                             </th>
                         </tr>
                     </table>
@@ -138,7 +139,9 @@
 
                     </div>
 
-                    <select id="diet_list" onchange="changeDiet(this.value); this.selectedIndex = -1">
+                    <button id="start_diet" onclick="startDiet()">Mark as current diet</button>
+                    <br>
+                    <select id="diet_list" onchange="getDiet(this.value);">
 
                     </select>
 

@@ -81,6 +81,7 @@ function generateDashboard(userDiet) {
     var nameBar = document.getElementById("nameBar");
 
     $("#nameBar").empty();
+    $("#todaysDietItems").empty();
 
     var data = {
         hasRegistered: true,
@@ -107,40 +108,64 @@ function generateDashboard(userDiet) {
 
 
     var diet = "";
+    var dietsIndex;
+    var todayDiet = document.getElementById("todaysDietItems");
+    var breakfast = document.createElement("p");
+    breakfast.innerHTML = "Breakfast<br>";
+    var lunch = document.createElement("p");
+    lunch.innerHTML = "Lunch<br>";
+    var dinner = document.createElement("p");
+    dinner.innerHTML = "Dinner<br>";
+    var other = document.createElement("p");
+    other.innerHTML = "Other<br>";
 
-    if (!userDiet[1].status) {
 
-        $("#empty-warning").empty();
+    for (dietsIndex = 0; (userDiet[dietsIndex].dietId); dietsIndex++) {
+    }
 
-        for (var i = 1; i < userDiet.length; i++) {
+    if (!userDiet[dietsIndex].status) {
 
-            var today = new Date();
-            var whichWeekDay = today.getDate();
-            var weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            var found = false;
+        var today = new Date();
+        var whichWeekDay = today.getDay();
+        var weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        var found = false;
+
+        for (var i = dietsIndex; i < userDiet.length; i++) {
 
             if (userDiet[i].weekday == weekDays[whichWeekDay]) {
 
                 found = true;
-                diet += userDiet[i].foodName;
-
-                if (i != userDiet.length - 1) {
-                    diet += ",   ";
+                if(userDiet[i].mealType == "B") {
+                    breakfast.innerHTML += userDiet[i].foodName + "<br>";
+                } else if(userDiet[i].mealType == "L") {
+                    lunch.innerHTML += userDiet[i].foodName + "<br>";
+                } else if(userDiet[i].mealType == "D") {
+                    dinner.innerHTML += userDiet[i].foodName + "<br>";
+                } else {
+                    other.innerHTML += userDiet[i].foodName + "<br>";
                 }
 
+                console.log(found);
             }
 
         }
 
         if(!found) {
-            diet = "You have nothing in the diet for today!";
+            todayDiet.innerHTML = "You have nothing in the diet for today!";
+        } else {
+            todayDiet.appendChild(breakfast);
+            todayDiet.appendChild(lunch);
+            todayDiet.appendChild(dinner);
+            todayDiet.appendChild(other);
         }
 
     } else {
-        diet = "You have nothing in the diet for today!";
+        todayDiet.innerHTML = "You have nothing in the diet for today!";
     }
 
-    document.getElementById("todaysDietItems").innerHTML = diet;
+
+
+
 
 }
 
@@ -151,27 +176,39 @@ function generateDiet(userDiet) {
 
     var dietNutri = {};
 
-    [].forEach.call(Object.keys(userDiet[0]), function(key) {
+    var dietsIndex;
+    var selectElement = $("#diet_list");
+    var activeIndex = 0;
+
+    for (dietsIndex = 0; (userDiet[dietsIndex].dietId); dietsIndex++) {
 
         var option = document.createElement("option");
 
-        option.value = userDiet[0][key];
+        option.className = userDiet[dietsIndex].activeType + " diet-option";
+        option.innerHTML = userDiet[dietsIndex].dietName;
+        option.value = userDiet[dietsIndex].dietId;
 
-        if (key.indexOf("otherDiet") != -1) {
-            option.className = "diet-option";
-            option.innerHTML = option.value;
+
+        if (userDiet[dietsIndex].activeType == "active") {
+            activeDietId = userDiet[dietsIndex].dietId;
+            activeIndex = dietsIndex;
+            selectElement.append(option);
+        } else if (userDiet[dietsIndex].activeType == "current") {
+            option.innerHTML = option.innerHTML + " (Current Diet)";
+            selectElement.prepend(option);
+            activeIndex += 1;
         } else {
-            option.className = "active diet-option";
-            option.innerHTML = option.value + " (Active)";
-            activeDietId = option.value;
+            selectElement.append(option);
         }
 
-        $("#diet_list").append(option);
+    }
 
-    });
+    selectElement.prop("selectedIndex", activeIndex.toString());
 
-    if (!userDiet[1].status) {
-        for (var i = 1; i < userDiet.length; i++) {
+    if (!userDiet[dietsIndex].status) {
+        for (var i = dietsIndex; i < userDiet.length; i++) {
+
+            $("#empty-warning").empty();
 
             var thisFood = userDiet[i];
             var selector = "";
@@ -187,7 +224,7 @@ function generateDiet(userDiet) {
                     weekday = thisFood[key];
                 } else if (key == "mealType") {
                     mealType = thisFood[key];
-                } else if (key == "foodId") {
+                } else if (key == "foodId" || key.indexOf("")) {
 
                 } else {
                     dietNutri[key] = (dietNutri[key] === undefined) ? Number(thisFood[key]) : dietNutri[key] + Number(thisFood[key]);
@@ -252,7 +289,7 @@ function generateDiet(userDiet) {
 
                 }
 
-            };
+            }
 
             if(bracketEnding) {
                 nutriName += ")";
@@ -277,7 +314,7 @@ function generateStats() {
 
 }
 
-function changeDiet(dietId) {
+function getDiet(dietId) {
 
     query(":8000/diet", defaultMethod, {userId: userId, dietId: dietId}, function(userDiet) {
         generateDashboard(userDiet);
@@ -286,16 +323,45 @@ function changeDiet(dietId) {
 
 }
 
-function addToDiet(foodId) {
+function startDiet() {
+
+    var data = {
+        dietId: activeDietId,
+        modiType: "start",
+        foodId: null,
+        weekday: null,
+        mealType: null
+    };
+
+    query(":8000/diet/modify", defaultMethod, data, function(status) {
+        if(status.update == "successful") {
+            getDiet(activeDietId);
+        }
+
+    });
+
+}
+
+function createDiet() {
+
+}
+
+function addToDiet(foodId, weekday, mealType) {
+
+    console.log(mealType);
+    console.log($('addToDietMeal11').val());
 
     var user = {
         userId: userId,
         dietId: activeDietId,
-        modiType: "add"
+        modiType: "add",
+        foodId: foodId,
+        weekday: weekday,
+        mealType: mealType
+
     };
-    query(":8000/diet/modify", defaultMethod, user, function(userDiet) {
-        generateDashboard(userDiet);
-        generateDiet(userDiet);
+    query(":8000/diet/modify", defaultMethod, user, function() {
+        getDiet(activeDietId);
     });
 
 }
@@ -345,12 +411,32 @@ function submitForm(event, form) {
             for (var i = 0; i < response.length; i++) {
                 result += response[i]["foodName"];
 
-                result += '<input type="submit" class="addButtons" value="add to diet" ' +
-                'onclick="addToDiet(' + response[i]["foodId"] + ')>';
+                result += '<button type="button" class="add-to-diet-button" ' +
+                'onclick="addToDiet(' + Number(response[i]["foodId"]) + ',' +
+                '$(\'#addToDietWeekday' + response[i]["foodId"] + '\').val(),$(\'#addToDietMeal' + response[i]["foodId"] + '\').val()' +
+                ');">Add to diet</button><select id="addToDietWeekday' + response[i]["foodId"] + '">' +
+                '<option value="Mon">Monday</option>' +
+                '<option value="Tue">Tuesday</option>' +
+                '<option value="Wed">Wednesday</option>' +
+                '<option value="Thu">Thursday</option>' +
+                '<option value="Fri">Friday</option>' +
+                '<option value="Sat">Saturday</option>' +
+                '<option value="Sun">Sunday</option>' +
+                '<option value="NA">Not Specified</option>' +
+                '</select>' +
+                '<select id="addToDietMeal' + response[i]["foodId"] + '">' +
+                '<option value="B">Breakfast</option>' +
+                '<option value="L">Lunch</option>' +
+                '<option value="D">Dinner</option>' +
+                '<option value="O">Backup/Other</option>' +
+                '</select>';
 
                 if (i != response.length - 1) {
                     result += "<br>";
                 }
+
+                console.log(result);
+
             }
 
             document.getElementById(form.id + "Result").innerHTML = result;
