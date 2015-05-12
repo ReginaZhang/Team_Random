@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <script>
+        $(document).ready(function(){
+            $( "#Apple" ).dialog({ autoOpen: false });
+            $( "#search" ).click(function() {
+                $( "#Apple" ).dialog( "open" );
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="foodNutrition" onsubmit="submitForm(event, this)">
+    Search Food Name:
+    <input type="text"
+           name="searchString"
+           placeholder="Search Here...">
+    <input type="submit"
+           id="search"
+           value="Search">
+    <br><br>
+    <div id="Apple" title="Apple"><p><font face="Georgia" size="4">
+        Fat : 0</font></p></div>
+</div>
+
+
+
+</body>
+</html>

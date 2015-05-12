@@ -7,7 +7,11 @@ var activeDietId = null;
 
 $('document').ready(isLoginedIn());
 
+/*
+    Check whether current user has logged in
+ */
 function isLoginedIn() {
+
 
     $.getJSON("http://api.ipify.org?format=json", "", function(data) {
 
@@ -27,9 +31,12 @@ function isLoginedIn() {
 
 }
 
+/*
+    Initialization funciton
+ */
 function init() {
-    //showDiet();
 
+    //based on whether use has logged in, display two different web page
     if(userId) {
 
         var trial = document.getElementById("trial");
@@ -60,6 +67,9 @@ function init() {
 
 }
 
+/*
+    Tab-switching listener
+ */
 function tabSwitcher() {
     $('.tabs .tab-links a').on('click', function(e)  {
         var currentAttrValue = $(this).attr('href');
@@ -76,7 +86,9 @@ function tabSwitcher() {
 
 }
 
-
+/*
+    Generating the first tab
+ */
 function generateDashboard(userDiet) {
     var nameBar = document.getElementById("nameBar");
 
@@ -163,12 +175,11 @@ function generateDashboard(userDiet) {
         todayDiet.innerHTML = "You have nothing in the diet for today!";
     }
 
-
-
-
-
 }
 
+/*
+    Generating the second tab
+ */
 function generateDiet(userDiet) {
 
     $(".item-Mon, .item-Tue, .item-Wed, .item-Thu, .item-Fri, .item-Sat, .item-Sun, .item-All, " +
@@ -314,6 +325,9 @@ function generateStats() {
 
 }
 
+/*
+    Retrieve foods in the given diet
+ */
 function getDiet(dietId) {
 
     query(":8000/diet", defaultMethod, {userId: userId, dietId: dietId}, function(userDiet) {
@@ -323,6 +337,9 @@ function getDiet(dietId) {
 
 }
 
+/*
+    Mark the diet displayed on the page as the current effective diet
+ */
 function startDiet() {
 
     var data = {
@@ -346,10 +363,10 @@ function createDiet() {
 
 }
 
+/*
+    Add nominated food to active diet
+ */
 function addToDiet(foodId, weekday, mealType) {
-
-    console.log(mealType);
-    console.log($('addToDietMeal11').val());
 
     var user = {
         userId: userId,
@@ -366,6 +383,9 @@ function addToDiet(foodId, weekday, mealType) {
 
 }
 
+/*
+    General query from backend function
+ */
 function query(directory, method, data, callback) {
 
     var xhr = new XMLHttpRequest();
@@ -383,10 +403,14 @@ function query(directory, method, data, callback) {
 
 }
 
+/*
+    General form submitting function
+ */
 function submitForm(event, form) {
 
     event.preventDefault();
 
+    //determine which url based on the id of the form submitted
     var dir;
     if (form.id == "foodNutrition") {
         dir = "/food";
@@ -403,8 +427,10 @@ function submitForm(event, form) {
         }
     }
 
+    //handle respond
     query(":8000"+dir, defaultMethod, data, function(response) {
 
+        //based on which form
         if (form.id == "foodNutrition") {
             var result = "";
 

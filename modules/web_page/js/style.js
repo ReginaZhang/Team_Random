@@ -1,9 +1,5 @@
-/**
- * Created by liubingfeng on 13/03/15.
- */
+
 /*function used to determine login window up or not*/
-
-
 
 function insert_navigation_bar()
 {
