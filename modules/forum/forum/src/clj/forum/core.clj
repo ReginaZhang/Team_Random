@@ -4,7 +4,6 @@
             [ring.util.response :as resp]
             [ring.middleware.json :as json]
             [ring.middleware.params :as prms]
-            [org.httpkit.server :as hkit]
             [bidi.bidi :as bidi])
   (:gen-class))
 
@@ -110,11 +109,10 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
    :headers {"Content-Type" "text/html"}
    :body (slurp "static/index.html")})
 
-(defn mk-serve-js2 [jsfile]
-  (fn [request]
-    {:status 200
-     :headers {"Content-Type" "text/javascript"}
-     :body (slurp (str "static/js/" jsfile ".js"))}))
+(defn forum [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body (slurp "static/index.html")})
 
 (defn mk-serve-js [jsfile]
   (fn [request]
@@ -132,6 +130,11 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
           {:status 200
            :headers {"Content-Type" "image/gif"}
            :body (slurp (str "static/assets/" assetfile))}))
+
+(defn mk-serve-png [pngfile]
+  (fn [request]
+    (let [path (str "static/resources/" pngfile ".png")]
+      (resp/content-type (resp/file-response path) "image/png"))))
 
 
 (defn rest-wrap [handler] (-> handler
@@ -164,11 +167,13 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                   "questions" :questions
                   "add_question" :add-question
                   "index" :index
+                  ["forum/" :question-id] :forum
                   "login_user" :login-user
                   "logout_user" :logout-user
                   "check_loggedin" :check-loggedin
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css
+                  ["static/assets/" :pngfile ".png"] :serve_png
                   ["static/assets/" :assetfile] :serve_asset}])
 
 (defn forum [request]
@@ -186,11 +191,13 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                 :questions (rest-wrap get_questions)
                 :add-question (rest-wrap add_question)
                 :index index
+                :forum index
                 :login-user (rest-wrap login-user)
                 :logout-user (rest-wrap logout-user)
                 :check-loggedin (rest-wrap check-loggedin)
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))
+                :serve_png (mk-serve-png (:pngfile params))
                 :serve_asset (mk-serve-asset (:assetfile params))}
                handler)]
       (handler-fn request))
