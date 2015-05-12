@@ -126,7 +126,7 @@ class FoodAPI:
 	search_food.exposed = True
 
 	def get_food_report(self, ndbno):
-		if (ndbno < MIN_NDBNO) and (ndbno > MAX_NDBNO):
+		if (ndbno < MIN_NDBNO) or (ndbno > MAX_NDBNO):
 			return json.dumps({})
 		(d,c) = connect_db()
 		c.execute("select * from Food where Ndbno='%s'" % ndbno)
@@ -226,7 +226,7 @@ if __name__ == '__main__':
 				}
 		cherrypy.tools.CORS = cherrypy.Tool("before_finalize", CORS)
 		cherrypy.config.update({"server.socket_port": 8888})
-		cherrypy.config.update({"server.socket_host":"45.56.85.191"})
+		#cherrypy.config.update({"server.socket_host":"45.56.85.191"})
 		cherrypy.quickstart(FoodAPI(), '/', conf)
 	else:
 		a = FoodAPI()
