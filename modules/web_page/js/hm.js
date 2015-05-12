@@ -1,43 +1,75 @@
+var serverAdd = "http://45.56.85.191";
+var defaultMethod = "POST";
+var userId = null;
+var userName = null;
+var userWeight = null;
+var activeDietId = null;
 
-var serverAdd = "http://45.56.85.191:8000";
-var method = "POST";
+$('document').ready(isLoginedIn());
 
-$('document').ready(init());
+/*
+    Check whether current user has logged in
+ */
+function isLoginedIn() {
 
+
+    $.getJSON("http://api.ipify.org?format=json", "", function(data) {
+
+            var userIp = data.ip;
+
+            query(":8000/user/check", defaultMethod, {userIp: userIp}, function(userDetail) {
+
+                userId = userDetail.userId;
+                userName = userDetail.userName;
+                userWeight = userDetail.weight;
+
+                init();
+
+            });
+
+    });
+
+}
+
+/*
+    Initialization funciton
+ */
 function init() {
-    //showDiet();
 
-    if(isRegistered()) {
+    //based on whether use has logged in, display two different web page
+    if(userId) {
 
         var trial = document.getElementById("trial");
         trial.parentNode.removeChild(trial);
 
         tabSwitcher();
-        generateDashboard();
-        generateDiet();
+
+        var user = {
+            userId: userId
+        };
+        query(":8000/diet", defaultMethod,  user, function(userDiet) {
+            generateDashboard(userDiet);
+            generateDiet(userDiet);
+        });
+
         generateExercise();
         generateStats();
 
     } else {
 
+        $("#trialBody").html("Not logged in!");
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
+        console.log("Not reg")
 
-        document.getElementById("nav").innerHTML =
-            "<ul id='menu'>" +
-            "<li><a href='Food.html'>Food Nutrition</a></li>" +
-            "<li><a href='Test.html'>Health Test</a></li>" +
-            "<li><a href='Plan.html'>Health Plan</a></li>" +
-            "</ul>";
 
     }
 
 }
 
-function isRegistered() {
-    return true;
-}
-
+/*
+    Tab-switching listener
+ */
 function tabSwitcher() {
     $('.tabs .tab-links a').on('click', function(e)  {
         var currentAttrValue = $(this).attr('href');
@@ -50,24 +82,25 @@ function tabSwitcher() {
 
 
         e.preventDefault();
-
-
     });
 
 }
 
-
-function generateDashboard() {
+/*
+    Generating the first tab
+ */
+function generateDashboard(userDiet) {
     var nameBar = document.getElementById("nameBar");
 
-    var userName = "ra";
-    var userWeight = 62;
+    $("#nameBar").empty();
+    $("#todaysDietItems").empty();
+
     var data = {
         hasRegistered: true,
-        userId: 1
+        userId: userId
     };
 
-    query("/bmi", data, function(userBmi) {
+    query(":8000/bmi", defaultMethod, data, function(userBmi) {
         var name = document.createElement("p");
         name.innerHTML = "Hi! " + userName;
         name.className = "nameBar";
@@ -77,7 +110,7 @@ function generateDashboard() {
         weight.className = "nameBar";
 
         var bmi = document.createElement("p");
-        bmi.innerHTML = "BMI: " + userBmi["bmi"].slice(0,5) + ", " + userBmi["status"];
+        bmi.innerHTML = "BMI: " + userBmi.bmi.slice(0,5) + ", " + userBmi.status;
         bmi.className = "nameBar";
 
         nameBar.appendChild(name);
@@ -85,28 +118,202 @@ function generateDashboard() {
         nameBar.appendChild(bmi);
     });
 
-    data = {
-        dietId: 1
-    };
-    query("/diet", data, function(userDiet) {
 
-        var diet = "";
+    var diet = "";
+    var dietsIndex;
+    var todayDiet = document.getElementById("todaysDietItems");
+    var breakfast = document.createElement("p");
+    breakfast.innerHTML = "Breakfast<br>";
+    var lunch = document.createElement("p");
+    lunch.innerHTML = "Lunch<br>";
+    var dinner = document.createElement("p");
+    dinner.innerHTML = "Dinner<br>";
+    var other = document.createElement("p");
+    other.innerHTML = "Other<br>";
 
-        for (var i = 0; i < userDiet.length; i++) {
-            diet += userDiet[i]["foodName"];
 
-            if(i != userDiet.length-1) {
-                diet += ",   ";
+    for (dietsIndex = 0; (userDiet[dietsIndex].dietId); dietsIndex++) {
+    }
+
+    if (!userDiet[dietsIndex].status) {
+
+        var today = new Date();
+        var whichWeekDay = today.getDay();
+        var weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        var found = false;
+
+        for (var i = dietsIndex; i < userDiet.length; i++) {
+
+            if (userDiet[i].weekday == weekDays[whichWeekDay]) {
+
+                found = true;
+                if(userDiet[i].mealType == "B") {
+                    breakfast.innerHTML += userDiet[i].foodName + "<br>";
+                } else if(userDiet[i].mealType == "L") {
+                    lunch.innerHTML += userDiet[i].foodName + "<br>";
+                } else if(userDiet[i].mealType == "D") {
+                    dinner.innerHTML += userDiet[i].foodName + "<br>";
+                } else {
+                    other.innerHTML += userDiet[i].foodName + "<br>";
+                }
+
+                console.log(found);
             }
+
         }
 
-        document.getElementById("todaysDietItems").innerHTML = diet;
+        if(!found) {
+            todayDiet.innerHTML = "You have nothing in the diet for today!";
+        } else {
+            todayDiet.appendChild(breakfast);
+            todayDiet.appendChild(lunch);
+            todayDiet.appendChild(dinner);
+            todayDiet.appendChild(other);
+        }
 
-    });
+    } else {
+        todayDiet.innerHTML = "You have nothing in the diet for today!";
+    }
 
 }
 
-function generateDiet() {
+/*
+    Generating the second tab
+ */
+function generateDiet(userDiet) {
+
+    $(".item-Mon, .item-Tue, .item-Wed, .item-Thu, .item-Fri, .item-Sat, .item-Sun, .item-All, " +
+    "#diet_nutrition, #diet_list, #empty-warning").empty();
+
+    var dietNutri = {};
+
+    var dietsIndex;
+    var selectElement = $("#diet_list");
+    var activeIndex = 0;
+
+    for (dietsIndex = 0; (userDiet[dietsIndex].dietId); dietsIndex++) {
+
+        var option = document.createElement("option");
+
+        option.className = userDiet[dietsIndex].activeType + " diet-option";
+        option.innerHTML = userDiet[dietsIndex].dietName;
+        option.value = userDiet[dietsIndex].dietId;
+
+
+        if (userDiet[dietsIndex].activeType == "active") {
+            activeDietId = userDiet[dietsIndex].dietId;
+            activeIndex = dietsIndex;
+            selectElement.append(option);
+        } else if (userDiet[dietsIndex].activeType == "current") {
+            option.innerHTML = option.innerHTML + " (Current Diet)";
+            selectElement.prepend(option);
+            activeIndex += 1;
+        } else {
+            selectElement.append(option);
+        }
+
+    }
+
+    selectElement.prop("selectedIndex", activeIndex.toString());
+
+    if (!userDiet[dietsIndex].status) {
+        for (var i = dietsIndex; i < userDiet.length; i++) {
+
+            $("#empty-warning").empty();
+
+            var thisFood = userDiet[i];
+            var selector = "";
+            var foodName = "";
+            var weekday = "";
+            var mealType = "";
+
+            [].forEach.call(Object.keys(thisFood), function(key) {
+
+                if (key == "foodName") {
+                    foodName = thisFood[key];
+                } else if (key == "weekday") {
+                    weekday = thisFood[key];
+                } else if (key == "mealType") {
+                    mealType = thisFood[key];
+                } else if (key == "foodId" || key.indexOf("")) {
+
+                } else {
+                    dietNutri[key] = (dietNutri[key] === undefined) ? Number(thisFood[key]) : dietNutri[key] + Number(thisFood[key]);
+                }
+
+            });
+
+            var mealId = (mealType == "B" ? "#breakfast" : (mealType == "L" ? "#lunch" :
+                (mealType === "D" ? "#dinner" : "#other")));
+
+            if (mealId == "#other" ) {
+                if (weekday != "NA") {
+                    mealId += "_with_weekday";
+                } else {
+                    mealId += "_flexi";
+                }
+            }
+
+            selector += mealId;
+            selector += " .item-";
+
+            if (weekday != "NA") {
+                selector += weekday;
+            } else {
+                selector += "All";
+            }
+
+            $(selector).html((($(selector).html() !== undefined) ? $(selector).html() : "") + foodName + "<br>");
+
+        }
+
+        [].forEach.call(Object.keys(dietNutri), function(key) {
+
+            var oneNutri = document.createElement("p");
+            oneNutri.id = key;
+
+            var nutriName = "";
+            var ch;
+            var bracketEnding = false;
+
+
+            for(var i=0; i<key.length; i++) {
+                ch = key.charAt(i);
+
+                if (isNaN(ch*1)) {
+
+                    if (ch == "_") {
+                        nutriName += "(";
+                        bracketEnding = true;
+                    } else if (ch == ch.toLowerCase()) {
+                        nutriName += ch;
+                    } else if (ch == ch.toUpperCase()) {
+                        if(key.charAt(i-1) != "_") {
+                            nutriName += " ";
+                        }
+                        nutriName += ch;
+                    }
+
+                } else {
+
+                    nutriName += ch;
+
+                }
+
+            }
+
+            if(bracketEnding) {
+                nutriName += ")";
+            }
+
+            oneNutri.innerHTML = nutriName.trim() + ": " + dietNutri[key] + "<br>";
+
+            $("#diet_nutrition").append(oneNutri);
+
+        });
+    } else {
+        $("#empty-warning").html("Current diet is empty!");
+    }
 
 }
 
@@ -118,7 +325,68 @@ function generateStats() {
 
 }
 
-function query(directory, data, callback) {
+/*
+    Retrieve foods in the given diet
+ */
+function getDiet(dietId) {
+
+    query(":8000/diet", defaultMethod, {userId: userId, dietId: dietId}, function(userDiet) {
+        generateDashboard(userDiet);
+        generateDiet(userDiet);
+    });
+
+}
+
+/*
+    Mark the diet displayed on the page as the current effective diet
+ */
+function startDiet() {
+
+    var data = {
+        dietId: activeDietId,
+        modiType: "start",
+        foodId: null,
+        weekday: null,
+        mealType: null
+    };
+
+    query(":8000/diet/modify", defaultMethod, data, function(status) {
+        if(status.update == "successful") {
+            getDiet(activeDietId);
+        }
+
+    });
+
+}
+
+function createDiet() {
+
+}
+
+/*
+    Add nominated food to active diet
+ */
+function addToDiet(foodId, weekday, mealType) {
+
+    var user = {
+        userId: userId,
+        dietId: activeDietId,
+        modiType: "add",
+        foodId: foodId,
+        weekday: weekday,
+        mealType: mealType
+
+    };
+    query(":8000/diet/modify", defaultMethod, user, function() {
+        getDiet(activeDietId);
+    });
+
+}
+
+/*
+    General query from backend function
+ */
+function query(directory, method, data, callback) {
 
     var xhr = new XMLHttpRequest();
     xhr.open(method, serverAdd + directory);
@@ -135,10 +403,14 @@ function query(directory, data, callback) {
 
 }
 
+/*
+    General form submitting function
+ */
 function submitForm(event, form) {
 
     event.preventDefault();
 
+    //determine which url based on the id of the form submitted
     var dir;
     if (form.id == "foodNutrition") {
         dir = "/food";
@@ -155,17 +427,42 @@ function submitForm(event, form) {
         }
     }
 
-    query(dir, data, function(response) {
+    //handle respond
+    query(":8000"+dir, defaultMethod, data, function(response) {
 
+        //based on which form
         if (form.id == "foodNutrition") {
             var result = "";
 
             for (var i = 0; i < response.length; i++) {
                 result += response[i]["foodName"];
 
+                result += '<button type="button" class="add-to-diet-button" ' +
+                'onclick="addToDiet(' + Number(response[i]["foodId"]) + ',' +
+                '$(\'#addToDietWeekday' + response[i]["foodId"] + '\').val(),$(\'#addToDietMeal' + response[i]["foodId"] + '\').val()' +
+                ');">Add to diet</button><select id="addToDietWeekday' + response[i]["foodId"] + '">' +
+                '<option value="Mon">Monday</option>' +
+                '<option value="Tue">Tuesday</option>' +
+                '<option value="Wed">Wednesday</option>' +
+                '<option value="Thu">Thursday</option>' +
+                '<option value="Fri">Friday</option>' +
+                '<option value="Sat">Saturday</option>' +
+                '<option value="Sun">Sunday</option>' +
+                '<option value="NA">Not Specified</option>' +
+                '</select>' +
+                '<select id="addToDietMeal' + response[i]["foodId"] + '">' +
+                '<option value="B">Breakfast</option>' +
+                '<option value="L">Lunch</option>' +
+                '<option value="D">Dinner</option>' +
+                '<option value="O">Backup/Other</option>' +
+                '</select>';
+
                 if (i != response.length - 1) {
-                    result += ",   ";
+                    result += "<br>";
                 }
+
+                console.log(result);
+
             }
 
             document.getElementById(form.id + "Result").innerHTML = result;
@@ -175,47 +472,3 @@ function submitForm(event, form) {
 
 }
 
-
-function registered(truthValue) {
-
-    if (truthValue == true) {
-        document.getElementsByName("height")[0].style.display = "none";
-        document.getElementsByName("weight")[0].style.display = "none";
-        document.getElementsByName("userId")[0].value = 1;
-        document.getElementById("submitButton").style.display = "none";
-    } else if (truthValue == false){
-        document.getElementsByName("height")[0].style.display = "inline";
-        document.getElementsByName("weight")[0].style.display = "inline";
-        document.getElementsByName("userId")[0].value = "";
-        document.getElementById("submitButton").value="Get BMI!";
-    }
-
-
-}
-
-function addOrDelete(truthValue) {
-    if (truthValue == true) {
-        document.getElementById("submitButton2").value="Add to Ray's diet";
-    } else {
-        document.getElementById("submitButton2").value="Delete from Ray's diet";
-    }
-}
-
-function showDiet(){
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://45.56.85.191:8000/diet", true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    var data = {};
-    data["dietId"] = "1";
-    xhr.send(JSON.stringify(data))
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            document.getElementById("diet").innerHTML = xhr.responseText;
-        }
-    }
-
-
-}

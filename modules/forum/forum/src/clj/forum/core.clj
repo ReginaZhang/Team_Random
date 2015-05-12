@@ -4,6 +4,7 @@
             [ring.util.response :as resp]
             [ring.middleware.json :as json]
             [ring.middleware.params :as prms]
+            [org.httpkit.server :as hkit]
             [bidi.bidi :as bidi])
   (:gen-class))
 
@@ -136,14 +137,22 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
 (defn rest-wrap [handler] (-> handler
                                    (json/wrap-json-response)
                                    (prms/wrap-params)))
+
+(def cors-headers {"Access-Control-Allow-Origin" "*"
+                   "Access-Control-Allow-Methods" "GET, POST"})
+                            
 (def loggedin-users (atom {}))
 (defn login-user [{{:strs [user_id ip header]} :params}]
   (swap! loggedin-users #(assoc % [ip, header] user_id))
-  {:status 200 :body {:text "User recorded as logged in"}})
+  {:status 200 :headers cors-headers :body {:text "User recorded as logged in"}})
 
 (defn check-loggedin [{{:strs [ip header]} :params}]
-  {:status 200 :body
-   {:id (get @loggedin-users [ip, header])}})
+  {:status 200 :headers cors-headers
+   :body {:id (get @loggedin-users [ip, header])}})
+
+(defn logout-user [{{:strs [ip header]} :params}]
+  (swap! loggedin-users #(assoc % [ip, header] nil))
+  {:status 200 :headers cors-headers :body {:text "User recorded as logged out"}})
 
 (def routes ["/" {"child_comments" :child-comments
                   "add_comment" :add-comment
@@ -156,6 +165,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                   "add_question" :add-question
                   "index" :index
                   "login_user" :login-user
+                  "logout_user" :logout-user
                   "check_loggedin" :check-loggedin
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css
@@ -177,6 +187,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                 :add-question (rest-wrap add_question)
                 :index index
                 :login-user (rest-wrap login-user)
+                :logout-user (rest-wrap logout-user)
                 :check-loggedin (rest-wrap check-loggedin)
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))
@@ -184,3 +195,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                handler)]
       (handler-fn request))
     {:status 404 :body "404 page not found"}))
+
+;(defn -main []
+ ; (hkit/run-server forum {:port 3000}))
+

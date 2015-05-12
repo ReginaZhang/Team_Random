@@ -13,7 +13,7 @@ function insert_navigation_bar()
         <ul class="nav navbar-nav">\
         <li ><a class="nav_element home" href="index.html">Home</a></li>\
         <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>\
-        <li ><a class="nav_element health_manager" href="HealthManagerDemo.html">Health Manager</a></li>\
+        <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>\
         <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>\
         <li ><a class="nav_element Login" onclick="loginWindow();" href="#">Login</a></li>\
         <li ><a class="nav_element about" href="about.html">About</a></li>\
@@ -71,24 +71,42 @@ function loginPOPdown(one_obj)
 function login_validation()
 {
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://45.56.85.191:8000/user/login", true);
-    var user_data = {};
-    user_data["username"] =document.getElementById("input_username").value;
-    user_data["password"] =document.getElementById("input_password").value;
-    //user_data["email"] = "hello@gmail.com";
-    if(!user_data_validation(user_data))
-    {
-        return false;
-    }
-    xhr.send(JSON.stringify(user_data));
-    console.log(JSON.stringify(user_data));
+    var xhr_ip = new XMLHttpRequest();
+    xhr_ip.open("GET", "http://api.hostip.info/get_json.php");
+    //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
+    // send the collected data as JSON
+    xhr_ip.send();
 
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4 && xhr.status==200) {
-            console.log(xhr.responseText);
+    xhr_ip.onreadystatechange = function() {
+        if (xhr_ip.readyState == 4) {
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "http://45.56.85.191:8000/user/login", true);
+            var user_data = {};
+            user_data["username"] =document.getElementById("input_username").value;
+            user_data["password"] =document.getElementById("input_password").value;
+            user_data.userIp = JSON.parse(xhr_ip.responseText).ip;
+            //user_data["email"] = "hello@gmail.com";
+            if(!user_data_validation(user_data))
+            {
+                return false;
+            }
+            xhr.send(JSON.stringify(user_data));
+            console.log(JSON.stringify(user_data));
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status==200) {
+                    console.log(xhr.responseText);
+                }
+            }
+
+
         }
-    }
+
+    };
+
+
+
 }
 
 function user_data_validation(user_data)
