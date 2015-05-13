@@ -55,7 +55,7 @@ function loginPOPup(one_obj)
     </div>\
     <br/>\
     <button type='button' class='btn btn-default' onclick='login_validation();'>Login</button>\
-    <button type='button' onclick='sign_up();' class='btn btn-default'>sign_up</button>\
+    <button type='button' class='btn btn-default' onclick='getUserIP();'>getIP test</button>\
     <button type='button' onclick='loginWindow();' class='btn btn-default'>Close</button>\
     </form>\
     ";
