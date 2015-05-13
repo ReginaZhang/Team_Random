@@ -8,9 +8,9 @@
   (:gen-class))
 
 (def health-db {:subprotocol "mysql"
-               :subname "//45.56.85.191/HealthDB"
-               :user "kimjongun"
-               :password "KimJongUnIsGreat"})
+                :subname "//45.56.85.191/HealthDB"
+                :user "kimjongun"
+                :password "KimJongUnIsGreat"})
   
 (defn merge-comments-with-flags [acc cur]
   (let [id (:commentid cur)
