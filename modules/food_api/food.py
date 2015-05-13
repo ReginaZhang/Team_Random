@@ -22,7 +22,7 @@ from constants import *
 import cherrypy
 import MySQLdb
 
-debug = 0
+debug = 1
 
 class FoodAPI:
 	
@@ -82,8 +82,10 @@ class FoodAPI:
 		items = results["list"]["item"]
 		new_r = {"items":[]}
 		for item in items:
-			new_dict = {"name": item["name"], "ndbno": item["ndbno"]}
+			new_dict = {"foodname": item["name"], "ndbno": item["ndbno"]}
 			new_r["items"].append(new_dict)
+
+		print new_r
 		return new_r
 
 	def db_search(self, term = "", max = ITEM_NUM, offset = 0):
@@ -235,4 +237,4 @@ if __name__ == '__main__':
 		#a.get_food_from_db()
 		#a.search_food("pe")
 		#a.get_food_report(ndbno="01010")
-		a.db_search("")
+		a.api_search("")
