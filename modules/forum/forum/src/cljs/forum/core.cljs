@@ -295,7 +295,28 @@
                             :commentid commentid :questionid questionid :parentid nil :flagids (re/atom flagids) :filter-store filtered-flags
                             :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom questiondeleted) :score (re/atom score)
                             :votetype (re/atom votetype)}]])])))
-(set! (.-onload js/window) #(re/render [forum-page] (js/document.getElementById "forum")))
+
+(defn question-list
+  "Display a list of all questions, ordered by score"
+  []
+  (let [userid-store (re/atom 1)
+        question-store (re/atom {})
+        questions (get-questions question-store userid-store (re/atom {}))]
+    (fn []
+    [:div.question-list
+     (for [{:keys [questionid questiontitle score]} (sort-by :score @question-store)]
+       ^{:key questionid}
+       [:div.question
+        [:div.question-title
+         [:a {:href (str "/forum/" questionid)}
+          questiontitle]]
+        [:div.question-score score]])])))
+
+(set! (.-onload js/window)
+      #(let [q-list-div (js/document.getElementById "question_list")
+            forum-div (js/document.getElementById "forum")]
+        (re/render [question-list] (if q-list-div q-list-div forum-div))))
+
 ;(print ( js/document.getElementById "test"))
 ;(re/render [forum-page] (js/document.getElementById "test"))
 
