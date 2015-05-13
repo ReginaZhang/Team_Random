@@ -1,0 +1,4 @@
+http://45.56.85.191:8000/bmi
+{ hasRegistered: true,userId: 1}
+{"bmi":"19.983212809917354","status":"normal"}
+
