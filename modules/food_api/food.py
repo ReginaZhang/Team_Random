@@ -97,6 +97,7 @@ class FoodAPI:
 		return new_r
 
 	@cherrypy.tools.json_in()
+	@cherrypy.tools.allow(methods=["POST"])
 	def search_food(self):#, term="", max=100, dboffset=None, apioffset=None):
 		data = cherrypy.request.json
 		dboffset = data["dboffset"]

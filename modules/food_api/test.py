@@ -6,3 +6,6 @@ r = requests.get("http://api.nal.usda.gov/usda/ndb/list", params = p)
 print r.text
 print r.json()
 print ('list' in r.json().keys())
+
+
+mvn exec:java -Dexec.mainClass="main.App" -e

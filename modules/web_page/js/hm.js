@@ -406,9 +406,10 @@ function query(directory, method, data, callback) {
 /*
     General form submitting function
  */
-function submitForm(event, form) {
+var page=1;
+function getFood() {
 
-    event.preventDefault();
+    /*event.preventDefault();
 
     //determine which url based on the id of the form submitted
     var dir;
@@ -468,7 +469,7 @@ function submitForm(event, form) {
             document.getElementById(form.id + "Result").innerHTML = result;
         }
 
-    });
+    });*/
 
 }
 

@@ -33,14 +33,14 @@
   <tr>
   	<th>
   		<h3><em>Food Nutrition</em></h3>
-  		<form method="POST" action="http://45.56.85.191:8888/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
+  		<form id="gimme_these_food">
   			Search Food Name:
   			<input type="text"
   			 	   name="searchString"
   			 	   placeholder="Search Here...">
-  			<input type="submit" 
-  			       id="submitButton1" 
-  			       value="Get Food!">
+  			<button type='button' id="searchButton" value="Get Food!" onclick='getFood()'>
+          Search
+        </button>
   			<br><br>
   			<p>Response</p>
   			<p id="response"></p>
