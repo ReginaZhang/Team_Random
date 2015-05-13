@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -70,36 +71,32 @@ public class HealthDb
 				
 	}
 	
-	public ResultSet executeQuery(String tableName, String field, String value) {
+	public ResultSet executeQuery(String tableName, String field, String value) throws SQLException {
 		
 	PreparedStatement stmt = null;
 	ResultSet rs = null;
 	Connection conn = null;
 	
-	try {
-		conn = ds.getConnection();
+	
+	conn = ds.getConnection();
 		
-		String type = TableSet.get(tableName).get(field);
-		String wildcardQuery = "SELECT * FROM " + tableName + " WHERE " + field + " LIKE ?";
-		String equalQuery = "SELECT * FROM " + tableName + " WHERE " + field + " = ?";
+	String type = TableSet.get(tableName).get(field);
+	String wildcardQuery = "SELECT * FROM " + tableName + " WHERE " + field + " LIKE ?";
+	String equalQuery = "SELECT * FROM " + tableName + " WHERE " + field + " = ?";
 					
-		if(type.contains("double")) {
-			stmt = conn.prepareStatement(equalQuery);
-			stmt.setDouble(1, Double.parseDouble(value));
-		} else if(type.contains("int")) {
-			stmt = conn.prepareStatement(equalQuery);
-			stmt.setInt(1, Integer.parseInt(value));
-		} else if(type.contains("varchar") || type.contains("enum")) {
-			stmt = conn.prepareStatement(wildcardQuery);
-			stmt.setString(1, "%"+ value +"%");
-		}
+	if(type.contains("double")) {
+		stmt = conn.prepareStatement(equalQuery);
+		stmt.setDouble(1, Double.parseDouble(value));
+	} else if(type.contains("int")) {
+		stmt = conn.prepareStatement(equalQuery);
+		stmt.setInt(1, Integer.parseInt(value));
+	} else if(type.contains("varchar") || type.contains("enum")) {
+		stmt = conn.prepareStatement(wildcardQuery);
+		stmt.setString(1, "%"+ value +"%");
+	}
 			
 		rs = stmt.executeQuery();
 		
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	
 	return rs;
 		
 	}
@@ -273,7 +270,7 @@ public class HealthDb
 		
 	}
 
-	public void executeInsert(String tableName, HashMap<String, String> fieldValuePair) {
+	public int executeInsert(String tableName, HashMap<String, String> fieldValuePair) {
 		
 		HashMap<String, String> thisTable = this.TableSet.get(tableName.trim());
 		
@@ -299,7 +296,7 @@ public class HealthDb
 		
 		try {
 			conn = ds.getConnection();
-			stmt = conn.prepareStatement(sql);
+			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			int paraIndex = 1;
 			for (String field: ks) {
@@ -321,6 +318,8 @@ public class HealthDb
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return getGeneratedId(stmt);
 		
 	}
 
@@ -370,8 +369,29 @@ public class HealthDb
 		return serverName;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public HashMap<String, HashMap<String, String>> getTableSet() {
 		return (HashMap<String, HashMap<String, String>>)TableSet.clone();
 	}
+	
+	public int getGeneratedId(Statement stmt) {
+		
+		int id = -1;
+		
+		try {
+			ResultSet rs = stmt.getGeneratedKeys();
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return id;
+		
+	}
+	
+	
+	
 	
 }

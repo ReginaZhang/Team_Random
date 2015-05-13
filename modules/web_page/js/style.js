@@ -72,7 +72,7 @@ function login_validation()
 {
 
     var xhr_ip = new XMLHttpRequest();
-    xhr_ip.open("GET", "http://api.hostip.info/get_json.php");
+    xhr_ip.open("GET", "http://api.hostip.info/get_json.php?antiCache="+Math.random());
     //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
     // send the collected data as JSON
     xhr_ip.send();
