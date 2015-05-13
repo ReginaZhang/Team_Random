@@ -1,6 +1,4 @@
 
-
-
 //initialize google map
 function initialize(my_center_obj) {
     //position

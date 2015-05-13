@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>BMI Calculator</title>
+    <style type="text/css">
+        #mainDisplay
+        {
+            padding:25px;
+        }
+        #form
+        {
+            width:250px;
+        }
+        #results
+        {
+            background-color:#E6E6E6;
+            width:450px;
+        }
+    </style>
+</head>
+
+<body>
+<!-- ... action="PrintBMI.jsp" method="post" onsubmit="calculateBMI()" ... left out for now from <form> below -->
+<div id = "mainDisplay">
+    <form name ="bmiForm" id = "form" action = "index.html">
+        <fieldset>
+            <legend>BMI Calculator</legend>
+            <h3>Enter your weight</h3>
+            Stone <input type = "text" name = "stone" size = "1" maxlength = "2" />
+            Pounds <input type = "text" name = "pounds" size = "2" maxlength = "6" />
+            <br />
+            <strong>OR</strong>
+            <br />
+            KGs <input type = "text" name = "kgs" size = "2" maxlength = "6" />
+
+            <h3>Enter your height</h3>
+            Feet <input type = "text" name = "feet" size = "1" maxlength = "1" />
+            Inches <input type = "text" name = "inches" size = "1" maxlength = "4" />
+            <br />
+            <strong>OR</strong>
+            <br />
+            CMs <input type = "text" name = "cms" size = "2" maxlength = "6" />
+            <p></p><input id = "button" type="button" value = "Find out your BMI" />
+        </fieldset>
+    </form>
+
+    <script src="BMI.js"></script>
+</div>
+
+</body>
+</html>

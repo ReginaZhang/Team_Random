@@ -12,8 +12,7 @@ $('document').ready(isLoginedIn());
  */
 function isLoginedIn() {
 
-
-    $.getJSON("http://api.ipify.org?format=json", "", function(data) {
+    $.getJSON("http://api.ipify.org?format=json&antiCache="+Math.random(), "", function(data) {
 
             var userIp = data.ip;
 
@@ -204,6 +203,8 @@ function generateDiet(userDiet) {
             activeDietId = userDiet[dietsIndex].dietId;
             activeIndex = dietsIndex;
             selectElement.append(option);
+
+            $("#diet-plan-title").html("Weekly Diet Plan  -  " + userDiet[dietsIndex].dietName);
         } else if (userDiet[dietsIndex].activeType == "current") {
             option.innerHTML = option.innerHTML + " (Current Diet)";
             selectElement.prepend(option);
@@ -312,7 +313,12 @@ function generateDiet(userDiet) {
 
         });
     } else {
-        $("#empty-warning").html("Current diet is empty!");
+        if(userDiet[dietsIndex].status == "noDiet") {
+            $("#empty-warning").html("You currently have no diet!");
+        } else {
+            $("#empty-warning").html("Current diet is empty!");
+        }
+
     }
 
 }
@@ -347,7 +353,8 @@ function startDiet() {
         modiType: "start",
         foodId: null,
         weekday: null,
-        mealType: null
+        mealType: null,
+        userId: userId
     };
 
     query(":8000/diet/modify", defaultMethod, data, function(status) {
@@ -361,6 +368,48 @@ function startDiet() {
 
 function createDiet() {
 
+    var user = {
+        userId: userId
+    };
+
+    var data = {
+        userId: userId,
+        dietName:"Testing",
+        dietType: 'G'
+    };
+
+    query(":8000/diet/create", defaultMethod, data, function(status) {
+        if(status.dietCreate == "successful") {
+            activeDietId = status.dietId;
+
+            query(":8000/diet", defaultMethod,  user, function(userDiet) {
+                generateDashboard(userDiet);
+                generateDiet(userDiet);
+            });
+        } else {
+            //TODO POPUP ERROR
+        }
+    })
+
+}
+
+function deleteDiet() {
+
+    $.getJSON("http://api.ipify.org?format=json&antiCache="+Math.random(), "", function(data) {
+        query(":8000/diet/delete", defaultMethod, {dietId: activeDietId, userId: userId, userIp: data.ip}, function (status) {
+
+            if (status.dietDelete == "successful") {
+
+                query(":8000/diet", defaultMethod, {userId: userId}, function (userDiet) {
+                    generateDashboard(userDiet);
+                    generateDiet(userDiet);
+                });
+
+            } else {
+                //TODO POPUP ERROR
+            }
+        });
+    });
 }
 
 /*

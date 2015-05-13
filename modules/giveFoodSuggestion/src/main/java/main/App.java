@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mashape.unirest.http.*;
 
-
 import java.io.BufferedReader;
 import java.lang.reflect.Type;
 import java.io.InputStreamReader;
@@ -45,6 +44,7 @@ public class App {
 				})));
 		
 		compulsaryFields.put("/diet/modify", new ArrayList<String>(Arrays.asList(new String[] {
+				"userId",
 				"foodId",
 				"dietId",
 				"weekday",
@@ -56,6 +56,12 @@ public class App {
 				"userId",
 				"dietName",
 				"dietType",
+				})));
+		
+		compulsaryFields.put("/diet/delete", new ArrayList<String>(Arrays.asList(new String[] {
+				"userId",
+				"dietId",
+				"userIp"
 				})));
 		
 		compulsaryFields.put("/user/check", new ArrayList<String>(Arrays.asList(new String[] {
@@ -250,12 +256,15 @@ public class App {
 				response.add(oneDiet);
 				
 			}
-				
-			ResultSet foodInDiet = db.executeQuery("DietItem", "DietId", dietId);
 			
 			response.remove(invalid);
-			if (foodInDiet.isBeforeFirst()) {	
-				
+			
+			try {
+				ResultSet foodInDiet = db.executeQuery("DietItem", "DietId", dietId);
+				if(!foodInDiet.isBeforeFirst()) {
+					throw new Exception("Empty diet");
+				}
+							
 				while (foodInDiet.next()) {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
 					
@@ -263,17 +272,16 @@ public class App {
 					oneFoodDetail.next();
 					
 					HashMap<String, String> foodTable = db.getTableSet().get("Food");
-					Set<String> ks = foodTable.keySet();
 					
-					for (String field: ks) {
+					for (String field: foodTable.keySet()) {
 						
 						String fieldClone = field;
 						
 						if (field.equals("FoodName") || field.equals("FoodId")) {
-							field = field.toLowerCase().charAt(0) + field.substring(1);					
+							fieldClone = fieldClone.toLowerCase().charAt(0) + fieldClone.substring(1);					
 						}
-						
-						oneFood.put(field, oneFoodDetail.getString(fieldClone));
+
+						oneFood.put(fieldClone, oneFoodDetail.getString(field));
 						
 					}
 					
@@ -281,11 +289,23 @@ public class App {
 					oneFood.put("mealType", foodInDiet.getString("MealType"));
 										
 					response.add(oneFood);
+					
 				}
-			} else {
+				
+			} catch (NullPointerException|NumberFormatException e) {
+				
+				invalid.replace("status", "noDiet");
+				response.add(invalid);
+				e.printStackTrace();
+				
+			} catch (Exception e) {
+				
 				invalid.replace("status", "empty");
 				response.add(invalid);
+				e.printStackTrace();
+				
 			}
+			
 						
 			return gs.toJson(response); 
 			
@@ -319,6 +339,7 @@ public class App {
 				} else if(info.get("modiType").equals("start")) {
 					HashMap<String, String> cond = new HashMap<String, String>();
 					cond.put("EndDate", null);
+					cond.put("UserId", info.get("userId"));
 					
 					HashMap<String, String> newValue = new HashMap<String, String>();
 					newValue.put("EndDate", "now()");
@@ -363,13 +384,92 @@ public class App {
 			}
 			
 			try {
-				for (String field: info.keySet()) {
+				HashMap<String, String> cond = new HashMap<String, String>();
+				HashMap<String, String> val = new HashMap<String, String>();
+				
+				cond.put("EndDate", null);
+				cond.put("UserId", info.get("userId"));
+				val.put("EndDate", "now()");
+				
+				db.executeUpdate("Diet", cond, val);
+				
+				@SuppressWarnings("unchecked")
+				HashMap<String, String> infoClone = (HashMap<String, String>) info.clone();
+				
+				for (String field: infoClone.keySet()) {
 					info.put(field.toUpperCase().charAt(0) + field.substring(1), info.get(field));
 					info.remove(field);
 				}
 				
-				db.executeInsert("Diet", info);
-				response.replace("dietCreate", "successul");
+				
+				int id = db.executeInsert("Diet", info);
+				
+				response.put("dietId", Integer.toString(id));
+				response.replace("dietCreate", "successful");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
+			return gs.toJson(response); 
+			
+		});
+		
+		spark.Spark.post("/diet/delete", "application/json", (req, res) -> {
+			
+			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
+			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
+			
+			res.type("application/json"); //define return type
+			HashMap<String, String> response = new HashMap<String, String>();
+			response.put("dietDelete", "invalid");
+			
+			if (!isReqValid("/diet/delete", info.keySet())) {
+				return gs.toJson(response);
+			}
+			
+			String checkUrl = "http://" + db.getServerName() + ":80/check_loggedin?ip=" + info.get("userIp") + "&header=" + URLEncoder.encode(req.headers("User-Agent"), "UTF-8");
+			
+			URL urlObj = new URL(checkUrl);
+			BufferedReader br = new BufferedReader(new InputStreamReader(urlObj.openStream()));
+			String json = br.readLine();
+			
+			try {
+				String idValue = json.substring(7, json.indexOf("\"}"));
+				
+				if(!idValue.equals(info.get("userId"))) {
+					throw new Exception("Not current user");
+				}
+				
+				info.remove("userIp");
+				
+				@SuppressWarnings("unchecked")
+				HashMap<String, String> infoClone = (HashMap<String, String>) info.clone();
+				
+				for (String field: infoClone.keySet()) {
+					info.put(field.toUpperCase().charAt(0) + field.substring(1), info.get(field));
+					info.remove(field);
+				}
+				
+				infoClone.clear();
+				infoClone.put("DietId", info.get("DietId"));
+				
+				HashMap<String, String> cond = new HashMap<String, String>();
+				HashMap<String, String> val = new HashMap<String, String>();
+				
+				cond.put("EndDate", null);
+				cond.put("UserId", info.get("UserId"));
+				
+				ResultSet rs = db.executeQuery("Diet", cond);
+				
+				if(rs.next() && rs.getString("DietId").equals(info.get("DietId"))) {
+					response.replace("dietDelete", "currentDiet");
+					throw new Exception("Can't delete current active diet");
+				}
+				
+				db.executeDelete("DietItem", infoClone);
+				db.executeDelete("Diet", info);
+				response.replace("dietDelete", "successful");
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -396,11 +496,11 @@ public class App {
 			URL urlObj = new URL(checkUrl);
 			BufferedReader br = new BufferedReader(new InputStreamReader(urlObj.openStream()));
 			String json = br.readLine();
-			String idValue = json.substring(7, json.indexOf("\"}"));
-			
-
+			System.out.println(checkUrl);
 			
 			try {
+				String idValue = json.substring(7, json.indexOf("\"}"));
+				
 				int id = Integer.parseInt(idValue);
 				ResultSet user = db.executeQuery("User", "UserId", Integer.toString(id));
 				user.next();
@@ -413,8 +513,8 @@ public class App {
 					}
 				}
 				
-			} catch (NumberFormatException e) {
-				
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 					
 			return gs.toJson(response); 

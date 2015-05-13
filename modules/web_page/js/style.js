@@ -1,9 +1,5 @@
-/**
- * Created by liubingfeng on 13/03/15.
- */
+
 /*function used to determine login window up or not*/
-
-
 
 function insert_navigation_bar()
 {
@@ -59,7 +55,7 @@ function loginPOPup(one_obj)
     </div>\
     <br/>\
     <button type='button' class='btn btn-default' onclick='login_validation();'>Login</button>\
-    <button type='button' onclick='sign_up();' class='btn btn-default'>sign_up</button>\
+    <button type='button' class='btn btn-default' onclick='getUserIP();'>getIP test</button>\
     <button type='button' onclick='loginWindow();' class='btn btn-default'>Close</button>\
     </form>\
     ";
@@ -76,7 +72,7 @@ function login_validation()
 {
 
     var xhr_ip = new XMLHttpRequest();
-    xhr_ip.open("GET", "http://api.hostip.info/get_json.php");
+    xhr_ip.open("GET", "http://api.hostip.info/get_json.php?antiCache="+Math.random());
     //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
     // send the collected data as JSON
     xhr_ip.send();
