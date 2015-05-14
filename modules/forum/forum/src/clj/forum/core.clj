@@ -143,18 +143,18 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
 
 (def cors-headers {"Access-Control-Allow-Origin" "*"
                    "Access-Control-Allow-Methods" "GET, POST"})
-                            
+
 (def loggedin-users (atom {}))
-(defn login-user [{{:strs [user_id ip header]} :params}]
-  (swap! loggedin-users #(assoc % [ip, header] user_id))
+(defn login-user [{{:strs [user_id ip-prm agent-prm]} :params ip :remote-addr {agent "user-agent"} :headers}]
+  (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] user_id))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged in"}})
 
-(defn check-loggedin [{{:strs [ip header]} :params}]
+(defn check-loggedin [{{:strs [ip-prm agent-prm]} :params ip :remote-addr {agent "user-agent"} :headers}]
   {:status 200 :headers cors-headers
-   :body {:id (get @loggedin-users [ip, header])}})
+   :body {:id (get @loggedin-users [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)])}})
 
-(defn logout-user [{{:strs [ip header]} :params}]
-  (swap! loggedin-users #(assoc % [ip, header] nil))
+(defn logout-user [{{:strs [ip-prm agent-prm]} :params ip :remote-addr {agent "user-agent"} :headers}]
+  (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] nil))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged out"}})
 
 (def routes ["/" {"child_comments" :child-comments
