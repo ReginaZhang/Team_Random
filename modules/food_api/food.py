@@ -107,9 +107,9 @@ class FoodAPI:
 		#apioffset = data["apioffset"]
 		#term = data["term"]
 		#max = ITEM_NUM
-		print dboffset
-		print apioffset
-		if int(dboffset) and int(apioffset):
+		dboffset = int(dboffset)
+		apioffset = int(apioffset)
+		if dboffset and apioffset:
 			raise Exception("Either dboffset or apioffset must be None.")
 		if (dboffset == None) and (apioffset == None):
 			dboffset = 0
