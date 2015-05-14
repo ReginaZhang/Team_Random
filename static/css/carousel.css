@@ -1,0 +1,88 @@
+/*reflection*/
+
+
+
+
+img
+{
+
+    /* Rotate div */
+    /*-ms-transform: rotate(7deg);*/
+    /* IE 9 */
+    /*-webkit-transform: rotate(7deg);*/
+    /* Chrome, Safari, Opera */
+    /*transform: rotate(7deg);*/
+    width:300px;
+    height:300px;
+}
+#left
+{
+    position: absolute;
+    width: 120px;
+    height: 500px;
+    z-index: 0;
+}
+
+#right
+{
+    position: absolute;
+    width: 120px;
+    height: 500px;
+    z-index: 0;
+    right: 0px;
+}
+
+/*
+#balloon_section:hover .balloon.one
+{
+    left:-20px;
+    -webkit-transform: perspective( 400px ) rotateY(45deg) translateZ( -50px );
+    -moz-transform: perspective( 400px ) rotateY(45deg) translateZ( -50px );
+    transform: perspective( 400px ) rotateY(45deg) translateZ( -50px );
+
+}
+
+#balloon_section:hover .balloon.two
+{
+    -webkit-transform: perspective( 400px ) translateZ( 50px );
+    -moz-transform: perspective( 400px ) translateZ( 50px );
+    transform: perspective( 400px ) translateZ( 50px );
+
+}
+
+#balloon_section:hover .balloon.three
+{
+    -webkit-transform: perspective( 400px ) rotateY(-45deg) translateZ( -50px );
+    -moz-transform: perspective( 400px ) rotateY(-45deg) translateZ( -50px );
+    transform: perspective( 400px ) rotateY(-45deg) translateZ( -50px );
+
+}*/
+
+#carousel_section
+{
+    height:500px;
+    width:1200px;
+    position:relative;
+    background-color: black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.carousel_element
+{
+    top:50px;
+    position:absolute;
+    transform-style: preserve-3d;
+    transition-timing-function:linear;
+    transition-duration:0.5s;
+    -webkit-box-reflect: below 0px -webkit-linear-gradient(bottom, rgba(255,255,255,0.3) 0%, transparent 40%, transparent 100%);
+}
+
+
+.carousel_element:hover
+{
+    -webkit-box-shadow: 0px 0px 19px 14px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 19px 14px rgba(255,255,255,1);
+    box-shadow: 0px 0px 19px 14px rgba(255,255,255,1);
+}
+
