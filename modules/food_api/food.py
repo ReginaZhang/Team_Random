@@ -98,15 +98,15 @@ class FoodAPI:
 		new_r = {"items": items}
 		return new_r
 
-	@cherrypy.tools.json_in()
-	@cherrypy.tools.allow(methods=["POST"])
-	def search_food(self):#, term="", max=100, dboffset=None, apioffset=None):
+	#@cherrypy.tools.json_in()
+	#@cherrypy.tools.allow(methods=["POST"])
+	def search_food(self, term="", max=ITEM_NUM, dboffset=None, apioffset=None):
 		#print cherrypy.request
-		data = cherrypy.request.json
-		dboffset = data["dboffset"]
-		apioffset = data["apioffset"]
-		term = data["term"]
-		max = ITEM_NUM
+		#data = cherrypy.request.json
+		#dboffset = data["dboffset"]
+		#apioffset = data["apioffset"]
+		#term = data["term"]
+		#max = ITEM_NUM
 		if dboffset and apioffset:
 			raise Exception("Either dboffset or apioffset must be None.")
 		if (dboffset == None) and (apioffset == None):
