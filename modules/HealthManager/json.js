@@ -1,7 +1,7 @@
 //Example from https://stackoverflow.com/questions/1255948/post-data-in-json-format-with-javascript
 //Slightly modified
 
-$('document').ready(showDiet());
+//$('document').ready(showDiet());
 
 function submitForm(event, form) {
 
