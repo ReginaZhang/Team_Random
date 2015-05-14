@@ -71,7 +71,7 @@ function addOrDelete(truthValue) {
   }
 }
 
-function showDiet(){
+/*function showDiet(){
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8888/diet", true);
@@ -88,7 +88,7 @@ function showDiet(){
   }
 
   
-}
+}*/
 
 
 var page=1;
