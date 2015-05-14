@@ -1,0 +1,46 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>Health Manager Example</h1>
+<form method="POST" action="http://45.56.85.191:8000/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, this)">
+	<input type="radio" name="hasRegistered" value="false" onclick="registered(false)" checked>Not registered
+	<input type="radio" name="hasRegistered" value="true" onclick="registered(true)">Registered
+	<br>
+	<input type="text" name="height" placeholder="Height">
+	<br>
+	<input type="text" name="weight" placeholder="Weight">
+	<input type="hidden" name="userId">
+	<input type="submit" id="submitButton" value="Get BMI!">
+</form>
+
+<h1>Search for Food Example</h1>
+<p>Currently there are Peach and Egg in the DB. by Ray 20/03</p>
+
+<form method="POST" action="http://45.56.85.191:8000/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
+	<input type="text" name="searchString" placeholder="Search Here...">
+	<input type="submit" id="submitButton1" value="Get Food!">
+</form>
+
+<h1>Adding/removing food from diet</h1>
+<form method="POST" action="http://45.56.85.191:8000/diet/modify" id="modify_diet" onsubmit="submitForm(event, this)">
+	<input type="radio" name="modiType" value="add" onclick="addOrDelete(true)"checked>Add
+	<input type="radio" name="modiType" value="delete" onclick="addOrDelete(false)">Remove
+	<input type="text" name="foodId" placeholder="Type food id here, one per time!">
+	<input type="hidden" name="dietId" value="1">
+	<input type="submit" id="submitButton2" value="Add to Ray's Diet">
+</form>
+
+<p id="dietName"></p>
+<p id="diet" ></p>
+
+
+<h2>Response</h2>
+<p id="response"></p>
+
+<script src="js/json.js"></script> 
+
+</body>
+</html>
