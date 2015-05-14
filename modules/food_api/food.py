@@ -109,7 +109,7 @@ class FoodAPI:
 		#max = ITEM_NUM
 		print dboffset
 		print apioffset
-		if dboffset and apioffset:
+		if int(dboffset) and int(apioffset):
 			raise Exception("Either dboffset or apioffset must be None.")
 		if (dboffset == None) and (apioffset == None):
 			dboffset = 0
