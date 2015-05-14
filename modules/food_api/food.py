@@ -230,7 +230,7 @@ if __name__ == '__main__':
 				}
 		cherrypy.tools.CORS = cherrypy.Tool("before_finalize", CORS)
 		cherrypy.config.update({"server.socket_port": 8888})
-		#cherrypy.config.update({"server.socket_host":"45.56.85.191"})
+		cherrypy.config.update({"server.socket_host":"45.56.85.191"})
 		cherrypy.quickstart(FoodAPI(), '/', conf)
 	else:
 		a = FoodAPI()
