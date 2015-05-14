@@ -2,6 +2,7 @@ package main;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mashape.unirest.http.*;
 
 import java.io.BufferedReader;
 import java.lang.reflect.Type;
@@ -33,7 +34,9 @@ public class App {
 				})));
 		
 		compulsaryFields.put("/food", new ArrayList<String>(Arrays.asList(new String[] {
-				"searchString"
+				"searchString",
+				"dbOffset",
+				"apiOffset"
 				})));
 		
 		compulsaryFields.put("/diet", new ArrayList<String>(Arrays.asList(new String[] {
@@ -137,23 +140,37 @@ public class App {
 			
 		});
 		
-		spark.Spark.post("/food", "application/json", (req, res) -> {
+		/*spark.Spark.post("/food", "application/json", (req, res) -> {
 			
 			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
 			HashMap<String, String> info = gs.fromJson(req.body(), hashMap); //JSON to ArrayList
 			
 			res.type("application/json"); //define return type
 			ArrayList<HashMap<String, String>> response = new ArrayList<HashMap<String, String>>();
+			HashMap<String, String> requestBody = new HashMap<String, String>();
+			JsonNode bodyJson;
 			
 			HashMap<String, String> invalid = new HashMap<String, String>();
 			invalid.put("food", "invalid");
-			response.add(invalid);			
 			
-			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("searchString"))) {
+			if (!isReqValid("/food", info.keySet())) {
+				response.add(invalid);			
 				return gs.toJson(response);
 			}
-			
-			ResultSet foods = db.executeQuery("Food", "FoodName", info.get("searchString").trim());
+
+			requestBody.put("term", info.get("searchString"));
+			requestBody.put("dboffset", info.get("dbOffset"));
+			requestBody.put("apioffset", info.get("apiOffset"));
+
+			bodyJson = new JsonNode(gs.toJson(requestBody));
+
+			HttpResponse<JsonNode> jsonResponse = Unirest.post("http://45.56.85.191:8888/search_food")
+				.header("accept", "application/json")
+				.body(bodyJson)
+				.asJson();
+
+			System.out.println(jsonResponse.toString());*/
+			/*ResultSet foods = db.executeQuery("Food", "FoodName", info.get("searchString").trim());
 			
 			int i=0;
 
@@ -180,15 +197,15 @@ public class App {
 					response.add(oneFood);
 					i++;
 				} 
-			}
+			}*/
 						
-			return gs.toJson(response); 
+			//return gs.toJson(response); 
 			
 			
 			//the json string will look like
 			//{"foodName0":"Peach", "foodName1":"Egg"}
 			
-		});
+		//});
 		
 		spark.Spark.post("/diet", "application/json", (req, res) -> {
 			

@@ -4,7 +4,7 @@
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <title>Health Care</title>
-<link href="Site.css" rel="stylesheet">
+<link href="css/Site.css" rel="stylesheet">
 </head>
 <body>
 
@@ -19,9 +19,7 @@
   <tr>
   	<th>
   		<h3><em>About</em></h3>
-      <!--
   		<img src="GoodFood.jpg" alt="HTML5 Icon" style="width:180px;height:128px">
-      //-->
   	</th>
   	<td>
   	 The website is design to...
@@ -35,23 +33,17 @@
   <tr>
   	<th>
   		<h3><em>Food Nutrition</em></h3>
-      <!--
-  		<form id="gimme_these_food">
-        //-->
+  		<form method="POST" action="http://45.56.85.191:8000/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
   			Search Food Name:
   			<input type="text"
   			 	   name="searchString"
-             id="search_box" 
   			 	   placeholder="Search Here...">
-  			<button type='button' id="searchButton" value="Get Food!" onclick='getFood()'>
-          Search
-        </button>
+  			<input type="submit"   			       id="submitButton1" 
+  			       value="Get Food!">
   			<br><br>
-  			<p>Results: </p>
-  			<p id="searchResults"></p>
-        <!--
+  			<p>Response</p>
+  			<p id="response"></p>
   		</form>
-      //-->
   		<p>Popular Search</p>
   		<input type="button" onclick="alert('Fruit')" value="Fruit">
   		<input type="button" onclick="alert('Meat')" value="Meat"> 
@@ -69,7 +61,7 @@
   		<br><table class="calculator">
   		<tr>
   			<th>
-  			<form method="POST" action="http://45.56.85.191:8888/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, this)">
+  			<form method="POST" action="http://45.56.85.191:8000/bmi" id="gimme_rays_bmi" onsubmit="submitForm(event, this)">
   			<p>BMI Calculator</p>
   			<p><br>To determine if you're at a healthy weight,</br><br> enter the following information and calculate</br><br>your body mass index(BMI)</br></p>
   			<input type="radio" name="hasRegistered" value="false" onclick="registered(false)" checked>Not registered
@@ -118,7 +110,7 @@
     	</table>
     	</br>
     	<p>Adding/removing food from diet</p>
-    		<form method="POST" action="http://45.56.85.191:8888/diet/modify" id="modify_diet" onsubmit="submitForm(event, this)">
+    		<form method="POST" action="http://45.56.85.191:8000/diet/modify" id="modify_diet" onsubmit="submitForm(event, this)">
     		<input type="radio" name="modiType" value="add" onclick="addOrDelete(true)"checked>Add
     		<input type="radio" name="modiType" value="delete" onclick="addOrDelete(false)">Remove
     		<input type="text" name="foodId" placeholder="Type food id here, one per time!">
@@ -148,8 +140,9 @@
   </div>
 </div>
 
-<script src="Script.js"></script>
-<script src="json.js"></script> 
+<script src="js/Script.js"></script>
+<script src="js/json.js"></script> 
+
 
 
 </body>
