@@ -22,7 +22,7 @@ from constants import *
 import cherrypy
 import MySQLdb
 
-debug = 1
+debug = 0
 
 class FoodAPI:
 	
@@ -101,6 +101,7 @@ class FoodAPI:
 	@cherrypy.tools.json_in()
 	@cherrypy.tools.allow(methods=["POST"])
 	def search_food(self):#, term="", max=100, dboffset=None, apioffset=None):
+		#print cherrypy.request
 		data = cherrypy.request.json
 		dboffset = data["dboffset"]
 		apioffset = data["apioffset"]
@@ -229,7 +230,7 @@ if __name__ == '__main__':
 				}
 		cherrypy.tools.CORS = cherrypy.Tool("before_finalize", CORS)
 		cherrypy.config.update({"server.socket_port": 8888})
-		cherrypy.config.update({"server.socket_host":"45.56.85.191"})
+		#cherrypy.config.update({"server.socket_host":"45.56.85.191"})
 		cherrypy.quickstart(FoodAPI(), '/', conf)
 	else:
 		a = FoodAPI()

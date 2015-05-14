@@ -464,7 +464,7 @@ function getFood() {
     var searchTerm = document.getElementById("search_box").value;
 
     var request = new XMLHttpRequest();
-    request.open("POST", "http://45.56.85.191:8888/search_food",false);
+    request.open("POST", "http://127.0.0.1:8888/search_food",false);
     request.setRequestHeader("Content-Type", "application/json");
     request.send(JSON.stringify({"dboffset":dbOffset,"apioffset":apiOffset,"term":searchTerm}));
 
