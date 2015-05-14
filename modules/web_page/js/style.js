@@ -3,6 +3,7 @@
 
 function insert_navigation_bar()
 {
+    var div_id='login_div';
     var obj=document.getElementById("navigation_bar");
     obj.innerHTML='<nav class="navbar navbar-custom">\
         <div class="container-fluid">\
@@ -15,7 +16,7 @@ function insert_navigation_bar()
         <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>\
         <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>\
         <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>\
-        <li ><a class="nav_element Login" onclick="loginWindow();" href="#">Login</a></li>\
+        <li ><a window_id="login_div" class="nav_element Login" onclick="loginWindow(this);" href="#">Login</a></li>\
         <li ><a class="nav_element about" href="about.html">About</a></li>\
         </ul>\
         </div>\
@@ -24,13 +25,19 @@ function insert_navigation_bar()
         ';
     console.log("in function");
 }
-
-function loginWindow()
+//id == login_div
+//id == creat_diet_window
+//id == error_diet_window
+// window id is an attribute of button ,button will be passin and get the window_id to show specific pop up window
+function loginWindow(trigger_obj)
 {
-    one_obj=document.getElementById("login_div");
+    var div_id = trigger_obj.getAttribute("window_id");
+    var msg = trigger_obj.getAttribute("msg");
+    console.log(""+div_id);
+    one_obj=document.getElementById(div_id);
     if(one_obj==null)
     {
-        loginPOPup(one_obj);
+        loginPOPup(div_id,msg);
     }
     else
     {
@@ -38,27 +45,55 @@ function loginWindow()
     }
 }
 
-function loginPOPup(one_obj)
-{
-    one_obj=document.createElement('div');
-    one_obj.setAttribute("id","login_div");
-    one_obj.innerHTML="<form id='login_form' >\
+function loginPOPup(div_id,msg) {
+    one_obj = document.createElement('div');
+    one_obj.setAttribute("id", div_id);
+    one_obj.setAttribute("class","window");
+    if (div_id == "login_div")
+    {
+        one_obj.innerHTML = "<div class='login_form' >\
             <div id='login_error_div'></div>\
             <div class='form-group'>\
-    <label class='login_label'>User Name</label>\
-    <input type='text' class='form-control' id='input_username' placeholder='User Name' autofocus>\
-    </div>\
-    <br/>\
-    <div class='form-group'>\
-    <label class='login_label'>Password</label>\
-    <input type='password' class='form-control' id='input_password' placeholder='Password'>\
-    </div>\
-    <br/>\
-    <button type='button' class='btn btn-default' onclick='login_validation();'>Login</button>\
-    <button type='button' class='btn btn-default' onclick='getUserIP();'>getIP test</button>\
-    <button type='button' onclick='loginWindow();' class='btn btn-default'>Close</button>\
-    </form>\
-    ";
+            <label class='login_label'>User Name</label>\
+            <input type='text' class='form-control' id='input_username' placeholder='User Name' autofocus>\
+            </div>\
+            <br/>\
+            <div class='form-group'>\
+            <label class='login_label'>Password</label>\
+            <input type='password' class='form-control' id='input_password' placeholder='Password'>\
+            </div>\
+            <br/>\
+            <button type='button' class='btn btn-default' onclick='login_validation();'>Login</button>\
+            <button type='button' class='btn btn-default' onclick='getUserIP();'>getIP test</button>\
+            <button type='button' window_id='login_div' onclick='loginWindow(this);' class='btn btn-default'>Close</button>\
+            </form>\
+            ";
+    }
+    else if(div_id == "creat_diet_window")
+    {
+        one_obj.innerHTML = "<div>\
+            <label>Diet Plan Name </label>\
+            <input type='text'/>\
+            <br />\
+            <label>Diet Plan Type </label>\
+            <select>\
+            <option value='L'>Loss Weight</option>\
+            <option value='F'>SFitnessaab</option>\
+            <option value='G'>General</option>\
+            </select>\
+            <button type='button' window_id='creat_diet_window' onclick='loginWindow(this);' class='btn btn-default'>Close</button>\
+            </div>";
+
+    }
+    else if (div_id=="error_diet_window")
+    {
+        one_obj.innerHTML = "<div >\
+            <p>"+msg+"</p>\
+            <br />\
+            <button type='button' window_id='error_diet_window' onclick='loginWindow(this);' class='btn btn-default'>Close</button>\
+            </div>";
+    }
+
     document.body.appendChild(one_obj);
     console.log("in pop up : " + one_obj.innerHTML);
 }
