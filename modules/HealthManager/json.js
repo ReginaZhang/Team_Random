@@ -93,8 +93,8 @@ function addOrDelete(truthValue) {
 
 var page=1;
 var itemList = [];
-var dbOffset = null;
-var apiOffset = null;
+var dbOffset = 0;
+var apiOffset = 0;
 function getFood() {
 
     var searchTerm = document.getElementById("search_box").value;

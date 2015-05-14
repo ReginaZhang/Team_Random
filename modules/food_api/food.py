@@ -110,7 +110,7 @@ class FoodAPI:
 		dboffset = int(dboffset)
 		apioffset = int(apioffset)
 		if dboffset and apioffset:
-			raise Exception("Either dboffset or apioffset must be None.")
+			raise Exception("Either dboffset or apioffset must be 0.")
 		if (dboffset == None) and (apioffset == None):
 			dboffset = 0
 		if dboffset != None:
