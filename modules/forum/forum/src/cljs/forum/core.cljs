@@ -310,7 +310,7 @@
        ^{:key questionid}
        [:div.question
         [:div.question-title
-         [:a {:href (str "/forum/" questionid)}
+         [:a {:href (str "static/forum.html?qid=" questionid)}
           questiontitle]]
         [:div.question-score score]])])))
 
