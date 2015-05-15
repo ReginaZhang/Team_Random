@@ -90,7 +90,7 @@ function addOrDelete(truthValue) {
   
 }*/
 
-
+/*
 var page=1;
 var itemList = [];
 var dbOffset = 0;
@@ -143,4 +143,4 @@ function displayFoods(){
     result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
     document.getElementById('searchResults').innerHTML = result;
 
-}
+}*/
