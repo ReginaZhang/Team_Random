@@ -58,7 +58,5 @@ nutrients = {'Water':{'db_field': 'Water','unit':'g', 'group':'Proximates'},
 micro_unicode = u'\xb5'
 NUM_LIST_ITEM = 10
 ITEM_NUM = 100
-MIN_NDBNO = "01001"
-MAX_NDBNO = "01281"
 
 """CatsKillDeadMen"""

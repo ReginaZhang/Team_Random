@@ -33,6 +33,8 @@ class FoodAPI:
 	def send_request(self, url, param_dict = {}):
 		r = requests.get(url, params = param_dict)
 		cherrypy.response.headers["content-type"] = "application/json"
+		if (r.status_code < 200 or r.status_code > 399):
+			return None
 		return r.json()
 	
 	'''def get_list(self, lt = 'f', max = 100, offset = 0, sort = "n"):
@@ -130,8 +132,6 @@ class FoodAPI:
 	search_food.exposed = True
 
 	def get_food_report(self, ndbno):
-		if (ndbno < MIN_NDBNO) or (ndbno > MAX_NDBNO):
-			return json.dumps({})
 		(d,c) = connect_db()
 		c.execute("select * from Food where Ndbno='%s'" % ndbno)
 		r = c.fetchone()
@@ -149,6 +149,8 @@ class FoodAPI:
 		else:
 			params = {"api_key":common["api_key"], "format":common["format"], "type":"b","ndbno":ndbno}
 			result = self.send_request(url["report"], params)
+			if not result:
+				return json.dumps({})
 			new_report = {"ndbno":result["report"]["food"]["ndbno"],
 						"name":result["report"]["food"]["name"],
 						"nutrients":{}}
