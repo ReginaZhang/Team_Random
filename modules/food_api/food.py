@@ -130,8 +130,6 @@ class FoodAPI:
 	search_food.exposed = True
 
 	def get_food_report(self, ndbno):
-		if (ndbno < MIN_NDBNO) or (ndbno > MAX_NDBNO):
-			return json.dumps({})
 		(d,c) = connect_db()
 		c.execute("select * from Food where Ndbno='%s'" % ndbno)
 		r = c.fetchone()
@@ -149,6 +147,8 @@ class FoodAPI:
 		else:
 			params = {"api_key":common["api_key"], "format":common["format"], "type":"b","ndbno":ndbno}
 			result = self.send_request(url["report"], params)
+			if (result.status_code < 200 or result.status_code > 399):
+				return json.dumps({})
 			new_report = {"ndbno":result["report"]["food"]["ndbno"],
 						"name":result["report"]["food"]["name"],
 						"nutrients":{}}
