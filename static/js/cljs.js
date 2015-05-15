@@ -9392,7 +9392,7 @@ function nm() {
                       a: {
                         for (var f = 0;;) {
                           if (f < c) {
-                            var h = B.c(b, f), k = Hf(h) ? tg(Dg, h) : h, h = T(k, Wj), l = T(k, hk), k = T(k, Fj), h = wf(new W(null, 3, 5, X, [Sj, new W(null, 2, 5, X, [sk, new W(null, 3, 5, X, [tk, new q(null, 1, [rk, [y("/forum/"), y(k)].join("")], null), l], null)], null), new W(null, 2, 5, X, [ak, h], null)], null), new q(null, 1, [tj, k], null));
+                            var h = B.c(b, f), k = Hf(h) ? tg(Dg, h) : h, h = T(k, Wj), l = T(k, hk), k = T(k, Fj), h = wf(new W(null, 3, 5, X, [Sj, new W(null, 2, 5, X, [sk, new W(null, 3, 5, X, [tk, new q(null, 1, [rk, [y("static/forum.html?qid\x3d"), y(k)].join("")], null), l], null)], null), new W(null, 2, 5, X, [ak, h], null)], null), new q(null, 1, [tj, k], null));
                             e.add(h);
                             f += 1;
                           } else {
@@ -9408,7 +9408,7 @@ function nm() {
                     e = T(c, Wj);
                     b = T(c, hk);
                     c = T(c, Fj);
-                    return O(wf(new W(null, 3, 5, X, [Sj, new W(null, 2, 5, X, [sk, new W(null, 3, 5, X, [tk, new q(null, 1, [rk, [y("/forum/"), y(c)].join("")], null), b], null)], null), new W(null, 2, 5, X, [ak, e], null)], null), new q(null, 1, [tj, c], null)), p(Se(a)));
+                    return O(wf(new W(null, 3, 5, X, [Sj, new W(null, 2, 5, X, [sk, new W(null, 3, 5, X, [tk, new q(null, 1, [rk, [y("static/forum.html?qid\x3d"), y(c)].join("")], null), b], null)], null), new W(null, 2, 5, X, [ak, e], null)], null), new q(null, 1, [tj, c], null)), p(Se(a)));
                   }
                   return null;
                 }
