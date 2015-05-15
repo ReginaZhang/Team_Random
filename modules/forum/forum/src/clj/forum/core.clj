@@ -168,8 +168,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
   (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] nil))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged out"}})
 
-(defn showmy-ip [{ip :remote-addr}]
-    {:status 200 :headers cors-headers :body {:text (str ip)}})
+(defn showmy-ip [{ip :remote-addr :as req}]
+    {:status 200 :headers cors-headers :body {:text (str "ip is " ip " total req is: " req)}})
 
 (def routes ["/" {"child_comments" :child-comments
                   "add_comment" :add-comment
