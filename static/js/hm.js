@@ -463,17 +463,15 @@ function getFood() {
 
     var searchTerm = document.getElementById("search_box").value;
 
-    var request = new XMLHttpRequest();
-    request.open("GET", "http://45.56.85.191/food/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm,false);
-    request.send();
+    query("/food/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm, "GET", {}, function(responseJson) {
 
-    var responseJson = JSON.parse(request.responseText);
+        dbOffset = responseJson.dboffset;
+        apiOffset = responseJson.apioffset;
+        itemList = responseJson.items;
 
-    dbOffset = responseJson.dboffset;
-    apiOffset = responseJson.apioffset;
-    itemList = responseJson.items;
+        displayFoods();
+    });
 
-    displayFoods();
 }
 
 function displayFoods(){
