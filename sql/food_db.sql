@@ -27,5 +27,11 @@ add column Energy float,
 add column TotalLipid_Fat float,
 add column Zinc float,
 add column Protein float,
-add column FolateDFE float
+add column FolateDFE float,
+add column SugarsTotal,
+add column VitaminEAlphaTocopherol,
+add column VitaminD_D2D3,
+add column VitaminD,
+add column VitaminKPhylloquinone,
+add column Ndbno not null
 ;
