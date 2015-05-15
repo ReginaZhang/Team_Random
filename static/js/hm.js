@@ -481,7 +481,7 @@ function displayFoods(){
     var result = "";
     for (var i = (page - 1)*10; i < page*10; i++){
         food = itemList[i];
-        result += food.foodname +'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
+        result += '<div class="one_food_div"><span class="food_name">'+food.foodname +'</span>'+'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
                 '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
                 ');">Add to diet</button><select id="addToDietWeekday' + food.ndbno + '">' +
                 '<option value="Mon">Monday</option>' +
@@ -500,7 +500,7 @@ function displayFoods(){
                 '<option value="O">Backup/Other</option>' +
                 '</select><br>';
     }
-    result += '<br>';
+    result += '<br></div>';
     if (page > 1){
         result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
     }
