@@ -43,18 +43,16 @@
                         <tr>
                             <th>
                                 <h3><em>Find out about food nutrition...</em></h3>
-                                <form id="foodNutrition" onsubmit="submitForm(event, this)">
-                                    Search Food Name:
-                                    <input type="text"
-                                           name="searchString"
-                                           placeholder="Search Here..."
-                                           required="true">
-                                    <input type="submit"
-                                           id="submitButton1"
-                                           value="Search">
-                                    <br><br>
-                                </form>
-                                <p>Results</p>
+                                Search Food Name:
+                                <input type="text"
+                                name="searchString"
+                                id="search_box" 
+                                placeholder="Search Here...">
+                                <button type='button' id="searchButton" onclick='getFood()'>
+                                    Search
+                                </button>
+                                <br><br>
+                                <p>Results: </p>
                                 <p id="foodNutritionResult"></p>
                             </th>
                         </tr>

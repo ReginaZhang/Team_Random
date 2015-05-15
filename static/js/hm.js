@@ -457,16 +457,15 @@ function query(directory, method, data, callback) {
  */
 var page=1;
 var itemList = [];
-var dbOffset = null;
-var apiOffset = null;
+var dbOffset = 0;
+var apiOffset = 0;
 function getFood() {
 
     var searchTerm = document.getElementById("search_box").value;
 
     var request = new XMLHttpRequest();
-    request.open("POST", "http://45.56.85.191:8888/search_food",false);
-    request.setRequestHeader("Content-Type", "application/json");
-    request.send(JSON.stringify({"dboffset":dbOffset,"apioffset":apiOffset,"term":searchTerm}));
+    request.open("GET", "http://45.56.85.191:8888/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm,true);
+    request.send();
 
     var responseJson = JSON.parse(request.responseText);
 
@@ -475,69 +474,6 @@ function getFood() {
     itemList = responseJson.items;
 
     displayFoods();
-
-    /*event.preventDefault();
-
-    //determine which url based on the id of the form submitted
-    var dir;
-    if (form.id == "foodNutrition") {
-        dir = "/food";
-    }
-
-    // collect the form data while iterating over the inputs
-    var data = {};
-    for (var i = 0, ii = form.length; i < ii; ++i) {
-        var input = form[i];
-        if (input.name) {
-            if (input.type != "radio" || input.checked == true) {
-                data[input.name] = input.value;
-            }
-        }
-    }
-
-    //handle respond
-    query(":8000"+dir, defaultMethod, data, function(response) {
-
-        //based on which form
-        if (form.id == "foodNutrition") {
-            var result = "";
-
-            for (var i = 0; i < response.length; i++) {
-                result += response[i]["foodName"];
-
-                result += '<button type="button" class="add-to-diet-button" ' +
-                'onclick="addToDiet(' + Number(response[i]["foodId"]) + ',' +
-                '$(\'#addToDietWeekday' + response[i]["foodId"] + '\').val(),$(\'#addToDietMeal' + response[i]["foodId"] + '\').val()' +
-                ');">Add to diet</button><select id="addToDietWeekday' + response[i]["foodId"] + '">' +
-                '<option value="Mon">Monday</option>' +
-                '<option value="Tue">Tuesday</option>' +
-                '<option value="Wed">Wednesday</option>' +
-                '<option value="Thu">Thursday</option>' +
-                '<option value="Fri">Friday</option>' +
-                '<option value="Sat">Saturday</option>' +
-                '<option value="Sun">Sunday</option>' +
-                '<option value="NA">Not Specified</option>' +
-                '</select>' +
-                '<select id="addToDietMeal' + response[i]["foodId"] + '">' +
-                '<option value="B">Breakfast</option>' +
-                '<option value="L">Lunch</option>' +
-                '<option value="D">Dinner</option>' +
-                '<option value="O">Backup/Other</option>' +
-                '</select>';
-
-                if (i != response.length - 1) {
-                    result += "<br>";
-                }
-
-                console.log(result);
-
-            }
-
-            document.getElementById(form.id + "Result").innerHTML = result;
-        }
-
-    });*/
-
 }
 
 function displayFoods(){
@@ -569,7 +505,7 @@ function displayFoods(){
         result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
     }
     result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
-    document.getElementById('searchResults').innerHTML = result;
+    document.getElementById('foodNutritionResult').innerHTML = result;
 
 }
 
