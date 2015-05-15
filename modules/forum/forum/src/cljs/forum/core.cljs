@@ -222,33 +222,39 @@
           [:div.comment-region
 
            [:div.comment-rest
+            [:div.comment-buttons
            (when (and (not @deleted) (not (= @votetype "up")))
              [:button.vote.up {:on-click #(vote-callback "up")}
               "Upvote"])
            (when (and (not @deleted) (not (= @votetype "down")))
              [:button.vote.down {:on-click #(vote-callback "down")}
               "Downvote"])
-            [:br]
            (when (and (= @cur-user-atom userid) (not @deleted))
-             [:div.edit-select-box {:on-click #(swap! editing-comment not)}
-              (if @editing-comment "Abort editing" "E (Click here to edit this comment)")])
+             [:button.edit-select-box {:on-click #(swap! editing-comment not)}
+              (if @editing-comment "Abort editing" "Edit")])
            (when (and (= @cur-user-atom userid) @editing-comment)
              [comment-edit-box {:comment-id commentid :text-store edited-text-atom :error-store error-atom
                                 :update-callback post-comment-edit-callback}])
+
            (when (and (= @cur-user-atom userid) (not @deleted))
-             [:div.delete-text {:on-click comment-delete-fn} "D (Click here to delete this comment)"])
+             [:button.delete-text {:on-click comment-delete-fn} "Delete"])
+
            (when (not @deleted)
              [:button.flag_button {:on-click #(swap! showing-update-flags not)}
               (if @showing-update-flags "Abort flagging" "Add Comment Flag")])
            (when @showing-update-flags [flag-select {:flagtype-store flagtypes :select-flag-store comment-flag-store
                      :text "What flags apply to this comment?" :callback-fn flag-update-fn}])
-           [:br]
             [:button.comment-child-toggle {:on-click #(swap! expanded not)}
             (if @expanded "hide replies" "show replies")]
-            [:br]
            (if @expanded
              [:button.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
-              (if @showing-comment-entry "Abort comment" "Enter Reply")])
+              (if @showing-comment-entry "Abort comment" "Enter Reply")])]
+            [:div.comment-text-region
+             [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
+             [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
+             [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
+             [:div.comment-text  (if @deleted "!!DELETED!!" [:p.comment-text-string (str "Comment text is: " "\"" @text "\"")])]]
+
            (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
                                                             :parent-box-toggle showing-comment-entry :error-store error-atom
                                                             :update-callback children-update-callback}])
@@ -263,11 +269,7 @@
                          (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
                                 :cur-user-atom cur-user-atom :flagids flags-store :text text-store :deleted deleted-store
                                 :score score-store :votetype vote-store)]))))]
-           [:div.comment-text-region
-            [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
-            [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
-            [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
-            [:div.comment-text  (if @deleted "!!DELETED!!" (str "Comment text is: " "\"" @text "\""))]]]))))
+           ]))))
 
 
 (defn forum-page
@@ -295,7 +297,28 @@
                             :commentid commentid :questionid questionid :parentid nil :flagids (re/atom flagids) :filter-store filtered-flags
                             :flagtypes flagtype-store :cur-user-atom userid-store :deleted (re/atom questiondeleted) :score (re/atom score)
                             :votetype (re/atom votetype)}]])])))
-(set! (.-onload js/window) #(re/render [forum-page] (js/document.getElementById "forum")))
+
+(defn question-list
+  "Display a list of all questions, ordered by score"
+  []
+  (let [userid-store (re/atom 1)
+        question-store (re/atom {})
+        questions (get-questions question-store userid-store (re/atom {}))]
+    (fn []
+    [:div.question-list
+     (for [{:keys [questionid questiontitle score]} (sort-by :score @question-store)]
+       ^{:key questionid}
+       [:div.question
+        [:div.question-title
+         [:a {:href (str "/forum/" questionid)}
+          questiontitle]]
+        [:div.question-score score]])])))
+
+(set! (.-onload js/window)
+      #(let [q-list-div (js/document.getElementById "question_list")
+            forum-div (js/document.getElementById "forum")]
+        (re/render [(if q-list-div question-list forum-page) ] (if q-list-div q-list-div forum-div))))
+
 ;(print ( js/document.getElementById "test"))
 ;(re/render [forum-page] (js/document.getElementById "test"))
 

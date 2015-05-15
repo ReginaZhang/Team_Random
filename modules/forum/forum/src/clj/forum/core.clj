@@ -8,9 +8,9 @@
   (:gen-class))
 
 (def health-db {:subprotocol "mysql"
-               :subname "//45.56.85.191/HealthDB"
-               :user "kimjongun"
-               :password "KimJongUnIsGreat"})
+                :subname "//45.56.85.191/HealthDB"
+                :user "kimjongun"
+                :password "KimJongUnIsGreat"})
   
 (defn merge-comments-with-flags [acc cur]
   (let [id (:commentid cur)
@@ -143,19 +143,33 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
 
 (def cors-headers {"Access-Control-Allow-Origin" "*"
                    "Access-Control-Allow-Methods" "GET, POST"})
-                            
+
+(defn check-credentials [username passwd]
+  (let [digest (java.security.MessageDigest/getInstance "SHA")]
+    (.update digest (.getBytes passwd))
+    (let [encrypted (.digest digest)
+          str-encrypted (new String encrypted)
+          [user] (jdb/query health-db
+                          ["select Password from User where UserName = ?" (.toLowerCase username)]
+                          :row-fn #(select-keys % [:password]))]
+      (print (str user " " str-encrypted))
+      (.equals (:password user) str-encrypted))))
+
 (def loggedin-users (atom {}))
-(defn login-user [{{:strs [user_id ip header]} :params}]
-  (swap! loggedin-users #(assoc % [ip, header] user_id))
+(defn login-user [{{:strs [user_id ip-prm agent-prm]} :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
+  (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] user_id))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged in"}})
 
-(defn check-loggedin [{{:strs [ip header]} :params}]
+(defn check-loggedin [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
   {:status 200 :headers cors-headers
-   :body {:id (get @loggedin-users [ip, header])}})
+   :body {:id (get @loggedin-users [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)])}})
 
-(defn logout-user [{{:strs [ip header]} :params}]
-  (swap! loggedin-users #(assoc % [ip, header] nil))
+(defn logout-user [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
+  (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] nil))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged out"}})
+
+(defn showmy-ip [{{ip "x-forwarded-for"} :headers :as req}]
+    {:status 200 :headers cors-headers :body {:text (str "ip is " ip " total req is: " req)}})
 
 (def routes ["/" {"child_comments" :child-comments
                   "add_comment" :add-comment
@@ -171,6 +185,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                   "login_user" :login-user
                   "logout_user" :logout-user
                   "check_loggedin" :check-loggedin
+                  "show_my_ip" :show-my-ip
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css
                   ["static/assets/" :pngfile ".png"] :serve_png
@@ -195,6 +210,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                 :login-user (rest-wrap login-user)
                 :logout-user (rest-wrap logout-user)
                 :check-loggedin (rest-wrap check-loggedin)
+                :show-my-ip (rest-wrap showmy-ip)
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))
                 :serve_png (mk-serve-png (:pngfile params))

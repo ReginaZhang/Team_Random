@@ -82,7 +82,7 @@ class FoodAPI:
 		items = results["list"]["item"]
 		new_r = {"items":[]}
 		for item in items:
-			new_dict = {"name": item["name"], "ndbno": item["ndbno"]}
+			new_dict = {"foodname": item["name"], "ndbno": item["ndbno"]}
 			new_r["items"].append(new_dict)
 		return new_r
 
@@ -96,15 +96,19 @@ class FoodAPI:
 		new_r = {"items": items}
 		return new_r
 
-	@cherrypy.tools.json_in()
-	def search_food(self):#, term="", max=100, dboffset=None, apioffset=None):
-		data = cherrypy.request.json
-		dboffset = data["dboffset"]
-		apioffset = data["apioffset"]
-		term = data["term"]
-		max = ITEM_NUM
+	#@cherrypy.tools.json_in()
+	#@cherrypy.tools.allow(methods=["POST"])
+	def search_food(self, term="", max=ITEM_NUM, dboffset=0, apioffset=0):
+		#print cherrypy.request
+		#data = cherrypy.request.json
+		#dboffset = data["dboffset"]
+		#apioffset = data["apioffset"]
+		#term = data["term"]
+		#max = ITEM_NUM
+		dboffset = int(dboffset)
+		apioffset = int(apioffset)
 		if dboffset and apioffset:
-			raise Exception("Either dboffset or apioffset must be None.")
+			raise Exception("Either dboffset or apioffset must be 0.")
 		if (dboffset == None) and (apioffset == None):
 			dboffset = 0
 		if dboffset != None:
@@ -126,7 +130,7 @@ class FoodAPI:
 	search_food.exposed = True
 
 	def get_food_report(self, ndbno):
-		if (ndbno < MIN_NDBNO) and (ndbno > MAX_NDBNO):
+		if (ndbno < MIN_NDBNO) or (ndbno > MAX_NDBNO):
 			return json.dumps({})
 		(d,c) = connect_db()
 		c.execute("select * from Food where Ndbno='%s'" % ndbno)
@@ -227,11 +231,14 @@ if __name__ == '__main__':
 		cherrypy.tools.CORS = cherrypy.Tool("before_finalize", CORS)
 		cherrypy.config.update({"server.socket_port": 8888})
 		cherrypy.config.update({"server.socket_host":"45.56.85.191"})
-		cherrypy.quickstart(FoodAPI(), '/', conf)
+		cherrypy.quickstart(FoodAPI(), '/food', conf)
+                #cherrypy.tree.mount(FoodAPI, '/food', conf)
+                #cherrypy.engine.start()
+                #cherrypy.engine.block()
 	else:
 		a = FoodAPI()
 		#a.get_list()
 		#a.get_food_from_db()
 		#a.search_food("pe")
 		#a.get_food_report(ndbno="01010")
-		a.db_search("")
+		a.api_search("")

@@ -1,7 +1,7 @@
 //Example from https://stackoverflow.com/questions/1255948/post-data-in-json-format-with-javascript
 //Slightly modified
 
-$('document').ready(showDiet());
+//$('document').ready(showDiet());
 
 function submitForm(event, form) {
 
@@ -71,7 +71,7 @@ function addOrDelete(truthValue) {
   }
 }
 
-function showDiet(){
+/*function showDiet(){
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", "http://localhost:8888/diet", true);
@@ -88,4 +88,59 @@ function showDiet(){
   }
 
   
+}*/
+
+
+var page=1;
+var itemList = [];
+var dbOffset = 0;
+var apiOffset = 0;
+function getFood() {
+
+    var searchTerm = document.getElementById("search_box").value;
+
+    var request = new XMLHttpRequest();
+    request.open("GET", "http://45.56.85.191:8888/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm,true);
+    request.send();
+
+    var responseJson = JSON.parse(request.responseText);
+
+    dbOffset = responseJson.dboffset;
+    apiOffset = responseJson.apioffset;
+    itemList = responseJson.items;
+
+    displayFoods();
+}
+
+function displayFoods(){
+    var food;
+    var result = "";
+    for (var i = (page - 1)*10; i < page*10; i++){
+        food = itemList[i];
+        result += food.foodname +'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
+                '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
+                ');">Add to diet</button><select id="addToDietWeekday' + food.ndbno + '">' +
+                '<option value="Mon">Monday</option>' +
+                '<option value="Tue">Tuesday</option>' +
+                '<option value="Wed">Wednesday</option>' +
+                '<option value="Thu">Thursday</option>' +
+                '<option value="Fri">Friday</option>' +
+                '<option value="Sat">Saturday</option>' +
+                '<option value="Sun">Sunday</option>' +
+                '<option value="NA">Not Specified</option>' +
+                '</select>' +
+                '<select id="addToDietMeal' + food.ndbno + '">' +
+                '<option value="B">Breakfast</option>' +
+                '<option value="L">Lunch</option>' +
+                '<option value="D">Dinner</option>' +
+                '<option value="O">Backup/Other</option>' +
+                '</select><br>';
+    }
+    result += '<br>';
+    if (page > 1){
+        result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
+    }
+    result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
+    document.getElementById('searchResults').innerHTML = result;
+
 }
