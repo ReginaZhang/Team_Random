@@ -161,3 +161,4 @@ function user_data_validation(user_data)
 }
 
 insert_navigation_bar();
+
