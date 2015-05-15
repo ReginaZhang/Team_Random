@@ -66,11 +66,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forum.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="forum.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/forum.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9594046" vertical-offset="911" max-vertical-offset="1710">
+            <state vertical-scroll-proportion="0.0" vertical-offset="911" max-vertical-offset="1710">
               <caret line="108" column="1" selection-start-line="108" selection-start-column="1" selection-end-line="108" selection-end-column="1" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="cljs.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/js/cljs.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.3653586" vertical-offset="140745" max-vertical-offset="158565">
+              <caret line="8292" column="13" selection-start-line="8292" selection-start-column="13" selection-end-line="8292" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -90,8 +100,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="53" />
-    <option name="y" value="94" />
+    <option name="x" value="96" />
+    <option name="y" value="173" />
     <option name="width" value="1440" />
     <option name="height" value="836" />
   </component>
@@ -188,7 +198,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="53" y="94" width="1440" height="836" extended-state="6" />
+    <frame x="96" y="173" width="1440" height="836" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -270,8 +280,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/forum.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9594046" vertical-offset="911" max-vertical-offset="1710">
+        <state vertical-scroll-proportion="0.0" vertical-offset="911" max-vertical-offset="1710">
           <caret line="108" column="1" selection-start-line="108" selection-start-column="1" selection-end-line="108" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/cljs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3653586" vertical-offset="140745" max-vertical-offset="158565">
+          <caret line="8292" column="13" selection-start-line="8292" selection-start-column="13" selection-end-line="8292" selection-end-column="13" />
           <folding />
         </state>
       </provider>

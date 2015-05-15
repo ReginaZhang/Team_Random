@@ -231,13 +231,13 @@
               "Downvote"])
            (when (and (= @cur-user-atom userid) (not @deleted))
              [:button.edit-select-box {:on-click #(swap! editing-comment not)}
-              (if @editing-comment "Abort editing" "E (Click here to edit this comment)")])
+              (if @editing-comment "Abort editing" "Edit")])
            (when (and (= @cur-user-atom userid) @editing-comment)
              [comment-edit-box {:comment-id commentid :text-store edited-text-atom :error-store error-atom
                                 :update-callback post-comment-edit-callback}])
 
            (when (and (= @cur-user-atom userid) (not @deleted))
-             [:button.delete-text {:on-click comment-delete-fn} "D (Click here to delete this comment)"])
+             [:button.delete-text {:on-click comment-delete-fn} "Delete"])
 
            (when (not @deleted)
              [:button.flag_button {:on-click #(swap! showing-update-flags not)}
@@ -310,14 +310,14 @@
        ^{:key questionid}
        [:div.question
         [:div.question-title
-         [:a {:href (str "forum.html?qid=" questionid)}
+         [:a {:href (str "/forum/" questionid)}
           questiontitle]]
         [:div.question-score score]])])))
 
 (set! (.-onload js/window)
       #(let [q-list-div (js/document.getElementById "question_list")
             forum-div (js/document.getElementById "forum")]
-        (re/render [(if q-list-div question-list forum-page)] (if q-list-div q-list-div forum-div))))
+        (re/render [question-list] (if q-list-div q-list-div forum-div))))
 
 ;(print ( js/document.getElementById "test"))
 ;(re/render [forum-page] (js/document.getElementById "test"))
