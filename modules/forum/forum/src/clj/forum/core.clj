@@ -171,6 +171,16 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
 (defn showmy-ip [{{ip "x-forwarded-for"} :headers :as req}]
     {:status 200 :headers cors-headers :body {:text (str "ip is " ip " total req is: " req)}})
 
+(defn get-recommendation [{{:strs [user_id]} :params}]
+  ;Recommended values from http://en.wikipedia.org/wiki/Reference_Daily_Intake
+  (let [nutrients {:niacin 16, :iron 18, :thiamin 1.2, :vitaminb6 1.7, :carbohydratebydifference 300, :calcium 1300, :vitaminctotalascorbicacid 90, :sodium 2400, :phosphorus 1250, :vitaminarae 900, :potassium 4700, :riboflavin 1.3, :magnesium 420, :cholesterol 300, :fibertotaldietary 25, :vitaminb12 2.4, :energy 2000, :totallipid_fat 65, :zinc 11, :protein 50, :folatedfe 400}
+        nut-arr (into [] (keys nutrients))]
+    {:status 200 :headers cors-headers
+     :body (jdb/query health-db
+                      ["SELECT Niacin, Iron, Thiamin, VitaminB6, CarbohydrateByDifference, Calcium, Water, VitaminCTotalAscorbicAcid, Sodium, Phosphorus, VitaminAIU, VitaminARAE, Potassium, Caffeine, Riboflavin, Magnesium, Cholesterol, FiberTotalDietary, VitaminB12, Energy, TotalLipid_Fat, Zinc, Protein, FolateDFE from Diet natural join DietItem natural join Food where UserId = ?" user_id]
+                      :row-fn #(select-keys % nut-arr))}))
+
+
 (def routes ["/" {"child_comments" :child-comments
                   "add_comment" :add-comment
                   "delete_comment" :delete-comment
