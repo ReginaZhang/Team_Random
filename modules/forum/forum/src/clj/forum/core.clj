@@ -144,6 +144,17 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
 (def cors-headers {"Access-Control-Allow-Origin" "*"
                    "Access-Control-Allow-Methods" "GET, POST"})
 
+(defn check-credentials [username passwd]
+  (let [digest (java.security.MessageDigest/getInstance "SHA")]
+    (.update digest (.getBytes passwd))
+    (let [encrypted (.digest digest)
+          str-encrypted (new String encrypted)
+          [user] (jdb/query health-db
+                          ["select Password from User where UserName = ?" (.toLowerCase username)]
+                          :row-fn #(select-keys % [:password]))]
+      (print (str user " " str-encrypted))
+      (.equals (:password user) str-encrypted))))
+
 (def loggedin-users (atom {}))
 (defn login-user [{{:strs [user_id ip-prm agent-prm]} :params ip :remote-addr {agent "user-agent"} :headers}]
   (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] user_id))
