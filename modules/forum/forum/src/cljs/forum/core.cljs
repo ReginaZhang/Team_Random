@@ -310,14 +310,14 @@
        ^{:key questionid}
        [:div.question
         [:div.question-title
-         [:a {:href (str "static/forum.html?qid=" questionid)}
+         [:a {:href (str "forum.html?qid=" questionid)}
           questiontitle]]
         [:div.question-score score]])])))
 
 (set! (.-onload js/window)
       #(let [q-list-div (js/document.getElementById "question_list")
             forum-div (js/document.getElementById "forum")]
-        (re/render [question-list] (if q-list-div q-list-div forum-div))))
+        (re/render [(if q-list-div question-list forum-page)] (if q-list-div q-list-div forum-div))))
 
 ;(print ( js/document.getElementById "test"))
 ;(re/render [forum-page] (js/document.getElementById "test"))
