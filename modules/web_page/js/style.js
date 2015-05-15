@@ -29,6 +29,7 @@ function insert_navigation_bar()
 //id == creat_diet_window
 //id == error_diet_window
 // window id is an attribute of button ,button will be passin and get the window_id to show specific pop up window
+//msg is an attribute in tag msg="hhahha" , to insert message of some pop up window e.g. diet error pop up
 function loginWindow(trigger_obj)
 {
     var div_id = trigger_obj.getAttribute("window_id");
