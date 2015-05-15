@@ -1,3 +1,32 @@
+/*header footer*/
+
+#main {
+    padding: 5px;
+    padding-left:  15px;
+    padding-right: 15px;
+    background-color: #f5f5f5;
+    border-radius: 0 0 5px 5px;
+}
+
+.header{
+    background:url("../assets/headhead.jpg");
+    padding: 40px 20px 80px 20px;
+    font-family: 'Dancing Script', Georgia, Times, serif;
+    font-size: 50px;
+
+    color:white;
+}
+#footer {
+    position:relative;
+    background: url("../assets/footer.gif");
+    height: 150px; /* .push must be the same height as .footer */
+
+}
+.push {
+    height: 150px;
+
+
+}
 /*including own style sheet after bootstrap can overwrite it*/
 a
 {
@@ -12,10 +41,15 @@ a:focus
     text-decoration: none;
     text-decoration: none !important;
 }
-body
-{
+
+body {
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 16px;
     background-color: #FFFFFF;
+    color: #696969;
+    padding: 3px;
 }
+
 .nav > li > a:focus, .nav > li > a:hover
 {
     background-color: transparent;
@@ -174,6 +208,7 @@ a:hover
 /*cubic-bezier is from http://cubic-bezier.com/*/
 .home_buttom
 {
+    color:black;
     margin:0 auto;
     height:350px;
     width:350px;
@@ -191,21 +226,35 @@ a:hover
     -moz-box-shadow:    0px 7px 9px 0px rgba(50, 50, 50, 1);
     box-shadow:         0px 7px 9px 0px rgba(50, 50, 50, 1);
 }
+
+.home_buttom:hover
+{
+    cursor:pointer;
+    color: white;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+    0px 8px 13px rgba(0,0,0,0.1),
+    0px 18px 23px rgba(0,0,0,0.1);
+}
+
+
 .home_buttom h1
 {
     font-size: 50px;
     position:relative;
     top:40%;
     text-align:center;
+    z-index: 99;
 }
 
 .home_buttom h1:hover
 {
-    color: white;
-    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
-    0px 8px 13px rgba(0,0,0,0.1),
-    0px 18px 23px rgba(0,0,0,0.1);
 
+
+}
+
+.buttom_area
+{
+    color:black
 }
 
 
@@ -220,6 +269,7 @@ a:hover
     -webkit-box-shadow: 0px 7px 9px 0px rgba(104, 77, 127, 1);
     -moz-box-shadow:    0px 7px 9px 0px rgba(104, 77, 127, 1);
     box-shadow:         0px 7px 9px 0px rgba(104, 77, 127, 1);
+
 }
 
 .home_buttom.health_manager_div:hover
@@ -248,12 +298,13 @@ a:hover
 
 #home_page_animated_table
 {
-    position:absolute;
+    position:relative;
     top:25%;
     left:0;
     right:0;
     bottom:0;
     margin:auto;
+    margin-bottom: 20px;
     width:1250px;
     height:350px;
     /*border-color: red;*/
@@ -289,3 +340,4 @@ http://stackoverflow.com/questions/5012111/how-to-position-a-div-in-the-middle-o
     justify-content: center;
     z-index: 6;
 }
+
