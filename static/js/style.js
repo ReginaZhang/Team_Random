@@ -140,9 +140,6 @@ function login_validation()
         }
 
     };
-
-
-
 }
 
 function user_data_validation(user_data)
