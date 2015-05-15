@@ -498,9 +498,9 @@ function displayFoods(){
                 '<option value="L">Lunch</option>' +
                 '<option value="D">Dinner</option>' +
                 '<option value="O">Backup/Other</option>' +
-                '</select><br>';
+                '</select><br></div>';
     }
-    result += '<br></div>';
+    result += '<br>';
     if (page > 1){
         result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
     }
