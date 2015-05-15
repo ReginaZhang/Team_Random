@@ -4,6 +4,7 @@ use HealthDB;
 drop column Energy;*/
 
 alter table Food 
+add column FoodName not null,
 add column Niacin float,
 add column Iron float,
 add column Thiamin float,
