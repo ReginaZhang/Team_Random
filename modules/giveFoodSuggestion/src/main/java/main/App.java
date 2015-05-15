@@ -25,25 +25,25 @@ public class App {
 	
 	private static final int EMPTY_CONTENT = -1;
 	
-	private static final HashMap<String, ArrayList<String>> compulsaryFields = new HashMap<String, ArrayList<String>>();
+	private static final HashMap<String, ArrayList<String>> compulsoryFields = new HashMap<String, ArrayList<String>>();
 
 	public static void main(String[] args) throws SQLException {
 		
-		compulsaryFields.put("/bmi", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/bmi", new ArrayList<String>(Arrays.asList(new String[] {
 				"hasRegistered"
 				})));
 		
-		compulsaryFields.put("/food", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/food", new ArrayList<String>(Arrays.asList(new String[] {
 				"searchString",
 				"dbOffset",
 				"apiOffset"
 				})));
 		
-		compulsaryFields.put("/diet", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/diet", new ArrayList<String>(Arrays.asList(new String[] {
 				"userId"
 				})));
 		
-		compulsaryFields.put("/diet/modify", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/diet/modify", new ArrayList<String>(Arrays.asList(new String[] {
 				"userId",
 				"foodId",
 				"dietId",
@@ -52,28 +52,28 @@ public class App {
 				"modiType"
 				})));
 		
-		compulsaryFields.put("/diet/create", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/diet/create", new ArrayList<String>(Arrays.asList(new String[] {
 				"userId",
 				"dietName",
 				"dietType",
 				})));
 		
-		compulsaryFields.put("/diet/delete", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/diet/delete", new ArrayList<String>(Arrays.asList(new String[] {
 				"userId",
 				"dietId",
 				"userIp"
 				})));
 		
-		compulsaryFields.put("/user/check", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/user/check", new ArrayList<String>(Arrays.asList(new String[] {
 				"userIp"
 				})));
 		
-		compulsaryFields.put("/user/login", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/user/login", new ArrayList<String>(Arrays.asList(new String[] {
 				"password",
 				"userIp"
 				})));
 		
-		compulsaryFields.put("/user/register", new ArrayList<String>(Arrays.asList(new String[] {
+		compulsoryFields.put("/user/register", new ArrayList<String>(Arrays.asList(new String[] {
 				"username",
 				"password",
 				"email"
@@ -642,7 +642,7 @@ public class App {
 	
 	private static boolean isReqValid(String api, Set<String> ks) {
 		
-		for (String field: compulsaryFields.get(api)) {
+		for (String field: compulsoryFields.get(api)) {
 			if (!ks.contains(field)) {
 				return false;
 			}

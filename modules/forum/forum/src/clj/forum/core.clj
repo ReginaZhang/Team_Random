@@ -156,17 +156,30 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
       (.equals (:password user) str-encrypted))))
 
 (def loggedin-users (atom {}))
-(defn login-user [{{:strs [user_id ip-prm agent-prm]} :params ip :remote-addr {agent "user-agent"} :headers}]
+(defn login-user [{{:strs [user_id ip-prm agent-prm]} :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
   (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] user_id))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged in"}})
 
-(defn check-loggedin [{{:strs [ip-prm agent-prm]} :params ip :remote-addr {agent "user-agent"} :headers}]
+(defn check-loggedin [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
   {:status 200 :headers cors-headers
    :body {:id (get @loggedin-users [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)])}})
 
-(defn logout-user [{{:strs [ip-prm agent-prm]} :params ip :remote-addr {agent "user-agent"} :headers}]
+(defn logout-user [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
   (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] nil))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged out"}})
+
+(defn showmy-ip [{{ip "x-forwarded-for"} :headers :as req}]
+    {:status 200 :headers cors-headers :body {:text (str "ip is " ip " total req is: " req)}})
+
+(defn get-recommendation [{{:strs [user_id]} :params}]
+  ;Recommended values from http://en.wikipedia.org/wiki/Reference_Daily_Intake
+  (let [nutrients {:niacin 16, :iron 18, :thiamin 1.2, :vitaminb6 1.7, :carbohydratebydifference 300, :calcium 1300, :vitaminctotalascorbicacid 90, :sodium 2400, :phosphorus 1250, :vitaminarae 900, :potassium 4700, :riboflavin 1.3, :magnesium 420, :cholesterol 300, :fibertotaldietary 25, :vitaminb12 2.4, :energy 2000, :totallipid_fat 65, :zinc 11, :protein 50, :folatedfe 400}
+        nut-arr (into [] (keys nutrients))]
+    {:status 200 :headers cors-headers
+     :body (jdb/query health-db
+                      ["SELECT Niacin, Iron, Thiamin, VitaminB6, CarbohydrateByDifference, Calcium, Water, VitaminCTotalAscorbicAcid, Sodium, Phosphorus, VitaminAIU, VitaminARAE, Potassium, Caffeine, Riboflavin, Magnesium, Cholesterol, FiberTotalDietary, VitaminB12, Energy, TotalLipid_Fat, Zinc, Protein, FolateDFE from Diet natural join DietItem natural join Food where UserId = ?" user_id]
+                      :row-fn #(select-keys % nut-arr))}))
+
 
 (def routes ["/" {"child_comments" :child-comments
                   "add_comment" :add-comment
@@ -182,6 +195,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                   "login_user" :login-user
                   "logout_user" :logout-user
                   "check_loggedin" :check-loggedin
+                  "show_my_ip" :show-my-ip
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css
                   ["static/assets/" :pngfile ".png"] :serve_png
@@ -206,6 +220,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                 :login-user (rest-wrap login-user)
                 :logout-user (rest-wrap logout-user)
                 :check-loggedin (rest-wrap check-loggedin)
+                :show-my-ip (rest-wrap showmy-ip)
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))
                 :serve_png (mk-serve-png (:pngfile params))

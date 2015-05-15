@@ -464,7 +464,7 @@ function getFood() {
     var searchTerm = document.getElementById("search_box").value;
 
     var request = new XMLHttpRequest();
-    request.open("GET", "http://45.56.85.191/food/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm,true);
+    request.open("GET", "http://45.56.85.191/food/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm,false);
     request.send();
 
     var responseJson = JSON.parse(request.responseText);
@@ -481,7 +481,7 @@ function displayFoods(){
     var result = "";
     for (var i = (page - 1)*10; i < page*10; i++){
         food = itemList[i];
-        result += food.foodname +'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
+        result += '<div class="one_food_div"><span class="food_name">'+food.foodname +'</span>'+'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
                 '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
                 ');">Add to diet</button><select id="addToDietWeekday' + food.ndbno + '">' +
                 '<option value="Mon">Monday</option>' +
@@ -498,7 +498,7 @@ function displayFoods(){
                 '<option value="L">Lunch</option>' +
                 '<option value="D">Dinner</option>' +
                 '<option value="O">Backup/Other</option>' +
-                '</select><br>';
+                '</select><br></div>';
     }
     result += '<br>';
     if (page > 1){
