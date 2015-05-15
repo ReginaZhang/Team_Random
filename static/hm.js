@@ -457,16 +457,15 @@ function query(directory, method, data, callback) {
  */
 var page=1;
 var itemList = [];
-var dbOffset = null;
-var apiOffset = null;
+var dbOffset = 0;
+var apiOffset = 0;
 function getFood() {
 
     var searchTerm = document.getElementById("search_box").value;
 
     var request = new XMLHttpRequest();
-    request.open("POST", "http://45.56.85.191:8888/search_food",false);
-    request.setRequestHeader("Content-Type", "application/json");
-    request.send(JSON.stringify({"dboffset":dbOffset,"apioffset":apiOffset,"term":searchTerm}));
+    request.open("GET", "http://45.56.85.191:8888/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm,true);
+    request.send();
 
     var responseJson = JSON.parse(request.responseText);
 
