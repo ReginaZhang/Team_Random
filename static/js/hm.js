@@ -539,12 +539,12 @@ function showFoodNutrientsTable(obj)
         return;
     }
     ndbno=findFoodNdbno(food_name);
-    html_format=getIndividualFoodNutrition(ndbno);
-    console(" hahhaha html "+html_format);
-    food_nutrient_div.innerHTML=html_format;
+    getIndividualFoodNutrition(ndbno,food_nutrient_div);
+    console.log(" hahhaha html "+html_format+food_nutrient_div);
+    //food_nutrient_div.innerHTML=html_format;
 }
 
-function getIndividualFoodNutrition(ndbno)
+function getIndividualFoodNutrition(ndbno,food_nutrient_div)
 {
     console.log("ndbno "+ndbno);
     var request = new XMLHttpRequest();
@@ -553,18 +553,20 @@ function getIndividualFoodNutrition(ndbno)
     request.onreadystatechange = function() {
         if (request.readyState == 4 && request.status==200)
         {
+
             console.log("12312321"+JSON.parse(request.responseText).nutrients);
-            console.log("get json.");
-            //formatingNutrientsDiv(JSON.parse(request.responseText));
+            console.log("get json."+food_nutrient_div);
+            formatingNutrientsDiv(JSON.parse(request.responseText),food_nutrient_div);
 
         }
     };
 }
 
-function formatingNutrientsDiv(food_nutrients_json)
+function formatingNutrientsDiv(food_nutrients_json,food_nutrient_div)
 {
-    console.log("in function");
-    var html='<p class="food_name">Apple</p>\
+    //var obj=document.getElementById(div_name);
+    console.log("in function"+food_nutrient_div);
+    var html='<p class="food_name">'+food_nutrient_div.id+'</p>\
                     <hr/>\
                     <table class="food_nutrients_table" border="1">\
                     <tr>\
@@ -586,5 +588,6 @@ function formatingNutrientsDiv(food_nutrients_json)
     html+='</tr>'
     html+='</table>';
     console.log("hahha"+html);
+    food_nutrient_div.innerHTML=html;
     return html;
 }
