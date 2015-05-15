@@ -84,8 +84,6 @@ class FoodAPI:
 		for item in items:
 			new_dict = {"foodname": item["name"], "ndbno": item["ndbno"]}
 			new_r["items"].append(new_dict)
-
-		print new_r
 		return new_r
 
 	def db_search(self, term = "", max = ITEM_NUM, offset = 0):
