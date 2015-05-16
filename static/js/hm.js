@@ -417,6 +417,7 @@ function deleteDiet() {
     Add nominated food to active diet
  */
 function addToDiet(ndbno, weekday, mealType) {
+    console.log(ndbno);
 
     var user = {
         userId: userId,
