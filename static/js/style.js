@@ -106,7 +106,6 @@ function loginPOPdown(one_obj)
 
 function login_validation()
 {
-
     var xhr_ip = new XMLHttpRequest();
     xhr_ip.open("GET", "http://api.hostip.info/get_json.php?antiCache="+Math.random());
     //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
@@ -132,14 +131,22 @@ function login_validation()
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status==200) {
+                    var xhr_jonathan_login=new XMLHttpRequest();
+                    //use userId to logged in
+                    xhr_jonathan_login.open("GET","http://45.56.85.191/login_user?user_id"+xhr.responseText.userId);
                     console.log(xhr.responseText);
                 }
             }
-
-
         }
-
     };
+    console.log("return_value response body "+return_value);
+}
+
+function logout()
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET","http://45.56.85.191/logout_user");
+    xhr.send();
 }
 
 function user_data_validation(user_data)
@@ -156,6 +163,10 @@ function user_data_validation(user_data)
     }
     return true;
 }
+
+
+
+
 
 insert_navigation_bar();
 
