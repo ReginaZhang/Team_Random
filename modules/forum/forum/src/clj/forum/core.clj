@@ -174,11 +174,20 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
 (defn get-recommendation [{{:strs [user_id]} :params}]
   ;Recommended values from http://en.wikipedia.org/wiki/Reference_Daily_Intake
   (let [nutrients {:niacin 16, :iron 18, :thiamin 1.2, :vitaminb6 1.7, :carbohydratebydifference 300, :calcium 1300, :vitaminctotalascorbicacid 90, :sodium 2400, :phosphorus 1250, :vitaminarae 900, :potassium 4700, :riboflavin 1.3, :magnesium 420, :cholesterol 300, :fibertotaldietary 25, :vitaminb12 2.4, :energy 2000, :totallipid_fat 65, :zinc 11, :protein 50, :folatedfe 400}
-        nut-arr (into [] (keys nutrients))]
+        nut-arr (into [] (keys nutrients))
+        current-nutrition (apply merge-with (fnil + 0 0)
+                                 (jdb/query health-db
+                                            ["SELECT * from Diet natural join DietItem natural join Food where UserId = ?" user_id]
+                                            :row-fn #(select-keys % nut-arr)))
+        possible-foods (jdb/query health-db ["SELECT * from Food limit 100"]
+                                  :row-fn #(select-keys % (conj nut-arr :foodname :foodid)))
+        recommended-food (apply min-key (fn [food]
+                                          (let [strip (fn [m] (dissoc m :foodname :foodid))]
+                                            (reduce (fnil + 0 0)
+                                                    (vals (merge-with #(Math/abs ((fnil - 0 0) %1 %2)) (strip food) (strip current-nutrition))))))
+                                possible-foods)]
     {:status 200 :headers cors-headers
-     :body (jdb/query health-db
-                      ["SELECT Niacin, Iron, Thiamin, VitaminB6, CarbohydrateByDifference, Calcium, Water, VitaminCTotalAscorbicAcid, Sodium, Phosphorus, VitaminAIU, VitaminARAE, Potassium, Caffeine, Riboflavin, Magnesium, Cholesterol, FiberTotalDietary, VitaminB12, Energy, TotalLipid_Fat, Zinc, Protein, FolateDFE from Diet natural join DietItem natural join Food where UserId = ?" user_id]
-                      :row-fn #(select-keys % nut-arr))}))
+     :body recommended-food}))
 
 
 (def routes ["/" {"child_comments" :child-comments
@@ -196,6 +205,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                   "logout_user" :logout-user
                   "check_loggedin" :check-loggedin
                   "show_my_ip" :show-my-ip
+                  "diet_recommendation" :diet-recommendation
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css
                   ["static/assets/" :pngfile ".png"] :serve_png
@@ -221,6 +231,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                 :logout-user (rest-wrap logout-user)
                 :check-loggedin (rest-wrap check-loggedin)
                 :show-my-ip (rest-wrap showmy-ip)
+                :diet-recommendation (rest-wrap get-recommendation)
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))
                 :serve_png (mk-serve-png (:pngfile params))
