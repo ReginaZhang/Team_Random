@@ -22,9 +22,7 @@ body
 }
 .comment-buttons
 {
-
-
-
+    color: #3388ff;
 }
 
 
@@ -59,11 +57,11 @@ body
 .delete-text {
     margin-left: 10px;
     margin-right: 10px;
-    color: #99ccFF;
+    color: #6699ff;
 }
 .edit-select-box {
     margin-left: 10px;
-    color: #99ccFF;
+    color: #3399cc;
 }
 .error-text {
     margin-left: 10px;
@@ -90,7 +88,7 @@ body
 
 .vote
 {
-
+    color: #6699cc
 }
 
 .header{
