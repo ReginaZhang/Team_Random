@@ -81,8 +81,6 @@ class FoodAPI:
 		#cherrypy.response.headers["content-type"] = "application/json"
 		#return json.dumps(r.json())
 		#results = r.json()
-		print "results: "
-		print results
 		new_r = {"items":[]}
 		if results:
 			items = results["list"]["item"]
@@ -117,19 +115,15 @@ class FoodAPI:
 		if ((dboffset == 0) and (apioffset == 0)) or ((dboffset != 0) and (apioffset == 0)):
 			result = self.db_search(term, max, dboffset)
 			length = len(result["items"])
-			print "db: " + str(length)
 			if length < max:
 				dboffset = 0
 				left = max-length
-				print "left: " + str(left)
 				more = self.api_search(term, max = left)
 				for item in more["items"]:
 					result["items"].append(item)
 				apioffset = len(more["items"])
 		else:
 			result = self.api_search(term, max, apioffset)
-			print max
-			print "api: " + str(len(result["items"]))
 			apioffset += len(result["items"])
 		result["dboffset"] = dboffset
 		result["apioffset"] = apioffset
