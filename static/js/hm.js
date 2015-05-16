@@ -496,7 +496,7 @@ function displayFoods(){
             }
             food = itemList[i];
             result += '<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+
-                    '<button type="button" class="add_to_diet_button" onclick="showHideSelect(\'select_and_add'+food.ndbno+'\')">Add to diet</button><br>'+
+                    '<button type="button" class="add_to_diet_button" onclick="showHideSelect(\'select_and_add'+food.ndbno+'\');">Add to diet</button><br>'+
                     '<div id="select_and_add'+food.ndbno+'" style="display:none;">'+
                     '<select id="addToDietWeekday' + food.ndbno + '">' +
                     '<option value="Mon">Monday</option>' +
@@ -516,7 +516,7 @@ function displayFoods(){
                     '</select><br>'+
                     '<button type="button" class="do_add_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
                     '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
-                    ');showHideSelect(\'select_and_add'+food.ndbno+'\')">Add</button>'+
+                    ');showHideSelect(\'select_and_add'+food.ndbno+'\');">Add</button>'+
                     '</div></div>'+
                     '<div class="individual_food_nutrients_div" id="'+food.foodname+'"></div>';
         }
@@ -539,16 +539,13 @@ function displayFoods(){
 }
 
 function showHideSelect(div_id){
+    console.log(div_id);
     var div = document.getElementById(div_id)
     if (div.style.display = "inline"){
         div.style.display = "none";
     } else {
         div.style.display = "inline";
     }
-}
-
-function hideSelect(div_id){
-    document.getElementById(div_id).style.display="none";
 }
 
 function findFoodNdbno(food_name)
