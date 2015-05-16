@@ -85,16 +85,20 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
   {:status 200
    :body {:text "Successfully added comment!"}})
 
-(defn get_questions [{{:strs [user_id]} :params}]
-  {:status 200
-   :body
-   (vals (reduce merge-comments-with-flags {}
-                 (jdb/query health-db
-                            ["SELECT * from Question natural join Comment
+(defn get_questions [{{:strs [user_id question_id]} :params}]
+  (let [query (if question_id ["SELECT * from Question natural join Comment
 left join Vote on Vote.CommentId = Comment.CommentId and Vote.UserId = ? left join CommentFlag 
-on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
-                            :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
-                                                     :commentid :commenttext :votetype :score :flagid]))))})
+on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL and QuestionId = ?" user_id question_id]
+                  ["SELECT * from Question natural join Comment
+left join Vote on Vote.CommentId = Comment.CommentId and Vote.UserId = ? left join CommentFlag 
+on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
+    {:status 200
+     :body
+     (vals (reduce merge-comments-with-flags {}
+                   (jdb/query health-db
+                              query
+                              :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
+                                                       :commentid :commenttext :votetype :score :flagid]))))}))
 
 (defn add_question [{{:strs [text user_id title]} :params}]
   (let [[{question_id :generated_key}] (jdb/insert! health-db :Question
@@ -161,8 +165,13 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
   {:status 200 :headers cors-headers :body {:text "User recorded as logged in"}})
 
 (defn check-loggedin [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
-  {:status 200 :headers cors-headers
-   :body {:id (get @loggedin-users [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)])}})
+  (let [id (get @loggedin-users [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)])
+        details (if id (jdb/query health-db
+                                  ["select * from User where UserId = ?" id]
+                                  :row-fn #(dissoc % :password))
+                    nil)]
+    {:status 200 :headers cors-headers
+     :body {:id id :details details}}))
 
 (defn logout-user [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
   (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] nil))
