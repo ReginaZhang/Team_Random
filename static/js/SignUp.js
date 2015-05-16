@@ -157,6 +157,13 @@ function sign_up()
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status==200) {
             console.log(xhr.responseText);
+            if(JSON.parse(xhr.responseText).register=="successful")
+            {
+                //change this to specific url from our vps
+                login_validation(user_data["username"],user_data["password"],function(){
+                    window.location.replace("index.html");
+                });
+            }
         }
     }
 
