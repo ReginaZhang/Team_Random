@@ -31,11 +31,11 @@ body
 .comment-text {
 }
 .comment-child-toggle {
-    color: blue;
+    color: #99ccFF;
 }
 .comment-entry-box-toggle{
 
-    color: purple;
+    color: #99ccFF;
 }
 .comment-text-region
 {
@@ -59,17 +59,17 @@ body
 .delete-text {
     margin-left: 10px;
     margin-right: 10px;
-    color: red;
+    color: #99ccFF;
 }
 .edit-select-box {
     margin-left: 10px;
-    color: yellow;
+    color: #99ccFF;
 }
 .error-text {
     margin-left: 10px;
     margin-right: 10px;
     font-size: 1.3em;
-    color: red;
+    color: #99ccFF;
 }
 
 .flag-select-box
