@@ -175,6 +175,7 @@ function login_validation()
                             console.log("jon " + xhr_jonathan_login.responseText);
                             //insert_navigation_bar(JSON.parse(xhr_jonathan_login.responseText));
                             checkLoggedIn();
+                            windowPOPdown(document.getElementById("login_div"));
                         }
                     }
 
@@ -199,7 +200,6 @@ function checkLoggedIn()
             userId=user_detail_json.id;
             console.log("change navigation "+xhr.responseText);
             insert_navigation_bar(user_detail_json);
-            windowPOPdown(document.getElementById("login_div"));
         }
     }
 }
