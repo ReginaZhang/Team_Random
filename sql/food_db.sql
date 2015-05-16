@@ -34,5 +34,5 @@ add column VitaminEAlphaTocopherol,
 add column VitaminD_D2D3,
 add column VitaminD,
 add column VitaminKPhylloquinone,
-add column Ndbno not null
+add column Ndbno unique not null
 ;
