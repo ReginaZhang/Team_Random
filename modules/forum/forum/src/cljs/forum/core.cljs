@@ -2,6 +2,7 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]])
   (:require [reagent.core :as re :refer [atom]]
             [ajax.core :as ajax :refer [ajax-request]]
+            [cemerick.url :refer [url]]
             [cljs.core.async :refer [chan <! >! take!]]))
 
 (enable-console-print!)
@@ -82,8 +83,8 @@
 
 (defn get-questions
   "Get a list of questions"
-  [questions-store userid error-store]
-  (backend-request "/questions" {:user_id @userid}
+  [questions-store userid error-store questionid]
+  (backend-request "/questions" (if questionid {:user_id @userid :question_id questionid} {:user_id @userid})
                    (fn [[ok response]] (if ok (reset! questions-store response)
                                            (reset! error-store "Error: could not get questions from DB. Maybe the DB is down?")))))
                                                
@@ -279,10 +280,11 @@
         flagtype-store (re/atom {})
         filtered-flags (re/atom {1 true 2 true 3 true 4 true})
         request-chan (chan)
-        question-store (re/atom {})]
+        question-store (re/atom {})
+        question-id (get (:query (url js/window.location.href)) "question_id")]
     (start-resource-provider request-chan)
     (get-flag-types flagtype-store)
-    (get-questions question-store userid-store (re/atom {}))
+    (get-questions question-store userid-store (re/atom {}) question-id)
     (fn []
       [:div.whole-page
        [userid-select userid-store]
@@ -303,14 +305,14 @@
   []
   (let [userid-store (re/atom 1)
         question-store (re/atom {})
-        questions (get-questions question-store userid-store (re/atom {}))]
+        questions (get-questions question-store userid-store (re/atom {}) nil)]
     (fn []
     [:div.question-list
      (for [{:keys [questionid questiontitle score]} (sort-by :score @question-store)]
        ^{:key questionid}
        [:div.question
         [:div.question-title
-         [:a {:href (str "/forum/" questionid)}
+         [:a {:href (str "/static/forum.html?question_id=" questionid)}
           questiontitle]]
         [:div.question-score score]])])))
 
