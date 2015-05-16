@@ -520,7 +520,7 @@ function displayFoods(){
                     '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
                     ');showHideSelect(\'select_and_add'+food.ndbno+'\');">Add</button>'+
                     '</div></div>'+
-                    '<div class="individual_food_nutrients_div" id="'+food.foodname+'"></div>';
+                    '<div class="individual_food_nutrients_div" id="'+food.foodname+'"></div><br>';
         }
         result += '<br>';
         if (page > 1){
