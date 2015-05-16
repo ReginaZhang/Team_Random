@@ -187,7 +187,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
         n+ (fnil + 0 0)
         current-nutrition (apply merge-with n+
                                  (jdb/query health-db
-                                            ["SELECT * from Diet natural join DietItem natural join Food where UserId = ?" user_id]
+                                            ["SELECT * from Diet natural join DietItem inner join Food on DietItem.Ndbno = Food.Ndbno where UserId = ?" user_id]
                                             :row-fn #(select-keys % nut-arr)))
         possible-foods (jdb/query health-db ["SELECT * from Food limit 100"]
                                   :row-fn #(select-keys % (conj nut-arr :foodname :foodid)))
