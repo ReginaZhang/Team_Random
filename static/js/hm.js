@@ -472,6 +472,9 @@ function getFood() {
         for(i = 0; i<responseJson.items.length; i++){
             itemList.push(responseJson.items[i]);
         }
+        console.log(dbOffset);
+        console.log(apiOffset);
+        console.log(itemList.length);
 
         displayFoods();
     });
