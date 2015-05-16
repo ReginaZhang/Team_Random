@@ -543,10 +543,13 @@ function showHideSelect(div_id){
     var div = document.getElementById(div_id);
     console.log(div.style.display);
     if (div.style.display = "inline"){
+        console.log("in if");
         div.style.display = "none";
     } else {
+        console.log("in else");
         div.style.display = "inline";
     }
+    console.log(div.style.display);
 }
 
 function findFoodNdbno(food_name)
