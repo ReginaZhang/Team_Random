@@ -160,12 +160,12 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
       (.equals (:password user) str-encrypted))))
 
 (def loggedin-users (atom {}))
-(defn login-user [{{:strs [user_id ip-prm agent-prm]} :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
-  (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] user_id))
+(defn login-user [{{:strs [user_id ip header]} :params {req-agent "user-agent" req-ip "x-forwarded-for"} :headers}]
+  (swap! loggedin-users #(assoc % [(if ip ip req-ip), (if header header req-agent)] user_id))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged in"}})
 
-(defn check-loggedin [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
-  (let [id (get @loggedin-users [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)])
+(defn check-loggedin [{{:strs [ip header]}  :params {req-agent "user-agent" req-ip "x-forwarded-for"} :headers}]
+  (let [id (get @loggedin-users [(if ip ip req-ip), (if header header req-agent)])
         details (if id (jdb/query health-db
                                   ["select * from User where UserId = ?" id]
                                   :row-fn #(dissoc % :password))
@@ -173,8 +173,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
     {:status 200 :headers cors-headers
      :body {:id id :details details}}))
 
-(defn logout-user [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
-  (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] nil))
+(defn logout-user [{{:strs [ip header]}  :params {req-agent "user-agent" req-ip "x-forwarded-for"} :headers}]
+  (swap! loggedin-users #(assoc % [(if ip ip req-ip), (if header header req-agent)] nil))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged out"}})
 
 (defn showmy-ip [{{ip "x-forwarded-for"} :headers :as req}]
