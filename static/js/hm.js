@@ -1,6 +1,6 @@
 var serverAdd = "http://45.56.85.191";
 var defaultMethod = "POST";
-var userId = null;
+var userId =null;
 var userName = null;
 var userWeight = null;
 var activeDietId = null;
@@ -18,7 +18,7 @@ function isLoginedIn() {
 
             query(":8000/user/check", defaultMethod, {userIp: userIp}, function(userDetail) {
 
-                userId = userDetail.userId;
+                userId = 7;
                 userName = userDetail.userName;
                 userWeight = userDetail.weight;
 
@@ -36,6 +36,7 @@ function isLoginedIn() {
 function init() {
 
     //based on whether use has logged in, display two different web page
+    console.log("user id "+userId);
     if(userId) {
 
         var trial = document.getElementById("trial");

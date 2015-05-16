@@ -164,9 +164,5 @@ function user_data_validation(user_data)
     return true;
 }
 
-
-
-
-
 insert_navigation_bar();
 
