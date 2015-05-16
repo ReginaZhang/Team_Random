@@ -484,7 +484,7 @@ function getFood() {
 function displayFoods(){
     var food;
     var result = "";
-    for (var i = (page - 1)*10; i < page*10; i++){
+    for (var i = (page - 1)*10; i < itemList.length; i++){
         food = itemList[i];
         result += '<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
                 '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +

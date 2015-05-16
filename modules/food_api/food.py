@@ -111,21 +111,19 @@ class FoodAPI:
 		apioffset = int(apioffset)
 		if dboffset and apioffset:
 			raise Exception("Either dboffset or apioffset must be 0.")
-		if (dboffset == None) and (apioffset == None):
-			dboffset = 0
-		if dboffset != None:
+		if ((dboffset == 0) and (apioffset == 0)) or ((dboffset != 0) and (apioffset == 0)):
 			result = self.db_search(term, max, dboffset)
 			length = len(result["items"])
 			if length < max:
-				dboffset = None
+				dboffset = 0
 				left = max-length
 				more = self.api_search(term, left)
 				for item in more["items"]:
 					result["items"].append(item)
-				apioffset = left
+				apioffset = len(result["items"])
 		else:
 			result = self.api_search(term, max, apioffset)
-			apioffset += max
+			apioffset += len(result["items"])
 		result["dboffset"] = dboffset
 		result["apioffset"] = apioffset
 		return json.dumps(result)
