@@ -18,7 +18,7 @@ function isLoginedIn() {
 
             query(":8000/user/check", defaultMethod, {userIp: userIp}, function(userDetail) {
 
-                userId = 7;
+                userId = userDetail.userId;
                 userName = userDetail.userName;
                 userWeight = userDetail.weight;
 
