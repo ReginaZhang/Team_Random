@@ -83,11 +83,12 @@ class FoodAPI:
 		#results = r.json()
 		print "results: "
 		print results
-		items = results["list"]["item"]
 		new_r = {"items":[]}
-		for item in items:
-			new_dict = {"foodname": item["name"], "ndbno": item["ndbno"]}
-			new_r["items"].append(new_dict)
+		if "list" in results.keys():
+			items = results["list"]["item"]
+			for item in items:
+				new_dict = {"foodname": item["name"], "ndbno": item["ndbno"]}
+				new_r["items"].append(new_dict)
 		return new_r
 
 	def db_search(self, term = "", max = ITEM_NUM, offset = 0):
