@@ -175,7 +175,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
   ;Recommended values from http://en.wikipedia.org/wiki/Reference_Daily_Intake
   (let [nutrients {:niacin 16, :iron 18, :thiamin 1.2, :vitaminb6 1.7, :carbohydratebydifference 300, :calcium 1300, :vitaminctotalascorbicacid 90, :sodium 2400, :phosphorus 1250, :vitaminarae 900, :potassium 4700, :riboflavin 1.3, :magnesium 420, :cholesterol 300, :fibertotaldietary 25, :vitaminb12 2.4, :energy 2000, :totallipid_fat 65, :zinc 11, :protein 50, :folatedfe 400}
         nut-arr (into [] (keys nutrients))
-        current-nutrition (apply merge-with (fnil + 0 0)
+        n+ (fnil + 0 0)
+        current-nutrition (apply merge-with n+
                                  (jdb/query health-db
                                             ["SELECT * from Diet natural join DietItem natural join Food where UserId = ?" user_id]
                                             :row-fn #(select-keys % nut-arr)))
@@ -184,7 +185,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
         recommended-food (apply min-key (fn [food]
                                           (let [strip (fn [m] (dissoc m :foodname :foodid))]
                                             (reduce (fnil + 0 0)
-                                                    (vals (merge-with #(Math/abs ((fnil - 0 0) %1 %2)) (strip food) (strip current-nutrition))))))
+                                                    (vals (merge-with #(Math/abs ((fnil - 0 0) %1 %2)) nutrients
+                                                                      (merge-with n+ (strip food) (strip current-nutrition)))))))
                                 possible-foods)]
     {:status 200 :headers cors-headers
      :body recommended-food}))
