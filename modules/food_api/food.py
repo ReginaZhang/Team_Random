@@ -84,7 +84,7 @@ class FoodAPI:
 		print "results: "
 		print results
 		new_r = {"items":[]}
-		if "list" in results.keys():
+		if results:
 			items = results["list"]["item"]
 			for item in items:
 				new_dict = {"foodname": item["name"], "ndbno": item["ndbno"]}
