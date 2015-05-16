@@ -516,7 +516,7 @@ function displayFoods(){
                     '<option value="D">Dinner</option>' +
                     '<option value="O">Backup/Other</option>' +
                     '</select><br>'+
-                    '<button type="button" class="do_add_button" onclick="addToDiet(' +food.ndbno + ',' +
+                    '<button type="button" class="do_add_button" onclick="addToDiet(\'' +food.ndbno + '\',' +
                     '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
                     ');showHideSelect(\'select_and_add'+food.ndbno+'\');">Add</button>'+
                     '</div></div>'+
