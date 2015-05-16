@@ -21,69 +21,17 @@ Date Created : 13.03.2015 1:31pm
     <title>Health Overflow</title>
 </head>
 <body>
-<nav class="navbar navbar-custom">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="index.html">Health Overflow</a>
-        </div>
-        <div>
-            <ul class="nav navbar-nav">
-                <li ><a class="nav_element home" href="index.html">Home</a></li>
-                <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>
-                <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>
-                <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>
-                <li ><a class="nav_element about" href="about.html">About</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div id="navigation_bar"></div>
 <br />
 
-<div id="login_div" popup="0">
+<button type='button' window_id="creat_diet_window"  onclick='loginWindow(this);' class='btn btn-default'>Close</button>
+
+
+<button type='button' msg="something is wrong hahahhhahahahas" window_id="error_diet_window" onclick='loginWindow(this);' class='btn btn-default'>Close</button>
+
+<div id="diet_error_window">
+    <h1>Some error X.X</h1>
 </div>
-
-<script>
-    function loginWindow()
-    {
-        one_obj=document.getElementById("login_div");
-        if(one_obj.getAttribute("popup")=="0")
-        {
-            loginPOPup(one_obj);
-        }
-        else
-        {
-            loginPOPdown(one_obj);
-        }
-    }
-
-    function loginPOPup(one_obj)
-    {
-        console.log("inner "+one_obj.getAttribute("popup"));
-        one_obj.innerHTML="<form id='login_form' action='http://45.56.85.191:8000/user/register' method='post' >\
-            <div class='form-group'>\
-    <label class='login_label'>User Name</label>\
-    <input type='text' class='form-control' id='input_username' placeholder='User Name' autofocus>\
-    </div>\
-    <br/>\
-    <div class='form-group'>\
-    <label class='login_label'>Password</label>\
-    <input type='password' class='form-control' id='input_password' placeholder='Password'>\
-    </div>\
-    <br/>\
-    <button type='submit' class='btn btn-default'>Log In</button>\
-    <button type='button' onclick='loginWindow();' class='btn btn-default'>Close</button>\
-    </form>\
-    "
-        //indicating it is poped up
-        one_obj.setAttribute("popup","1");
-    }
-    function loginPOPdown(one_obj)
-    {
-        one_obj.innerHTML="";
-        one_obj.setAttribute("popup","0");
-        console.log("in pop down");
-    }
-    loginWindow();
-</script>
+<script src="js/style.js" type="text/javascript"></script>
 </body>
 </html>
