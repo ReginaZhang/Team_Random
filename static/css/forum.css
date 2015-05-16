@@ -8,12 +8,12 @@ body
     border-radius: 10px;
     margin-left: 30px;
     margin-right: 30px;
-    background-color: #EEEEEE;
+    background-color:#669999;
     -webkit-box-shadow: 0px 0px 5px 4px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 5px 4px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 5px 4px rgba(0,0,0,0.75);
-    font-family: 'Dancing Script', Georgia, Times, serif;
-    font-size: 20px;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 16px;
 
 }
 .comment-rest
