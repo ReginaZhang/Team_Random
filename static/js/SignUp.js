@@ -141,6 +141,9 @@ function sign_up()
     user_data["password"]=document.getElementById("password").value;
     //user_data["address"]=document.getElementById("autocomplete").value;
     user_data["email"] = document.getElementById("email").value;
+    user_data["address"] = document.getElementById("autocomplete").value;
+    user_data["height"] = document.getElementById("height").value;
+    user_data["weight"] = document.getElementById("weight").value;
     //user_data["username"] =document.getElementById("input_username").value;
     //user_data["password"] =document.getElementById("input_password").value;
     xhr.send(JSON.stringify(user_data));
