@@ -75,7 +75,7 @@ class FoodAPI:
 			@return:
 				JSON object of the list of items requested.
 		"""
-		params = {"api_key":common["api_key"], "q": term, "max":ITEM_NUM, "offset":offset, "sort":"r", "format":common["format"]}
+		params = {"api_key":common["api_key"], "q": term, "max":max, "offset":offset, "sort":"r", "format":common["format"]}
 		results = self.send_request(url["search"], params)
 		#r = requests.get(self.url, params = self.params)
 		#cherrypy.response.headers["content-type"] = "application/json"
@@ -118,6 +118,7 @@ class FoodAPI:
 			if length < max:
 				dboffset = 0
 				left = max-length
+				print "left: " + str(left)
 				more = self.api_search(term, max = left)
 				for item in more["items"]:
 					result["items"].append(item)
