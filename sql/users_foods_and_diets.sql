@@ -39,9 +39,9 @@ create table if not exists Diet(
 create table if not exists DietItem(
   FoodId int NOT NULL,
   DietId int NOT NULL,
-  PRIMARY KEY (FoodId, DietId),
-  FOREIGN KEY (FoodId)
-    REFERENCES Food(FoodId)
+  PRIMARY KEY (Ndbno, DietId),
+  FOREIGN KEY (Ndbno)
+    REFERENCES Food(Ndbno)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
   FOREIGN KEY (DietId)
