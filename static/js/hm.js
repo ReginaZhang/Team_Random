@@ -514,7 +514,7 @@ function displayFoods(){
                     '<option value="D">Dinner</option>' +
                     '<option value="O">Backup/Other</option>' +
                     '</select><br>'+
-                    '<button type="button" class="do_add_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
+                    '<button type="button" class="do_add_button" onclick="addToDiet(' +food.ndbno + ',' +
                     '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
                     ');showHideSelect(\'select_and_add'+food.ndbno+'\');">Add</button>'+
                     '</div></div>'+
@@ -539,17 +539,12 @@ function displayFoods(){
 }
 
 function showHideSelect(div_id){
-    console.log(div_id);
     var div = document.getElementById(div_id);
-    console.log(div.style.display);
     if (div.style.display == "inline"){
-        console.log("in if");
         div.style.display = "none";
     } else {
-        console.log("in else");
         div.style.display = "inline";
     }
-    console.log(div.style.display);
 }
 
 function findFoodNdbno(food_name)
