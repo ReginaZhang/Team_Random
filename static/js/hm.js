@@ -519,7 +519,7 @@ function displayFoods(){
         if (page > 1){
             result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
         }
-        if (page <= (itemList.length / 10)){
+        if (page < (itemList.length / 10)){
             console.log(page);
             console.log(itemList.length /10);
             result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
