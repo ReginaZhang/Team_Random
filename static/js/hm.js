@@ -463,12 +463,15 @@ var apiOffset = 0;
 function getFood() {
 
     var searchTerm = document.getElementById("search_box").value;
+    var i=0;
 
     query("/food/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm, "GET", {}, function(responseJson) {
 
         dbOffset = responseJson.dboffset;
         apiOffset = responseJson.apioffset;
-        itemList = responseJson.items;
+        for(i = 0; i<responseJson.items.length; i++){
+            itemList.push(responseJson.items[i]);
+        }
 
         displayFoods();
     });
@@ -504,8 +507,11 @@ function displayFoods(){
     if (page > 1){
         result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
     }
-
-    result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
+    if (page != (itemList.length / 10)){
+        result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
+    } else {
+        result += '<button type="button" id="view_more_button" onclick="page+=1;getFood()">I want more &gt;.&lt;</button>'
+    }
     document.getElementById('foodNutritionResult').innerHTML = result;
 
 }
