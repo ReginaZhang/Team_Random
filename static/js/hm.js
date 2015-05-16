@@ -418,6 +418,7 @@ function deleteDiet() {
  */
 function addToDiet(ndbno, weekday, mealType) {
     console.log(ndbno);
+    query("/food/get_food_report?ndbno="+ndbno, "GET", {}, function(responseJson) {});
 
     var user = {
         userId: userId,
