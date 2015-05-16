@@ -316,8 +316,9 @@
 
 (set! (.-onload js/window)
       #(let [q-list-div (js/document.getElementById "question_list")
-            forum-div (js/document.getElementById "forum")]
-        (re/render [(if q-list-div question-list forum-page) ] (if q-list-div q-list-div forum-div))))
+             forum-div (js/document.getElementById "forum")]
+         (re/render [(if q-list-div question-list forum-page) ]
+                    (if q-list-div q-list-div forum-div))))
 
 ;(print ( js/document.getElementById "test"))
 ;(re/render [forum-page] (js/document.getElementById "test"))
