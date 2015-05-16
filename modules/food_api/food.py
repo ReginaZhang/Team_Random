@@ -135,7 +135,6 @@ class FoodAPI:
 		c.execute("select * from Food where Ndbno='%s'" % ndbno)
 		r = c.fetchone()
 		if r:
-			print r
 			new_report = {"name":r["FoodName"], "ndbno":r["Ndbno"],"nutrients":{}}
 			for n in nutrients.keys():
 				unit = nutrients[n]["unit"]
@@ -184,7 +183,6 @@ class FoodAPI:
 			#for nutrient in nutrients.keys():
 				#print nutrients[nutrient]["unit"]
 			sql_str = "insert into Food (%s) values (%s);" % (field_names[:-1], field_values[:-1])
-			print sql_str
 			c.execute("select FoodName from Food where Ndbno='%s';" % new_report["ndbno"])
 			if not c.fetchall():
 				try:
@@ -194,7 +192,7 @@ class FoodAPI:
 				except:
 					d.rollback()
 			else:
-				print "aaaaa"
+				pass
 		return json.dumps(new_report)
 	get_food_report.exposed = True
 
