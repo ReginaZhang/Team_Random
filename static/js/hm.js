@@ -542,7 +542,7 @@ function showHideSelect(div_id){
     console.log(div_id);
     var div = document.getElementById(div_id);
     console.log(div.style.display);
-    if (div.style.display = "inline"){
+    if (div.style.display == "inline"){
         console.log("in if");
         div.style.display = "none";
     } else {
