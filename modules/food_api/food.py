@@ -114,6 +114,7 @@ class FoodAPI:
 		if ((dboffset == 0) and (apioffset == 0)) or ((dboffset != 0) and (apioffset == 0)):
 			result = self.db_search(term, max, dboffset)
 			length = len(result["items"])
+			print "db: " + length
 			if length < max:
 				dboffset = 0
 				left = max-length
@@ -123,6 +124,8 @@ class FoodAPI:
 				apioffset = len(result["items"])
 		else:
 			result = self.api_search(term, max, apioffset)
+			print max
+			print "api: " + len(result["items"])
 			apioffset += len(result["items"])
 		result["dboffset"] = dboffset
 		result["apioffset"] = apioffset
