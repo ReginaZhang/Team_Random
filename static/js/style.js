@@ -1,12 +1,12 @@
-var userId=null;
+//var userId=null;
 /*function used to determine login window up or not*/
 
-function insert_navigation_bar(user_details)
+function insert_navigation_bar(user_id,user_details)
 {
     var div_id='login_div';
     //console.log("uesr detials "+user_details.details.username);
     var obj=document.getElementById("navigation_bar");
-    if ( (userId==null) ||(user_details==null))
+    if ( (user_id==null)||(user_details==null))
     {
         obj.innerHTML='<nav class="navbar navbar-custom">\
         <div class="container-fluid">\
@@ -192,14 +192,17 @@ function checkLoggedIn()
 {
     var xhr = new XMLHttpRequest();
     var user_detail_json;
+    var userId;
     xhr.open("GET","http://45.56.85.191/check_loggedin",true);
     xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status==200) {
             user_detail_json=JSON.parse(xhr.responseText)
             userId=user_detail_json.id;
+            //userName = user_detail_json.userName;
+            //userWeight = user_detail_json.weight;
             console.log("change navigation "+xhr.responseText);
-            insert_navigation_bar(user_detail_json);
+            insert_navigation_bar(userId,user_detail_json);
         }
     }
 }
@@ -231,5 +234,5 @@ function user_data_validation(user_data)
     return true;
 }
 checkLoggedIn();
-insert_navigation_bar(null);
+insert_navigation_bar(null,null);
 
