@@ -80,8 +80,8 @@
           <file leaf-file-name="forum.css" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/css/forum.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5948276">
-                  <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+                <state vertical-scroll-proportion="0.5689655">
+                  <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -104,8 +104,8 @@
           <file leaf-file-name="hm.css" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/css/hm.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.33620688">
-                  <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.23275863">
+                  <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
                   <folding />
                 </state>
               </provider>
@@ -356,8 +356,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/forum.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5948276">
-          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        <state vertical-scroll-proportion="0.5689655">
+          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
           <folding />
         </state>
       </provider>
