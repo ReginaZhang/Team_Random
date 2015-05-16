@@ -540,7 +540,8 @@ function displayFoods(){
 
 function showHideSelect(div_id){
     console.log(div_id);
-    var div = document.getElementById(div_id)
+    var div = document.getElementById(div_id);
+    console.log(div.style.display);
     if (div.style.display = "inline"){
         div.style.display = "none";
     } else {
