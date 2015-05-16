@@ -1,11 +1,14 @@
-
+//var userId=null;
 /*function used to determine login window up or not*/
 
-function insert_navigation_bar()
+function insert_navigation_bar(user_id,user_details)
 {
     var div_id='login_div';
+    //console.log("uesr detials "+user_details.details.username);
     var obj=document.getElementById("navigation_bar");
-    obj.innerHTML='<nav class="navbar navbar-custom">\
+    if ( (user_id==null)||(user_details==null))
+    {
+        obj.innerHTML='<nav class="navbar navbar-custom">\
         <div class="container-fluid">\
         <div class="navbar-header">\
         <a class="navbar-brand" href="index.html">Health Overflow</a>\
@@ -16,13 +19,38 @@ function insert_navigation_bar()
         <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>\
         <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>\
         <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>\
-        <li ><a window_id="login_div" class="nav_element Login" onclick="loginWindow(this);" href="#">Login</a></li>\
+        <li ><a window_id="login_div" class="nav_element Login" onclick="popWindow(this);" href="#">Login</a></li>\
         <li ><a class="nav_element about" href="about.html">About</a></li>\
         </ul>\
         </div>\
         </div>\
         </nav>\
         ';
+    }
+    else
+    {
+        obj.innerHTML='<nav class="navbar navbar-custom">\
+        <div class="container-fluid">\
+        <div class="navbar-header">\
+        <a class="navbar-brand" href="index.html">Health Overflow</a>\
+        </div>\
+        <div>\
+        <ul class="nav navbar-nav">\
+        <li ><a class="nav_element home" href="index.html">Home</a></li>\
+        <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>\
+        <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>\
+        <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>\
+        <li ><a window_id="login_div" class="nav_element Login" onclick="logout();" href="#">Logout</a></li>\
+        <li ><a class="nav_element about" href="about.html">About</a></li>\
+        <li ><a class="nav_element user_details" href="#"> Hello '+user_details.details[0].username+'</a></li>\
+        </ul>\
+        </div>\
+        </div>\
+        </nav>\
+        ';
+    }
+
+
     console.log("in function");
 }
 //id == login_div
@@ -30,7 +58,7 @@ function insert_navigation_bar()
 //id == error_diet_window
 // window id is an attribute of button ,button will be passin and get the window_id to show specific pop up window
 //msg is an attribute in tag msg="hhahha" , to insert message of some pop up window e.g. diet error pop up
-function loginWindow(trigger_obj)
+function popWindow(trigger_obj)
 {
     var div_id = trigger_obj.getAttribute("window_id");
     var msg = trigger_obj.getAttribute("msg");
@@ -38,15 +66,15 @@ function loginWindow(trigger_obj)
     one_obj=document.getElementById(div_id);
     if(one_obj==null)
     {
-        loginPOPup(div_id,msg);
+        windowPOPup(div_id,msg);
     }
     else
     {
-        loginPOPdown(one_obj);
+        windowPOPdown(one_obj);
     }
 }
 
-function loginPOPup(div_id,msg) {
+function windowPOPup(div_id,msg) {
     one_obj = document.createElement('div');
     one_obj.setAttribute("id", div_id);
     one_obj.setAttribute("class","window");
@@ -65,8 +93,7 @@ function loginPOPup(div_id,msg) {
             </div>\
             <br/>\
             <button type='button' class='btn btn-default' onclick='login_validation();'>Login</button>\
-            <button type='button' class='btn btn-default' onclick='getUserIP();'>getIP test</button>\
-            <button type='button' window_id='login_div' onclick='loginWindow(this);' class='btn btn-default'>Close</button>\
+            <button type='button' window_id='login_div' onclick='popWindow(this);' class='btn btn-default'>Close</button>\
             </form>\
             ";
     }
@@ -82,7 +109,7 @@ function loginPOPup(div_id,msg) {
             <option value='F'>SFitnessaab</option>\
             <option value='G'>General</option>\
             </select>\
-            <button type='button' window_id='creat_diet_window' onclick='loginWindow(this);' class='btn btn-default'>Close</button>\
+            <button type='button' window_id='creat_diet_window' onclick='popWindow(this);' class='btn btn-default'>Close</button>\
             </div>";
 
     }
@@ -91,14 +118,14 @@ function loginPOPup(div_id,msg) {
         one_obj.innerHTML = "<div >\
             <p>"+msg+"</p>\
             <br />\
-            <button type='button' window_id='error_diet_window' onclick='loginWindow(this);' class='btn btn-default'>Close</button>\
+            <button type='button' window_id='error_diet_window' onclick='popWindow(this);' class='btn btn-default'>Close</button>\
             </div>";
     }
 
     document.body.appendChild(one_obj);
     console.log("in pop up : " + one_obj.innerHTML);
 }
-function loginPOPdown(one_obj)
+function windowPOPdown(one_obj)
 {
     one_obj.remove();
     console.log("in pop down");
@@ -106,7 +133,6 @@ function loginPOPdown(one_obj)
 
 function login_validation()
 {
-
     var xhr_ip = new XMLHttpRequest();
     xhr_ip.open("GET", "http://api.hostip.info/get_json.php?antiCache="+Math.random());
     //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
@@ -132,14 +158,65 @@ function login_validation()
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status==200) {
-                    console.log(xhr.responseText);
+
+                    var xhr_jonathan_login=new XMLHttpRequest();
+                    var user_details_json=JSON.parse(xhr.responseText);
+                    if(user_details_json.login=="failed")
+                    {
+                        document.getElementById("login_error_div").innerHTML="Username or Password wrong X.X";
+                        return;
+                    }
+                    //use userId to logged in
+                    console.log("http://45.56.85.191/login_user?user_id="+user_details_json.userId);
+                    xhr_jonathan_login.open("GET","http://45.56.85.191/login_user?user_id="+user_details_json.userId,true);
+                    xhr_jonathan_login.send();
+                    xhr_jonathan_login.onreadystatechange=function(){
+                        if (xhr_jonathan_login.readyState == 4 && xhr_jonathan_login.status==200) {
+                            console.log("jon " + xhr_jonathan_login.responseText);
+                            //insert_navigation_bar(JSON.parse(xhr_jonathan_login.responseText));
+                            checkLoggedIn();
+                            windowPOPdown(document.getElementById("login_div"));
+                        }
+                    }
+
                 }
             }
-
-
         }
-
     };
+    //console.log("return_value response body "+return_value);
+}
+
+
+
+function checkLoggedIn()
+{
+    var xhr = new XMLHttpRequest();
+    var user_detail_json;
+    var userId;
+    xhr.open("GET","http://45.56.85.191/check_loggedin",true);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status==200) {
+            user_detail_json=JSON.parse(xhr.responseText)
+            userId=user_detail_json.id;
+            //userName = user_detail_json.userName;
+            //userWeight = user_detail_json.weight;
+            console.log("change navigation "+xhr.responseText);
+            insert_navigation_bar(userId,user_detail_json);
+        }
+    }
+}
+
+function logout()
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET","http://45.56.85.191/logout_user");
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status==200) {
+            checkLoggedIn();
+        }
+    }
 }
 
 function user_data_validation(user_data)
@@ -156,6 +233,6 @@ function user_data_validation(user_data)
     }
     return true;
 }
-
-insert_navigation_bar();
+checkLoggedIn();
+insert_navigation_bar(null,null);
 

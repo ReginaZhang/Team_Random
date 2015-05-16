@@ -37,11 +37,14 @@ create table if not exists Diet(
 )ENGINE=INNODB;
 
 create table if not exists DietItem(
-  FoodId int NOT NULL,
+  DietItemId int NOT NULL AUTO_INCREMENT,
   DietId int NOT NULL,
-  PRIMARY KEY (FoodId, DietId),
-  FOREIGN KEY (FoodId)
-    REFERENCES Food(FoodId)
+  Ndbno varchar(6) NOT NULL,
+  MealType ENUM('B','L','D','O') NOT NULL DEFAULT 'O',
+  Weekday  ENUM('Mon','Tue','Wed','Thu','Fri','Sat','Sun','NA') NOT NULL DEFAULT 'NA',
+  PRIMARY KEY (DietItemId),
+  FOREIGN KEY (Ndbno)
+    REFERENCES Food(Ndbno)
     ON UPDATE CASCADE
     ON DELETE RESTRICT,
   FOREIGN KEY (DietId)

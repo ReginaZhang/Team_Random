@@ -75,17 +75,18 @@ class FoodAPI:
 			@return:
 				JSON object of the list of items requested.
 		"""
-		params = {"api_key":common["api_key"], "q": term, "max":ITEM_NUM, "offset":offset, "sort":"r", "format":common["format"]}
+		params = {"api_key":common["api_key"], "q": term, "max":max, "offset":offset, "sort":"r", "format":common["format"]}
 		results = self.send_request(url["search"], params)
 		#r = requests.get(self.url, params = self.params)
 		#cherrypy.response.headers["content-type"] = "application/json"
 		#return json.dumps(r.json())
 		#results = r.json()
-		items = results["list"]["item"]
 		new_r = {"items":[]}
-		for item in items:
-			new_dict = {"foodname": item["name"], "ndbno": item["ndbno"]}
-			new_r["items"].append(new_dict)
+		if results:
+			items = results["list"]["item"]
+			for item in items:
+				new_dict = {"foodname": item["name"], "ndbno": item["ndbno"]}
+				new_r["items"].append(new_dict)
 		return new_r
 
 	def db_search(self, term = "", max = ITEM_NUM, offset = 0):
@@ -111,21 +112,19 @@ class FoodAPI:
 		apioffset = int(apioffset)
 		if dboffset and apioffset:
 			raise Exception("Either dboffset or apioffset must be 0.")
-		if (dboffset == None) and (apioffset == None):
-			dboffset = 0
-		if dboffset != None:
+		if ((dboffset == 0) and (apioffset == 0)) or ((dboffset != 0) and (apioffset == 0)):
 			result = self.db_search(term, max, dboffset)
 			length = len(result["items"])
 			if length < max:
-				dboffset = None
+				dboffset = 0
 				left = max-length
-				more = self.api_search(term, left)
+				more = self.api_search(term, max = left)
 				for item in more["items"]:
 					result["items"].append(item)
-				apioffset = left
+				apioffset = len(more["items"])
 		else:
 			result = self.api_search(term, max, apioffset)
-			apioffset += max
+			apioffset += len(result["items"])
 		result["dboffset"] = dboffset
 		result["apioffset"] = apioffset
 		return json.dumps(result)
@@ -136,7 +135,6 @@ class FoodAPI:
 		c.execute("select * from Food where Ndbno='%s'" % ndbno)
 		r = c.fetchone()
 		if r:
-			print r
 			new_report = {"name":r["FoodName"], "ndbno":r["Ndbno"],"nutrients":{}}
 			for n in nutrients.keys():
 				unit = nutrients[n]["unit"]
@@ -185,7 +183,6 @@ class FoodAPI:
 			#for nutrient in nutrients.keys():
 				#print nutrients[nutrient]["unit"]
 			sql_str = "insert into Food (%s) values (%s);" % (field_names[:-1], field_values[:-1])
-			print sql_str
 			c.execute("select FoodName from Food where Ndbno='%s';" % new_report["ndbno"])
 			if not c.fetchall():
 				try:
@@ -195,7 +192,7 @@ class FoodAPI:
 				except:
 					d.rollback()
 			else:
-				print "aaaaa"
+				pass
 		return json.dumps(new_report)
 	get_food_report.exposed = True
 

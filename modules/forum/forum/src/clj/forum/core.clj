@@ -85,16 +85,20 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
   {:status 200
    :body {:text "Successfully added comment!"}})
 
-(defn get_questions [{{:strs [user_id]} :params}]
-  {:status 200
-   :body
-   (vals (reduce merge-comments-with-flags {}
-                 (jdb/query health-db
-                            ["SELECT * from Question natural join Comment
+(defn get_questions [{{:strs [user_id question_id]} :params}]
+  (let [query (if question_id ["SELECT * from Question natural join Comment
 left join Vote on Vote.CommentId = Comment.CommentId and Vote.UserId = ? left join CommentFlag 
-on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
-                            :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
-                                                     :commentid :commenttext :votetype :score :flagid]))))})
+on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL and QuestionId = ?" user_id question_id]
+                  ["SELECT * from Question natural join Comment
+left join Vote on Vote.CommentId = Comment.CommentId and Vote.UserId = ? left join CommentFlag 
+on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
+    {:status 200
+     :body
+     (vals (reduce merge-comments-with-flags {}
+                   (jdb/query health-db
+                              query
+                              :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
+                                                       :commentid :commenttext :votetype :score :flagid]))))}))
 
 (defn add_question [{{:strs [text user_id title]} :params}]
   (let [[{question_id :generated_key}] (jdb/insert! health-db :Question
@@ -156,16 +160,21 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
       (.equals (:password user) str-encrypted))))
 
 (def loggedin-users (atom {}))
-(defn login-user [{{:strs [user_id ip-prm agent-prm]} :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
-  (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] user_id))
+(defn login-user [{{:strs [user_id ip header]} :params {req-agent "user-agent" req-ip "x-forwarded-for"} :headers}]
+  (swap! loggedin-users #(assoc % [(if ip ip req-ip), (if header header req-agent)] user_id))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged in"}})
 
-(defn check-loggedin [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
-  {:status 200 :headers cors-headers
-   :body {:id (get @loggedin-users [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)])}})
+(defn check-loggedin [{{:strs [ip header]}  :params {req-agent "user-agent" req-ip "x-forwarded-for"} :headers}]
+  (let [id (get @loggedin-users [(if ip ip req-ip), (if header header req-agent)])
+        details (if id (jdb/query health-db
+                                  ["select * from User where UserId = ?" id]
+                                  :row-fn #(dissoc % :password))
+                    nil)]
+    {:status 200 :headers cors-headers
+     :body {:id id :details details}}))
 
-(defn logout-user [{{:strs [ip-prm agent-prm]}  :params {agent "user-agent" ip "x-forwarded-for"} :headers}]
-  (swap! loggedin-users #(assoc % [(if ip-prm ip-prm ip), (if agent-prm agent-prm agent)] nil))
+(defn logout-user [{{:strs [ip header]}  :params {req-agent "user-agent" req-ip "x-forwarded-for"} :headers}]
+  (swap! loggedin-users #(assoc % [(if ip ip req-ip), (if header header req-agent)] nil))
   {:status 200 :headers cors-headers :body {:text "User recorded as logged out"}})
 
 (defn showmy-ip [{{ip "x-forwarded-for"} :headers :as req}]
@@ -174,11 +183,22 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
 (defn get-recommendation [{{:strs [user_id]} :params}]
   ;Recommended values from http://en.wikipedia.org/wiki/Reference_Daily_Intake
   (let [nutrients {:niacin 16, :iron 18, :thiamin 1.2, :vitaminb6 1.7, :carbohydratebydifference 300, :calcium 1300, :vitaminctotalascorbicacid 90, :sodium 2400, :phosphorus 1250, :vitaminarae 900, :potassium 4700, :riboflavin 1.3, :magnesium 420, :cholesterol 300, :fibertotaldietary 25, :vitaminb12 2.4, :energy 2000, :totallipid_fat 65, :zinc 11, :protein 50, :folatedfe 400}
-        nut-arr (into [] (keys nutrients))]
+        nut-arr (into [] (keys nutrients))
+        n+ (fnil + 0 0)
+        current-nutrition (apply merge-with n+
+                                 (jdb/query health-db
+                                            ["SELECT * from Diet natural join DietItem inner join Food on DietItem.Ndbno = Food.Ndbno where UserId = ?" user_id]
+                                            :row-fn #(select-keys % nut-arr)))
+        possible-foods (jdb/query health-db ["SELECT * from Food limit 100"]
+                                  :row-fn #(select-keys % (conj nut-arr :foodname :foodid)))
+        recommended-food (apply min-key (fn [food]
+                                          (let [strip (fn [m] (dissoc m :foodname :foodid))]
+                                            (reduce (fnil + 0 0)
+                                                    (vals (merge-with #(Math/abs ((fnil - 0 0) %1 %2)) nutrients
+                                                                      (merge-with n+ (strip food) (strip current-nutrition)))))))
+                                possible-foods)]
     {:status 200 :headers cors-headers
-     :body (jdb/query health-db
-                      ["SELECT Niacin, Iron, Thiamin, VitaminB6, CarbohydrateByDifference, Calcium, Water, VitaminCTotalAscorbicAcid, Sodium, Phosphorus, VitaminAIU, VitaminARAE, Potassium, Caffeine, Riboflavin, Magnesium, Cholesterol, FiberTotalDietary, VitaminB12, Energy, TotalLipid_Fat, Zinc, Protein, FolateDFE from Diet natural join DietItem natural join Food where UserId = ?" user_id]
-                      :row-fn #(select-keys % nut-arr))}))
+     :body recommended-food}))
 
 
 (def routes ["/" {"child_comments" :child-comments
@@ -196,6 +216,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                   "logout_user" :logout-user
                   "check_loggedin" :check-loggedin
                   "show_my_ip" :show-my-ip
+                  "diet_recommendation" :diet-recommendation
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css
                   ["static/assets/" :pngfile ".png"] :serve_png
@@ -221,6 +242,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id]
                 :logout-user (rest-wrap logout-user)
                 :check-loggedin (rest-wrap check-loggedin)
                 :show-my-ip (rest-wrap showmy-ip)
+                :diet-recommendation (rest-wrap get-recommendation)
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))
                 :serve_png (mk-serve-png (:pngfile params))
