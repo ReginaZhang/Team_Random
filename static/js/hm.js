@@ -519,7 +519,7 @@ function displayFoods(){
         if (page > 1){
             result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
         }
-        if (page <= (itemList.length / 10 + 1)){
+        if (page <= (itemList.length / 10)){
             console.log(page);
             console.log(itemList.length /10);
             result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
@@ -527,7 +527,7 @@ function displayFoods(){
             result += '<button type="button" id="view_more_button" onclick="page+=1;getFood()">I want more &gt;.&lt;</button>';
         }
     } else {
-        result += 'Sorry, we couldn\'t find more for you T^T <br><br><button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
+        result += 'Sorry, we couldn\'t find more for you T^T <br><br><button type="button" id="previous_page_button" onclick="more=true;page-=1;displayFoods()">previous</button>';
     }
     document.getElementById('foodNutritionResult').innerHTML = result;
 
