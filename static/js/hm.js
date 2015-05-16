@@ -18,7 +18,7 @@ function isLoginedIn() {
 
             query(":8000/user/check", defaultMethod, {userIp: userIp}, function(userDetail) {
 
-                userId = userDetail.userId;
+                userId = '7';//userDetail.userId;
                 userName = userDetail.userName;
                 userWeight = userDetail.weight;
 
@@ -417,6 +417,8 @@ function deleteDiet() {
     Add nominated food to active diet
  */
 function addToDiet(ndbno, weekday, mealType) {
+    console.log(ndbno);
+    query("/food/get_food_report?ndbno="+ndbno, "GET", {}, function(responseJson) {});
 
     var user = {
         userId: userId,
@@ -495,9 +497,11 @@ function displayFoods(){
                 break;
             }
             food = itemList[i];
-            result += '<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
-                    '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
-                    ');">Add to diet</button><select id="addToDietWeekday' + food.ndbno + '">' +
+            console.log(food.ndbno);
+            result += '<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+
+                    '<button type="button" class="add_to_diet_button" onclick="showHideSelect(\'select_and_add'+food.ndbno+'\');">Add to diet</button><br>'+
+                    '<div id="select_and_add'+food.ndbno+'" style="display:none;">'+
+                    '<select id="addToDietWeekday' + food.ndbno + '">' +
                     '<option value="Mon">Monday</option>' +
                     '<option value="Tue">Tuesday</option>' +
                     '<option value="Wed">Wednesday</option>' +
@@ -512,8 +516,12 @@ function displayFoods(){
                     '<option value="L">Lunch</option>' +
                     '<option value="D">Dinner</option>' +
                     '<option value="O">Backup/Other</option>' +
-                    '</select><br></div>'+
-                    '<div class="individual_food_nutrients_div" id="'+food.foodname+'"></div>';
+                    '</select><br>'+
+                    '<button type="button" class="do_add_button" onclick="addToDiet(\'' +food.ndbno + '\',' +
+                    '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
+                    ');showHideSelect(\'select_and_add'+food.ndbno+'\');">Add</button>'+
+                    '</div></div>'+
+                    '<div class="individual_food_nutrients_div" id="'+food.foodname+'"></div><br>';
         }
         result += '<br>';
         if (page > 1){
@@ -533,6 +541,14 @@ function displayFoods(){
 
 }
 
+function showHideSelect(div_id){
+    var div = document.getElementById(div_id);
+    if (div.style.display == "inline"){
+        div.style.display = "none";
+    } else {
+        div.style.display = "inline";
+    }
+}
 
 function findFoodNdbno(food_name)
 {
