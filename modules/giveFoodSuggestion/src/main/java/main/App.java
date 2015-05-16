@@ -45,7 +45,7 @@ public class App {
 		
 		compulsoryFields.put("/diet/modify", new ArrayList<String>(Arrays.asList(new String[] {
 				"userId",
-				"foodId",
+				"ndbno",
 				"dietId",
 				"weekday",
 				"mealType",

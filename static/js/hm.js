@@ -1,6 +1,6 @@
 var serverAdd = "http://45.56.85.191";
 var defaultMethod = "POST";
-var userId = null;
+var userId =null;
 var userName = null;
 var userWeight = null;
 var activeDietId = null;
@@ -18,7 +18,7 @@ function isLoginedIn() {
 
             query(":8000/user/check", defaultMethod, {userIp: userIp}, function(userDetail) {
 
-                userId = userDetail.userId;
+                userId = 7;
                 userName = userDetail.userName;
                 userWeight = userDetail.weight;
 
@@ -36,6 +36,7 @@ function isLoginedIn() {
 function init() {
 
     //based on whether use has logged in, display two different web page
+    console.log("user id "+userId);
     if(userId) {
 
         var trial = document.getElementById("trial");
@@ -351,7 +352,7 @@ function startDiet() {
     var data = {
         dietId: activeDietId,
         modiType: "start",
-        foodId: null,
+        ndbno: null,
         weekday: null,
         mealType: null,
         userId: userId
@@ -415,13 +416,13 @@ function deleteDiet() {
 /*
     Add nominated food to active diet
  */
-function addToDiet(foodId, weekday, mealType) {
+function addToDiet(ndbno, weekday, mealType) {
 
     var user = {
         userId: userId,
         dietId: activeDietId,
         modiType: "add",
-        foodId: foodId,
+        ndbno: ndbno,
         weekday: weekday,
         mealType: mealType
 
@@ -459,15 +460,26 @@ var page=1;
 var itemList = [];
 var dbOffset = 0;
 var apiOffset = 0;
+var more = true;
 function getFood() {
 
     var searchTerm = document.getElementById("search_box").value;
+    var i=0;
 
     query("/food/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm, "GET", {}, function(responseJson) {
 
         dbOffset = responseJson.dboffset;
         apiOffset = responseJson.apioffset;
-        itemList = responseJson.items;
+        if (responseJson.items.length == 0){
+            more = false;
+        } else {
+            for(i = 0; i<responseJson.items.length; i++){
+                itemList.push(responseJson.items[i]);
+            }
+        }
+        console.log(dbOffset);
+        console.log(apiOffset);
+        console.log(itemList.length);
 
         displayFoods();
     });
@@ -477,33 +489,46 @@ function getFood() {
 function displayFoods(){
     var food;
     var result = "";
-    for (var i = (page - 1)*10; i < page*10; i++){
-        food = itemList[i];
-        result += '<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
-                '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
-                ');">Add to diet</button><select id="addToDietWeekday' + food.ndbno + '">' +
-                '<option value="Mon">Monday</option>' +
-                '<option value="Tue">Tuesday</option>' +
-                '<option value="Wed">Wednesday</option>' +
-                '<option value="Thu">Thursday</option>' +
-                '<option value="Fri">Friday</option>' +
-                '<option value="Sat">Saturday</option>' +
-                '<option value="Sun">Sunday</option>' +
-                '<option value="NA">Not Specified</option>' +
-                '</select>' +
-                '<select id="addToDietMeal' + food.ndbno + '">' +
-                '<option value="B">Breakfast</option>' +
-                '<option value="L">Lunch</option>' +
-                '<option value="D">Dinner</option>' +
-                '<option value="O">Backup/Other</option>' +
-                '</select><br></div>'+
-                '<div class="individual_food_nutrients_div" id="'+food.foodname+'"></div>';
+    if (more) {
+        for (var i = (page - 1)*10; i < page*10; i++){
+            if (i >= itemList.length){
+                break;
+            }
+            food = itemList[i];
+            result += '<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+'<button type="button" class="add_to_diet_button" onclick="addToDiet(' + Number(food.ndbno) + ',' +
+                    '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
+                    ');">Add to diet</button><select id="addToDietWeekday' + food.ndbno + '">' +
+                    '<option value="Mon">Monday</option>' +
+                    '<option value="Tue">Tuesday</option>' +
+                    '<option value="Wed">Wednesday</option>' +
+                    '<option value="Thu">Thursday</option>' +
+                    '<option value="Fri">Friday</option>' +
+                    '<option value="Sat">Saturday</option>' +
+                    '<option value="Sun">Sunday</option>' +
+                    '<option value="NA">Not Specified</option>' +
+                    '</select>' +
+                    '<select id="addToDietMeal' + food.ndbno + '">' +
+                    '<option value="B">Breakfast</option>' +
+                    '<option value="L">Lunch</option>' +
+                    '<option value="D">Dinner</option>' +
+                    '<option value="O">Backup/Other</option>' +
+                    '</select><br></div>'+
+                    '<div class="individual_food_nutrients_div" id="'+food.foodname+'"></div>';
+        }
+        result += '<br>';
+        if (page > 1){
+            result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
+        }
+        if (page < (itemList.length / 10)){
+            console.log(page);
+            console.log(itemList.length /10);
+            result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
+        } else {
+            result += '<button type="button" id="view_more_button" onclick="page+=1;getFood()">I want more &gt;.&lt;</button>';
+        }
+    } else {
+        result += 'Sorry, we couldn\'t find more for you T^T <br><br><button type="button" id="previous_page_button" onclick="more=true;page-=1;displayFoods()">previous</button>';
     }
-    result += '<br>';
-    if (page > 1){
-        result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
-    }
-    result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
     document.getElementById('foodNutritionResult').innerHTML = result;
 
 }
