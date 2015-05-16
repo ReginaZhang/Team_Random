@@ -61,3 +61,6 @@ target/
 
 # .idea workspace
 /modules/web_page/.idea/
+
+#ignore all webstorm files
+/static/.idea/*

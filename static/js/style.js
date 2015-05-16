@@ -1,11 +1,14 @@
-
+var userId=null;
 /*function used to determine login window up or not*/
 
-function insert_navigation_bar()
+function insert_navigation_bar(user_details)
 {
     var div_id='login_div';
+    //console.log("uesr detials "+user_details.details.username);
     var obj=document.getElementById("navigation_bar");
-    obj.innerHTML='<nav class="navbar navbar-custom">\
+    if ( (userId==null) ||(user_details==null))
+    {
+        obj.innerHTML='<nav class="navbar navbar-custom">\
         <div class="container-fluid">\
         <div class="navbar-header">\
         <a class="navbar-brand" href="index.html">Health Overflow</a>\
@@ -23,6 +26,31 @@ function insert_navigation_bar()
         </div>\
         </nav>\
         ';
+    }
+    else
+    {
+        obj.innerHTML='<nav class="navbar navbar-custom">\
+        <div class="container-fluid">\
+        <div class="navbar-header">\
+        <a class="navbar-brand" href="index.html">Health Overflow</a>\
+        </div>\
+        <div>\
+        <ul class="nav navbar-nav">\
+        <li ><a class="nav_element home" href="index.html">Home</a></li>\
+        <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>\
+        <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>\
+        <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>\
+        <li ><a window_id="login_div" class="nav_element Login" onclick="loginWindow(this);" href="#">Login</a></li>\
+        <li ><a class="nav_element about" href="about.html">About</a></li>\
+        <li ><a class="nav_element user_details" href="#">'+user_details.details[0].username+'</a></li>\
+        </ul>\
+        </div>\
+        </div>\
+        </nav>\
+        ';
+    }
+
+
     console.log("in function");
 }
 //id == login_div
@@ -132,14 +160,42 @@ function login_validation()
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status==200) {
                     var xhr_jonathan_login=new XMLHttpRequest();
+                    var user_details_json=JSON.parse(xhr.responseText);
                     //use userId to logged in
-                    xhr_jonathan_login.open("GET","http://45.56.85.191/login_user?user_id"+xhr.responseText.userId);
-                    console.log(xhr.responseText);
+                    console.log("http://45.56.85.191/login_user?user_id="+user_details_json.userId);
+                    xhr_jonathan_login.open("GET","http://45.56.85.191/login_user?user_id="+user_details_json.userId,true);
+                    xhr_jonathan_login.send();
+                    xhr_jonathan_login.onreadystatechange=function(){
+                        if (xhr_jonathan_login.readyState == 4 && xhr_jonathan_login.status==200) {
+                            console.log("jon " + xhr_jonathan_login.responseText);
+                            //insert_navigation_bar(JSON.parse(xhr_jonathan_login.responseText));
+                            checkLoggedIn();
+                        }
+                    }
+
                 }
             }
         }
     };
-    console.log("return_value response body "+return_value);
+    //console.log("return_value response body "+return_value);
+}
+
+
+
+function checkLoggedIn()
+{
+    var xhr = new XMLHttpRequest();
+    var user_detail_json;
+    xhr.open("GET","http://45.56.85.191/check_loggedin",true);
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status==200) {
+            user_detail_json=JSON.parse(xhr.responseText)
+            userId=user_detail_json.id;
+            console.log("change navigation "+xhr.responseText);
+            insert_navigation_bar(user_detail_json);
+        }
+    }
 }
 
 function logout()
@@ -164,5 +220,5 @@ function user_data_validation(user_data)
     return true;
 }
 
-insert_navigation_bar();
+insert_navigation_bar(null);
 
