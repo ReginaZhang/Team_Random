@@ -118,10 +118,10 @@ class FoodAPI:
 			if length < max:
 				dboffset = 0
 				left = max-length
-				more = self.api_search(term, left)
+				more = self.api_search(term, max = left)
 				for item in more["items"]:
 					result["items"].append(item)
-				apioffset = len(result["items"])
+				apioffset = len(more["items"])
 		else:
 			result = self.api_search(term, max, apioffset)
 			print max
