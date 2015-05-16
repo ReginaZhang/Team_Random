@@ -79,8 +79,13 @@
           <file leaf-file-name="forum.css" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/css/forum.css">
               <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
                 <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1710">
                   <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+=======
+                <state vertical-scroll-proportion="0.25862068">
+                  <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+>>>>>>> c455250682c7f83e1a2f17cc180f4f7a2138c2bb
                   <folding />
                 </state>
               </provider>
@@ -165,8 +170,15 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
+<<<<<<< HEAD
     <option name="width" value="1440" />
     <option name="height" value="900" />
+=======
+    <option name="x" value="130" />
+    <option name="y" value="23" />
+    <option name="width" value="1238" />
+    <option name="height" value="677" />
+>>>>>>> c455250682c7f83e1a2f17cc180f4f7a2138c2bb
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -249,7 +261,7 @@
     <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="recentsLimit" value="5" />
   </component>
-  <component name="RunManager" selected="JavaScript Debug.about.html">
+  <component name="RunManager" selected="JavaScript Debug.forum.html">
     <configuration default="false" name="forum.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/static/forum.html">
       <method />
     </configuration>
@@ -301,9 +313,9 @@
     </list>
     <recent_temporary>
       <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.about.html" />
-        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.forum.html" />
-        <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.HealthManager.html" />
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.forum.html" />
+        <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.HealthManager.html" />
+        <item index="2" class="java.lang.String" itemvalue="JavaScript Debug.about.html" />
         <item index="3" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
       </list>
     </recent_temporary>
@@ -322,7 +334,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+=======
+    <frame x="130" y="23" width="1238" height="677" extended-state="0" />
+>>>>>>> c455250682c7f83e1a2f17cc180f4f7a2138c2bb
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -456,8 +472,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/forum.css">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="1710">
           <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+=======
+        <state vertical-scroll-proportion="0.25862068">
+          <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
+>>>>>>> c455250682c7f83e1a2f17cc180f4f7a2138c2bb
           <folding />
         </state>
       </provider>
