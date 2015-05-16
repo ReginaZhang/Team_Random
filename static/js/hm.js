@@ -472,6 +472,9 @@ function getFood() {
         for(i = 0; i<responseJson.items.length; i++){
             itemList.push(responseJson.items[i]);
         }
+        console.log(dbOffset);
+        console.log(apiOffset);
+        console.log(itemList.length);
 
         displayFoods();
     });
@@ -507,8 +510,9 @@ function displayFoods(){
     if (page > 1){
         result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
     }
-    if (page != (itemList.length / 10)){
+    if (page <= (itemList.length / 10)){
         console.log(page);
+        console.log(itemList.length /10);
         result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
     } else {
         result += '<button type="button" id="view_more_button" onclick="page+=1;getFood()">I want more &gt;.&lt;</button>';
