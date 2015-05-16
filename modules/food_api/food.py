@@ -81,6 +81,7 @@ class FoodAPI:
 		#cherrypy.response.headers["content-type"] = "application/json"
 		#return json.dumps(r.json())
 		#results = r.json()
+		print "results: "
 		print results
 		items = results["list"]["item"]
 		new_r = {"items":[]}
