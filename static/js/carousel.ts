@@ -1,8 +1,3 @@
-/**
- * Created by liubingfeng on 13/03/15.
- *
- *
- */
 
 //image-position means image's position on carousel
 //middle element image-position =0  ,left =-1 ,right =1
