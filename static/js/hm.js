@@ -1,6 +1,6 @@
 var serverAdd = "http://45.56.85.191";
 var defaultMethod = "POST";
-var userId = null;
+var userId =null;
 var userName = null;
 var userWeight = null;
 var activeDietId = null;
@@ -18,7 +18,7 @@ function isLoginedIn() {
 
             query(":8000/user/check", defaultMethod, {userIp: userIp}, function(userDetail) {
 
-                userId = userDetail.userId;
+                userId = 7;
                 userName = userDetail.userName;
                 userWeight = userDetail.weight;
 
@@ -36,6 +36,7 @@ function isLoginedIn() {
 function init() {
 
     //based on whether use has logged in, display two different web page
+    console.log("user id "+userId);
     if(userId) {
 
         var trial = document.getElementById("trial");
@@ -351,7 +352,7 @@ function startDiet() {
     var data = {
         dietId: activeDietId,
         modiType: "start",
-        foodId: null,
+        ndbno: null,
         weekday: null,
         mealType: null,
         userId: userId
@@ -415,13 +416,13 @@ function deleteDiet() {
 /*
     Add nominated food to active diet
  */
-function addToDiet(foodId, weekday, mealType) {
+function addToDiet(ndbno, weekday, mealType) {
 
     var user = {
         userId: userId,
         dietId: activeDietId,
         modiType: "add",
-        foodId: foodId,
+        ndbno: ndbno,
         weekday: weekday,
         mealType: mealType
 
@@ -503,6 +504,7 @@ function displayFoods(){
     if (page > 1){
         result += '<button type="button" id="previous_page_button" onclick="page-=1;displayFoods()">previous</button>';
     }
+
     result += '<button type="button" id="next_page_button" onclick="page+=1;displayFoods()">next</button>';
     document.getElementById('foodNutritionResult').innerHTML = result;
 
