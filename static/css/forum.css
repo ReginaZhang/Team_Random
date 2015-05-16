@@ -8,9 +8,17 @@ body
     padding: 5px;
     padding-left:  15px;
     padding-right: 15px;
-    color: #f5f5f5;
+    background-color: #f5f5f5;
     border-radius: 0 0 5px 5px;
 }
+
+h1 {
+    font-family: Georgia, serif;
+    border-bottom: 3px solid #cc9900;
+    color: #996600;
+    font-size: 30px;
+}
+
 .comment-region {
     position:relative;
     border-radius: 10px;
