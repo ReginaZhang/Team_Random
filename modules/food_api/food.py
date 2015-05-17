@@ -208,6 +208,15 @@ class FoodAPI:
 		return "abc"
 	request_body_test.exposed = True'''
 
+	def get_filenames(self, subdir_name, file_type):
+		file_list = []
+		os.chdir("../.."+subdir_name)
+		for file in glob.glob("*."+file_type):
+			file_list.append(file)
+		result = {"files":file_list}
+		return json.dumps(result)
+	get_filenames.exposed = True
+
 
 
 def connect_db():
