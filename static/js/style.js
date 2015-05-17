@@ -225,7 +225,8 @@ function logout()
     xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status==200) {
-            checkLoggedIn();
+            //checkLoggedIn();
+            location.reload();
         }
     }
 }
