@@ -22,6 +22,7 @@ from constants import *
 import cherrypy
 import MySQLdb
 import os, glob
+from random import suffle
 
 debug = 0
 
@@ -209,14 +210,15 @@ class FoodAPI:
 		return "abc"
 	request_body_test.exposed = True'''
 
-	def get_filenames(self, subdir_name, file_type):
+	def get_random_filenames(self, subdir_name, file_type):
 		file_list = []
 		os.chdir("/home/operat/team_random"+subdir_name)
 		for file in glob.glob("*."+file_type):
 			file_list.append(file)
+		shuffle(file_list)
 		result = {"files":file_list}
 		return json.dumps(result)
-	get_filenames.exposed = True
+	get_random_filenames.exposed = True
 
 
 
