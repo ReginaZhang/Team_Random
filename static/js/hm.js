@@ -228,6 +228,7 @@ function generateDiet(userDiet) {
             var foodName = "";
             var weekday = "";
             var mealType = "";
+            var ndbno = "";
 
             [].forEach.call(Object.keys(thisFood), function(key) {
 
@@ -237,15 +238,15 @@ function generateDiet(userDiet) {
                     weekday = thisFood[key];
                 } else if (key == "mealType") {
                     mealType = thisFood[key];
-                } else if (key == "foodId" || key.indexOf("")) {
-
+                } else if (key == "ndbno") {
+                    ndbno = thisFood[key];
                 } else {
                     dietNutri[key] = (dietNutri[key] === undefined) ? Number(thisFood[key]) : dietNutri[key] + Number(thisFood[key]);
                 }
 
             });
 
-            var mealId = (mealType == "B" ? "#breakfast" : (mealType == "L" ? "#lunch" :
+            var mealId = (mealType === "B" ? "#breakfast" : (mealType === "L" ? "#lunch" :
                 (mealType === "D" ? "#dinner" : "#other")));
 
             if (mealId == "#other" ) {
@@ -265,7 +266,12 @@ function generateDiet(userDiet) {
                 selector += "All";
             }
 
-            $(selector).html((($(selector).html() !== undefined) ? $(selector).html() : "") + foodName + "<br>");
+            var oneFood = document.createElement("p");
+            oneFood.innerHTML = foodName;
+            oneFood.ndbno = ndbno;
+            oneFood.weekday = weekday;
+            oneFood.mealType = mealType;
+            $(selector).append(oneFood);
 
         }
 
@@ -326,6 +332,7 @@ function generateDiet(userDiet) {
 
 function generateExercise() {
 
+
 }
 
 function generateStats() {
@@ -365,6 +372,34 @@ function startDiet() {
 
     });
 
+}
+
+function modifyDiet() {
+
+    var deleteButton = document.createElement("button");
+    deleteButton.innerHTML = "Delete";
+    deleteButton.type  = "button";
+
+    deleteButton.setAttribute("onclick", "deleteFood(this)");
+
+    $(".dietPlan td p").append(deleteButton);
+
+
+
+}
+
+function deleteFood(button) {
+
+    query(":8000/diet/modify", defaultMethod, {modiType: "delete",
+        dietId: activeDietId,
+        ndbno: button.parentNode.ndbno,
+        userId: userId,
+        weekday: button.parentNode.weekday,
+        mealType: button.parentNode.mealType}, function(res) {
+
+        getDiet(activeDietId);
+
+    });
 }
 
 function createDiet() {
