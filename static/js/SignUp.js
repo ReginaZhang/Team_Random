@@ -1,4 +1,4 @@
-
+//var user_data_g=null;
 //initialize google map
 function initialize(my_center_obj) {
     //position
@@ -132,6 +132,23 @@ function unhide(divID) {
 
 }
 
+function makeNULL(user_data)
+{
+    if(user_data["height"]=="")
+    {
+        user_data["height"]=null;
+    }
+    if(user_data["weight"]=="")
+    {
+        user_data["weight"]=null;
+    }
+    if(user_data["address"]=="")
+    {
+        user_data["address"]=null;
+    }
+    return user_data;
+}
+
 function sign_up()
 {
     var xhr = new XMLHttpRequest();
@@ -145,6 +162,7 @@ function sign_up()
     user_data["address"] = document.getElementById("autocomplete").value;
     user_data["height"] = document.getElementById("height").value;
     user_data["weight"] = document.getElementById("weight").value;
+    //makeNULL(user_data);
     //user_data["username"] =document.getElementById("input_username").value;
     //user_data["password"] =document.getElementById("input_password").value;
     if(!check_sign_up_user_data(user_data))
@@ -152,8 +170,9 @@ function sign_up()
         return;
     }
     xhr.send(JSON.stringify(user_data));
-    console.log(JSON.stringify(user_data));
-
+    //console.log(JSON.stringify(user_data));
+    console.log(user_data);
+    //user_data_g=user_data;
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status==200) {
             console.log(xhr.responseText);
@@ -161,8 +180,13 @@ function sign_up()
             {
                 //change this to specific url from our vps
                 login_validation(user_data["username"],user_data["password"],function(){
-                    window.location.replace("index.html");
+                    window.location.replace("http://45.56.85.191/static/index.html");
                 });
+            }
+            else
+            {
+                var error_div= document.getElementById("sign_up_error_div");
+                error_div.innerHTML=xhr.responseText;
             }
         }
     }
