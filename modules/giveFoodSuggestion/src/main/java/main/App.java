@@ -582,7 +582,7 @@ public class App {
 			response.put("register", "invalid");
 			
 			
-			if (!isReqValid("/user/login", info.keySet())) {
+			if (!isReqValid("/user/register", info.keySet())) {
 				return gs.toJson(response);
 			}
 			
@@ -590,7 +590,7 @@ public class App {
 				return gs.toJson(response);
 			}
 			
-			
+			try {
 			MessageDigest encrypter = MessageDigest.getInstance("SHA");
 				
 			encrypter.update(info.get("password").getBytes());
@@ -607,6 +607,10 @@ public class App {
 			
 			for (String field: userTable) {
 				if (infoIgnoreCase.containsKey(field)) {
+					System.out.println(field + ": " + infoIgnoreCase.get(field));
+					if(infoIgnoreCase.get(field).equals("")) {
+						infoIgnoreCase.replace(field, null);
+					}
 					newUser.put(field, infoIgnoreCase.get(field));
 				}
 			}
@@ -615,6 +619,9 @@ public class App {
 			
 			response.clear();
 			response.put("register", "successful");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 						
 			return gs.toJson(response); 
 			
