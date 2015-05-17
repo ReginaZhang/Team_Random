@@ -16,7 +16,7 @@ function insert_navigation_bar(user_id,user_details)
         <div>\
         <ul class="nav navbar-nav">\
         <li ><a class="nav_element home" href="http://45.56.85.191/static/index.html">Home</a></li>\
-        <li ><a class="nav_element forum" href="http://45.56.85.191/static/forum.html">Forum</a></li>\
+        <li ><a class="nav_element forum" href="http://45.56.85.191/static/questionlist.html">Forum</a></li>\
         <li ><a class="nav_element health_manager" href="http://45.56.85.191/static/HealthManager.html">Health Manager</a></li>\
         <li ><a class="nav_element SignUp" href="http://45.56.85.191/static/SignUp.html">SignUP</a></li>\
         <li ><a window_id="login_div" class="nav_element Login" onclick="popWindow(this);" href="#">Login</a></li>\
@@ -37,7 +37,7 @@ function insert_navigation_bar(user_id,user_details)
         <div>\
         <ul class="nav navbar-nav">\
         <li ><a class="nav_element home" href="http://45.56.85.191/static/index.html">Home</a></li>\
-        <li ><a class="nav_element forum" href="http://45.56.85.191/static/forum.html">Forum</a></li>\
+        <li ><a class="nav_element forum" href="http://45.56.85.191/static/questionlist.html">Forum</a></li>\
         <li ><a class="nav_element health_manager" href="http://45.56.85.191/static/HealthManager.html">Health Manager</a></li>\
         <li ><a class="nav_element SignUp" href="http://45.56.85.191/static/SignUp.html">SignUP</a></li>\
         <li ><a window_id="login_div" class="nav_element Login" onclick="logout();" href="#">Logout</a></li>\
