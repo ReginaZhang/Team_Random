@@ -22,7 +22,7 @@ from constants import *
 import cherrypy
 import MySQLdb
 import os, glob
-from random import suffle
+from random import shuffle
 
 debug = 0
 
