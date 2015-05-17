@@ -498,7 +498,7 @@ function displayFoods(){
             }
             food = itemList[i];
             console.log(food.ndbno);
-            result += '<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+
+            result +='<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+
                     '<button type="button" class="add_to_diet_button" onclick="showHideSelect(\'select_and_add'+food.ndbno+'\');">Add to diet</button><br>'+
                     '<div id="select_and_add'+food.ndbno+'" style="display:none;">'+
                     '<select id="addToDietWeekday' + food.ndbno + '">' +
