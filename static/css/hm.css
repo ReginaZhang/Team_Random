@@ -209,10 +209,6 @@ tfoot tr:last-child td:last-child {
     filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);
 }
 
-button｛
-
-｝
-
 #footer {
     background: url("../assets/footer.gif");
     height: 150px; /* .push must be the same height as .footer */
