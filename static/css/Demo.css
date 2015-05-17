@@ -40,6 +40,11 @@ h1 {
     font-size: 30px;
 }
 
+table{
+    background-color:#FFFFCC;
+    text-align:center;
+    vertical-align:middle;
+}
 table.about {
     width:100%;
     border:1px solid #d4d4d4;
