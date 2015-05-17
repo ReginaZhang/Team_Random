@@ -11,16 +11,16 @@ function insert_navigation_bar(user_id,user_details)
         obj.innerHTML='<nav class="navbar navbar-custom">\
         <div class="container-fluid">\
         <div class="navbar-header">\
-        <a class="navbar-brand" href="index.html">Health Overflow</a>\
+        <a class="navbar-brand" href="http://45.56.85.191/static/index.html">Health Overflow</a>\
         </div>\
         <div>\
         <ul class="nav navbar-nav">\
-        <li ><a class="nav_element home" href="index.html">Home</a></li>\
-        <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>\
-        <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>\
-        <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>\
+        <li ><a class="nav_element home" href="http://45.56.85.191/static/index.html">Home</a></li>\
+        <li ><a class="nav_element forum" href="http://45.56.85.191/static/forum.html">Forum</a></li>\
+        <li ><a class="nav_element health_manager" href="http://45.56.85.191/static/HealthManager.html">Health Manager</a></li>\
+        <li ><a class="nav_element SignUp" href="http://45.56.85.191/static/SignUp.html">SignUP</a></li>\
         <li ><a window_id="login_div" class="nav_element Login" onclick="popWindow(this);" href="#">Login</a></li>\
-        <li ><a class="nav_element about" href="about.html">About</a></li>\
+        <li ><a class="nav_element about" href="http://45.56.85.191/static/about.html">About</a></li>\
         </ul>\
         </div>\
         </div>\
@@ -32,16 +32,16 @@ function insert_navigation_bar(user_id,user_details)
         obj.innerHTML='<nav class="navbar navbar-custom">\
         <div class="container-fluid">\
         <div class="navbar-header">\
-        <a class="navbar-brand" href="index.html">Health Overflow</a>\
+        <a class="navbar-brand" href="http://45.56.85.191/static/index.html">Health Overflow</a>\
         </div>\
         <div>\
         <ul class="nav navbar-nav">\
-        <li ><a class="nav_element home" href="index.html">Home</a></li>\
-        <li ><a class="nav_element forum" href="http://45.56.85.191:80/index">Forum</a></li>\
-        <li ><a class="nav_element health_manager" href="HealthManager.html">Health Manager</a></li>\
-        <li ><a class="nav_element SignUp" href="SignUp.html">SignUP</a></li>\
+        <li ><a class="nav_element home" href="http://45.56.85.191/static/index.html">Home</a></li>\
+        <li ><a class="nav_element forum" href="http://45.56.85.191/static/forum.html">Forum</a></li>\
+        <li ><a class="nav_element health_manager" href="http://45.56.85.191/static/HealthManager.html">Health Manager</a></li>\
+        <li ><a class="nav_element SignUp" href="http://45.56.85.191/static/SignUp.html">SignUP</a></li>\
         <li ><a window_id="login_div" class="nav_element Login" onclick="logout();" href="#">Logout</a></li>\
-        <li ><a class="nav_element about" href="about.html">About</a></li>\
+        <li ><a class="nav_element about" href="http://45.56.85.191/static/about.html">About</a></li>\
         <li ><a class="nav_element user_details" href="#"> Hello '+user_details.details[0].username+'</a></li>\
         </ul>\
         </div>\
