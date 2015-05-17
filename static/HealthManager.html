@@ -72,12 +72,13 @@
 
                     <div class="plan">
                         <div id="dietwise-buttons" style="display: inline;">
-                            <button id="create-diet" onclick="createDiet()">Create Diet</button>
+                            <button id="create-diet" window_id="creat_diet_window" onclick="popWindow(this)">Create Diet</button>
                             <button id="modify-diet" onclick="modifyDiet()">Modify</button>
                             <button id="delete-diet" onclick="deleteDiet()">Delete Diet</button>
+                            <button id="get-recommend" onclick="getRecommendation()">Get a recommendation!</button>
                         </div>
 
-                        <table class="Plan">
+                        <table class="dietPlan">
                             <caption id="diet-plan-title"></caption>
                             <caption id="empty-warning"></caption>
                             <thead>
@@ -151,18 +152,18 @@
 
                         </table>
                         <br>
+
+                        <button id="start_diet" onclick="startDiet()">Mark as current diet</button>
+                        <br>
+                        <select id="diet_list" onchange="getDiet(this.value);">
+                        </select>
+
                         <strong><p>Total Nutririons for the week:</p></strong>
                     </div>
 
                     <div id="diet_nutrition">
 
                     </div>
-
-
-                        <button id="start_diet" onclick="startDiet()">Mark as current diet</button>
-                        <br>
-                        <select id="diet_list" onchange="getDiet(this.value);">
-                        </select>
 
                 </div>
 
@@ -177,7 +178,7 @@
 
     <!-- Show this to guest -->
     <div id="trial">
-        <div id="trialBody" class="main"></div>
+        <div id="trialMessage" class="main"></div>
         <div id="food">
             <table class="food">
                 <tr>
