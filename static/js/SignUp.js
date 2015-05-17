@@ -169,7 +169,7 @@ function sign_up()
     {
         return;
     }
-    xhr.send(user_data);
+    xhr.send(JSON.stringify(user_data));
     //console.log(JSON.stringify(user_data));
     console.log(user_data);
     //user_data_g=user_data;
