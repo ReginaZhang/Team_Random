@@ -337,6 +337,9 @@ public class App {
 				if(info.get("modiType").equals("delete")) {
 					db.executeDelete("DietItem", foodInDiet);
 				} else if(info.get("modiType").equals("add")) {
+					if (db.executeQuery("DietItem", foodInDiet).isBeforeFirst()) {
+						throw new Exception("Food already there");
+					}
 					db.executeInsert("DietItem", foodInDiet);
 				} else if(info.get("modiType").equals("start")) {
 					HashMap<String, String> cond = new HashMap<String, String>();
