@@ -294,6 +294,8 @@ public class HealthDb
 		}
 		sql+="?);";
 		
+		System.out.println(sql);
+		
 		try {
 			conn = ds.getConnection();
 			stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

@@ -38,7 +38,7 @@
                        name="password" id="password" />
             </p>
             <p>Confirm Password *
-                <input type="confirmpassword"
+                <input type="password"
                        required="required"
                        name="confirmpassword" id="confirm_password"/>
             </p>
@@ -77,8 +77,7 @@
                                type="text" value="" id="email"/>
                     </p>
 
-                    <li><p><a href="javascript:unhide('optional');" id="black">Optional Fields</a></p></li>
-                    <p>Click to fill in more detailed information</p>
+                    <li><p><a href="javascript:unhide('optional');" id="black">Optional Fields(Click to fill in more detailed information)</a></p></li>
                     <div id="optional" class="hidden">
                         <p>Gender
                             <select name="Gernder">
@@ -139,7 +138,7 @@
                             Address<input id="autocomplete" placeholder="Enter your address" type="text" onkeyup="codeAddress();"/>
                             <div id="googleMap" style="width:800px;height:500px;"></div>
                         </div>
-                        <script src="js/SignUp.js" type="text/javascript"></script>
+
                         </p>
                     </div>
                 </fieldset>
@@ -147,6 +146,7 @@
         </div>
     </form>
     <br><br>
+        <!--
     <fieldset>
         <legend>Terms and Conditions</legend>
         <p class="agreement">
@@ -158,8 +158,11 @@
             <label>I want to receive personalized offers by your site</label>
         </p>
     </fieldset>
+        -->
     <br><br><div id="buttons" class="row_input">
     <input type="submit" value="Submit" onclick="sign_up()"/>
+        <div id="sign_up_error_div"></div>
+        </div>
 </div>
 
     <div class="push"></div>
@@ -177,5 +180,6 @@
 
 </div>
 <script src="js/style.js" type="text/javascript"></script>
+<script src="js/SignUp.js" type="text/javascript"></script>
 </body>
 </html>

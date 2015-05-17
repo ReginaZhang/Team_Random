@@ -1,12 +1,12 @@
-var userId=null;
+//var userId=null;
 /*function used to determine login window up or not*/
 
-function insert_navigation_bar(user_details)
+function insert_navigation_bar(user_id,user_details)
 {
     var div_id='login_div';
     //console.log("uesr detials "+user_details.details.username);
     var obj=document.getElementById("navigation_bar");
-    if ( (userId==null) ||(user_details==null))
+    if ( (user_id==null)||(user_details==null))
     {
         obj.innerHTML='<nav class="navbar navbar-custom">\
         <div class="container-fluid">\
@@ -92,7 +92,7 @@ function windowPOPup(div_id,msg) {
             <input type='password' class='form-control' id='input_password' placeholder='Password'>\
             </div>\
             <br/>\
-            <button type='button' class='btn btn-default' onclick='login_validation();'>Login</button>\
+            <button type='button' class='btn btn-default' onclick='doLogin_popup();'>Login</button>\
             <button type='button' window_id='login_div' onclick='popWindow(this);' class='btn btn-default'>Close</button>\
             </form>\
             ";
@@ -131,7 +131,17 @@ function windowPOPdown(one_obj)
     console.log("in pop down");
 }
 
-function login_validation()
+function doLogin_popup()
+{
+    login_validation(document.getElementById("input_username").value,
+        document.getElementById("input_password").value,
+        function(){
+            checkLoggedIn();
+            windowPOPdown(document.getElementById("login_div"));
+        });
+}
+
+function login_validation(user_name,password,callback)
 {
     var xhr_ip = new XMLHttpRequest();
     xhr_ip.open("GET", "http://api.hostip.info/get_json.php?antiCache="+Math.random());
@@ -145,8 +155,8 @@ function login_validation()
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "http://45.56.85.191:8000/user/login", true);
             var user_data = {};
-            user_data["username"] =document.getElementById("input_username").value;
-            user_data["password"] =document.getElementById("input_password").value;
+            user_data["username"] =user_name;
+            user_data["password"] =password;
             user_data.userIp = JSON.parse(xhr_ip.responseText).ip;
             //user_data["email"] = "hello@gmail.com";
             if(!user_data_validation(user_data))
@@ -174,8 +184,8 @@ function login_validation()
                         if (xhr_jonathan_login.readyState == 4 && xhr_jonathan_login.status==200) {
                             console.log("jon " + xhr_jonathan_login.responseText);
                             //insert_navigation_bar(JSON.parse(xhr_jonathan_login.responseText));
-                            checkLoggedIn();
-                            windowPOPdown(document.getElementById("login_div"));
+                            callback();
+
                         }
                     }
 
@@ -192,14 +202,17 @@ function checkLoggedIn()
 {
     var xhr = new XMLHttpRequest();
     var user_detail_json;
+    var userId;
     xhr.open("GET","http://45.56.85.191/check_loggedin",true);
     xhr.send();
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status==200) {
             user_detail_json=JSON.parse(xhr.responseText)
             userId=user_detail_json.id;
+            //userName = user_detail_json.userName;
+            //userWeight = user_detail_json.weight;
             console.log("change navigation "+xhr.responseText);
-            insert_navigation_bar(user_detail_json);
+            insert_navigation_bar(userId,user_detail_json);
         }
     }
 }
@@ -231,5 +244,5 @@ function user_data_validation(user_data)
     return true;
 }
 checkLoggedIn();
-insert_navigation_bar(null);
+insert_navigation_bar(null,null);
 

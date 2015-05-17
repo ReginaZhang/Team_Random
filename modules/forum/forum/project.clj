@@ -28,7 +28,7 @@
               [{:source-paths ["src/cljs/"],
                 :id "main",
                 :compiler
-                {:optimizations :whitespace,
+                {:optimizations :advanced,
                  :output-to "static/js/cljs.js",
                  :pretty-print true}}]}
   :main ^:skip-aot forum.core

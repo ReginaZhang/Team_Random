@@ -268,7 +268,7 @@ public class App {
 				while (foodInDiet.next()) {
 					HashMap<String, String> oneFood = new HashMap<String, String>();
 					
-					ResultSet oneFoodDetail = db.executeQuery("Food", "FoodId", foodInDiet.getString("FoodId"));
+					ResultSet oneFoodDetail = db.executeQuery("Food", "Ndbno", foodInDiet.getString("Ndbno"));
 					oneFoodDetail.next();
 					
 					HashMap<String, String> foodTable = db.getTableSet().get("Food");
@@ -277,7 +277,7 @@ public class App {
 						
 						String fieldClone = field;
 						
-						if (field.equals("FoodName") || field.equals("FoodId")) {
+						if (field.equals("FoodName") || field.equals("Ndbno")) {
 							fieldClone = fieldClone.toLowerCase().charAt(0) + fieldClone.substring(1);					
 						}
 
@@ -328,7 +328,9 @@ public class App {
 			HashMap<String, String> foodInDiet = new HashMap<String,String>();
 			
 			for (String field: ks) {
-				foodInDiet.put(field, info.get(field.toLowerCase().charAt(0) + field.substring(1)));
+				if (!field.equals("DietItemId")) {
+					foodInDiet.put(field, info.get(field.toLowerCase().charAt(0) + field.substring(1)));
+				}				
 			}
 			
 			try {
