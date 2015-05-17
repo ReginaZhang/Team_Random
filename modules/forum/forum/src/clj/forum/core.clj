@@ -174,9 +174,9 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
       {:status 200 :headers cors-headers :body {:id id}})))
 
 (defn check-user-credentials [{{:strs [username password]} :params}]
-  (let [[{db-password :password}] (jdb/query health-db ["select Password from User where UserName = ?" username])
+  (let [[{db-password :password user-id :userid}] (jdb/query health-db ["select Password, UserId from User where UserName = ?" username])
         matches (crypt/compare password db-password)]
-    {:status 200 :headers cors-headers :body {:matches matches}}))
+    {:status 200 :headers cors-headers :body {:id (if matches user-id nil)}}))
    
 
       
