@@ -40,69 +40,48 @@ h1 {
     font-size: 30px;
 }
 
-table.about {
+table.popular {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.about th,td {
+table.popular th,td {
     padding:10px;
 }
-table.about th {
+table.popular th {
     width:40px;
 }
 
-table.food {
+table.reply {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.food th {
-    padding:10px;
+table.reply th,td {
+    padding: 10px;
+}
+table.reply th{
     width:40px;
 }
 
-table.test {
+table.recent {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.test th {
-    padding:10px;
+table.recent th,td {
+    padding: 10px;
+}
+table.recent th{
     width:40px;
 }
 
-table.calculator {
-    width:50%;
-    border:1px solid #d4d4d4;
-}
-table.calculator th {
-    padding:10px;
-    width:40px;
-}
-
-table.plan {
+table.noReply {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.plan th {
-    padding:10px;
+table.noReply th,td {
+    padding: 10px;
+}
+table.noReply th{
     width:40px;
-}
-
-table.comment {
-    width:100%;
-    border:1px solid #d4d4d4;
-}
-table.comment th {
-    padding:10px;
-    width:40px;
-}
-
-table.set {
-    width:50%;
-    border:1px solid #d4d4d4;
-}
-table.set th {
-    padding:10px;
-    width:15px;
 }
 
 #nav {
