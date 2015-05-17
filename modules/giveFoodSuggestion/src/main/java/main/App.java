@@ -439,7 +439,7 @@ public class App {
 			String json = br.readLine();
 			
 			try {
-				String idValue = json.substring(7, json.indexOf("\"}"));
+				String idValue = json.substring(7, json.indexOf("\",\"details"));
 				
 				if(!idValue.equals(info.get("userId"))) {
 					throw new Exception("Not current user");
