@@ -328,7 +328,9 @@ public class App {
 			HashMap<String, String> foodInDiet = new HashMap<String,String>();
 			
 			for (String field: ks) {
-				foodInDiet.put(field, info.get(field.toLowerCase().charAt(0) + field.substring(1)));
+				if (!field.equals("DietItemId")) {
+					foodInDiet.put(field, info.get(field.toLowerCase().charAt(0) + field.substring(1)));
+				}				
 			}
 			
 			try {

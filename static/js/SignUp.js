@@ -139,6 +139,7 @@ function sign_up()
     var user_data = {};
     user_data["username"]=document.getElementById("username").value;
     user_data["password"]=document.getElementById("password").value;
+    user_data["confirm_password"]=document.getElementById("confirm_password").value;
     //user_data["address"]=document.getElementById("autocomplete").value;
     user_data["email"] = document.getElementById("email").value;
     user_data["address"] = document.getElementById("autocomplete").value;
@@ -146,15 +147,53 @@ function sign_up()
     user_data["weight"] = document.getElementById("weight").value;
     //user_data["username"] =document.getElementById("input_username").value;
     //user_data["password"] =document.getElementById("input_password").value;
+    if(!check_sign_up_user_data(user_data))
+    {
+        return;
+    }
     xhr.send(JSON.stringify(user_data));
     console.log(JSON.stringify(user_data));
 
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status==200) {
             console.log(xhr.responseText);
+            if(JSON.parse(xhr.responseText).register=="successful")
+            {
+                //change this to specific url from our vps
+                login_validation(user_data["username"],user_data["password"],function(){
+                    window.location.replace("index.html");
+                });
+            }
         }
     }
 
+
+}
+
+function check_sign_up_user_data(user_data)
+{
+    console.log("test sign up validation "+(JSON.stringify(user_data)));
+    var user_name_regex=/[a-zA-Z]*/;
+    var email_regex=/[a-zA-Z0-9]*@[a-zA-Z0-9]*[\.a-zA-Z0-9]*\.[A-Za-z0-9]*[^.]$/;
+    var error_div= document.getElementById("sign_up_error_div");
+    error_div.innerHTML="";
+    if(user_data["password"]==""||user_data["confirm_password]"]=="")
+    {
+        error_div.innerHTML="Your password cant be empty X.X";
+        return false;
+    }
+    if(user_data["password"]!=user_data["confirm_password"])
+    {
+        error_div.innerHTML="Your re-entered password does not match X.X";
+        return false;
+    }
+
+    if((user_data["email"].match(email_regex)==null)||(user_data["email"]!=user_data["email"].match(email_regex)[0]))
+    {
+        error_div.innerHTML="Your email is invalid X.X";
+        return false;
+    }
+    return true;
 
 }
 

@@ -206,4 +206,8 @@ tfoot tr:last-child td:last-child {
 .push {
     height: 150px;
 }
-
+.food_name
+{
+    color:#3299CC;
+    cursor:pointer;
+}
