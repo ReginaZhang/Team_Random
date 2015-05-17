@@ -232,18 +232,13 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
                   "questions" :questions
                   "add_question" :add-question
                   "index" :index
-                  ["forum/" :question-id] :forum
                   "login_user" :login-user
                   "logout_user" :logout-user
                   "check_loggedin" :check-loggedin
                   "show_my_ip" :show-my-ip
                   "diet_recommendation" :diet-recommendation
                   "register_user" :register-user
-                  "check_user_credentials" :check-user-credentials
-                  ["static/js/" :jsfile ".js"] :serve_js
-                  ["static/css/" :cssfile ".css"] :serve_css
-                  ["static/assets/" :pngfile ".png"] :serve_png
-                  ["static/assets/" :assetfile] :serve_asset}])
+                  "check_user_credentials" :check-user-credentials}])
 
 (defn forum [request]
   (if-let [match (bidi/match-route routes (:uri request))]
@@ -259,19 +254,13 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
                 :vote-for (rest-wrap update-comment-vote)
                 :questions (rest-wrap get_questions)
                 :add-question (rest-wrap add_question)
-                :index index
-                :forum index
                 :login-user (rest-wrap login-user)
                 :logout-user (rest-wrap logout-user)
                 :check-loggedin (rest-wrap check-loggedin)
                 :show-my-ip (rest-wrap showmy-ip)
                 :diet-recommendation (rest-wrap get-recommendation)
                 :register-user (rest-wrap register-user)
-                :check-user-credentials (rest-wrap check-user-credentials)
-                :serve_js (mk-serve-js (:jsfile params))
-                :serve_css (mk-serve-css (:cssfile params))
-                :serve_png (mk-serve-png (:pngfile params))
-                :serve_asset (mk-serve-asset (:assetfile params))}
+                :check-user-credentials (rest-wrap check-user-credentials)}
                handler)]
       (handler-fn request))
     {:status 404 :body "404 page not found"}))
