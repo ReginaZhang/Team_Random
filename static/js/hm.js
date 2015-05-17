@@ -1,6 +1,6 @@
 var serverAdd = "http://45.56.85.191";
 var defaultMethod = "POST";
-var userId =null;
+var userId = null;
 var userName = null;
 var userWeight = null;
 var activeDietId = null;
@@ -18,7 +18,7 @@ function isLoginedIn() {
 
             query(":8000/user/check", defaultMethod, {userIp: userIp}, function(userDetail) {
 
-                userId = '7';//userDetail.userId;
+                userId = userDetail.userId;
                 userName = userDetail.userName;
                 userWeight = userDetail.weight;
 
