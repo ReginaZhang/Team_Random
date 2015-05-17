@@ -1,6 +1,8 @@
 //image-position means image's position on carousel
 //middle element image-position =0  ,left =-1 ,right =1
 //add click event to all carousel elements
+//this function will load image url from our vps folder
+//after setting up all image tag , they will be used for setting up carousel
 function getImage() {
     var xhr = new XMLHttpRequest();
     var obj_json = null;

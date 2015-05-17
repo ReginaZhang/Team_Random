@@ -4,6 +4,9 @@
 
 //add click event to all carousel elements
 
+
+//this function will load image url from our vps folder
+//after setting up all image tag , they will be used for setting up carousel
 function getImage()
 {
     var xhr = new XMLHttpRequest();
@@ -242,6 +245,8 @@ function set_carousel_transform(one_element,left:string,perspective:string,degre
     //one_element.style.MozTransform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
     //one_element.style.transform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
 }
+
+
 getImage();
 
 
