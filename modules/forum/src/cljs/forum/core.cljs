@@ -44,6 +44,15 @@
                                              (update-callback))
                                          (reset! error-store (str response))))))
 
+(defn add-question
+  "Make a backend request to post a new question"
+  [text user-id title update-callback]
+  (backend-request "/add_question"
+                   {:text text :user_id user-id :title title}
+                   (fn [[ok response]] (if ok                                          
+                                         (update-callback)
+                                         (print (str "Error: " response))))))
+
 (defn delete-comment
   "Make a backend request to delete a comment"
   [comment-id error-store success-callback]
@@ -88,6 +97,15 @@
                    (fn [[ok response]] (if ok (reset! questions-store response)
                                            (reset! error-store "Error: could not get questions from DB. Maybe the DB is down?")))))
                                                
+
+(defn check-loggedin
+  "Return the user id if the user is loggedin.
+  Check is based on user IP and Request Header"
+  [userid-store]
+  (backend-request "/check_loggedin" {} (fn [[ok response]] (if ok (do (reset! userid-store (:id response))
+                                                                       (print (str "response is"  (:id response))))
+                                                                (check-loggedin userid-store)))))
+
 
 (defn start-resource-provider
   "Tbe resource provider fetches and caches comments
@@ -173,6 +191,24 @@
                 :value @txt
                 :on-change #(reset! txt (-> % .-target .-value))}]
        [:button {:on-click #(add-comment question-id parent-id @user-id-atom parent-box-toggle @txt error-store update-callback)}
+        "Submit"]])))
+
+(defn new-question-box
+  "Render a question posting box, for posting a new question."
+  [{:keys [user-id-atom]}]
+  (let [txt (re/atom "")
+        title (re/atom "")]
+    (fn []
+      [:div.new-question-box
+       [:input {:type "text"
+                :placeholder "Enter the question title..."
+                :value @title
+                :on-change #(reset! title (-> % .-target .-value))}]
+       [:input {:type "text"
+                :placeholder "Enter the question..."
+                :value @txt
+                :on-change #(reset! txt (-> % .-target .-value))}]
+       [:button {:on-click #(add-question @txt @user-id-atom @title (fn [] nil))}
         "Submit"]])))
 
 (defn comment-edit-box
@@ -283,6 +319,7 @@
         question-store (re/atom {})
         question-id (get (:query (url js/window.location.href)) "question_id")]
     (start-resource-provider request-chan)
+    (check-loggedin userid-store)
     (get-flag-types flagtype-store)
     (get-questions question-store userid-store (re/atom {}) question-id)
     (fn []
@@ -307,15 +344,18 @@
         question-store (re/atom {})
         questions (get-questions question-store userid-store (re/atom {}) nil)]
     (fn []
-    [:div.question-list
-     (for [{:keys [questionid questiontitle score]} (sort-by :score @question-store)]
-       ^{:key questionid}
-       [:div.question
-        [:div.question-title
-         [:a {:href (str "/static/forum.html?question_id=" questionid)}
-          questiontitle]]
-        [:div.question-score score]])])))
-
+      [:div.forum-index
+       [:div.question-add
+        [new-question-box {:user-id-atom userid-store}]] 
+       [:div.question-list
+        (for [{:keys [questionid questiontitle score]} (sort-by :score @question-store)]
+          ^{:key questionid}
+          [:div.question
+           [:div.question-title
+            [:a {:href (str "/static/forum.html?question_id=" questionid)}
+             questiontitle]]
+           [:div.question-score score]])]])))
+  
 (set! (.-onload js/window)
       #(let [q-list-div (js/document.getElementById "question_list")
              forum-div (js/document.getElementById "forum")]
