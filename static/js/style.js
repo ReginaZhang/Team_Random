@@ -92,7 +92,7 @@ function windowPOPup(div_id,msg) {
             <input type='password' class='form-control' id='input_password' placeholder='Password'>\
             </div>\
             <br/>\
-            <button type='button' class='btn btn-default' onclick='login_validation();'>Login</button>\
+            <button type='button' class='btn btn-default' onclick='doLogin_popup();'>Login</button>\
             <button type='button' window_id='login_div' onclick='popWindow(this);' class='btn btn-default'>Close</button>\
             </form>\
             ";
@@ -131,7 +131,17 @@ function windowPOPdown(one_obj)
     console.log("in pop down");
 }
 
-function login_validation()
+function doLogin_popup()
+{
+    login_validation(document.getElementById("input_username").value,
+        document.getElementById("input_password").value,
+        function(){
+            checkLoggedIn();
+            windowPOPdown(document.getElementById("login_div"));
+        });
+}
+
+function login_validation(user_name,password,callback)
 {
     var xhr_ip = new XMLHttpRequest();
     xhr_ip.open("GET", "http://api.hostip.info/get_json.php?antiCache="+Math.random());
@@ -145,8 +155,8 @@ function login_validation()
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "http://45.56.85.191:8000/user/login", true);
             var user_data = {};
-            user_data["username"] =document.getElementById("input_username").value;
-            user_data["password"] =document.getElementById("input_password").value;
+            user_data["username"] =user_name;
+            user_data["password"] =password;
             user_data.userIp = JSON.parse(xhr_ip.responseText).ip;
             //user_data["email"] = "hello@gmail.com";
             if(!user_data_validation(user_data))
@@ -174,8 +184,8 @@ function login_validation()
                         if (xhr_jonathan_login.readyState == 4 && xhr_jonathan_login.status==200) {
                             console.log("jon " + xhr_jonathan_login.responseText);
                             //insert_navigation_bar(JSON.parse(xhr_jonathan_login.responseText));
-                            checkLoggedIn();
-                            windowPOPdown(document.getElementById("login_div"));
+                            callback();
+
                         }
                     }
 

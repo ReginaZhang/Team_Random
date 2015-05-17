@@ -38,7 +38,7 @@
                        name="password" id="password" />
             </p>
             <p>Confirm Password *
-                <input type="confirmpassword"
+                <input type="password"
                        required="required"
                        name="confirmpassword" id="confirm_password"/>
             </p>
@@ -138,7 +138,7 @@
                             Address<input id="autocomplete" placeholder="Enter your address" type="text" onkeyup="codeAddress();"/>
                             <div id="googleMap" style="width:800px;height:500px;"></div>
                         </div>
-                        <script src="js/SignUp.js" type="text/javascript"></script>
+
                         </p>
                     </div>
                 </fieldset>
@@ -161,6 +161,8 @@
         -->
     <br><br><div id="buttons" class="row_input">
     <input type="submit" value="Submit" onclick="sign_up()"/>
+        <div id="sign_up_error_div"></div>
+        </div>
 </div>
 
     <div class="push"></div>
@@ -178,5 +180,6 @@
 
 </div>
 <script src="js/style.js" type="text/javascript"></script>
+<script src="js/SignUp.js" type="text/javascript"></script>
 </body>
 </html>
