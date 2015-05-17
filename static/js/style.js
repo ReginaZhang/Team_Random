@@ -136,8 +136,9 @@ function doLogin_popup()
     login_validation(document.getElementById("input_username").value,
         document.getElementById("input_password").value,
         function(){
-            checkLoggedIn();
-            windowPOPdown(document.getElementById("login_div"));
+            //checkLoggedIn();
+            //windowPOPdown(document.getElementById("login_div"));
+            location.reload();
         });
 }
 
