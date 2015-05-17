@@ -598,6 +598,7 @@ public class App {
 			String encreptedString = new String(encrepted);
 			info.replace("password", encreptedString);		
 			
+			//Ensuring compatibility between camelCase and MySql Style table names
 			Map<String, String> infoIgnoreCase = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
 			infoIgnoreCase.putAll(info);
 			
