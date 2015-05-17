@@ -3,6 +3,47 @@
 //middle element image-position =0  ,left =-1 ,right =1
 
 //add click event to all carousel elements
+
+function getImage()
+{
+    var xhr = new XMLHttpRequest();
+    var obj_json=null;
+    xhr.open("GET","http://45.56.85.191/food/get_random_filenames?subdir_name=%2Fstatic%2Fassets%2Fcarousel_image&file_type=*");
+    xhr.send();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status==200) {
+            console.log(xhr.responseText);
+            obj_json=JSON.parse(xhr.responseText);
+            console.log(obj_json["files"]);
+            setUpImageTag(obj_json);
+            carousel_initialize();
+            initialize_carousel_eventListener();
+        }
+    }
+}
+
+function setUpImageTag(obj_json)
+{
+    var domain="http://45.56.85.191/static/assets/carousel_image/";
+    var file_name_array=obj_json["files"];
+    var i;
+    var image_tag =null;
+    var carousel_section=document.getElementById("carousel_section");
+    carousel_section.innerHTML="";
+    for(i=0;i<file_name_array.length&&i<20;i++)
+    {
+        image_tag = document.createElement('img');
+        image_tag.className="carousel_element";
+        image_tag.src=domain+file_name_array[i];
+        console.log(file_name_array[i]);
+        carousel_section.appendChild(image_tag);
+    }
+
+}
+
+
+
+
 function initialize_carousel_eventListener()
 {
     var carousel_elements=document.getElementsByClassName("carousel_element");
@@ -179,7 +220,7 @@ function carousel_initialize():void
         one_element.setAttribute("image-position","1");
         set_carousel_transform(one_element,(obj_collection_outer_div_width-obj_one_width)-50-20*(obj_collection_length-i)+"px","400px","-45deg","-100px",""+(obj_collection_length-i));
     }
-    console.log(obj_collection[0].getAttribute("image-position") +obj_collection[1].getAttribute("image-position")+obj_collection[2].getAttribute("image-position"));
+    console.log((<HTMLElement>obj_collection[0]).getAttribute("image-position") +(<HTMLElement>obj_collection[1]).getAttribute("image-position")+(<HTMLElement>obj_collection[2]).getAttribute("image-position"));
 
 }
 
@@ -201,3 +242,8 @@ function set_carousel_transform(one_element,left:string,perspective:string,degre
     //one_element.style.MozTransform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
     //one_element.style.transform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
 }
+getImage();
+
+
+//carousel_initialize();
+//initialize_carousel_eventListener();

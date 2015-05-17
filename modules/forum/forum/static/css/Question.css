@@ -20,7 +20,7 @@ html, body {
 body {
     font-family: "Trebuchet MS", Verdana, sans-serif;
     font-size: 16px;
-    background-color: dimgrey; 
+    background-color: dimgrey;
     color: #696969;
     padding: 3px;
 }
@@ -44,10 +44,10 @@ table.about {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.about th,td { 
+table.about th,td {
     padding:10px;
 }
-table.about th { 
+table.about th {
     width:40px;
 }
 
@@ -55,66 +55,56 @@ table.food {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.food th { 
+table.food th {
     padding:10px;
-	width:40px;
+    width:40px;
 }
 
 table.test {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.test th { 
+table.test th {
     padding:10px;
-	width:40px;
+    width:40px;
 }
 
 table.calculator {
     width:50%;
     border:1px solid #d4d4d4;
 }
-table.calculator th { 
+table.calculator th {
     padding:10px;
-	width:40px;
+    width:40px;
 }
 
 table.plan {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.plan th { 
+table.plan th {
     padding:10px;
-	width:40px;
+    width:40px;
 }
 
 table.comment {
     width:100%;
     border:1px solid #d4d4d4;
 }
-table.comment th { 
+table.comment th {
     padding:10px;
-	width:40px;
+    width:40px;
 }
 
 table.set {
     width:50%;
     border:1px solid #d4d4d4;
 }
-table.set th { 
+table.set th {
     padding:10px;
-	width:15px;
+    width:15px;
 }
 
-#mainDisplay
-{
-    padding:25px;
-}
-
-#results
-{
-    background-color:#E6E6E6;
-    width:450px;
-}
 #nav {
     padding: 0;
     margin-bottom: 11px;
@@ -146,9 +136,4 @@ table.set th {
 .push {
     height: 150px;
 
-}
-
-#register_link
-{
-    color:purple;
 }

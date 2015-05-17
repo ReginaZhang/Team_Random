@@ -499,7 +499,9 @@ function displayFoods(){
             food = itemList[i];
             console.log(food.ndbno);
             result += '<div class="one_food_div"><span class="food_name" onclick="showFoodNutrientsTable(this)">'+food.foodname +'</span>'+
-                    '<button type="button" class="add_to_diet_button" onclick="showHideSelect(\'select_and_add'+food.ndbno+'\');">Add to diet</button><br>'+
+                    '&nbsp'+
+                    '&nbsp'+
+                    '<button type="button" class="add_to_diet_button" onclick="showHideSelect(\'select_and_add'+food.ndbno+'\');">Add to diet</button><br><br>'+
                     '<div id="select_and_add'+food.ndbno+'" style="display:none;">'+
                     '<select id="addToDietWeekday' + food.ndbno + '">' +
                     '<option value="Mon">Monday</option>' +
@@ -511,12 +513,13 @@ function displayFoods(){
                     '<option value="Sun">Sunday</option>' +
                     '<option value="NA">Not Specified</option>' +
                     '</select>' +
+                    '&nbsp'+
                     '<select id="addToDietMeal' + food.ndbno + '">' +
                     '<option value="B">Breakfast</option>' +
                     '<option value="L">Lunch</option>' +
                     '<option value="D">Dinner</option>' +
                     '<option value="O">Backup/Other</option>' +
-                    '</select><br>'+
+                    '</select><br><br>'+
                     '<button type="button" class="do_add_button" onclick="addToDiet(\'' +food.ndbno + '\',' +
                     '$(\'#addToDietWeekday' + food.ndbno + '\').val(),$(\'#addToDietMeal' + food.ndbno + '\').val()' +
                     ');showHideSelect(\'select_and_add'+food.ndbno+'\');">Add</button>'+

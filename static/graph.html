@@ -1,0 +1,64 @@
+<style>
+    dl {
+        margin: 0;
+        padding: 0;
+    }
+    dt {
+        position: relative; /* IE is dumb */
+        clear: both;
+        display: block;
+        float: left;
+        width: 104px;
+        height: 20px;
+        line-height: 20px;
+        margin-right: 17px;
+        font-size: .75em;
+        text-align: right;
+    }
+    dd {
+        position: relative; /* IE is dumb */
+        display: block;
+        float: left;
+        width: 197px;
+        height: 20px;
+        margin: 0 0 15px;
+        background: url("g_colorbar.jpg");
+    }
+    * html dd { float: none; }
+    /* IE is dumb; Quick IE hack, apply favorite filter methods for 
+    wider browser compatibility */
+
+    dd div {
+        position: relative;
+        background: url("g_colorbar2.jpg");
+        height: 20px;
+        width: 75%;
+        text-align:right;
+    }
+    dd div strong {
+        position: absolute;
+        right: -5px;
+        top: -2px;
+        display: block;
+        background: url("g_marker.gif");
+        height: 24px;
+        width: 9px;
+        text-align: left;
+        text-indent: -9999px;
+        overflow: hidden;
+    }
+</style>
+<dl>
+    <dt>Love Life</dt>
+    <dd>
+        <div style="width:25%;"><strong>25%</strong></div>
+    </dd>
+    <dt>Education</dt>
+    <dd>
+        <div style="width:55%;"><strong>55%</strong></div>
+    </dd>
+    <dt>War Craft 3 Rank</dt>
+    <dd>
+        <div style="width:75%;"><strong>75%</strong></div>
+    </dd>
+</dl>
