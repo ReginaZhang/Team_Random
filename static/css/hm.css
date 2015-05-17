@@ -198,6 +198,17 @@ tfoot tr:last-child td:last-child {
     margin-bottom:  2px;
 }
 
+#preview{
+    width:260px;
+    height:190px;
+    border:1px solid #000;
+    overflow:hidden;
+}
+
+#imghead {
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);
+}
+
 #footer {
     background: url("../assets/footer.gif");
     height: 150px; /* .push must be the same height as .footer */
