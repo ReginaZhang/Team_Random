@@ -15,6 +15,7 @@
                  [reagent "0.5.0"]
                  [cljs-ajax "0.3.11"]
                  [com.cemerick/url "0.1.1"]
+                 [lib-noir "0.9.9"]
                  [bidi "1.19.0"]]
   :plugins [[lein-ring "0.9.3"]
             [lein-cljsbuild "1.0.5"]]

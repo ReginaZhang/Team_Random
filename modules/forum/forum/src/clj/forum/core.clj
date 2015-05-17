@@ -4,6 +4,7 @@
             [ring.util.response :as resp]
             [ring.middleware.json :as json]
             [ring.middleware.params :as prms]
+            [noir.util.crypt :as crypt]
             [bidi.bidi :as bidi])
   (:gen-class))
 
@@ -159,6 +160,26 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
       (print (str user " " str-encrypted))
       (.equals (:password user) str-encrypted))))
 
+(defn register-user [{{:strs [username email password weight height address]} :params}]
+  (if (first (jdb/query health-db ["select UserId from User where UserName = ?" username]))
+    {:status 200 :headers cors-headers :body {:error "User already exists!"}}
+    (let [[{addr-id :generated_key}] (jdb/insert! health-db :Address {:Content address})
+          passwd-hash (crypt/encrypt password)
+          [{id :generated_key}] (jdb/insert! health-db :User {:Email email
+                                           :UserName username
+                                           :Weight weight 
+                                           :Height height
+                                           :Password passwd-hash
+                                           :AddressId addr-id})]
+      {:status 200 :headers cors-headers :body {:id id}})))
+
+(defn check-user-credentials [{{:strs [username password]} :params}]
+  (let [[{db-password :password}] (jdb/query health-db ["select Password from User where UserName = ?" username])
+        matches (crypt/compare password db-password)]
+    {:status 200 :headers cors-headers :body {:matches matches}}))
+   
+
+      
 (def loggedin-users (atom {}))
 (defn login-user [{{:strs [user_id ip header]} :params {req-agent "user-agent" req-ip "x-forwarded-for"} :headers}]
   (swap! loggedin-users #(assoc % [(if ip ip req-ip), (if header header req-agent)] user_id))
@@ -217,6 +238,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
                   "check_loggedin" :check-loggedin
                   "show_my_ip" :show-my-ip
                   "diet_recommendation" :diet-recommendation
+                  "register_user" :register-user
+                  "check_user_credentials" :check-user-credentials
                   ["static/js/" :jsfile ".js"] :serve_js
                   ["static/css/" :cssfile ".css"] :serve_css
                   ["static/assets/" :pngfile ".png"] :serve_png
@@ -243,6 +266,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
                 :check-loggedin (rest-wrap check-loggedin)
                 :show-my-ip (rest-wrap showmy-ip)
                 :diet-recommendation (rest-wrap get-recommendation)
+                :register-user (rest-wrap register-user)
+                :check-user-credentials (rest-wrap check-user-credentials)
                 :serve_js (mk-serve-js (:jsfile params))
                 :serve_css (mk-serve-css (:cssfile params))
                 :serve_png (mk-serve-png (:pngfile params))
