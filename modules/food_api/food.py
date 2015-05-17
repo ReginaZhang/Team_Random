@@ -21,6 +21,7 @@ import unicodedata
 from constants import *
 import cherrypy
 import MySQLdb
+import os
 
 debug = 0
 
