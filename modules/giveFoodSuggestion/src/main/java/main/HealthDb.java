@@ -289,10 +289,21 @@ public class HealthDb
 			}
 		}
 		
-		for (int i=0; i<fieldValuePair.size()-1; i++) {
-			sql += "?, ";
+		for (int i=0; i<fieldValuePair.size(); i++) {
+			
+			if (fieldValuePair.get(ks[i]) == null) {
+				sql += "null";
+			} else {
+				sql += "?";
+			}
+			
+			if (i!=fieldValuePair.size() - 1) {
+				sql += ", ";
+			} else {
+				sql+=");";
+			}
+		
 		}
-		sql+="?);";
 		
 		System.out.println(sql);
 		

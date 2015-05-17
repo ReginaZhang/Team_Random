@@ -501,7 +501,7 @@ public class App {
 			System.out.println(checkUrl);
 			
 			try {
-				String idValue = json.substring(7, json.indexOf("\"}"));
+				String idValue = json.substring(7, json.indexOf("\",\"details"));
 				
 				int id = Integer.parseInt(idValue);
 				ResultSet user = db.executeQuery("User", "UserId", Integer.toString(id));
@@ -582,7 +582,7 @@ public class App {
 			response.put("register", "invalid");
 			
 			
-			if ((req.contentLength() == EMPTY_CONTENT || !info.containsKey("username") || !info.containsKey("password") || !info.containsKey("email"))) {
+			if (!isReqValid("/user/login", info.keySet())) {
 				return gs.toJson(response);
 			}
 			
