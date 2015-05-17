@@ -16,4 +16,4 @@ Our project uses a microservices approach, with different services responsible f
 
 Project work for INFO30005 Web Infomation Technolegies
 
-Project Name: Health Overflow
+Project Name: Health Overflows

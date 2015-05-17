@@ -195,7 +195,7 @@
 
 (defn new-question-box
   "Render a question posting box, for posting a new question."
-  [{:keys [user-id-atom]}]
+  [{:keys [user-id-atom update-callback]}]
   (let [txt (re/atom "")
         title (re/atom "")]
     (fn []
@@ -208,7 +208,7 @@
                 :placeholder "Enter the question..."
                 :value @txt
                 :on-change #(reset! txt (-> % .-target .-value))}]
-       [:button {:on-click #(add-question @txt @user-id-atom @title (fn [] nil))}
+       [:button {:on-click #(add-question @txt @user-id-atom @title update-callback)}
         "Submit"]])))
 
 (defn comment-edit-box
@@ -342,13 +342,14 @@
   []
   (let [userid-store (re/atom 1)
         question-store (re/atom {})
-        questions (get-questions question-store userid-store (re/atom {}) nil)]
+        update-questions #(get-questions question-store userid-store (re/atom {}) nil)]
+    (update-questions)
     (fn []
       [:div.forum-index
        [:div.question-add
-        [new-question-box {:user-id-atom userid-store}]] 
+        [new-question-box {:user-id-atom userid-store :update-callback update-questions}]] 
        [:div.question-list
-        (for [{:keys [questionid questiontitle score]} (sort-by :score @question-store)]
+        (for [{:keys [questionid questiontitle score]} (reverse (sort-by :score @question-store))]
           ^{:key questionid}
           [:div.question
            [:div.question-title
