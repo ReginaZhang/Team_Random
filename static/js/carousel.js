@@ -4,18 +4,21 @@
 function getImage() {
     var xhr = new XMLHttpRequest();
     var obj_json = null;
-    xhr.open("GET", "http://45.56.85.191/food/get_filenames?subdir_name=%2Fstatic%2Fassets&file_type=*");
+    xhr.open("GET", "http://45.56.85.191/food/get_random_filenames?subdir_name=%2Fstatic%2Fassets%2Fcarousel_image&file_type=*");
     xhr.send();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             console.log(xhr.responseText);
             obj_json = JSON.parse(xhr.responseText);
             console.log(obj_json["files"]);
+            setUpImageTag(obj_json);
+            carousel_initialize();
+            initialize_carousel_eventListener();
         }
     };
 }
 function setUpImageTag(obj_json) {
-    var domain = "http://45.56.85.191/static/assets/";
+    var domain = "http://45.56.85.191/static/assets/carousel_image/";
     var file_name_array = obj_json["files"];
     var i;
     var image_tag = null;
@@ -25,6 +28,7 @@ function setUpImageTag(obj_json) {
         image_tag = document.createElement('img');
         image_tag.className = "carousel_element";
         image_tag.src = domain + file_name_array[i];
+        console.log(file_name_array[i]);
         carousel_section.appendChild(image_tag);
     }
 }
@@ -179,5 +183,7 @@ function set_carousel_transform(one_element, left, perspective, degree, translat
     //one_element.style.MozTransform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
     //one_element.style.transform="perspective( 400px ) rotateY(45deg) translateZ( -50px )";
 }
-//getImage() 
+getImage();
+//carousel_initialize();
+//initialize_carousel_eventListener(); 
 //# sourceMappingURL=carousel.js.map
