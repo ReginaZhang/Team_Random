@@ -163,7 +163,7 @@ class FoodAPI:
 				field_names += nutrients[nutrient["name"]]["db_field"] + ","
 				field_values += nutrient["value"] + ","
 			sql_str = "insert into Food (%s) values (%s);" % (field_names[:-1], field_values[:-1])
-			c.execute("select FoodName from Food where Ndbno='%s';", new_report["ndbno"])
+			c.execute("select FoodName from Food where Ndbno='%s';" % new_report["ndbno"])
 			if not c.fetchall():
 				try:
 					c.execute(sql_str)
@@ -191,7 +191,7 @@ class FoodAPI:
 
 	def user_bmi(self, user_id):
 		(db, c) = connect_db()
-		c.execute("select height, weight from User where UserID = ?;", user_id)
+		c.execute("select height, weight from User where UserID = %s;" % user_id)
 		r = c.fetchone()
 		bmi = r["weight"]*((float(r["height"])/100)**2)
 		r["bmi"] = bmi
