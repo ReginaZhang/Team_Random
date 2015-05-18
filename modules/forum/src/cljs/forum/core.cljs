@@ -311,7 +311,7 @@
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
   []
-  (let [userid-store (re/atom 1)
+  (let [userid-store (re/atom nil)
         flagtype-store (re/atom {})
         filtered-flags (re/atom {1 true 2 true 3 true 4 true})
         request-chan (chan)
@@ -323,7 +323,7 @@
     (get-questions question-store userid-store (re/atom {}) question-id)
     (fn []
       [:div.whole-page
-       [userid-select userid-store]
+;       [userid-select userid-store]
        [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
                      :text "Show what kind of comments?" :callback-fn nil}]              
        (for [{:keys [questionid questiondeleted userid commentid commenttext questiontitle votetype score flagids]} @question-store]
@@ -339,7 +339,7 @@
 (defn question-list
   "Display a list of all questions, ordered by score"
   []
-  (let [userid-store (re/atom 1)
+  (let [userid-store (re/atom nil)
         question-store (re/atom {})
         update-questions #(get-questions question-store userid-store (re/atom {}) nil)]
     (update-questions)
