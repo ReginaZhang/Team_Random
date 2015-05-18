@@ -486,7 +486,6 @@ function addToDiet(ndbno, weekday, mealType) {
 function getRecommendation() {
     var weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     var rowData = "<td><strong class=\"meal-title\">Recomendation</strong></td>";
-    //var foods = [];
     var i;
     var j = 0;
     var requests = [];
@@ -499,17 +498,6 @@ function getRecommendation() {
             if (request.readyState == 4) {
                 var response = JSON.parse(request.responseText);
                 responses[index] = response;
-                //foods[index] = response.foodname;
-                //console.log(foods);
-                    /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
-                    msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
-                    msg += "Energy: " + theRecomm.energy + "<br>";
-                    msg += "Protein: " + theRecomm.protein + "<br>";
-                    msg += "Best food to add to your diet!";
-
-
-                    windowPOPup("error_diet_window", msg);*/
-
                 j += 1;
                 console.log(j);
                 if(j === 7){
@@ -530,42 +518,7 @@ function getRecommendation() {
     }
     for (i = 0; i < weekDays.length; i++){
         mkReq(i);
-    }/*
-        var request = new XMLHttpRequest();
-        requests.push(request);
-        requests[i].open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
-        requests[i].send();
-        (requests[i]).onreadystatechange = function() {
-            if (requests[i].readyState == 4) {
-                var response = JSON.parse(requests[i].responseText);
-                responses.push(response);
-                food = responses[i].foodname;
-                console.log(food);*/
-                    /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
-                    msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
-                    msg += "Energy: " + theRecomm.energy + "<br>";
-                    msg += "Protein: " + theRecomm.protein + "<br>";
-                    msg += "Best food to add to your diet!";
-
-
-                    windowPOPup("error_diet_window", msg);*/
-
-                /*rowData += "<td>"+ food+"</td>";
-                j += 1;
-                console.log(j);
-                if(j === 7){
-                    var recmdElem = document.getElementById("diet_recommendation");
-                    if (recmdElem){
-                        recmdElem.innerHTML = rowData;
-                    } else{
-                        var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
-                        var table_body = document.getElementById("diet_plan_body");
-                        table_body.innerHTML = table_body.innerHTML + recmdRow;
-                    }
-                }
-            }
-        }
-    }*/
+    }
 }
 
 /*
@@ -724,8 +677,6 @@ function showFoodNutrientsTable(obj)
     }
     ndbno=findFoodNdbno(food_name);
     getIndividualFoodNutrition(ndbno,food_nutrient_div);
-    //console.log(" hahhaha html "+html_format+food_nutrient_div);
-    //food_nutrient_div.innerHTML=html_format;
 }
 
 function getIndividualFoodNutrition(ndbno,food_nutrient_div)
@@ -738,8 +689,6 @@ function getIndividualFoodNutrition(ndbno,food_nutrient_div)
         if (request.readyState == 4 && request.status==200)
         {
 
-            //console.log("12312321"+JSON.parse(request.responseText).nutrients);
-            //console.log("get json."+food_nutrient_div);
             formatingNutrientsDiv(JSON.parse(request.responseText),food_nutrient_div);
 
         }
@@ -748,7 +697,6 @@ function getIndividualFoodNutrition(ndbno,food_nutrient_div)
 
 function formatingNutrientsDiv(food_nutrients_json,food_nutrient_div)
 {
-    //var obj=document.getElementById(div_name);
     console.log("in function"+food_nutrient_div);
     var html='      <hr/>\
                     <table class="food_nutrients_table" border="1">\

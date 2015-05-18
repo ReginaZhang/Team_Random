@@ -145,7 +145,7 @@ public class App {
 			
 		});
 		
-		
+		/* the service for the diet plan */
 		spark.Spark.post("/diet", "application/json", (req, res) -> {
 			
 			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
@@ -422,6 +422,7 @@ public class App {
 			
 		});
 		
+		/* check if the user is loggedin */
 		spark.Spark.post("/user/check", "application/json", (req, res) -> {
 			
 			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
@@ -465,6 +466,7 @@ public class App {
 			
 		});
 		
+		/* log the user in */
 		spark.Spark.post("/user/login", "application/json", (req, res) -> {
 			
 			Type hashMap = new TypeToken<HashMap<String, String>>(){}.getType();
@@ -579,6 +581,7 @@ public class App {
 		
 	}
 	
+	/* for calculating the BMI value */
 	private static HashMap<String, String> computeBmi(double height, double weight) {
 		
 		double bmi = weight/(height*height);
@@ -592,6 +595,7 @@ public class App {
 		
 	}
 	
+	/* check if a request has all required fields */
 	private static boolean isReqValid(String api, Set<String> ks) {
 		
 		for (String field: compulsoryFields.get(api)) {
