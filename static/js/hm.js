@@ -489,14 +489,18 @@ function getRecommendation() {
     var food;
     var i;
     var j = 0;
+    var requests = [];
+    var response = [];
     for (i = 0; i < weekDays.length; i++){
         var request = new XMLHttpRequest();
-        request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
-        request.send();
-        request.onreadystatechange = function() {
-            if (request.readyState == 4) {
-                var response = JSON.parse(request.responseText);
-                food = response.foodname;
+        requests.push(request);
+        requests[i].open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
+        request[i].send();
+        (request[i]).onreadystatechange = function() {
+            if (request[i].readyState == 4) {
+                var response = JSON.parse(request[i].responseText);
+                responses.push(response);
+                food = responses[i].foodname;
                 console.log(food);
                     /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
                     msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
