@@ -485,11 +485,14 @@ function addToDiet(ndbno, weekday, mealType) {
 
 function getRecommendation() {
     var weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    var rowData = "";
-    for (var i = 0; i < weekDays.length; i++){
+    var rowData = "<td><strong class=\"meal-title\">Recomendation</strong></td>";
+    var food;
+    var i;
+    for (i = 0; i < weekDays.length; i++){
         query("/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i], "GET", {}, function(theRecomm) {
 
-            var food = theRecomm.foodname;
+            food = theRecomm.foodname;
+            console.log(food);
             /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
             msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
             msg += "Energy: " + theRecomm.energy + "<br>";
