@@ -719,6 +719,7 @@ function formatingNutrientsDiv(food_nutrients_json,food_nutrient_div)
     html+='</tr>'
     html+='</table>';
     console.log("hahha"+html);
+    food_nutrient_div.style.width="300px";
     food_nutrient_div.innerHTML=html;
     return html;
 }
