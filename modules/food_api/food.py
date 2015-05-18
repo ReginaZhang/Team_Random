@@ -162,11 +162,11 @@ class FoodAPI:
 				new_report["nutrients"][nutrient["name"]] = {"unit":nutrient["unit"],"value":nutrient["value"]}
 				field_names += nutrients[nutrient["name"]]["db_field"] + ","
 				field_values += nutrient["value"] + ","
-			sql_str = "insert into Food (%s) values (%s);" % (field_names[:-1], field_values[:-1])
-			c.execute("select FoodName from Food where Ndbno='%s';" % new_report["ndbno"])
+			sql_str = "insert into Food (%s) values (%s);"
+			c.execute("select FoodName from Food where Ndbno='%s';", new_report["ndbno"])
 			if not c.fetchall():
 				try:
-					c.execute(sql_str)
+					c.execute(sql_str, ((field_names[:-1], field_values[:-1])))
 					d.commit()
 				except:
 					d.rollback()
@@ -189,6 +189,9 @@ class FoodAPI:
 		return json.dumps(result)
 	get_random_filenames.exposed = True
 
+	def user_bmi(self, user_id):
+		(db, c) = connect_db()
+		c.execute("select Height, Weight from User where UserID = %s;", user_id)
 
 
 def connect_db():
