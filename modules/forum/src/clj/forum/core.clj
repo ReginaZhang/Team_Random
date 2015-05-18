@@ -250,7 +250,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
                                 possible-foods)]
     (print current-nutrition)
     {:status 200 :headers cors-headers
-     :body (str recommended-food weekday)}))
+     :body recommended-food}))
 
 
 (def routes ["/" {"child_comments" :child-comments
