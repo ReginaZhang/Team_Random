@@ -110,7 +110,7 @@ function windowPOPup(div_id,msg) {
             <option value='G'>General</option>\
             </select>\
             <button type='button' window_id='creat_diet_window' onclick='toCreateDiet(); popWindow(this);' class='btn btn-default'>Submit</button>\
-            <button type='button' window_id='creat_diet_window' onclick='popWindow(this);' class='btn btn-default'>Close</button>\\
+            <button type='button' window_id='creat_diet_window' onclick='popWindow(this);' class='btn btn-default'>Close</button>\
             </div>";
 
     }
