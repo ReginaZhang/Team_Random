@@ -193,8 +193,13 @@ class FoodAPI:
 		(db, c) = connect_db()
 		c.execute("select height, weight from User where UserID = %s;" % user_id)
 		r = c.fetchone()
-		bmi = r["weight"]/((float(r["height"])/100)**2)
-		r["bmi"] = round(bmi,2)
+		height = r["height"]
+		weight = r["weight"]
+		if height and weight:
+			bmi = weight/((float(height)/100)**2)
+			r["bmi"] = round(bmi,2)
+		else:
+			r["bmi"] = None
 		return json.dumps(r)
 	user_bmi.exposed = True
 

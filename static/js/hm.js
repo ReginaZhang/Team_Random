@@ -53,6 +53,8 @@ function init() {
             generateDiet(userDiet);
         });
 
+        showBMI();
+
         generateExercise();
         generateStats();
 
@@ -104,7 +106,7 @@ function generateDashboard(userDiet) {
         userId: userId
     };
 
-    query(":8000/bmi", defaultMethod, data, function(userBmi) {
+    /*query(":8000/bmi", defaultMethod, data, function(userBmi) {
         var name = document.createElement("p");
         name.innerHTML = "Hi! " + userName;
         name.className = "nameBar";
@@ -120,7 +122,7 @@ function generateDashboard(userDiet) {
         nameBar.appendChild(name);
         nameBar.appendChild(weight);
         nameBar.appendChild(bmi);
-    });
+    });*/
 
 
     var diet = "";
@@ -519,6 +521,42 @@ function getRecommendation() {
     for (i = 0; i < weekDays.length; i++){
         mkReq(i);
     }
+}
+
+function showBMI(){
+    query("/food/user_bmi?user_id="+userId, "GET", {}, function(responseJson) {
+
+        var height = responseJson.height;
+        var weight = responseJson.weight;
+        var bmi = responseJson.bmi;
+        var str = "Hi! "+userName + " Weight: ";
+        if (weight) {
+            str += weight+"kg";
+        } else{
+            str += "0kg";
+        }
+        str += " Height: ";
+        if (height) {
+            str += height + "cm";
+        } else {
+            str += "0cm";
+        }
+        str += " BMI: ";
+        if (bmi){
+            str += bmi;
+            if (bmi < 18.5) {
+                str += " Underweight";
+            } else if (bmi > 25 ){
+                str += " Overweight";
+            } else {
+                str += " You are very healthy!";
+            }
+            showVisualization(bmi);
+        } else {
+            str += "NA";
+        }
+        document.getElementById("nameBar").innerHTML = "<p>"+str+"</p>";
+    });
 }
 
 /*
