@@ -488,6 +488,7 @@ function getRecommendation() {
     var rowData = "<td><strong class=\"meal-title\">Recomendation</strong></td>";
     var food;
     var i;
+    var j = 0;
     for (i = 0; i < weekDays.length; i++){
         var request = new XMLHttpRequest();
         request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
@@ -507,16 +508,20 @@ function getRecommendation() {
                     windowPOPup("error_diet_window", msg);*/
 
                 rowData += "<td>"+ food+"</td>";
+                j += 1;
+                console.log(j);
+                if(j === 7){
+                    var recmdElem = document.getElementById("diet_recommendation");
+                    if (recmdElem){
+                        recmdElem.innerHTML = rowData;
+                    } else{
+                        var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
+                        var table_body = document.getElementById("diet_plan_body");
+                        table_body.innerHTML = table_body.innerHTML + recmdRow;
+                    }
+                }
             }
         }
-    }
-    var recmdElem = document.getElementById("diet_recommendation");
-    if (recmdElem){
-        recmdElem.innerHTML = rowData;
-    } else{
-        var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
-        var table_body = document.getElementById("diet_plan_body");
-        table_body.innerHTML = table_body.innerHTML + recmdRow;
     }
 }
 
