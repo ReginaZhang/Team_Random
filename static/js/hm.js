@@ -508,7 +508,8 @@ function getRecommendation() {
                     windowPOPup("error_diet_window", msg);*/
 
                 rowData += "<td>"+ food+"</td>";
-                j+=1;
+                j += 1;
+                console.log(j);
                 if(j === 7){
                     var recmdElem = document.getElementById("diet_recommendation");
                     if (recmdElem){
