@@ -506,18 +506,18 @@ function getRecommendation() {
 
                     windowPOPup("error_diet_window", msg);*/
 
-                rowData += "<td>"+ food+"</td>";  
-                var recmdElem = document.getElementById("diet_recommendation");
-                if (recmdElem){
-                    recmdElem.innerHTML = rowData;
-                } else{
-                    var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
-                    var table_body = document.getElementById("diet_plan_body");
-                    table_body.innerHTML = table_body.innerHTML + recmdRow;
-                }
+                rowData += "<td>"+ food+"</td>";
             }
         }
-    } 
+    }
+    var recmdElem = document.getElementById("diet_recommendation");
+    if (recmdElem){
+        recmdElem.innerHTML = rowData;
+    } else{
+        var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
+        var table_body = document.getElementById("diet_plan_body");
+        table_body.innerHTML = table_body.innerHTML + recmdRow;
+    }
 }
 
 /*
