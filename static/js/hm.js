@@ -485,32 +485,39 @@ function addToDiet(ndbno, weekday, mealType) {
 
 function getRecommendation() {
     var weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    var rowData = "";
-    for (var i = 0; i < weekDays.length; i++){
-        query("/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i], "GET", {}, function(theRecomm) {
+    var rowData = "<td><strong class=\"meal-title\">Recomendation</strong></td>";
+    var food;
+    var i;
+    for (i = 0; i < weekDays.length; i++){
+        var request = new XMLHttpRequest();
+        request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
+        request.send();
+        request.onreadystatechange = function() {
+            if (request.readyState == 4) {
+                var response = JSON.parse(request.responseText);
+                food = response.foodname;
+                console.log(food);
+                    /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
+                    msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
+                    msg += "Energy: " + theRecomm.energy + "<br>";
+                    msg += "Protein: " + theRecomm.protein + "<br>";
+                    msg += "Best food to add to your diet!";
 
-            var food = theRecomm.foodname;
-            /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
-            msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
-            msg += "Energy: " + theRecomm.energy + "<br>";
-            msg += "Protein: " + theRecomm.protein + "<br>";
-            msg += "Best food to add to your diet!";
 
+                    windowPOPup("error_diet_window", msg);*/
 
-            windowPOPup("error_diet_window", msg);*/
-
-        }) ;
-        rowData += "<td>"+ food+"</td>";
-    }    var recmdElem = document.getElementById("diet_recommendation");
+                rowData += "<td>"+ food+"</td>";
+            }
+        }
+    }
+    var recmdElem = document.getElementById("diet_recommendation");
     if (recmdElem){
         recmdElem.innerHTML = rowData;
-    }
-    else{
+    } else{
         var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
         var table_body = document.getElementById("diet_plan_body");
         table_body.innerHTML = table_body.innerHTML + recmdRow;
     }
-    
 }
 
 /*
