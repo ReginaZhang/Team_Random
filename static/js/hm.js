@@ -682,8 +682,7 @@ function formatingNutrientsDiv(food_nutrients_json,food_nutrient_div)
 {
     //var obj=document.getElementById(div_name);
     console.log("in function"+food_nutrient_div);
-    var html='<p class="food_name">'+food_nutrient_div.id+'</p>\
-                    <hr/>\
+    var html='      <hr/>\
                     <table class="food_nutrients_table" border="1">\
                     <tr>\
                     <th>Nutrient Name</th>\
@@ -695,7 +694,7 @@ function formatingNutrientsDiv(food_nutrients_json,food_nutrient_div)
     for(key in food_nutrients_json.nutrients)
     {
         html+='<tr>'
-        //html+='<td>'+key+'</td>'
+        html+='<td>'+key+'</td>'
         //console.log("check "+food_nutrients_json.nutrients[key].value);
         html+='<td>'+food_nutrients_json.nutrients[key].value+'</td>';
         html+='<td>'+food_nutrients_json.nutrients[key].unit+'</td>';
