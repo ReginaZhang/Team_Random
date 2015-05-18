@@ -354,10 +354,11 @@
         (for [{:keys [questionid questiontitle score]} (reverse (sort-by :score @question-store))]
           ^{:key questionid}
           [:div.question
-           [:div.question-title
-            [:a {:href (str "/static/forum.html?question_id=" questionid)}
-             questiontitle]]
-           [:div.question-score score]])]])))
+           [:div.one_question_div
+            [:a.one_question_link {:href (str "/static/forum.html?question_id=" questionid)}
+             questiontitle]
+            [:span.question-score (str "Question Score : " score)]]
+           ])]])))
 
 (set! (.-onload js/window)
       #(let [q-list-div (js/document.getElementById "question_list")

@@ -19,7 +19,7 @@
     <h1><b>Health Manager</b></h1>
 
     <!-- Show this div tag to registered people -->
-    <div id="registered">
+    <div id="registered" style="display:none;">
         <div class="tabs">
             <ul class="tab-links">
                 <li class="link active"><a href="#tab1">Dashboard</a></li>
@@ -30,13 +30,14 @@
             <div class="tab-content">
                 <div id="tab1" class="tab active">
                     <div id="preview">
-                        <img id="imghead" border=0 src="head_180.jpg" width="180" height="180" />
+                        <img id="imghead" border=0 src="assets/head_180.jpg" width="180" height="180" />
                     </div>
                     <input type="file" onchange="previewImage(this)" />
                     <br>
                     <div id="nameBar"></div>
+                    <br><strong><p>Get to know more about your current BMI from the diagram:</p></strong>
                     <img src="BMI_graph.png">
-                    <br>
+                    <br><br>
                     <div id="todaysDiet">
                         <p>Your diet today:</p>
                         <Table class="Items">
@@ -94,7 +95,7 @@
                                 <th scope="col">Sunday</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="diet_plan_body">
                             <tr id="breakfast">
                                 <td>
                                     <strong class="meal-title">Breakfast</strong>
@@ -178,7 +179,7 @@
     </div>
 
     <!-- Show this to guest -->
-    <div id="trial">
+    <div id="trial" style="display:none;">
         <div id="trialMessage" class="main"></div>
         <div id="food">
             <table class="food">
@@ -220,7 +221,6 @@
                                             <p>enter the following information and calculate</p>
                                             <p>your body mass index(BMI)</p>
                                             <br>
-                                            <br><br>
                                             <p>Enter your weight</p>
                                             <input NAME="stone" TYPE="text" MAXLENGTH="2" SIZE="1">Stone
                                             <input NAME="pounds" TYPE="text" MAXLENGTH="6" SIZE="2">Pounds. OR
@@ -238,6 +238,7 @@
                                             <input type="hidden" name="userId">
                                             <br><br>
                                             <input id = "button" type="button" value = "Find out your BMI" />
+                                            <br><br>
                                             <div id="bim_result"></div>
                                         </th>
                                     </tr>

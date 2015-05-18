@@ -39,8 +39,9 @@ function init() {
     console.log("user id "+userId);
     if(userId) {
 
-        var trial = document.getElementById("trial");
-        trial.parentNode.removeChild(trial);
+        /*var trial = document.getElementById("trial");
+        trial.parentNode.removeChild(trial);*/
+        document.getElementById("registered").style.display="inline";
 
         tabSwitcher();
 
@@ -57,12 +58,13 @@ function init() {
 
     } else {
 
+        document.getElementById("trial").style.display="inline";
         $("#trialBody").html("Not logged in!");
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
         console.log("Not reg")
 
-        document.getElementsByClassName("add_to_diet_button").style.disabled = "disabled";
+        
 
 
     }
@@ -380,11 +382,18 @@ function startDiet() {
 
 function modifyDiet() {
 
-    var deleteButton = document.createElement("button");
+    var deleteButton=document.querySelectorAll(".dietPlan td p")[0].childNodes
+    if(deleteButton.length>1)
+    {
+        return;
+    }
+
+    deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
     deleteButton.type  = "button";
-
+    deleteButton.className  = "food_delete_button";
     deleteButton.setAttribute("onclick", "deleteFood(this)");
+
 
     $(".dietPlan td p").append(deleteButton);
 
@@ -475,19 +484,42 @@ function addToDiet(ndbno, weekday, mealType) {
 }
 
 function getRecommendation() {
-    query("/diet_recommendation?userid="+userId, "GET", {}, function(theRecomm) {
+    var weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    var rowData = "<td><strong class=\"meal-title\">Recomendation</strong></td>";
+    var food;
+    var i;
+    for (i = 0; i < weekDays.length; i++){
+        var request = new XMLHttpRequest();
+        request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i],false);
+        request.send();
+        request.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                var response = JSON.parse(request.responseText);
+                food = response.foodname;
+                console.log(food);
+                    /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
+                    msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
+                    msg += "Energy: " + theRecomm.energy + "<br>";
+                    msg += "Protein: " + theRecomm.protein + "<br>";
+                    msg += "Best food to add to your diet!";
 
-        var msg = theRecomm.foodname + "<br>";
-        msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
-        msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
-        msg += "Energy: " + theRecomm.energy + "<br>";
-        msg += "Protein: " + theRecomm.protein + "<br>";
-        msg += "Best food to add to your diet!";
 
+                    windowPOPup("error_diet_window", msg);*/
 
-        windowPOPup("error_diet_window", msg);
-
-    })
+                rowData += "<td>"+ food+"</td>";
+            }
+        }
+    }   
+    var recmdElem = document.getElementById("diet_recommendation");
+    if (recmdElem){
+        recmdElem.innerHTML = rowData;
+    }
+    else{
+        var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
+        var table_body = document.getElementById("diet_plan_body");
+        table_body.innerHTML = table_body.innerHTML + recmdRow;
+    }
+    
 }
 
 /*
@@ -598,6 +630,15 @@ function displayFoods(){
     }
     document.getElementById('foodNutritionResult').innerHTML = result;
 
+    if (!userId) {
+        console.log("number of add to diet buttons: ");
+        console.log(document.getElementsByClassName("add_to_diet_button").length);
+        var buttons = document.getElementsByClassName("add_to_diet_button");
+        for (var i = 0; i<buttons.length; i++){
+            buttons[i].disabled = "disabled";
+        }
+    }
+
 }
 
 function showHideSelect(div_id){
@@ -664,8 +705,7 @@ function formatingNutrientsDiv(food_nutrients_json,food_nutrient_div)
 {
     //var obj=document.getElementById(div_name);
     console.log("in function"+food_nutrient_div);
-    var html='<p class="food_name">'+food_nutrient_div.id+'</p>\
-                    <hr/>\
+    var html='      <hr/>\
                     <table class="food_nutrients_table" border="1">\
                     <tr>\
                     <th>Nutrient Name</th>\
