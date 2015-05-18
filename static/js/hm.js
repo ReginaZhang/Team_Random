@@ -495,10 +495,10 @@ function getRecommendation() {
         var request = new XMLHttpRequest();
         requests.push(request);
         requests[i].open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
-        request[i].send();
-        (request[i]).onreadystatechange = function() {
+        requests[i].send();
+        (requests[i]).onreadystatechange = function() {
             if (request[i].readyState == 4) {
-                var response = JSON.parse(request[i].responseText);
+                var response = JSON.parse(requests[i].responseText);
                 responses.push(response);
                 food = responses[i].foodname;
                 console.log(food);
