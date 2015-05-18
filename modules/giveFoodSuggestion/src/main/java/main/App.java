@@ -337,6 +337,9 @@ public class App {
 				if(info.get("modiType").equals("delete")) {
 					db.executeDelete("DietItem", foodInDiet);
 				} else if(info.get("modiType").equals("add")) {
+					if (db.executeQuery("DietItem", foodInDiet).isBeforeFirst()) {
+						throw new Exception("Food already there");
+					}
 					db.executeInsert("DietItem", foodInDiet);
 				} else if(info.get("modiType").equals("start")) {
 					HashMap<String, String> cond = new HashMap<String, String>();
@@ -436,7 +439,7 @@ public class App {
 			String json = br.readLine();
 			
 			try {
-				String idValue = json.substring(7, json.indexOf("\"}"));
+				String idValue = json.substring(7, json.indexOf("\",\"details"));
 				
 				if(!idValue.equals(info.get("userId"))) {
 					throw new Exception("Not current user");
@@ -582,7 +585,7 @@ public class App {
 			response.put("register", "invalid");
 			
 			
-			if (!isReqValid("/user/login", info.keySet())) {
+			if (!isReqValid("/user/register", info.keySet())) {
 				return gs.toJson(response);
 			}
 			
@@ -590,7 +593,7 @@ public class App {
 				return gs.toJson(response);
 			}
 			
-			
+			try {
 			MessageDigest encrypter = MessageDigest.getInstance("SHA");
 				
 			encrypter.update(info.get("password").getBytes());
@@ -607,6 +610,10 @@ public class App {
 			
 			for (String field: userTable) {
 				if (infoIgnoreCase.containsKey(field)) {
+					System.out.println(field + ": " + infoIgnoreCase.get(field));
+					if(infoIgnoreCase.get(field).equals("")) {
+						infoIgnoreCase.replace(field, null);
+					}
 					newUser.put(field, infoIgnoreCase.get(field));
 				}
 			}
@@ -615,6 +622,9 @@ public class App {
 			
 			response.clear();
 			response.put("register", "successful");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 						
 			return gs.toJson(response); 
 			

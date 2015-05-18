@@ -101,15 +101,15 @@ function windowPOPup(div_id,msg) {
     {
         one_obj.innerHTML = "<div>\
             <label>Diet Plan Name </label>\
-            <input type='text'/>\
+            <input id='dietName' type='text' name='Diet Name:'/>\
             <br />\
             <label>Diet Plan Type </label>\
-            <select>\
+            <select id='dietType'>\
             <option value='L'>Loss Weight</option>\
-            <option value='F'>SFitnessaab</option>\
+            <option value='F'>Fitness</option>\
             <option value='G'>General</option>\
             </select>\
-            <button type='button' window_id='creat_diet_window' onclick='popWindow(this);' class='btn btn-default'>Close</button>\
+            <button type='button' window_id='creat_diet_window' onclick='toCreateDiet(); popWindow(this);' class='btn btn-default'>Submit</button>\
             </div>";
 
     }
@@ -129,6 +129,10 @@ function windowPOPdown(one_obj)
 {
     one_obj.remove();
     console.log("in pop down");
+}
+
+function toCreateDiet() {
+    createDiet($('#dietName').prop('value'), $('#dietType').prop('value'));
 }
 
 function doLogin_popup()

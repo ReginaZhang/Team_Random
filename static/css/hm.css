@@ -112,6 +112,13 @@ ul {
     display:block;
 }
 
+table.Items{
+    background-color:#FFFFCC;
+}
+
+table.foodNutrition{
+    background-color:#CCFFFF;
+}
 /*----- Content of Table -----*/
 table {
     border-collapse: separate;
