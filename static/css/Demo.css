@@ -40,20 +40,15 @@ h1 {
     font-size: 30px;
 }
 
-table.about {
-    width:100%;
-    border:1px solid #d4d4d4;
-}
-table.about th,td { 
-    padding:10px;
-}
-table.about th { 
-    width:40px;
+table{
+    text-align:center;
+    vertical-align:middle;
 }
 
 table.food {
     width:100%;
     border:1px solid #d4d4d4;
+    background-color:#FFFFCC;
 }
 table.food th { 
     padding:10px;
@@ -63,6 +58,7 @@ table.food th {
 table.test {
     width:100%;
     border:1px solid #d4d4d4;
+    background-color:#FFFFCC;
 }
 table.test th { 
     padding:10px;
@@ -72,6 +68,7 @@ table.test th {
 table.calculator {
     width:50%;
     border:1px solid #d4d4d4;
+    background-color:#FFFFCC;
 }
 table.calculator th { 
     padding:10px;
@@ -81,17 +78,9 @@ table.calculator th {
 table.plan {
     width:100%;
     border:1px solid #d4d4d4;
+    background-color:#FFFFCC;
 }
 table.plan th { 
-    padding:10px;
-	width:40px;
-}
-
-table.comment {
-    width:100%;
-    border:1px solid #d4d4d4;
-}
-table.comment th { 
     padding:10px;
 	width:40px;
 }

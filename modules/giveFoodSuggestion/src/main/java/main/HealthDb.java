@@ -314,20 +314,25 @@ public class HealthDb
 			int paraIndex = 1;
 			for (String field: ks) {
 				String type = thisTable.get(field);
+				if (fieldValuePair.get(field) != null) {
+					
+					if(type.contains("double")) {
+						stmt.setDouble(paraIndex, Double.parseDouble(fieldValuePair.get(field)));
+					} else if(type.contains("int")) {
+						stmt.setInt(paraIndex, Integer.parseInt(fieldValuePair.get(field)));
+					} else if(type.contains("varchar") || type.contains("enum")) {
+						stmt.setString(paraIndex, fieldValuePair.get(field));
+					} else if(type.contains("date")) {
+						stmt.setDate(paraIndex, Date.valueOf(fieldValuePair.get(field)));
+					}
 				
-				if(type.contains("double")) {
-					stmt.setDouble(paraIndex, Double.parseDouble(fieldValuePair.get(field)));
-				} else if(type.contains("int")) {
-					stmt.setInt(paraIndex, Integer.parseInt(fieldValuePair.get(field)));
-				} else if(type.contains("varchar") || type.contains("enum")) {
-					stmt.setString(paraIndex, fieldValuePair.get(field));
-				} else if(type.contains("date")) {
-					stmt.setDate(paraIndex, Date.valueOf(fieldValuePair.get(field)));
+					paraIndex++;
+					
 				}
-			
-				paraIndex++;
+				
 			}
-				stmt.execute();
+			
+			stmt.execute();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -359,6 +364,7 @@ public class HealthDb
 			int paraIndex = 1;
 			for (String field: fields) {
 				String type = this.TableSet.get(tableName.trim()).get(field);
+				System.out.println(field + ": " + fieldValuePair.get(field));
 
 				if(type.contains("double")) {
 					stmt.setDouble(paraIndex, Double.parseDouble(fieldValuePair.get(field)));
