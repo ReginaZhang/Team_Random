@@ -162,11 +162,11 @@ class FoodAPI:
 				new_report["nutrients"][nutrient["name"]] = {"unit":nutrient["unit"],"value":nutrient["value"]}
 				field_names += nutrients[nutrient["name"]]["db_field"] + ","
 				field_values += nutrient["value"] + ","
-			sql_str = "insert into Food (%s) values (%s);"
+			sql_str = "insert into Food (%s) values (%s);" % (field_names[:-1], field_values[:-1])
 			c.execute("select FoodName from Food where Ndbno='%s';", new_report["ndbno"])
 			if not c.fetchall():
 				try:
-					c.execute(sql_str, ((field_names[:-1], field_values[:-1])))
+					c.execute(sql_str)
 					d.commit()
 				except:
 					d.rollback()
