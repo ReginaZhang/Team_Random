@@ -291,7 +291,7 @@
             ; [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
             ; [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
             ; [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
-             [:div.comment-text  (if @deleted "!!DELETED!!" [:div.comment-text-string (str "Comment Text :  " @text])]]
+             [:div.comment-text  (if @deleted "!!DELETED!!" [:div.comment-text-string (str "Comment Text :  " @text)])]]
 
             (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
                                                              :parent-box-toggle showing-comment-entry :error-store error-atom
