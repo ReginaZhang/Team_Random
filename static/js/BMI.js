@@ -286,7 +286,16 @@ function outputBmi ( )
         }
 
         //html += "<br /><br /><a href='#' >< Go back to bmi form</a></p>"
-        html += '<script>
+
+        document.getElementById( 'bim_result' ).innerHTML = html;
+        showVisualization(bmi);
+
+    }
+
+}
+
+function showVisualization(bmi){
+    var graph = '<script>
             var g = new JustGage({
                 id: "gauge",
                 value: '+ bmi +',
@@ -296,9 +305,5 @@ function outputBmi ( )
                 levelColors:["#4EA1E5","#3E97DE"]
             });
             </script>';
-
-        document.getElementById( 'bim_result' ).innerHTML = html;
-
-    }
-
+    document.getElementById("bmi_visualization").innerHTML = graph;
 }
