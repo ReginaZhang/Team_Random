@@ -27,19 +27,18 @@ from random import shuffle
 debug = 0
 
 class FoodAPI:
-	
-	'''def __init__(self):
-		self.params = {}
-		self.url = None'''
 
 	def send_request(self, url, param_dict = {}):
+		'''
+		the function for sending the http request
+		'''
 		r = requests.get(url, params = param_dict)
 		cherrypy.response.headers["content-type"] = "application/json"
 		if (r.status_code < 200 or r.status_code > 399):
 			return None
 		return r.json()
 	
-	'''def get_list(self, lt = 'f', max = 100, offset = 0, sort = "n"):
+	def get_list(self, lt = 'f', max = 100, offset = 0, sort = "n"):
 		"""
 			get_list(lt, max, offset, sort)
 			
@@ -60,7 +59,7 @@ class FoodAPI:
 		#r = requests.get(self.url, params = self.params)
 		#cherrypy.response.headers["content-type"] = "application/json"
 		return json.dumps(r)#.json())
-	get_list.exposed = True'''
+	get_list.exposed = True
 	
 	def api_search(self, term = "", max=ITEM_NUM, offset = 0):
 		"""
@@ -79,10 +78,6 @@ class FoodAPI:
 		"""
 		params = {"api_key":common["api_key"], "q": term, "max":max, "offset":offset, "sort":"r", "format":common["format"]}
 		results = self.send_request(url["search"], params)
-		#r = requests.get(self.url, params = self.params)
-		#cherrypy.response.headers["content-type"] = "application/json"
-		#return json.dumps(r.json())
-		#results = r.json()
 		new_r = {"items":[]}
 		if results:
 			items = results["list"]["item"]
@@ -92,6 +87,9 @@ class FoodAPI:
 		return new_r
 
 	def db_search(self, term = "", max = ITEM_NUM, offset = 0):
+		'''
+			search the food from our database
+		'''
 		(d,c) = connect_db()
 		chars = list(term)
 		pattern = "%" + "%".join(chars) + "%"
@@ -101,15 +99,10 @@ class FoodAPI:
 		new_r = {"items": items}
 		return new_r
 
-	#@cherrypy.tools.json_in()
-	#@cherrypy.tools.allow(methods=["POST"])
 	def search_food(self, term="", max=ITEM_NUM, dboffset=0, apioffset=0):
-		#print cherrypy.request
-		#data = cherrypy.request.json
-		#dboffset = data["dboffset"]
-		#apioffset = data["apioffset"]
-		#term = data["term"]
-		#max = ITEM_NUM
+		'''
+			search the food from our database first and then from the American database
+		'''
 		dboffset = int(dboffset)
 		apioffset = int(apioffset)
 		if dboffset and apioffset:
@@ -133,6 +126,12 @@ class FoodAPI:
 	search_food.exposed = True
 
 	def get_food_report(self, ndbno):
+		'''
+			get nutrient report of a food.
+			look for the food in our database first and if not found
+			send the request to the American database
+			and store the information into our database
+		'''
 		(d,c) = connect_db()
 		c.execute("select * from Food where Ndbno='%s'" % ndbno)
 		r = c.fetchone()
@@ -155,8 +154,6 @@ class FoodAPI:
 						"name":result["report"]["food"]["name"],
 						"nutrients":{}}
 			nutrients_list = result["report"]["food"]["nutrients"]
-			#f = open("nutrient_info.txt", "w")
-			#f.write("nutrients = {")
 			field_names = "FoodName,Ndbno,"
 			field_values = "'" + new_report["name"]+"','"+new_report["ndbno"]+"',"
 			for nutrient in nutrients_list:
@@ -165,32 +162,12 @@ class FoodAPI:
 				new_report["nutrients"][nutrient["name"]] = {"unit":nutrient["unit"],"value":nutrient["value"]}
 				field_names += nutrients[nutrient["name"]]["db_field"] + ","
 				field_values += nutrient["value"] + ","
-				#print nutrient.keys()
-				#print nutrient["name"]
-				#print nutrient["unit"]
-				#if nutrient["name"] == "Folate, DFE" or nutrient["name"] == "Niacin":
-					#print nutrient["name"]
-					#print u'\xb5'
-				#try:
-					#f.write("'%s':{'unit':'%s', 'group':'%s'},\n" % (nutrient["name"], nutrient["unit"], nutrient["group"]))
-				#except Exception as e:
-					#print e.__str__()
-					#if "u'\\xb5'" in e.__str__():
-						#f.write("'%s':{'unit':'%s', 'group':'%s'},\n" % (nutrient["name"], "micro g", nutrient["group"]))
-					#else:
-						#raise e
-			#f.write("}")
-			#f.close()
-			#print nutrients
-			#for nutrient in nutrients.keys():
-				#print nutrients[nutrient]["unit"]
 			sql_str = "insert into Food (%s) values (%s);" % (field_names[:-1], field_values[:-1])
 			c.execute("select FoodName from Food where Ndbno='%s';" % new_report["ndbno"])
 			if not c.fetchall():
 				try:
 					c.execute(sql_str)
 					d.commit()
-					#pass
 				except:
 					d.rollback()
 			else:
@@ -198,19 +175,11 @@ class FoodAPI:
 		return json.dumps(new_report)
 	get_food_report.exposed = True
 
-	'''def get_food_from_db(self):
-		(d,c) = connect_db()
-		c.execute("select * from Food")
-		print list(c.fetchall())'''
-
-	'''@cherrypy.tools.json_in()
-	def request_body_test(self):
-		data = cherrypy.request.json
-		print data["a"]
-		return "abc"
-	request_body_test.exposed = True'''
-
 	def get_random_filenames(self, subdir_name, file_type):
+		'''
+			a service to get the list of files in a specific folder
+			specially for the carousel to get the images
+		'''
 		file_list = []
 		os.chdir("/home/operat/team_random"+subdir_name)
 		for file in glob.glob("*."+file_type):
@@ -243,13 +212,6 @@ if __name__ == '__main__':
 		cherrypy.config.update({"server.socket_port": 8888})
 		cherrypy.config.update({"server.socket_host":"45.56.85.191"})
 		cherrypy.quickstart(FoodAPI(), '/food', conf)
-                #cherrypy.tree.mount(FoodAPI, '/food', conf)
-                #cherrypy.engine.start()
-                #cherrypy.engine.block()
 	else:
 		a = FoodAPI()
-		#a.get_list()
-		#a.get_food_from_db()
-		#a.search_food("pe")
-		#a.get_food_report(ndbno="01010")
 		a.api_search("")

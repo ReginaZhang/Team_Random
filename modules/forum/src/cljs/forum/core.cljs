@@ -257,56 +257,57 @@
     (fn []
       (if (and (not (some #(get @filter-store %) @flagids)) (> (count @flagids) 0)) nil
           [:div.comment-region
-           
+
            [:div.comment-rest
             [:div.comment-buttons
              (when (and (not @deleted) (not (= @votetype "up")) @cur-user-atom)
-               [:button.vote.up {:on-click #(vote-callback "up")}
-                "Upvote"])
+                   [:button.vote.up {:on-click #(vote-callback "up")}
+                    "Upvote"])
              (when (and (not @deleted) (not (= @votetype "down")) @cur-user-atom)
-               [:button.vote.down {:on-click #(vote-callback "down")}
-                "Downvote"])
+                   [:button.vote.down {:on-click #(vote-callback "down")}
+                    "Downvote"])
              (when (and (= @cur-user-atom userid) (not @deleted))
-               [:button.edit-select-box {:on-click #(swap! editing-comment not)}
-                (if @editing-comment "Abort editing" "Edit")])
+                   [:button.edit-select-box {:on-click #(swap! editing-comment not)}
+                    (if @editing-comment "Abort editing" "Edit")])
              (when (and (= @cur-user-atom userid) @editing-comment)
-               [comment-edit-box {:comment-id commentid :text-store edited-text-atom :error-store error-atom
-                                  :update-callback post-comment-edit-callback}])
+                   [comment-edit-box {:comment-id      commentid :text-store edited-text-atom :error-store error-atom
+                                      :update-callback post-comment-edit-callback}])
 
              (when (and (= @cur-user-atom userid) (not @deleted))
-               [:button.delete-text {:on-click comment-delete-fn} "Delete"])
+                   [:button.delete-text {:on-click comment-delete-fn} "Delete"])
 
              (when (and (not @deleted) @cur-user-atom)
-               [:button.flag_button {:on-click #(swap! showing-update-flags not)}
-                (if @showing-update-flags "Abort flagging" "Add Comment Flag")])
+                   [:button.flag_button {:on-click #(swap! showing-update-flags not)}
+                    (if @showing-update-flags "Abort flagging" "Add Comment Flag")])
              (when @showing-update-flags [flag-select {:flagtype-store flagtypes :select-flag-store comment-flag-store
-                                                       :text "What flags apply to this comment?" :callback-fn flag-update-fn}])
+                                                       :text           "What flags apply to this comment?" :callback-fn flag-update-fn}])
              [:button.comment-child-toggle {:on-click #(swap! expanded not)}
               (if @expanded "hide replies" "show replies")]
              (if (and @expanded @cur-user-atom)
                [:button.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
                 (if @showing-comment-entry "Abort comment" "Enter Reply")])]
             [:div.comment-score (str "Comment Score : " @score)]
-            [:div.comment-text-region
+            ; [:div.comment-text-region
             ; [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
             ; [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
             ; [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
-             [:div.comment-text  (if @deleted "!!DELETED!!" [:div.comment-text-string (str "Comment Text :  " @text])]]
+            ; [:div.comment-text
+            [:div.comment-text-string (if @deleted "!!DELETED!!" (str "Comment Text :  " @text))]
 
-            (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
+            (when @showing-comment-entry [comment-entry-box {:parent-id         commentid :user-id-atom cur-user-atom :question-id questionid
                                                              :parent-box-toggle showing-comment-entry :error-store error-atom
-                                                             :update-callback children-update-callback}])
+                                                             :update-callback   children-update-callback}])
             (when (not= @error-atom "") [:div.error-text @error-atom])
             (when @expanded
-              (go (>! req-c children-req))
-              (doall (for [child-comment (:children @child-comment-atom)]
-                       (let [[flags-store text-store deleted-store score-store vote-store]
-                             (map #(re/atom (% child-comment)) [:flagids :text :deleted :score :votetype])]
-                         ^{:key (:commentid child-comment)}
-                         [display-comment
-                          (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
-                                 :cur-user-atom cur-user-atom :flagids flags-store :text text-store :deleted deleted-store
-                                 :score score-store :votetype vote-store)]))))]]))))
+                  (go (>! req-c children-req))
+                  (doall (for [child-comment (:children @child-comment-atom)]
+                              (let [[flags-store text-store deleted-store score-store vote-store]
+                                    (map #(re/atom (% child-comment)) [:flagids :text :deleted :score :votetype])]
+                                   ^{:key (:commentid child-comment)}
+                                   [display-comment
+                                    (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
+                                           :cur-user-atom cur-user-atom :flagids flags-store :text text-store :deleted deleted-store
+                                           :score score-store :votetype vote-store)]))))]]))))
 
 
 (defn forum-page
