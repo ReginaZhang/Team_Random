@@ -286,6 +286,16 @@ function outputBmi ( )
         }
 
         //html += "<br /><br /><a href='#' >< Go back to bmi form</a></p>"
+        html += '<script>
+            var g = new JustGage({
+                id: "gauge",
+                value: '+ bmi +',
+                min: 0,
+                max: 100,
+                title: "BMI",
+                levelColors:["#4EA1E5","#3E97DE"]
+            });
+            </script>';
 
         document.getElementById( 'bim_result' ).innerHTML = html;
 
