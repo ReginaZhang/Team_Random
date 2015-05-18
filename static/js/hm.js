@@ -608,7 +608,10 @@ function displayFoods(){
     if (!userId) {
         console.log("Fengfengfengfengfengfengfeng ahahahahaha");
         console.log(document.getElementsByClassName("add_to_diet_button").length);
-        document.getElementsByClassName("add_to_diet_button").style.disabled = "disabled";
+        var buttons = document.getElementsByClassName("add_to_diet_button");
+        for (var i = 0; i<buttons.length; i++){
+            buttons[i].style.disabled = "disabled";
+        }
     }
 
 }
