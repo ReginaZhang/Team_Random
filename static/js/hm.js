@@ -497,7 +497,7 @@ function getRecommendation() {
         requests[i].open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
         requests[i].send();
         (requests[i]).onreadystatechange = function() {
-            if (request[i].readyState == 4) {
+            if (requests[i].readyState == 4) {
                 var response = JSON.parse(requests[i].responseText);
                 responses.push(response);
                 food = responses[i].foodname;
