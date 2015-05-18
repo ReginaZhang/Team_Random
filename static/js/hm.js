@@ -516,6 +516,7 @@ var itemList = [];
 var dbOffset = 0;
 var apiOffset = 0;
 var more = true;
+
 function getFood() {
 
     var searchTerm = document.getElementById("search_box").value;
@@ -635,7 +636,7 @@ function showFoodNutrientsTable(obj)
     }
     ndbno=findFoodNdbno(food_name);
     getIndividualFoodNutrition(ndbno,food_nutrient_div);
-    console.log(" hahhaha html "+html_format+food_nutrient_div);
+    //console.log(" hahhaha html "+html_format+food_nutrient_div);
     //food_nutrient_div.innerHTML=html_format;
 }
 
@@ -649,8 +650,8 @@ function getIndividualFoodNutrition(ndbno,food_nutrient_div)
         if (request.readyState == 4 && request.status==200)
         {
 
-            console.log("12312321"+JSON.parse(request.responseText).nutrients);
-            console.log("get json."+food_nutrient_div);
+            //console.log("12312321"+JSON.parse(request.responseText).nutrients);
+            //console.log("get json."+food_nutrient_div);
             formatingNutrientsDiv(JSON.parse(request.responseText),food_nutrient_div);
 
         }

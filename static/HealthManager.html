@@ -225,8 +225,6 @@
                                             <p>enter the following information and calculate</p>
                                             <p>your body mass index(BMI)</p>
                                             <br>
-                                            <input type="radio" name="hasRegistered" value="false" onclick="registered(false)" checked>Not registered
-                                            <input type="radio" name="hasRegistered" value="true" onclick="registered(true)">Registered
                                             <br><br>
                                             <p>Enter your weight</p>
                                             <input NAME="stone" TYPE="text" MAXLENGTH="2" SIZE="1">Stone
@@ -272,8 +270,8 @@
                             <tr>
                                 <th>
                                     <p>Set Personal Plan</p>
-                                    <input type="button" onclick="alert('Member Sign in')" value="Sign in">
-                                    <input type="button" onclick="alert('Non-Member Sign up')" value="Sign up">
+                                    <input type="button" window_id="login_div" onclick="popWindow(this);" value="Sign in">
+                                    <input type="button" onclick="window.location.href = 'http://45.56.85.191/static/SignUp.html'" value="Sign up">
                                 </th>
                             </tr>
                         </table>
