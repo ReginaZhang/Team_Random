@@ -575,8 +575,6 @@ function query(directory, method, data, callback) {
 
     var xhr = new XMLHttpRequest();
     xhr.open(method, serverAdd + directory);
-    //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
-
     // send the collected data as JSON
     xhr.send(JSON.stringify(data));
 
@@ -589,7 +587,7 @@ function query(directory, method, data, callback) {
 }
 
 /*
-    General form submitting function
+    search food functionality
  */
 var page=1;
 var itemList = [];
@@ -686,6 +684,7 @@ function displayFoods(){
     }
 
 }
+
 
 function showHideSelect(div_id){
     var div = document.getElementById(div_id);
