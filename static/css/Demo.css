@@ -43,7 +43,7 @@ h1 {
 table.food {
     width:100%;
     border:1px solid #d4d4d4;
-    background-color:#FFFFCC;
+    background-color:#EBC994;
 }
 table.food th { 
     padding:10px;
@@ -54,7 +54,7 @@ table.food th {
 table.test {
     width:100%;
     border:1px solid #d4d4d4;
-    background-color:#FFFFCC;
+    background-color:#EBC994;
 }
 table.test th { 
     padding:10px;
@@ -64,7 +64,7 @@ table.test th {
 table.calculator {
     width:50%;
     border:1px solid #d4d4d4;
-    background-color:#FFFFCC;
+    background-color:#F5E3C6;
 }
 table.calculator th { 
     padding:10px;
@@ -74,7 +74,7 @@ table.calculator th {
 table.plan {
     width:100%;
     border:1px solid #d4d4d4;
-    background-color:#FFFFCC;
+    background-color:#EBC994;
 }
 table.plan th { 
     padding:10px;
@@ -82,8 +82,9 @@ table.plan th {
 }
 
 table.set {
-    width:50%;
+    width:15%;
     border:1px solid #d4d4d4;
+    background-color:#F5E3C6;
 }
 table.set th { 
     padding:10px;

@@ -119,7 +119,7 @@ table.noReply th{
 
 .question-score
 {
-
+    float: right;
 }
 
 .one_question_link
@@ -135,5 +135,10 @@ table.noReply th{
 
 .one_question_div
 {
-    
+    margin-bottom: 1%;
+}
+
+.question-list
+{
+    width: 50%;
 }

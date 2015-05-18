@@ -486,17 +486,21 @@ function addToDiet(ndbno, weekday, mealType) {
 function getRecommendation() {
     var weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     var rowData = "<td><strong class=\"meal-title\">Recomendation</strong></td>";
-    var food;
+    //var foods = [];
     var i;
-    for (i = 0; i < weekDays.length; i++){
+    var j = 0;
+    var requests = [];
+    var responses = [];
+    mkReq = function(index){
         var request = new XMLHttpRequest();
-        request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
+        request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[index]);
         request.send();
         request.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
+            if (request.readyState == 4) {
                 var response = JSON.parse(request.responseText);
-                food = response.foodname;
-                console.log(food);
+                responses[index] = response;
+                //foods[index] = response.foodname;
+                //console.log(foods);
                     /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
                     msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
                     msg += "Energy: " + theRecomm.energy + "<br>";
@@ -506,18 +510,62 @@ function getRecommendation() {
 
                     windowPOPup("error_diet_window", msg);*/
 
-                rowData += "<td>"+ food+"</td>";  
-                var recmdElem = document.getElementById("diet_recommendation");
-                if (recmdElem){
-                    recmdElem.innerHTML = rowData;
-                } else{
-                    var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
-                    var table_body = document.getElementById("diet_plan_body");
-                    table_body.innerHTML = table_body.innerHTML + recmdRow;
+                j += 1;
+                console.log(j);
+                if(j === 7){
+                    for (i = 0; i < weekDays.length; i++){
+                        rowData += "<td>"+ responses[i].foodname+"</td>";
+                    }
+                    var recmdElem = document.getElementById("diet_recommendation");
+                    if (recmdElem){
+                        recmdElem.innerHTML = rowData;
+                    } else{
+                        var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
+                        var table_body = document.getElementById("diet_plan_body");
+                        table_body.innerHTML = table_body.innerHTML + recmdRow;
+                    }
                 }
             }
         }
-    } 
+    }
+    for (i = 0; i < weekDays.length; i++){
+        mkReq(i);
+    }/*
+        var request = new XMLHttpRequest();
+        requests.push(request);
+        requests[i].open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i]);
+        requests[i].send();
+        (requests[i]).onreadystatechange = function() {
+            if (requests[i].readyState == 4) {
+                var response = JSON.parse(requests[i].responseText);
+                responses.push(response);
+                food = responses[i].foodname;
+                console.log(food);*/
+                    /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
+                    msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
+                    msg += "Energy: " + theRecomm.energy + "<br>";
+                    msg += "Protein: " + theRecomm.protein + "<br>";
+                    msg += "Best food to add to your diet!";
+
+
+                    windowPOPup("error_diet_window", msg);*/
+
+                /*rowData += "<td>"+ food+"</td>";
+                j += 1;
+                console.log(j);
+                if(j === 7){
+                    var recmdElem = document.getElementById("diet_recommendation");
+                    if (recmdElem){
+                        recmdElem.innerHTML = rowData;
+                    } else{
+                        var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
+                        var table_body = document.getElementById("diet_plan_body");
+                        table_body.innerHTML = table_body.innerHTML + recmdRow;
+                    }
+                }
+            }
+        }
+    }*/
 }
 
 /*
@@ -527,8 +575,6 @@ function query(directory, method, data, callback) {
 
     var xhr = new XMLHttpRequest();
     xhr.open(method, serverAdd + directory);
-    //xhr.setRequestHeader('Content-Type', 'application/json'); seems not needed!
-
     // send the collected data as JSON
     xhr.send(JSON.stringify(data));
 
@@ -541,7 +587,7 @@ function query(directory, method, data, callback) {
 }
 
 /*
-    General form submitting function
+    search food functionality
  */
 var page=1;
 var itemList = [];
@@ -638,6 +684,7 @@ function displayFoods(){
     }
 
 }
+
 
 function showHideSelect(div_id){
     var div = document.getElementById(div_id);
