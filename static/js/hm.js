@@ -604,8 +604,10 @@ function displayFoods(){
         result += 'Sorry, we couldn\'t find more for you T^T <br><br><button type="button" id="previous_page_button" onclick="more=true;page-=1;displayFoods()">previous</button>';
     }
     document.getElementById('foodNutritionResult').innerHTML = result;
+
     if (!userId) {
         console.log("Fengfengfengfengfengfengfeng ahahahahaha");
+        console.log(document.getElementsByClassName("add_to_diet_button").length);
         document.getElementsByClassName("add_to_diet_button").style.disabled = "disabled";
     }
 
