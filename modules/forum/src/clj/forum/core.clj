@@ -248,8 +248,9 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
                                                     (vals (merge-with #(Math/abs ((fnil - 0 0) %1 %2)) nutrients
                                                                       (merge-with n+ (strip food) (strip current-nutrition)))))))
                                 possible-foods)]
+    (print current-nutrition)
     {:status 200 :headers cors-headers
-     :body recommended-food}))
+     :body (str recommended-food weekday)}))
 
 
 (def routes ["/" {"child_comments" :child-comments
