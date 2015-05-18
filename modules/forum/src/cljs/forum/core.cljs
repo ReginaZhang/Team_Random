@@ -286,11 +286,12 @@
              (if (and @expanded @cur-user-atom)
                [:button.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
                 (if @showing-comment-entry "Abort comment" "Enter Reply")])]
+            [:div.comment-score @score]
             [:div.comment-text-region
-             [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
-             [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
-             [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
-             [:div.comment-text  (if @deleted "!!DELETED!!" [:p.comment-text-string (str "Comment text is: " "\"" @text "\"")])]]
+            ; [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
+            ; [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
+            ; [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
+             [:div.comment-text  (if @deleted "!!DELETED!!" [:p.comment-text-string @text])]]
 
             (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
                                                              :parent-box-toggle showing-comment-entry :error-store error-atom
