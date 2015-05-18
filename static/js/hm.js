@@ -486,21 +486,21 @@ function addToDiet(ndbno, weekday, mealType) {
 function getRecommendation() {
     var weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
     var rowData = "<td><strong class=\"meal-title\">Recomendation</strong></td>";
-    var foods = [];
+    //var foods = [];
     var i;
     var j = 0;
     var requests = [];
     var response = [];
     mkReq = function(index){
         var request = new XMLHttpRequest();
-        requests.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[index]);
-        requests.send();
+        request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[index]);
+        request.send();
         request.onreadystatechange = function() {
             if (request.readyState == 4) {
                 var response = JSON.parse(request.responseText);
                 responses[index] = response;
-                foods[index] = response.foodname;
-                console.log(foods);
+                //foods[index] = response.foodname;
+                //console.log(foods);
                     /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
                     msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
                     msg += "Energy: " + theRecomm.energy + "<br>";
@@ -514,7 +514,7 @@ function getRecommendation() {
                 console.log(j);
                 if(j === 7){
                     for (i = 0; i < weekDays.length; i++){
-                        rowData += "<td>"+ foods[i]+"</td>";
+                        rowData += "<td>"+ responses[i].foodname+"</td>";
                     }
                     var recmdElem = document.getElementById("diet_recommendation");
                     if (recmdElem){
