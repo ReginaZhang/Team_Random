@@ -343,11 +343,13 @@
   (let [userid-store (re/atom nil)
         question-store (re/atom {})
         update-questions #(get-questions question-store userid-store (re/atom {}) nil)]
+    (check-loggedin userid-store)
     (update-questions)
     (fn []
       [:div.forum-index
-       [:div.question-add
-        [new-question-box {:user-id-atom userid-store :update-callback update-questions}]] 
+       (if @userid-store [:div.question-add
+                          [new-question-box {:user-id-atom userid-store :update-callback update-questions}]]
+           [:div.login-prompt "Login to ask a question"]) 
        [:div.question-list
         (for [{:keys [questionid questiontitle score]} (reverse (sort-by :score @question-store))]
           ^{:key questionid}
