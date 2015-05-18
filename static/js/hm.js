@@ -62,6 +62,8 @@ function init() {
         reg.parentNode.removeChild(reg);
         console.log("Not reg")
 
+        document.getElementsByClassName("add_to_diet_button").style.disabled = "disabled";
+
 
     }
 
