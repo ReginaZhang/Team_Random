@@ -355,7 +355,7 @@
            [:div.one_question_div
             [:a.one_question_link {:href (str "/static/forum.html?question_id=" questionid)}
              questiontitle]
-            [:div.question-score score]]
+            [:span.question-score (str "Question Score : " score)]]
            ])]])))
 
 (set! (.-onload js/window)
