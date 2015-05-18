@@ -62,7 +62,7 @@ function init() {
         reg.parentNode.removeChild(reg);
         console.log("Not reg")
 
-        document.getElementsByClassName("add_to_diet_button").style.disabled = "disabled";
+        
 
 
     }
@@ -380,11 +380,18 @@ function startDiet() {
 
 function modifyDiet() {
 
-    var deleteButton = document.createElement("button");
+    var deleteButton=document.querySelectorAll(".dietPlan td p")[0].childNodes
+    if(deleteButton.length>1)
+    {
+        return;
+    }
+
+    deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete";
     deleteButton.type  = "button";
-
+    deleteButton.className  = "food_delete_button";
     deleteButton.setAttribute("onclick", "deleteFood(this)");
+
 
     $(".dietPlan td p").append(deleteButton);
 
@@ -596,6 +603,10 @@ function displayFoods(){
         result += 'Sorry, we couldn\'t find more for you T^T <br><br><button type="button" id="previous_page_button" onclick="more=true;page-=1;displayFoods()">previous</button>';
     }
     document.getElementById('foodNutritionResult').innerHTML = result;
+    if (!userId) {
+        console.log("Fengfengfengfengfengfengfeng ahahahahaha");
+        document.getElementsByClassName("add_to_diet_button").style.disabled = "disabled";
+    }
 
 }
 
@@ -676,7 +687,7 @@ function formatingNutrientsDiv(food_nutrients_json,food_nutrient_div)
     for(key in food_nutrients_json.nutrients)
     {
         html+='<tr>'
-        html+='<td>'+key+'</td>'
+        //html+='<td>'+key+'</td>'
         //console.log("check "+food_nutrients_json.nutrients[key].value);
         html+='<td>'+food_nutrients_json.nutrients[key].value+'</td>';
         html+='<td>'+food_nutrients_json.nutrients[key].unit+'</td>';
