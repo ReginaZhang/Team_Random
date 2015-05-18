@@ -194,7 +194,7 @@ class FoodAPI:
 		c.execute("select height, weight from User where UserID = %s;" % user_id)
 		r = c.fetchone()
 		bmi = r["weight"]/((float(r["height"])/100)**2)
-		r["bmi"] = bmi
+		r["bmi"] = round(bmi,2)
 		return json.dumps(r)
 	user_bmi.exposed = True
 
