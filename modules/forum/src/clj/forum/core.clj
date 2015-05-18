@@ -223,7 +223,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
 (defn get-recommendation
   "Get a food recommendation for the given user. The current dietitems are summed, and the food is
   picked that minimises the difference between itself plus this sum and the daily RDI values"
-  [{{:strs [user_id]} :params}]
+  [{{:strs [user_id weekday]} :params}]
   ;Recommended values from http://en.wikipedia.org/wiki/Reference_Daily_Intake
   (let [nutrients {:niacin 16, :iron 18, :thiamin 1.2, :vitaminb6 1.7, :carbohydratebydifference 300, :calcium 1300,
                    :vitaminctotalascorbicacid 90, :sodium 2400, :phosphorus 1250, :vitaminarae 900, :potassium 4700,
@@ -235,7 +235,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
         ;;The current total amount of each nutrient in the user's diet
         current-nutrition (apply merge-with n+
                                  (jdb/query health-db
-                                            ["SELECT * from Diet natural join DietItem inner join Food on DietItem.Ndbno = Food.Ndbno where UserId = ?" user_id]
+                                            ["SELECT * from Diet natural join DietItem inner join Food on DietItem.Ndbno = Food.Ndbno where UserId = ? and Weekday = ?" user_id weekday]
                                             :row-fn #(select-keys % nut-arr)))
         ;;The foods that could be added to his died
         possible-foods (jdb/query health-db ["SELECT * from Food limit 100"]
