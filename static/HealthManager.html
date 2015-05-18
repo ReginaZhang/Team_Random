@@ -28,15 +28,17 @@
             </ul>
 
             <div class="tab-content">
-                <div id="tab1" class="tab active">
+                <strong id="tab1" class="tab active">
                     <div id="preview">
-                        <img id="imghead" border=0 src="head_180.jpg" width="180" height="180" />
+                        <img id="imghead" border=0 src="assets/head_180.jpg" width="180" height="180" />
                     </div>
                     <input type="file" onchange="previewImage(this)" />
                     <br>
                     <div id="nameBar"></div>
-                    <img src="BMI_graph.png">
                     <br>
+                    <strong><p>Get to know more about your current BMI from the diagram:</p></strong>
+                    <img src="BMI_graph.png">
+                    <br><br>
                     <div id="todaysDiet">
                         <p>Your diet today:</p>
                         <Table class="Items">
@@ -195,13 +197,8 @@
                                 Search
                             </button>
                             <br><br>
-                            <p>Results: </p>
                             <div id="foodNutritionResult"></div>
                         </form>
-                        <p>Popular Search</p>
-                        <input type="button" onclick="alert('Fruit')" value="Fruit">
-                        <input type="button" onclick="alert('Meat')" value="Meat">
-                        <input type="button" onclick="alert('Drink')" value="Drink">
                     </th>
                 </tr>
             </table>
@@ -225,9 +222,6 @@
                                             <p>enter the following information and calculate</p>
                                             <p>your body mass index(BMI)</p>
                                             <br>
-                                            <input type="radio" name="hasRegistered" value="false" onclick="registered(false)" checked>Not registered
-                                            <input type="radio" name="hasRegistered" value="true" onclick="registered(true)">Registered
-                                            <br><br>
                                             <p>Enter your weight</p>
                                             <input NAME="stone" TYPE="text" MAXLENGTH="2" SIZE="1">Stone
                                             <input NAME="pounds" TYPE="text" MAXLENGTH="6" SIZE="2">Pounds. OR
@@ -245,6 +239,8 @@
                                             <input type="hidden" name="userId">
                                             <br><br>
                                             <input id = "button" type="button" value = "Find out your BMI" />
+                                            <br><br>
+                                            <div id="bim_result"></div>
                                         </th>
                                     </tr>
                                 </table></br>
@@ -272,8 +268,8 @@
                             <tr>
                                 <th>
                                     <p>Set Personal Plan</p>
-                                    <input type="button" onclick="alert('Member Sign in')" value="Sign in">
-                                    <input type="button" onclick="alert('Non-Member Sign up')" value="Sign up">
+                                    <input type="button" window_id="login_div" onclick="popWindow(this);" value="Sign in">
+                                    <input type="button" onclick="window.location.href = 'http://45.56.85.191/static/SignUp.html'" value="Sign up">
                                 </th>
                             </tr>
                         </table>

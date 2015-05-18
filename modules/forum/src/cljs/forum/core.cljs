@@ -286,11 +286,12 @@
              (if (and @expanded @cur-user-atom)
                [:button.comment-entry-box-toggle {:on-click #(swap! showing-comment-entry not)}
                 (if @showing-comment-entry "Abort comment" "Enter Reply")])]
+            [:div.comment-score @score]
             [:div.comment-text-region
-             [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
-             [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
-             [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
-             [:div.comment-text  (if @deleted "!!DELETED!!" [:p.comment-text-string (str "Comment text is: " "\"" @text "\"")])]]
+            ; [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
+            ; [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
+            ; [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
+             [:div.comment-text  (if @deleted "!!DELETED!!" [:p.comment-text-string @text])]]
 
             (when @showing-comment-entry [comment-entry-box {:parent-id commentid :user-id-atom cur-user-atom :question-id questionid
                                                              :parent-box-toggle showing-comment-entry :error-store error-atom
@@ -311,7 +312,7 @@
 (defn forum-page
   "Forum page containing all the components, used for testing and demonstration"
   []
-  (let [userid-store (re/atom 1)
+  (let [userid-store (re/atom nil)
         flagtype-store (re/atom {})
         filtered-flags (re/atom {1 true 2 true 3 true 4 true})
         request-chan (chan)
@@ -323,7 +324,7 @@
     (get-questions question-store userid-store (re/atom {}) question-id)
     (fn []
       [:div.whole-page
-       [userid-select userid-store]
+;       [userid-select userid-store]
        [flag-select {:flagtype-store flagtype-store :select-flag-store filtered-flags
                      :text "Show what kind of comments?" :callback-fn nil}]              
        (for [{:keys [questionid questiondeleted userid commentid commenttext questiontitle votetype score flagids]} @question-store]
@@ -339,7 +340,7 @@
 (defn question-list
   "Display a list of all questions, ordered by score"
   []
-  (let [userid-store (re/atom 1)
+  (let [userid-store (re/atom nil)
         question-store (re/atom {})
         update-questions #(get-questions question-store userid-store (re/atom {}) nil)]
     (update-questions)
