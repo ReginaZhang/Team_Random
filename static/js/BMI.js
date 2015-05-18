@@ -285,9 +285,9 @@ function outputBmi ( )
             html += "<br />You are " + percentOver + "% over your ideal weight bracket";
         }
 
-        html += "<br /><br /><a href='/'>< Go back to bmi form</a></p>"
+        //html += "<br /><br /><a href='#' >< Go back to bmi form</a></p>"
 
-        document.getElementById( 'mainDisplay' ).innerHTML = html;
+        document.getElementById( 'bim_result' ).innerHTML = html;
 
     }
 
