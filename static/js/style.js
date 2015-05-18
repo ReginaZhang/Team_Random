@@ -189,7 +189,7 @@ function login_validation(user_name,password,callback)
                     xhr_jonathan_login.send();
                     xhr_jonathan_login.onreadystatechange=function(){
                         if (xhr_jonathan_login.readyState == 4 && xhr_jonathan_login.status==200) {
-                            console.log("jon " + xhr_jonathan_login.responseText);
+                            console.log("jon last steop " + xhr_jonathan_login.responseText);
                             //insert_navigation_bar(JSON.parse(xhr_jonathan_login.responseText));
                             callback();
 
@@ -252,5 +252,5 @@ function user_data_validation(user_data)
     return true;
 }
 checkLoggedIn();
-insert_navigation_bar(null,null);
+//insert_navigation_bar(null,null);
 
