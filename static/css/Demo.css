@@ -40,11 +40,6 @@ h1 {
     font-size: 30px;
 }
 
-table{
-    text-align:center;
-    vertical-align:middle;
-}
-
 table.food {
     width:100%;
     border:1px solid #d4d4d4;
@@ -53,6 +48,7 @@ table.food {
 table.food th { 
     padding:10px;
 	width:40px;
+    align:center;
 }
 
 table.test {
