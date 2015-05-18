@@ -501,7 +501,7 @@ function getRecommendation() {
 
         }) ;
         rowData += "<td>"+ food+"</td>";
-    }    var recmdElem = dbOffset.getElementById("diet_recommendation");
+    }    var recmdElem = document.getElementById("diet_recommendation");
     if (recmdElem){
         recmdElem.innerHTML = rowData;
     }
