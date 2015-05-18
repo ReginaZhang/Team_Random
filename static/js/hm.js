@@ -551,6 +551,7 @@ function showBMI(){
             } else {
                 str += " You are very healthy!";
             }
+            document.getElementById("bmi_visualization").innerHTML = "";
             showVisualization(bmi);
         } else {
             str += "NA";
