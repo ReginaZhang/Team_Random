@@ -68,7 +68,7 @@ table.food {
     left: -34%;
 }
 
-table.food th { 
+#food_th {
     padding:10px;
 	width:40px;
     position: relative;
