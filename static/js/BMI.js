@@ -288,7 +288,7 @@ function outputBmi ( )
         //html += "<br /><br /><a href='#' >< Go back to bmi form</a></p>"
 
         document.getElementById( 'bim_result' ).innerHTML = html;
-        //showVisualization(bmi);
+        showVisualization(bmi);
 
     }
 
