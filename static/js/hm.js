@@ -39,8 +39,9 @@ function init() {
     console.log("user id "+userId);
     if(userId) {
 
-        var trial = document.getElementById("trial");
-        trial.parentNode.removeChild(trial);
+        /*var trial = document.getElementById("trial");
+        trial.parentNode.removeChild(trial);*/
+        document.getElementById("registered").style.display="inline";
 
         tabSwitcher();
 
@@ -57,6 +58,7 @@ function init() {
 
     } else {
 
+        document.getElementById("trial").style.display="inline";
         $("#trialBody").html("Not logged in!");
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
@@ -606,7 +608,7 @@ function displayFoods(){
     document.getElementById('foodNutritionResult').innerHTML = result;
 
     if (!userId) {
-        console.log("Fengfengfengfengfengfengfeng ahahahahaha");
+        console.log("number of add to diet buttons: ");
         console.log(document.getElementsByClassName("add_to_diet_button").length);
         var buttons = document.getElementsByClassName("add_to_diet_button");
         for (var i = 0; i<buttons.length; i++){
