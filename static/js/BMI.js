@@ -295,15 +295,12 @@ function outputBmi ( )
 }
 
 function showVisualization(bmi){
-    var graph = '<script>\
-            var g = new JustGage({\
-                id: "gauge",\
-                value: '+ bmi +',\
-                min: 0,\
-                max: 100,\
-                title: "BMI",\
-                levelColors:["#4EA1E5","#3E97DE"]\
-            });\
-            </script>';
-    document.getElementById("bmi_visualization").innerHTML = graph;
+    var g = new JustGage({
+        id: "bmi_visualization",
+        value: '+ bmi +',
+        min: 0,
+        max: 100,
+        title: "BMI",
+        levelColors:["#4EA1E5","#3E97DE"]
+    });
 }
