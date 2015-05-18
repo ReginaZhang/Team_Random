@@ -191,7 +191,12 @@ class FoodAPI:
 
 	def user_bmi(self, user_id):
 		(db, c) = connect_db()
-		c.execute("select Height, Weight from User where UserID = %s;", user_id)
+		c.execute("select height, weight from User where UserID = %s;", user_id)
+		r = c.fetchone()
+		bmi = r["weight"]*((float(r["height"])/100)**2)
+		r["bmi"] = bmi
+		return json.dumps(r)
+	user_bmi.exposed = True
 
 
 def connect_db():
