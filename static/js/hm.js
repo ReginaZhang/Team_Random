@@ -610,7 +610,7 @@ function displayFoods(){
         console.log(document.getElementsByClassName("add_to_diet_button").length);
         var buttons = document.getElementsByClassName("add_to_diet_button");
         for (var i = 0; i<buttons.length; i++){
-            buttons[i].style.disabled = "disabled";
+            buttons[i].disabled = "disabled";
         }
     }
 
