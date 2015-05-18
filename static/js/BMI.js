@@ -297,7 +297,7 @@ function outputBmi ( )
 function showVisualization(bmi){
     var g = new JustGage({
         id: "bmi_visualization",
-        value: '+ bmi +',
+        value: bmi,
         min: 0,
         max: 100,
         title: "BMI",
