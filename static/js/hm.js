@@ -490,7 +490,7 @@ function getRecommendation() {
     var i;
     var j = 0;
     var requests = [];
-    var response = [];
+    var responses = [];
     mkReq = function(index){
         var request = new XMLHttpRequest();
         request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[index]);
