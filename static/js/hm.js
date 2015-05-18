@@ -489,22 +489,28 @@ function getRecommendation() {
     var food;
     var i;
     for (i = 0; i < weekDays.length; i++){
-        query("/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i], "GET", {}, function(theRecomm) {
+        var request = new XMLHttpRequest();
+        request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[i],false);
+        request.send();
+        request.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                var response = JSON.parse(request.responseText);
+                food = response.foodname;
+                console.log(food);
+                    /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
+                    msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
+                    msg += "Energy: " + theRecomm.energy + "<br>";
+                    msg += "Protein: " + theRecomm.protein + "<br>";
+                    msg += "Best food to add to your diet!";
 
-            food = theRecomm.foodname;
-            console.log(food);
-            /*msg += "Carb: " + theRecomm.carbohydratebydifference + "<br>";
-            msg += "Fat: " + theRecomm.totallipid_fat + "<br>";
-            msg += "Energy: " + theRecomm.energy + "<br>";
-            msg += "Protein: " + theRecomm.protein + "<br>";
-            msg += "Best food to add to your diet!";
 
+                    windowPOPup("error_diet_window", msg);*/
 
-            windowPOPup("error_diet_window", msg);*/
-
-        }) ;
-        rowData += "<td>"+ food+"</td>";
-    }    var recmdElem = document.getElementById("diet_recommendation");
+                rowData += "<td>"+ food+"</td>";
+            }
+        }
+    }   
+    var recmdElem = document.getElementById("diet_recommendation");
     if (recmdElem){
         recmdElem.innerHTML = rowData;
     }
