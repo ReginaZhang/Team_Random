@@ -1,13 +1,17 @@
+/*
+ * This file is created by Team_Random for Health Overflow Web App Project
+ * Jonathan Barnard: 677638
+ * Zhanhuai Huang: 634154
+ * Nan Lin: 651025
+ * Ruijing Zhang: 646179
+ * Bingfeng Liu: 639187
+ * */
 
 //image-position means image's position on carousel
 //middle element image-position =0  ,left =-1 ,right =1
-
 //add click event to all carousel elements
-
-
 //this function will load image url from our vps folder
 //after setting up all image tag , they will be used for setting up carousel
-
 function getImage()
 {
     var xhr = new XMLHttpRequest();
@@ -44,7 +48,8 @@ function setUpImageTag(obj_json)
         image_tag = document.createElement('img');
         image_tag.className="carousel_element";
         image_tag.src=domain+file_name_array[i];
-        console.log(file_name_array[i]);
+        //console.log(file_name_array[i]);
+        //add all these images under caousel_section div
         carousel_section.appendChild(image_tag);
     }
 
@@ -52,7 +57,8 @@ function setUpImageTag(obj_json)
 
 
 
-
+//add onclick event listener to all img tag in carousel
+//so the img on carousel can be click to move position
 function initialize_carousel_eventListener()
 {
     //al img tag will have class name == carousel_element
@@ -161,11 +167,14 @@ function carousel_moving(left_right):void
     var image_offest=20;
     var i:number,index:number,shift_index:number,obj_collection;
     obj_collection=document.getElementsByClassName("carousel_element");
+    //get middle image of carousel 's position among all the images.
     index=return_image_position_0();
-    /*current focused item's index, i.e. middle one*/
+    /*shift_index will be the position of the image on the middle image's right or left it will be shift to middle*/
     shift_index=index+parseInt(left_right);
     var obj_collection_outer_div=document.getElementById("carousel_section");
+    //get carousel div width
     var obj_collection_outer_div_width=obj_collection_outer_div.offsetWidth;
+    //get img width
     var obj_one_width=(<HTMLElement>obj_collection[0]).offsetWidth;
 
     //if the middle one is clicked
@@ -173,17 +182,22 @@ function carousel_moving(left_right):void
     {
         return;
     }
-    /*-1 move left ..*/
+    //shift left
     if(parseInt(left_right)==1)
     {
-        /*last focused one will be on right*/
+        /*last focused(middle ) one will be on left so set its image-position to -1*/
         obj_collection[index].setAttribute("image-position","-1");
+        //set new middle image's image-position to 0
         obj_collection[shift_index].setAttribute("image-position","0");
+        //push the 'last middle' image to left .
         set_carousel_transform(obj_collection[index],left_part_offset+image_offest*index+"px","400px","45deg","-100px",""+index);
+        //new middle image on carousel will be in the middle of carousel div
         set_carousel_transform(obj_collection[shift_index],(obj_collection_outer_div_width/2)-(obj_one_width/2)+"px","400px","0deg","25px",shift_index+"");
     }
+    //shift right
     else
     {
+        //most of the operations below are the opposite operation to the above
         obj_collection[index].setAttribute("image-position","1");
         obj_collection[shift_index].setAttribute("image-position","0");
         set_carousel_transform(obj_collection[index],(obj_collection_outer_div_width-obj_one_width)-right_part_offset-image_offest*(obj_collection.length-index-1)+"px","400px","-45deg","-100px",""+(obj_collection.length-index));
@@ -198,6 +212,8 @@ function carousel_moving(left_right):void
     console.log(obj_collection[0].getAttribute("image-position") +obj_collection[1].getAttribute("image-position")+obj_collection[2].getAttribute("image-position"));
 }
 
+
+//this function is to set up images position in carousel in the start
 function carousel_initialize():void
 {
     var left_part_offset=50;
@@ -224,6 +240,7 @@ function carousel_initialize():void
     {
         //all things on left
         one_element=<HTMLElement>obj_collection[i];
+        //image on the left of middle image of carousel will have image-position = -1
         one_element.setAttribute("image-position","-1");
         //left_part_offset+image_offest*i == > most left image will start from left_part_offest, and
         //all image after it will have a gap of image_offest
