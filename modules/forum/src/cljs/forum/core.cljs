@@ -200,14 +200,16 @@
         title (re/atom "")]
     (fn []
       [:div.new-question-box
-       [:input {:type "text"
-                :placeholder "Enter the question title..."
-                :value @title
-                :on-change #(reset! title (-> % .-target .-value))}]
-       [:input {:type "text"
-                :placeholder "Enter the question..."
-                :value @txt
-                :on-change #(reset! txt (-> % .-target .-value))}]
+       [:div.question-title-entry-box
+        [:input {:type "text"
+                 :placeholder "Enter the question title..."
+                 :value @title
+                 :on-change #(reset! title (-> % .-target .-value))}]]
+       [:div.question-text-entry-box
+        [:input {:type "text"
+                 :placeholder "Enter the question..."
+                 :value @txt
+                 :on-change #(reset! txt (-> % .-target .-value))}]]
        [:button {:on-click #(add-question @txt @user-id-atom @title update-callback)}
         "Submit"]])))
 

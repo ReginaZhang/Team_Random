@@ -62,10 +62,7 @@ function init() {
         $("#trialBody").html("Not logged in!");
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
-        console.log("Not reg")
-
-        
-
+        console.log("Not reg");
 
     }
 

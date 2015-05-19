@@ -170,3 +170,9 @@ table.set th {
 {
     color:purple;
 }
+
+#search_food_div
+{
+    left:-7%;
+    position:relative;
+}
