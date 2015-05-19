@@ -300,8 +300,8 @@ function showVisualization(bmi){
         id: "bmi_visualization",
         value: bmi,
         min: 0,
-        max: 100,
+        max: 50,
         title: "BMI",
-        levelColors:["#4EA1E5","#3E97DE"]
+        levelColors:["#4EA1E5","#00FF00","FFFF00"]
     });
 }
