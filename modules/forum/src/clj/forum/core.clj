@@ -33,8 +33,8 @@
              ["select * from Comment left join Vote on Vote.CommentId = Comment.CommentId and Vote.UserId = ? left join CommentFlag 
 on CommentFlag.CommentId = Comment.CommentId 
 where ParentId = ? order by Comment.CommentId" user-id parent-id]
-             :row-fn #(let [comment (select-keys % [:commentid :commenttext :userid :flagid :parentid :score :deleted :votetype])]
-                        (assoc comment :text (if (:deleted comment) "!!DELETED!!" (:commenttext comment)))))))))
+             :row-fn #(let [comment (select-keys % [:commentid :commenttext :userid :flagid :parentid :score :commentdeleted :votetype])]
+                        (assoc comment :text (if (:commentdeleted comment) "!!DELETED!!" (:commenttext comment)))))))))
 
 
 (defn update-comment-flags
@@ -128,7 +128,7 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
      (vals (reduce merge-comments-with-flags {}
                    (jdb/query health-db
                               query
-                              :row-fn #(select-keys % [:questionid :questiondeleted :userid :questiontitle
+                              :row-fn #(select-keys % [:questionid :commentdeleted :userid :questiontitle
                                                        :commentid :commenttext :votetype :score :flagid]))))}))
 
 (defn add_question
@@ -228,8 +228,12 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
 (defn update-vitals
   "Update a user's weight and height"
   [{{:strs [user_id weight height]}  :params}]
-  (jdb/update! health-db :User {:Weight weight :Height height} ["UserId = ?" user_id])  
-  {:status 200 :headers cors-headers :body {:text "Details updated!"}})
+  (let [[{new-height :height}] (if height [{:height height}]
+                       (jdb/query health-db ["select Height from User where UserId = ?" user_id]))
+        [{new-weight :weight}] (if weight [{:weight weight}]
+                       (jdb/query health-db ["select Weight from User where UserId = ?" user_id]))]
+    (jdb/update! health-db :User {:Weight new-weight :Height new-height} ["UserId = ?" user_id])  
+    {:status 200 :headers cors-headers :body {:text "Details updated!"}}))
 
 (defn get-recommendation
   "Get a food recommendation for the given user. The current dietitems are summed, and the food is

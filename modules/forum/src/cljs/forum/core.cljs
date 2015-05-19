@@ -304,7 +304,7 @@
                   (go (>! req-c children-req))
                   (doall (for [child-comment (:children @child-comment-atom)]
                               (let [[flags-store text-store deleted-store score-store vote-store]
-                                    (map #(re/atom (% child-comment)) [:flagids :text :deleted :score :votetype])]
+                                    (map #(re/atom (% child-comment)) [:flagids :text :commentdeleted :score :votetype])]
                                    ^{:key (:commentid child-comment)}
                                    [display-comment
                                     (assoc child-comment :req-c req-c :questionid questionid :filter-store filter-store :flagtypes flagtypes
@@ -354,14 +354,14 @@
                           [new-question-box {:user-id-atom userid-store :update-callback update-questions}]]
            [:div.login-prompt "Login to ask a question"]) 
        [:div.question-list
-        (for [{:keys [questionid questiontitle score]} (reverse (sort-by :score @question-store))]
-          ^{:key questionid}
-          [:div.question
-           [:div.one_question_div
-            [:a.one_question_link {:href (str "/static/forum.html?question_id=" questionid)}
-             questiontitle]
-            [:span.question-score (str "Question Score : " score)]]
-           ])]])))
+        (for [{:keys [questionid questiontitle score commentdeleted]} (reverse (sort-by :score @question-store))]
+          (when (not commentdeleted)
+            ^{:key questionid}
+            [:div.question
+             [:div.one_question_div
+              [:a.one_question_link {:href (str "/static/forum.html?question_id=" questionid)}
+               questiontitle]
+              [:span.question-score (str "Question Score : " score)]]]))]])))
 
 (set! (.-onload js/window)
       #(let [q-list-div (js/document.getElementById "question_list")
