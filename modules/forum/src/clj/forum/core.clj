@@ -66,7 +66,8 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
 (SELECT COUNT(*) FROM Vote WHERE CommentId = ? and VoteType = 'up')-
 (SELECT COUNT(*) FROM Vote WHERE CommentId = ? and VoteType = 'down')
 AS TotalScore) WHERE CommentId = ?" comment_id comment_id comment_id])
-      {:status 200 :body {:text "Successfully updated comment vote!"}})))
+      (let [[{newscore :score}] (jdb/query health-db ["select Score from Comment where CommentId = ?" comment_id])]
+        {:status 200 :body {:newscore newscore}}))))
 
 
 (defn delete-comment
