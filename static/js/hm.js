@@ -541,7 +541,7 @@ function showBMI(){
             str += "0cm";
         }
         str += " BMI: ";
-        if (bmi){
+        if (bmi != null){
             str += bmi;
             if (bmi < 18.5) {
                 str += " Underweight";
