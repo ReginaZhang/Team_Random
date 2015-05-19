@@ -62,8 +62,12 @@ where ParentId = ? order by Comment.CommentId" user-id parent-id]
       (jdb/insert! health-db :Vote {:CommentId comment_id
                                     :UserId user_id
                                     :VoteType vote_type})
-      (jdb/execute! health-db ["UPDATE Comment SET Score = Score + ? WHERE CommentId = ?" (if (= vote_type "up") 1 -1) comment_id])
+      (jdb/execute! health-db ["UPDATE Comment SET Score = (SELECT
+(SELECT COUNT(*) FROM Vote WHERE CommentId = ? and VoteType = 'up')-
+(SELECT COUNT(*) FROM Vote WHERE CommentId = ? and VoteType = 'down')
+AS TotalScore) WHERE CommentId = ?" comment_id comment_id comment_id])
       {:status 200 :body {:text "Successfully updated comment vote!"}})))
+
 
 (defn delete-comment
   "Delete the given comment, setting is deleted flag to true"
