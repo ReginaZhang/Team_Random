@@ -26,7 +26,7 @@ h1 {
     position: relative;
     margin-right: 30px;
     margin-left: 30px;
-    background-color: #D8D8D8;
+    background-color: #C1ECF5;
     padding: 10px;
     margin-top: 20px;
 }
@@ -132,4 +132,19 @@ h1 {
     background: url("http://45.56.85.191:8080/assets/footer.gif");
     height: 150px; /* .push must be the same height as .footer */
 
+}
+
+.question-title
+{
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 4px rgba(0, 0, 0, 0.75);
+    font-family: "Trebuchet MS",Verdana,sans-serif;
+    font-size: 16px;
+    position: relative;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color: #D8D8D8;
+    padding: 10px;
+    margin-top: 20px;
+    text-align: center;
 }
