@@ -295,6 +295,7 @@ function outputBmi ( )
 }
 
 function showVisualization(bmi){
+    document.getElementById("bmi_visualization").innerHTML = "";
     var g = new JustGage({
         id: "bmi_visualization",
         value: bmi,
