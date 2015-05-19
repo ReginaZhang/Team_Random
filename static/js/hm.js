@@ -553,33 +553,14 @@ function showBMI(){
         var weightData = responseJson.weight;
         var bmiData = responseJson.bmi;
 
-        var weightDataDisplay = document.createElement("p");
-        weightDataDisplay.className = "nameBar clickable";
-        weightDataDisplay.id = "weightClickable";
-        weightDataDisplay.setAttribute("onclick", "updateVital(this);");
+        var weightDataDisplay = generateClickable("weight");
+        var heightDataDisplay = generateClickable("height");
 
-        var heightDataDisplay = document.createElement("p");
-        heightDataDisplay.className = "nameBar clickable";
-        heightDataDisplay.id = "heightClickable";
-        heightDataDisplay.setAttribute("onclick", "updateVital(this);");
+        weightDataDisplay.innerHTML += weightData ? weightData + "kg" : 0 + "kg";
+        weightDataDisplay.value = weightData ? weightData : 0;
 
-        if (weightData) {
-            weightDataDisplay.innerHTML += weightData + "kg";
-            weightDataDisplay.value = weightData;
-        } else {
-            weightDataDisplay.innerHTML += 0 + "kg";
-            weightDataDisplay.value = 0;
-        }
-
-
-        if (heightData) {
-            heightDataDisplay.innerHTML += heightData + "cm";
-            heightDataDisplay.value = heightData;
-        } else {
-            heightDataDisplay.innerHTML += 0 + "cm";
-            heightDataDisplay.value = 0;
-        }
-
+        heightDataDisplay.innerHTML += heightData ? heightData + "cm" : 0 + "cm";
+        heightDataDisplay.value = heightData ? heightData : 0;
 
         if (bmiData !== null){
             bmi.innerHTML += bmiData;
@@ -618,6 +599,7 @@ function updateVital(clickable) {
         var box = document.createElement("input");
         box.type = "number";
         box.id = param+"NewValue";
+        box.min = "1";
         box.value = clickable.value;
 
         var button = document.createElement("button");
@@ -646,6 +628,17 @@ function doUpdateVital(param) {
         });
 
     });
+}
+
+function generateClickable(param) {
+
+    var clickable = document.createElement("p");
+    clickable.className = "nameBar clickable";
+    clickable.id = param + "Clickable";
+    clickable.setAttribute("onclick", "updateVital(this);");
+
+    return clickable;
+
 }
 
 /*
