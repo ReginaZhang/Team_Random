@@ -110,3 +110,9 @@ table.popular th {
 {
     width: 50%;
 }
+
+.question-text-entry-box input
+{
+    width:500px;
+}
+
