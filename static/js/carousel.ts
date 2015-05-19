@@ -43,7 +43,7 @@ function setUpImageTag(obj_json)
     var image_tag =null;
     var carousel_section=document.getElementById("carousel_section");
     carousel_section.innerHTML="";
-    for(i=0;i<file_name_array.length&&i<20;i++)
+    for(i=0;i<file_name_array.length&&i<3;i++)
     {
         image_tag = document.createElement('img');
         image_tag.className="carousel_element";

@@ -64,8 +64,8 @@
                                 Search Food Name:
                                 <input type="text"
                                 name="searchString"
-                                id="search_box" 
-                                placeholder="Search Here...">
+                                id="search_box"
+                                placeholder="Search Here..." onkeypress="hitEnter(event,function(){apiOffset=0;dbOffset=0;page=1;itemList=[];more=true;getFood();});">
                                 <button type='button' id="searchButton" onclick='apiOffset=0;dbOffset=0;page=1;itemList=[];more=true;getFood()'>
                                     Search
                                 </button>
@@ -191,18 +191,18 @@
                 <tr>
                     <th id="food_th">
                         <h3><em>Food Nutrition</em></h3>
-                        <form method="POST" action="http://45.56.85.191:8888/food" id="gimme_these_food" onsubmit="submitForm(event, this)">
+                        <div id="search_food_div">
                             Search Food Name:
                             <input type="text"
                                    name="searchString"
                                    id="search_box"
-                                   placeholder="Search Here...">
+                                   placeholder="Search Here..." onkeypress="hitEnter(event,function(){apiOffset=0;dbOffset=0;page=1;itemList=[];more=true;getFood();})">
                             <button type='button' id="searchButton" onclick='apiOffset=0;dbOffset=0;page=1;itemList=[];more=true;getFood()'>
                                 Search
                             </button>
                             <br><br>
                             <div id="foodNutritionResult"></div>
-                        </form>
+                            </div>
                     </th>
                 </tr>
             </table>

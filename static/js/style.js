@@ -89,7 +89,7 @@ function windowPOPup(div_id,msg) {
             <br/>\
             <div class='form-group'>\
             <label class='login_label'>Password</label>\
-            <input type='password' class='form-control' id='input_password' placeholder='Password'>\
+            <input type='password' class='form-control' id='input_password' placeholder='Password' onkeypress='hitEnter(event,function(){doLogin_popup();});'>\
             </div>\
             <br/>\
             <button type='button' class='btn btn-default' onclick='doLogin_popup();'>Login</button>\
@@ -254,4 +254,13 @@ function user_data_validation(user_data)
 insert_navigation_bar(null,null);
 checkLoggedIn();
 //
+//hit enter
 
+function hitEnter(event,callback)
+{
+    //console.log("in hit enter");
+    if(event.keyCode == 13)
+    {
+        callback();
+    }
+}
