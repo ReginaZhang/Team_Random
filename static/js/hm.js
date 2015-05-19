@@ -672,6 +672,8 @@ function getFood() {
 
     var searchTerm = document.getElementById("search_box").value;
     var i=0;
+    var j = 0;
+    var exists = false;
 
     query("/food/search_food?dboffset="+dbOffset+"&apioffset="+apiOffset+"&term="+searchTerm, "GET", {}, function(responseJson) {
 
@@ -681,7 +683,16 @@ function getFood() {
             more = false;
         } else {
             for(i = 0; i<responseJson.items.length; i++){
-                itemList.push(responseJson.items[i]);
+                this_ndbno = responseJson.items[i].ndbno;
+                for (j = 0; j< itemList.length; j++) {
+                    if (itemList[j].ndbno == this_ndbno){
+                        exists = true
+                        break;
+                    }
+                }
+                if (!exists){
+                    itemList.push(responseJson.items[i]);
+                }
             }
         }
         console.log(dbOffset);
