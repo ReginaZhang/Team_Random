@@ -220,6 +220,12 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
   [{{ip "x-forwarded-for"} :headers :as req}]
     {:status 200 :headers cors-headers :body {:text (str "ip is " ip " total req is: " req)}})
 
+(defn update-vitals
+  "Update a user's weight and height"
+  [{{:strs [user_id weight height]}  :params}]
+  (jdb/update! health-db :User {:Weight weight :Height height} ["UserId = ?" user_id])  
+  {:status 200 :headers cors-headers :body {:text "Details updated!"}})
+
 (defn get-recommendation
   "Get a food recommendation for the given user. The current dietitems are summed, and the food is
   picked that minimises the difference between itself plus this sum and the daily RDI values"
@@ -269,7 +275,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
                   "show_my_ip" :show-my-ip
                   "diet_recommendation" :diet-recommendation
                   "register_user" :register-user
-                  "check_user_credentials" :check-user-credentials}])
+                  "check_user_credentials" :check-user-credentials
+                  "update_vitals" :update-vitals}])
 
 (defn forum [request]
   (if-let [match (bidi/match-route routes (:uri request))]
@@ -291,7 +298,8 @@ on CommentFlag.CommentId = Comment.CommentId  where ParentId is NULL" user_id])]
                 :show-my-ip (rest-wrap showmy-ip)
                 :diet-recommendation (rest-wrap get-recommendation)
                 :register-user (rest-wrap register-user)
-                :check-user-credentials (rest-wrap check-user-credentials)}
+                :check-user-credentials (rest-wrap check-user-credentials)
+                :update-vitals (rest-wrap update-vitals)}
                handler)]
       (handler-fn request))
     {:status 404 :body "404 page not found"}))
