@@ -43,44 +43,12 @@ h1 {
 table.popular {
     width:100%;
     border:1px solid #d4d4d4;
+    background-colour:#79DAF7;
 }
 table.popular th,td {
     padding:10px;
 }
 table.popular th {
-    width:40px;
-}
-
-table.reply {
-    width:100%;
-    border:1px solid #d4d4d4;
-}
-table.reply th,td {
-    padding: 10px;
-}
-table.reply th{
-    width:40px;
-}
-
-table.recent {
-    width:100%;
-    border:1px solid #d4d4d4;
-}
-table.recent th,td {
-    padding: 10px;
-}
-table.recent th{
-    width:40px;
-}
-
-table.noReply {
-    width:100%;
-    border:1px solid #d4d4d4;
-}
-table.noReply th,td {
-    padding: 10px;
-}
-table.noReply th{
     width:40px;
 }
 
