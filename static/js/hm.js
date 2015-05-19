@@ -468,21 +468,20 @@ function deleteDiet() {
  */
 function addToDiet(ndbno, weekday, mealType) {
     console.log(ndbno);
-    query("/food/get_food_report?ndbno="+ndbno, "GET", {}, function(responseJson) {});
+    query("/food/get_food_report?ndbno="+ndbno, "GET", {}, function(responseJson) {
+        var user = {
+            userId: userId,
+            dietId: activeDietId,
+            modiType: "add",
+            ndbno: ndbno,
+            weekday: weekday,
+            mealType: mealType
 
-    var user = {
-        userId: userId,
-        dietId: activeDietId,
-        modiType: "add",
-        ndbno: ndbno,
-        weekday: weekday,
-        mealType: mealType
-
-    };
-    query(":8000/diet/modify", defaultMethod, user, function() {
-        getDiet(activeDietId);
+        };
+        query(":8000/diet/modify", defaultMethod, user, function() {
+            getDiet(activeDietId);
+        });
     });
-
 }
 
 function getRecommendation() {
