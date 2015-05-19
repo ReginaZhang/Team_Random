@@ -53,7 +53,7 @@ function init() {
             generateDiet(userDiet);
         });
 
-        showBMI();
+        //showBMI();
 
         generateExercise();
         generateStats();
@@ -106,6 +106,7 @@ function generateDashboard(userDiet) {
         userId: userId
     };
 
+    showBMI();
     /*query(":8000/bmi", defaultMethod, data, function(userBmi) {
         var name = document.createElement("p");
         name.innerHTML = "Hi! " + userName;
