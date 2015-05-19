@@ -186,7 +186,7 @@
   (let [txt (re/atom "")]
     (fn []
       [:div.comment-entry-box
-       [:input {:type "text"
+       [:textarea {:type "text"
                 :placeholder "Enter a comment..."
                 :value @txt
                 :on-change #(reset! txt (-> % .-target .-value))}]
@@ -206,7 +206,7 @@
                  :value @title
                  :on-change #(reset! title (-> % .-target .-value))}]]
        [:div.question-text-entry-box
-        [:input {:type "text"
+        [:textarea {:type "text"
                  :placeholder "Enter the question..."
                  :value @txt
                  :on-change #(reset! txt (-> % .-target .-value))}]]
