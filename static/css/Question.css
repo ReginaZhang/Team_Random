@@ -43,7 +43,7 @@ h1 {
 table.popular {
     width:100%;
     border:1px solid #d4d4d4;
-    background-colour:#C7E6F0;
+    background-colour:#79DAF7;
 }
 table.popular th,td {
     padding:10px;
@@ -110,3 +110,15 @@ table.popular th {
 {
     width: 50%;
 }
+
+.question-text-entry-box input
+{
+    width:500px;
+}
+
+.question-title-entry-box input
+{
+    width:500px;
+}
+
+
