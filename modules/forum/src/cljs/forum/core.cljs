@@ -78,7 +78,7 @@
   "Submit an up or down vote for a comment"
   [commentid userid vote error-store success-callback]
   (backend-request "/vote_for" {:comment_id commentid :user_id @userid :vote_type vote}
-                   (fn [[ok response]] (if ok (success-callback)
+                   (fn [[ok response]] (if ok (success-callback (:newscore response))
                                            (reset! error-store "Error: db rejected vote; maybe you used a non-existing userid? Try userid 1.")))))
 
 (defn get-flag-types
@@ -251,8 +251,8 @@
                                      (reset! editing-comment false)
                                      (update-parents-children))
         vote-callback (fn [vote] (votefor-commment commentid cur-user-atom vote error-atom
-                                                   (fn[]  (reset! votetype vote)
-                                                     (swap! score (if (= vote "up") inc dec))                        
+                                                   (fn [newscore]  (reset! votetype vote)
+                                                     (reset! score newscore)                        
                                                      (update-parents-children))))]
     (fn []
       (if (and (not (some #(get @filter-store %) @flagids)) (> (count @flagids) 0)) nil
