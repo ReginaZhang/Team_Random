@@ -53,8 +53,6 @@ function init() {
             generateDiet(userDiet);
         });
 
-        //showBMI();
-
         generateExercise();
         generateStats();
 
@@ -64,10 +62,7 @@ function init() {
         $("#trialBody").html("Not logged in!");
         var reg = document.getElementById("registered");
         reg.parentNode.removeChild(reg);
-        console.log("Not reg")
-
-        
-
+        console.log("Not reg");
 
     }
 
@@ -101,13 +96,17 @@ function generateDashboard(userDiet) {
     $("#nameBar").empty();
     $("#todaysDietItems").empty();
 
-    var data = {
-        hasRegistered: true,
-        userId: userId
-    };
 
     showBMI();
-    /*query(":8000/bmi", defaultMethod, data, function(userBmi) {
+
+    //old bmi method
+    /*
+     var data = {
+     hasRegistered: true,
+     userId: userId
+     };
+
+    query(":8000/bmi", defaultMethod, data, function(userBmi) {
         var name = document.createElement("p");
         name.innerHTML = "Hi! " + userName;
         name.className = "nameBar";
@@ -123,7 +122,8 @@ function generateDashboard(userDiet) {
         nameBar.appendChild(name);
         nameBar.appendChild(weight);
         nameBar.appendChild(bmi);
-    });*/
+    });
+    */
 
 
     var diet = "";
@@ -385,9 +385,14 @@ function startDiet() {
 
 function modifyDiet() {
 
-    var deleteButton=document.querySelectorAll(".dietPlan td p")[0].childNodes
-    if(deleteButton.length>1)
-    {
+    var foodNames = $(".dietPlan td p");
+    var deleteButton = foodNames.first().children();
+
+    if(deleteButton.length > 0) {
+        for(var i=0; i<foodNames.length; i++) {
+            foodNames.eq(i).children().remove();
+        }
+
         return;
     }
 
@@ -398,9 +403,7 @@ function modifyDiet() {
     deleteButton.setAttribute("onclick", "deleteFood(this)");
 
 
-    $(".dietPlan td p").append(deleteButton);
-
-
+    foodNames.append(deleteButton);
 
 }
 
@@ -458,7 +461,7 @@ function deleteDiet() {
                 });
 
             } else {
-                windowPOPup("error_diet_window","Diet not deleted, please make sure it is not the current ongoing diet");
+                windowPOPup("error_diet_window","Diet not deleted<br> please make sure it is not the current ongoing diet");
             }
         });
     });
@@ -493,43 +496,45 @@ function getRecommendation() {
     var requests = [];
     var responses = [];
     mkReq = function(index){
-        var request = new XMLHttpRequest();
-        request.open("GET","http://45.56.85.191/diet_recommendation?user_id="+userId+"&weekday="+weekDays[index]);
-        request.send();
-        request.onreadystatechange = function() {
-            if (request.readyState == 4) {
-                var response = JSON.parse(request.responseText);
-                responses[index] = response;
-                j += 1;
-                console.log(j);
-                if(j === 7){
-                    for (i = 0; i < weekDays.length; i++){
-                        rowData += "<td>"+ responses[i].foodname+"</td>";
-                    }
-                    var recmdElem = document.getElementById("diet_recommendation");
-                    if (recmdElem){
-                        recmdElem.innerHTML = rowData;
-                    } else{
-                        var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
-                        var table_body = document.getElementById("diet_plan_body");
-                        table_body.innerHTML = table_body.innerHTML + recmdRow;
-                    }
+
+        query("/diet_recommendation?user_id="+userId+"&weekday="+weekDays[index], "GET", {}, function(respond) {
+
+            responses[index] = respond;
+            j += 1;
+            if(j === 7){
+                for (i = 0; i < weekDays.length; i++){
+                    rowData += "<td>"+ responses[i].foodname+"</td>";
                 }
+                var recmdElem = document.getElementById("diet_recommendation");
+                if (recmdElem){
+                    recmdElem.innerHTML = rowData;
+                } else{
+                    var recmdRow = '<tr id="diet_recommendation">' + rowData + "</tr>";
+                    var table_body = document.getElementById("diet_plan_body");
+                    table_body.innerHTML = table_body.innerHTML + recmdRow;
+                }
+
             }
-        }
-    }
+
+        });
+
+    };
+
     for (i = 0; i < weekDays.length; i++){
         mkReq(i);
     }
 }
 
+/*
+ Generate name bar
+ */
 function showBMI(){
     query("/food/user_bmi?user_id="+userId, "GET", {}, function(responseJson) {
 
         var height = responseJson.height;
         var weight = responseJson.weight;
         var bmi = responseJson.bmi;
-        var str = "Hi! "+userName + " Weight: ";
+        var str = "Hi! "+ userName + " Weight: ";
         if (weight) {
             str += weight+"kg";
         } else{
@@ -546,8 +551,10 @@ function showBMI(){
             str += bmi;
             if (bmi < 18.5) {
                 str += " Underweight";
-            } else if (bmi > 25 ){
+            } else if (bmi > 25 ) {
                 str += " Overweight";
+            } else if (bmi > 29.9) {
+                str += " Obese";
             } else {
                 str += " You are very healthy!";
             }
@@ -574,7 +581,7 @@ function query(directory, method, data, callback) {
         if (xhr.readyState == 4) {
             callback(JSON.parse(xhr.responseText));
         }
-    }
+    };
 
 }
 
