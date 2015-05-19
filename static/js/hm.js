@@ -686,7 +686,7 @@ function getFood() {
                 this_ndbno = responseJson.items[i].ndbno;
                 for (j = 0; j< itemList.length; j++) {
                     if (itemList[j].ndbno == this_ndbno){
-                        exists = true
+                        exists = true;
                         break;
                     }
                 }
