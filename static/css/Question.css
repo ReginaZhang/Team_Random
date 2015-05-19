@@ -43,7 +43,7 @@ h1 {
 table.popular {
     width:100%;
     border:1px solid #d4d4d4;
-    colour:#C7E6F0;
+    background-colour:#C7E6F0;
 }
 table.popular th,td {
     padding:10px;
