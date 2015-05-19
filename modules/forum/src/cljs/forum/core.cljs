@@ -102,7 +102,7 @@
   "Return the user id if the user is loggedin.
   Check is based on user IP and Request Header"
   [userid-store]
-  (backend-request "/check_loggedin" {} (fn [[ok response]] (if ok (do (reset! userid-store (:id response))
+  (backend-request "/check_loggedin" {} (fn [[ok response]] (if ok (do (reset! userid-store (js/parseInt (:id response)))
                                                                        (print (str "response is"  (:id response))))
                                                                 (check-loggedin userid-store)))))
 
@@ -290,7 +290,7 @@
                 (if @showing-comment-entry "Abort comment" "Enter Reply")])]
             [:div.comment-score (str "Comment Score : " @score)]
             ; [:div.comment-text-region
-            ; [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid)]
+;             [:div.comment-text (str "Comment by user id: " userid " with comment id: " commentid " and curent user is " @cur-user-atom)]
             ; [:div.comment-text (str "score is : " @score ", and current user voted it: " @votetype)]
             ; [:div.comment-text "Flagged as: " (doall (map #(str (get @flagtypes %) " ") @flagids))]
             ; [:div.comment-text
