@@ -59,6 +59,10 @@ ul {
     margin-bottom: 0em !important;
 }
 
+.clickable:hover {
+    color: lightblue;
+}
+
 /*----- Tabs -----*/
 .tabs {
     width:100%;

@@ -531,39 +531,120 @@ function getRecommendation() {
 function showBMI(){
     query("/food/user_bmi?user_id="+userId, "GET", {}, function(responseJson) {
 
-        var height = responseJson.height;
-        var weight = responseJson.weight;
-        var bmi = responseJson.bmi;
-        var str = "Hi! "+ userName + " Weight: ";
-        if (weight) {
-            str += weight+"kg";
-        } else{
-            str += "0kg";
-        }
-        str += " Height: ";
-        if (height) {
-            str += height + "cm";
+        var nameBar = document.getElementById("nameBar");
+
+        var name = document.createElement("p");
+        name.innerHTML = "Hi! " + userName;
+        name.className = "nameBar";
+
+        var weight = document.createElement("p");
+        weight.innerHTML = "<p class='nameBar'>Weight: </p>";
+        weight.className = "nameBar";
+
+        var height = document.createElement("p");
+        height.innerHTML = "<p class='nameBar'>Height: </p>";
+        height.className = "nameBar";
+
+        var bmi = document.createElement("p");
+        bmi.innerHTML = "BMI: ";
+        bmi.className = "nameBar";
+
+        var heightData = responseJson.height;
+        var weightData = responseJson.weight;
+        var bmiData = responseJson.bmi;
+
+        var weightDataDisplay = document.createElement("p");
+        weightDataDisplay.className = "nameBar clickable";
+        weightDataDisplay.id = "weightClickable";
+        weightDataDisplay.setAttribute("onclick", "updateVital(this);");
+
+        var heightDataDisplay = document.createElement("p");
+        heightDataDisplay.className = "nameBar clickable";
+        heightDataDisplay.id = "heightClickable";
+        heightDataDisplay.setAttribute("onclick", "updateVital(this);");
+
+        if (weightData) {
+            weightDataDisplay.innerHTML += weightData + "kg";
+            weightDataDisplay.value = weightData;
         } else {
-            str += "0cm";
+            weightDataDisplay.innerHTML += 0 + "kg";
+            weightDataDisplay.value = 0;
         }
-        str += " BMI: ";
-        if (bmi != null){
-            str += bmi;
-            if (bmi < 18.5) {
-                str += " Underweight";
-            } else if (bmi > 25 ) {
-                str += " Overweight";
-            } else if (bmi > 29.9) {
-                str += " Obese";
+
+
+        if (heightData) {
+            heightDataDisplay.innerHTML += heightData + "cm";
+            heightDataDisplay.value = heightData;
+        } else {
+            heightDataDisplay.innerHTML += 0 + "cm";
+            heightDataDisplay.value = 0;
+        }
+
+
+        if (bmiData !== null){
+            bmi.innerHTML += bmiData;
+            if (bmiData< 18.5) {
+                bmi.innerHTML += ", Underweight";
+            } else if (bmiData > 29.9) {
+                bmi.innerHTML += ", Obese";
+            } else if (bmiData > 25 ) {
+                bmi.innerHTML += ", Overweight";
             } else {
-                str += " You are very healthy!";
+                bmi.innerHTML += ", You are very healthy!";
             }
             document.getElementById("bmi_visualization").innerHTML = "";
-            showVisualization(bmi);
+            showVisualization(bmiData);
         } else {
-            str += "NA";
+            bmi.innerHTML += "NA";
         }
-        document.getElementById("nameBar").innerHTML = "<p>"+str+"</p>";
+
+        weight.appendChild(weightDataDisplay);
+        height.appendChild(heightDataDisplay);
+
+        nameBar.appendChild(name);
+        nameBar.appendChild(weight);
+        nameBar.appendChild(height);
+        nameBar.appendChild(bmi);
+
+    });
+}
+
+function updateVital(clickable) {
+    var id = clickable.id;
+    var param = id === null ? null : id.substring(0,6);
+
+    if(param) {
+
+        var box = document.createElement("input");
+        box.type = "number";
+        box.id = param+"NewValue";
+        box.value = clickable.value;
+
+        var button = document.createElement("button");
+        button.type = "button";
+        button.innerHTML = "Submit";
+        button.addEventListener("click", function() {
+            doUpdateVital(param);
+        });
+
+        var parent = clickable.parentNode;
+        parent.removeChild(clickable);
+
+        parent.appendChild(box);
+        parent.appendChild(button);
+
+    }
+
+}
+
+function doUpdateVital(param) {
+
+    query("/update_vitals?user_id="+userId+"&"+param+"="+$("#"+param+"NewValue").val(), "GET", {}, function(response) {
+
+        query(":8000/diet", defaultMethod,  {userId: userId}, function(userDiet) {
+            generateDashboard(userDiet);
+        });
+
     });
 }
 
