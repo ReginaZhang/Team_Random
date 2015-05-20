@@ -44,7 +44,6 @@ function setUpImageTag(obj_json) {
         image_tag.className = "carousel_element";
         image_tag.src = domain + file_name_array[i];
         //console.log(file_name_array[i]);
-        //add all these images under caousel_section div
         carousel_section.appendChild(image_tag);
     }
 }
@@ -156,14 +155,14 @@ function carousel_moving(left_right) {
         //push the 'last middle' image to left .
         set_carousel_transform(obj_collection[index], left_part_offset + image_offest * index + "px", "400px", "45deg", "-100px", "" + index);
         //new middle image on carousel will be in the middle of carousel div
-        set_carousel_transform(obj_collection[shift_index], (obj_collection_outer_div_width / 2) - (obj_one_width / 2) + "px", "400px", "0deg", "25px", shift_index + "");
+        set_carousel_transform(obj_collection[shift_index], (obj_collection_outer_div_width / 2) - (obj_one_width / 2) + "px", "400px", "0deg", "25px", "50");
     }
     else {
         //most of the operations below are the opposite operation to the above
         obj_collection[index].setAttribute("image-position", "1");
         obj_collection[shift_index].setAttribute("image-position", "0");
         set_carousel_transform(obj_collection[index], (obj_collection_outer_div_width - obj_one_width) - right_part_offset - image_offest * (obj_collection.length - index - 1) + "px", "400px", "-45deg", "-100px", "" + (obj_collection.length - index));
-        set_carousel_transform(obj_collection[shift_index], (obj_collection_outer_div_width / 2) - (obj_one_width / 2) + "px", "400px", "0deg", "25px", shift_index + "");
+        set_carousel_transform(obj_collection[shift_index], (obj_collection_outer_div_width / 2) - (obj_one_width / 2) + "px", "400px", "0deg", "25px", "50");
     }
     /*
     console.log(left_right+" index : "+index+" shift index "+shift_index);
