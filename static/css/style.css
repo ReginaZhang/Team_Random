@@ -348,6 +348,6 @@ http://stackoverflow.com/questions/5012111/how-to-position-a-div-in-the-middle-o
     align-items: center;
     -webkit-justify-content: center;
     justify-content: center;
-    z-index: 6;
+    z-index: 99;
 }
 
